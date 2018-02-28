@@ -1,0 +1,4 @@
+<resources>
+    <!-- To be used in a test in  UiUtilsTest -->
+    <string name="incid_resolucion_fecha_default_txt">>> Choose a date</string>
+</resources>

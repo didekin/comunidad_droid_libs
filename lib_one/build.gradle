@@ -1,0 +1,72 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        testInstrumentationRunner rootProject.ext.testInstrumentationRunner
+        resConfigs "es" /* , "en"  Añadir nuevos idiomas según hagan falta.*/
+        vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
+
+        versionCode 1
+        versionName "1.0"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    testOptions {
+        execution 'ANDROID_TEST_ORCHESTRATOR'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            debuggable true
+            versionNameSuffix ''
+        }
+    }
+
+    lintOptions {
+        checkReleaseBuilds true
+        abortOnError true
+        quiet true
+        ignoreWarnings false
+        htmlReport true
+//        disable  "InvalidPackage"
+    }
+
+    productFlavors {
+    }
+
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+        pickFirst 'protobuf.meta'
+    }
+}
+
+dependencies {
+    implementation rootProject.ext.firebase_msg
+    implementation rootProject.ext.didekinlib_model
+    implementation rootProject.ext.didekinlib_http
+    implementation rootProject.ext.timber
+    runtimeOnly rootProject.ext.retrofit2
+    implementation rootProject.ext.rxjava
+    implementation rootProject.ext.android_support
+    androidTestImplementation rootProject.ext.testRuler
+    androidTestImplementation rootProject.ext.espresso
+    androidTestImplementation rootProject.ext.didekinlib_gcm
+    androidTestImplementation rootProject.ext.awaitility
+    androidTestImplementation rootProject.ext.testRunner
+    androidTestUtil rootProject.ext.testOrchestrator
+    testImplementation rootProject.ext.junit
+    androidTestImplementation rootProject.ext.junit
+}

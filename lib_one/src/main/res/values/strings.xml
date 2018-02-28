@@ -1,0 +1,65 @@
+<resources>
+    <!--*****************************************************************************-->
+    <!--                                 GENERIC                                     -->
+    <!--*****************************************************************************-->
+    <string name="app_name" translatable="false">Dídekin</string>
+    <!-- Formats-->
+    <string name="dos_puntos" translatable="false">:</string>
+    <string name="no_sabe" translatable="false">....</string>
+    <string name="decimal_separator">,</string>
+    <!--Input controls-->
+    <string name="navigate_up_txt">Desplazarse hacia arriba</string>
+    <string name="modif_button_rot">Modificar</string>
+    <!-- ============================ MESSAGES ============================== -->
+    <string name="exception_generic_message">No podemos continuar. Inténtalo en unos segundos nuevamente.</string>
+    <string name="no_internet_conn_toast">No hay conexión de red disponible.</string>
+    <string name="error_validation_msg">Los siguientes datos no son válidos:</string>
+    <!-- ============================ Accesorios ============================== -->
+    <string name="confidencialidad_mn">Privacidad</string>
+    <!--******************************************************************************-->
+    <!--                                  USUARIO                                     -->
+    <!--******************************************************************************-->
+    <!-- ============================= MENUS ================================= -->
+    <string name="user_data_ac_mn">Tu usuario</string>
+    <string name="delete_me_ac_mn">Borrar tus datos</string>
+    <string name="login_ac_mn">Login</string>
+    <string name="password_change_ac_mn">Renovar contraseña</string>
+    <!---->
+    <string name="alias">Nombre</string>
+    <string name="delete_me_ac_unreg_rot_txt">¿Deseas eliminar tus datos en Didekin?</string>
+    <string name="delete_me_ac_unreg_button_txt">Sí, borrad todos mis datos</string>
+    <string name="email_hint">Correo electrónico</string>
+    <string name="login_ac_rotulo">Inicio de sesión</string>
+    <string name="login_ac_button_txt">Valida tus datos</string>
+    <string name="no_user_data_to_be_modified">No hay datos a modificar</string>
+    <string name="password">Contraseña</string>
+    <string name="password_change_ac_rotulo">Nueva contraseña</string>
+    <string name="password_different">(no coinciden)</string>
+    <string name="password_new_in_login">Te hemos enviado tu nueva contraseña. Haz login, nuevamente, con ella.</string>
+    <string name="password_send_button_txt">Envío de nueva contraseña</string>
+    <string name="password_send_txt">Si no recuerdas tu contraseña, podemos enviarte una nueva.</string>
+    <string name="password_wrong">La contraseña no se corresponde con tu usuario.</string>
+    <string name="reg_usuario_rotulo">Tus datos</string>
+    <string name="send_password_by_mail_dialog">¿Te enviamos una nueva contraseña a la dirección de correo electrónico que has escrito?</string>
+    <string name="send_password_by_mail_YES">Enviádmela</string>
+    <string name="user_data_ac_password_txt">Valida los cambios.</string>
+    <string name="user_data_ac_password_hint">Contraseña actual</string>
+    <string name="user_data_ac_cambios_text">Sobrescribe el dato a modificar</string>
+    <string name="user_data_modif_button_rot">Modifica tus datos</string>
+    <string name="username_wrong_in_login">La dirección de correo electrónico no está registrada.</string>
+    <string name="usuario_password_hint">Contraseña: 6–60 letras, números, _</string>
+    <string name="usuario_password_confirm_hint">Confirmación contraseña</string>
+    <string name="usuario_alias_hint">Nombre: 6–30 letras, números, _</string>
+    <!--******************************************************************************-->
+    <!--                                  COMUNIDAD                                   -->
+    <!--******************************************************************************-->
+    <string name="nombre_via_hint">Nombre de la vía, sin número</string>
+    <string name="numero_en_via">Número</string>
+    <string name="sufijo_numero_en_via_hint">Sufijo (op.)</string>
+    <!--******************************************************************************-->
+    <!--                                 INCIDENCIAS                                  -->
+    <!--******************************************************************************-->
+    <string name="comunidad_null_in_register">Comunidad</string>
+    <string name="incid_reg_descripcion">Descripcion</string>
+    <string name="incid_reg_ambitoIncidencia">Ámbito de incidencia</string>
+</resources>

@@ -1,0 +1,25 @@
+# GRADLE
+.gradle
+/local.properties
+**/build
+
+# IDEA
+.idea
+*.iml
+
+# MAC
+.DS_Store
+
+# Releases
+!/**/releases/release/*.apk
+
+#  MISCELÁNEA
+administracion
+
+# ENTORNOS y PRUEBAS
+# Certificate stores
+**/res/raw/*bks
+# Parámetro PRO
+**/res/values/app_parameters.xml
+# Configuración de entornos
+terminal/*

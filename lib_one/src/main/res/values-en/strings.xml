@@ -1,0 +1,56 @@
+<resources>
+    <string name="navigate_up_txt">Navigate-up</string>
+    <string name="modif_button_rot">Modify</string>
+    <!-- ============================ MESSAGES ============================== -->
+    <string name="exception_generic_message">We can not continue. Try again in a few seconds.</string>
+    <string name="no_internet_conn_toast">No network connection available.</string>
+    <string name="error_validation_msg">The following data are not valid:</string>
+    <!-- ========================== Accesorios ============================== -->
+    <string name="confidencialidad_mn">Privacy</string>
+    <!--******************************************************************************-->
+    <!--                                  USUARIO                                     -->
+    <!--******************************************************************************-->
+    <!-- ============================= MENUS ================================= -->
+    <string name="user_data_ac_mn">Your user</string>
+    <string name="delete_me_ac_mn">Delete your data</string>
+    <string name="login_ac_mn">Login</string>
+    <string name="password_change_ac_mn">Renew password</string>
+    <!---->
+    <string name="alias">Name</string>
+    <string name="delete_me_ac_unreg_rot_txt">Do you wish to remove your data in Dídekin?</string>
+    <string name="delete_me_ac_unreg_button_txt">Yes. Delete my data.</string>
+    <string name="email_hint">Email</string>
+    <string name="login_ac_rotulo">Login</string>
+    <string name="login_ac_button_txt">Validate your data</string>
+    <string name="no_user_data_to_be_modified">No data to modify</string>
+    <string name="password">Password</string>
+    <string name="password_change_ac_rotulo">New password</string>
+    <string name="password_different">(no match)</string>
+    <string name="password_new_in_login">We have send you your new password. Sign in, again, with it.</string>
+    <string name="password_send_txt">If you do not remember your password, we can send you a new one.</string>
+    <string name="password_send_button_txt">Sending a new password</string>
+    <string name="password_wrong">The password does not match with your username.</string>
+    <string name="reg_usuario_rotulo">Your data</string>
+    <string name="send_password_by_mail_dialog">Do we send to you a new password to the email address above?</string>
+    <string name="send_password_by_mail_YES">Send it to me</string>
+    <string name="user_data_ac_password_txt">Validate the changes.</string>
+    <string name="user_data_ac_password_hint">Current password</string>
+    <string name="user_data_ac_cambios_text">Rewrite the data to modify</string>
+    <string name="user_data_modif_button_rot">Modify your data</string>
+    <string name="username_wrong_in_login">Email address is not recorded.</string>
+    <string name="usuario_password_hint">Password: 6–60 letters, numbers, _</string>
+    <string name="usuario_password_confirm_hint">Password confirmation</string>
+    <string name="usuario_alias_hint">Name: 6–30 letters, numbers, _</string>
+    <!--******************************************************************************-->
+    <!--                                  COMUNIDAD                                   -->
+    <!--******************************************************************************-->
+    <string name="nombre_via_hint">Street name</string>
+    <string name="numero_en_via">Number</string>
+    <string name="sufijo_numero_en_via_hint">Suffix number (op.)</string>
+    <!--******************************************************************************-->
+    <!--                                 INCIDENCIAS                                  -->
+    <!--******************************************************************************-->
+    <string name="comunidad_null_in_register">Community</string>
+    <string name="incid_reg_descripcion">Description</string>
+    <string name="incid_reg_ambitoIncidencia">Scope of incidence</string>
+</resources>
