@@ -11,15 +11,18 @@
 .DS_Store
 
 # Releases
-!/**/releases/release/*.apk
+!lib_one/releases/release/*.aar
 
 #  MISCELÁNEA
 administracion
 
+# LOGS
+logs/*
+
 # ENTORNOS y PRUEBAS
 # Certificate stores
-**/res/raw/*bks
+lib_one/src/main/res/raw/*bks
 # Parámetro PRO
-**/res/values/app_parameters.xml
+lib_one/src/main/res/values/app_parameters.xml
 # Configuración de entornos
 terminal/*
