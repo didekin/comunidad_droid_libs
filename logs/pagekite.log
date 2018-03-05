@@ -1,6 +1,8 @@
-optfile_/Users/pedro/.pagekite.rc=ok; started=/usr/local/bin/pagekite.py; ll=0; ts=5a9d56c0; argv=443 https://didekinspring.pagekite.me/; platform=darwin; version=0.5.8e; t=2018-03-05T15:40:00; ca_certs=/usr/local/bin/pagekite.py
-info=Collecting entropy for a secure secret.; ll=1; ts=5a9d56c0; t=2018-03-05T15:40:00
-debug=Seeded signatures using /dev/urandom, hooray!; ll=2; ts=5a9d56c0; t=2018-03-05T15:40:00
-debug=UiComm: Created; ll=3; ts=5a9d56c0; t=2018-03-05T15:40:00
-ts=5a9d56c0; t=2018-03-05T15:40:00; ll=4; debug=TunnelManager: loop #1, interval=5
-ts=5a9d56c0; t=2018-03-05T15:40:00; ll=5; debug=Entering main select loop
+optfile_/Users/pedro/.pagekite.rc=ok; started=/usr/local/bin/pagekite.py; ll=0; ts=5a9d5717; argv=443 https://didekinspring.pagekite.me/; platform=darwin; version=0.5.8e; t=2018-03-05T15:41:27; ca_certs=/usr/local/bin/pagekite.py
+info=Collecting entropy for a secure secret.; ll=1; ts=5a9d5717; t=2018-03-05T15:41:27
+debug=Seeded signatures using /dev/urandom, hooray!; ll=2; ts=5a9d5717; t=2018-03-05T15:41:27
+debug=UiComm: Created; ll=3; ts=5a9d5717; t=2018-03-05T15:41:27
+ts=5a9d5717; t=2018-03-05T15:41:27; ll=4; debug=TunnelManager: loop #1, interval=5
+ts=5a9d5717; t=2018-03-05T15:41:27; ll=5; debug=Entering main select loop
+ts=5a9d5718; t=2018-03-05T15:41:28; ll=6; debug=Pinged 88.198.106.222:443: 0.154068 [win=2, uuid=e2e4a268825fd448ed3d06fd7c6c780e883a644b]
+ts=5a9d5718; t=2018-03-05T15:41:28; ll=7; debug=Pinged 88.198.106.222:443: 0.154068 [win=2, uuid=e2e4a268825fd448ed3d06fd7c6c780e883a644b]
