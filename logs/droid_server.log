@@ -1,4 +1,4 @@
-15:41:27.339 [main] DEBUG com.didekin.Application - Before calling run()
-2018-03-05 15:41:28.230  INFO 4592 --- [           main] com.didekin.Application                  : Starting Application on dev-iMac.local with PID 4592 (/Users/pedro/Documents/git_projects/didekin_web/didekin/releases/local/didekin-web-local-a-0.7.4.jar started by pedro in /Users/pedro/Documents/git_projects/git_didekindroid/didekindroid_libs)
-2018-03-05 15:41:28.232 DEBUG 4592 --- [           main] com.didekin.Application                  : Running with Spring Boot v1.2.2.RELEASE, Spring v4.1.5.RELEASE
-2018-03-05 15:41:28.262  INFO 4592 --- [           main] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@2f3c07bb: startup date [Mon Mar 05 15:41:28 CET 2018]; root of context hierarchy
+17:02:00.153 [main] DEBUG com.didekin.Application - Before calling run()
+2018-03-05 17:02:03.462  INFO 5004 --- [           main] com.didekin.Application                  : Starting Application on dev-iMac.local with PID 5004 (/Users/pedro/Documents/git_projects/didekin_web/didekin/releases/local/didekin-web-local-a-0.7.4.jar started by pedro in /Users/pedro/Documents/git_projects/git_didekindroid/didekindroid_libs)
+2018-03-05 17:02:03.485 DEBUG 5004 --- [           main] com.didekin.Application                  : Running with Spring Boot v1.2.2.RELEASE, Spring v4.1.5.RELEASE
+2018-03-05 17:02:03.570  INFO 5004 --- [           main] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@48bfa73a: startup date [Mon Mar 05 17:02:03 CET 2018]; root of context hierarchy
