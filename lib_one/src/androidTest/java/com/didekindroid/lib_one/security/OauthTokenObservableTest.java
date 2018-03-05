@@ -3,17 +3,19 @@ package com.didekindroid.lib_one.security;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.didekindroid.lib_one.api.exception.UiException;
+import com.didekindroid.lib_one.testutil.InitializerTestUtil;
 import com.didekinlib.http.auth.SpringOauthToken;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static com.didekindroid.lib_one.security.OauthTokenObservable.oauthTokenAndInitCache;
 import static com.didekindroid.lib_one.security.OauthTokenObservable.oauthTokenFromRefreshTk;
 import static com.didekindroid.lib_one.security.OauthTokenObservable.oauthTokenFromUserPswd;
 import static com.didekindroid.lib_one.security.OauthTokenObservable.oauthTokenInitCacheUpdateRegister;
+import static com.didekindroid.lib_one.security.SecInitializer.secInitializer;
 import static com.didekindroid.lib_one.security.SecurityTestUtils.checkInitTokenCache;
 import static com.didekindroid.lib_one.security.SecurityTestUtils.checkUpdateTokenCache;
 import static com.didekindroid.lib_one.security.SecurityTestUtils.updateSecurityData;
@@ -38,7 +40,14 @@ import static org.junit.Assert.assertThat;
 @RunWith(AndroidJUnit4.class)
 public class OauthTokenObservableTest {
 
-    private TokenIdentityCacher tkCacher = new TokenIdentityCacher(getTargetContext());
+    private TokenIdentityCacher tkCacher;
+
+    @Before
+    public void setUp()
+    {
+        InitializerTestUtil.initSec_Http();
+        tkCacher = (TokenIdentityCacher) secInitializer.get().getTkCacher();
+    }
 
     @After
     public void cleanFileToken() throws UiException

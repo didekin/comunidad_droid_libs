@@ -5,7 +5,6 @@ import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 
 import com.didekindroid.lib_one.api.router.RouterActionIf;
-import com.didekindroid.lib_one.api.router.RouterInitializerMock;
 import com.didekindroid.lib_one.api.router.UiExceptionRouterIf;
 
 import org.junit.Before;
@@ -13,7 +12,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static com.didekindroid.lib_one.RouterInitializer.routerInitializer;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initRouter;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -35,7 +34,7 @@ public class ParentViewerTest {
     public void setUp()
     {
         activity = activityRule.getActivity();
-        routerInitializer.set(new RouterInitializerMock());
+        initRouter();
 
         parentViewer = new ParentViewer<View, Controller>(null, activity, null) {
             @Override

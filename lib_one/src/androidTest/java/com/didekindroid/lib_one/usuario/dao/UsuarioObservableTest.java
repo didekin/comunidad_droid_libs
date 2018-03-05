@@ -2,6 +2,7 @@ package com.didekindroid.lib_one.usuario.dao;
 
 import com.didekindroid.lib_one.api.exception.UiException;
 import com.didekindroid.lib_one.security.TokenIdentityCacher;
+import com.didekindroid.lib_one.testutil.InitializerTestUtil;
 import com.didekindroid.lib_one.usuario.dao.UsuarioDaoTestUtil.SendPswdCallable;
 import com.didekindroid.lib_one.usuario.dao.UsuarioDaoTestUtil.SendPswdCallableError;
 import com.didekinlib.http.auth.SpringOauthToken;
@@ -45,14 +46,17 @@ import static org.junit.Assert.assertThat;
  * Date: 31/10/2017
  * Time: 12:20
  */
+@SuppressWarnings("ConstantConditions")
 public class UsuarioObservableTest {
 
-    TokenIdentityCacher tkCacher = (TokenIdentityCacher) secInitializer.get().getTkCacher();
+    private TokenIdentityCacher tkCacher;
 
     @Before
     public void setUp()
     {
+        InitializerTestUtil.initSec_Http();
         cleanWithTkhandler();
+        tkCacher = (TokenIdentityCacher) secInitializer.get().getTkCacher();
     }
 
     // ................................. DELETE USER ...............................

@@ -4,6 +4,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.didekindroid.lib_one.api.exception.UiException;
 import com.didekindroid.lib_one.security.TokenIdentityCacher;
+import com.didekindroid.lib_one.testutil.InitializerTestUtil;
 import com.didekindroid.lib_one.usuario.UserTestData.CleanUserEnum;
 import com.didekindroid.lib_one.util.IoHelper;
 import com.didekinlib.http.auth.SpringOauthToken;
@@ -46,13 +47,14 @@ import static org.junit.Assert.fail;
 @RunWith(AndroidJUnit4.class)
 public class UsuarioDaoTest {
 
-    File refreshTkFile;
-    CleanUserEnum whatClean;
-    TokenIdentityCacher tkCacher;
+    private File refreshTkFile;
+    private CleanUserEnum whatClean;
+    private TokenIdentityCacher tkCacher;
 
     @Before
     public void setUp() throws Exception
     {
+        InitializerTestUtil.initSec_Http();
         tkCacher = (TokenIdentityCacher) secInitializer.get().getTkCacher();
         refreshTkFile = tkCacher.getRefreshTokenFile();
         whatClean = CLEAN_NOTHING;

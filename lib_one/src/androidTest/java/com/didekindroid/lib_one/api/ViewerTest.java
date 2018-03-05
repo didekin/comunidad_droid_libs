@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.didekindroid.lib_one.api.exception.UiException;
-import com.didekindroid.lib_one.api.router.RouterInitializerMock;
 import com.didekindroid.lib_one.security.TokenIdentityCacher;
 import com.didekinlib.http.exception.ErrorBean;
 
@@ -19,9 +18,9 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static com.didekindroid.lib_one.RouterInitializer.routerInitializer;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.AFTER_METHOD_EXEC_A;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.BEFORE_METHOD_EXEC;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initRouter;
 import static com.didekindroid.lib_one.testutil.MockTestConstant.nextMockAcLayout;
 import static com.didekinlib.http.usuario.UsuarioExceptionMsg.BAD_REQUEST;
 import static org.hamcrest.CoreMatchers.is;
@@ -48,7 +47,7 @@ public class ViewerTest {
     public void setUp()
     {
         activity = activityRule.getActivity();
-        routerInitializer.set(new RouterInitializerMock());
+        initRouter();
 
         parentViewer = new ViewerMock<>(new View(activity), activity);
         viewInViewer = new View(activity);

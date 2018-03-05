@@ -17,7 +17,6 @@ import com.didekindroid.lib_one.api.SpinnerEventItemSelectIf;
 import com.didekindroid.lib_one.api.SpinnerEventListener;
 import com.didekindroid.lib_one.api.SpinnerTextMockFr;
 import com.didekindroid.lib_one.api.ViewerMock;
-import com.didekindroid.lib_one.api.router.RouterInitializerMock;
 import com.didekindroid.lib_one.security.MySecInitializerMock;
 import com.didekindroid.lib_one.security.TokenIdentityCacher;
 import com.didekinlib.model.comunidad.ComunidadAutonoma;
@@ -34,7 +33,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import io.reactivex.observers.DisposableSingleObserver;
 import timber.log.Timber;
 
-import static com.didekindroid.lib_one.RouterInitializer.routerInitializer;
 import static com.didekindroid.lib_one.comunidad.repository.ComunidadDataDb.ComunidadAutonoma.NUMBER_RECORDS;
 import static com.didekindroid.lib_one.comunidad.spinner.ComunidadSpinnerKey.COMUNIDAD_AUTONOMA_ID;
 import static com.didekindroid.lib_one.comunidad.spinner.ViewerComuAutonomaSpinner.newViewerComuAutonomaSpinner;
@@ -44,6 +42,7 @@ import static com.didekindroid.lib_one.security.SecInitializer.secInitializer;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.AFTER_METHOD_EXEC_A;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.AFTER_METHOD_EXEC_B;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.BEFORE_METHOD_EXEC;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initRouter;
 import static com.didekindroid.lib_one.testutil.UiTestUtil.checkSavedStateWithItemSelected;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.waitAtMost;
@@ -76,7 +75,7 @@ public class ViewerComuAutonomaSpinnerTest {
     {
         activity = activityRule.getActivity();
         secInitializer.set(new MySecInitializerMock(activity, new TokenIdentityCacher(activity)));
-        routerInitializer.set(new RouterInitializerMock());
+        initRouter();
 
         activity.runOnUiThread(() -> {
             activity.getSupportFragmentManager().beginTransaction()

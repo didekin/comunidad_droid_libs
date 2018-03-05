@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Spinner;
 
 import com.didekindroid.lib_one.api.exception.UiException;
-import com.didekindroid.lib_one.api.router.RouterInitializerMock;
 import com.didekinlib.http.exception.ErrorBean;
 
 import org.junit.Before;
@@ -20,10 +19,10 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import io.reactivex.Single;
 
-import static com.didekindroid.lib_one.RouterInitializer.routerInitializer;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.AFTER_METHOD_EXEC_A;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.AFTER_METHOD_WITH_EXCEPTION_EXEC;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.BEFORE_METHOD_EXEC;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initRouter;
 import static com.didekinlib.http.usuario.UsuarioExceptionMsg.BAD_REQUEST;
 import static io.reactivex.Single.just;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -48,7 +47,7 @@ public class ObserverSingleSelectItemTest {
     public void setUp()
     {
         final AppCompatActivity activity = activityRule.getActivity();
-        routerInitializer.set(new RouterInitializerMock());
+        initRouter();
 
         activity.runOnUiThread(() -> observer = new ObserverSingleSelectItem<>(
                 new ViewerSelectList<Spinner, CtrlerSelectList<String>, String>(new Spinner(activity), activity, null) {

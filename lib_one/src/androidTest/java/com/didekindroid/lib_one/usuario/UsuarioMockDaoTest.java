@@ -1,5 +1,8 @@
 package com.didekindroid.lib_one.usuario;
 
+import com.didekindroid.lib_one.testutil.InitializerTestUtil;
+
+import org.junit.Before;
 import org.junit.Test;
 
 import static com.didekindroid.lib_one.usuario.UserTestData.cleanOneUser;
@@ -14,6 +17,12 @@ import static org.junit.Assert.assertThat;
  * Time: 17:34
  */
 public class UsuarioMockDaoTest {
+
+    @Before
+    public void setUp()
+    {
+        InitializerTestUtil.initSec_Http();
+    }
 
     @Test
     public void test_DeleteUser() throws Exception

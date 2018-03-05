@@ -23,19 +23,8 @@ import com.didekindroid.lib_one.incidencia.IncidenciaBeanTest;
 import com.didekindroid.lib_one.incidencia.IncidenciaDataDbHelperTest;
 import com.didekindroid.lib_one.incidencia.spinner.CtrlerAmbitoIncidSpinnerTest;
 import com.didekindroid.lib_one.incidencia.spinner.ViewerAmbitoIncidSpinnerTest;
-import com.didekindroid.lib_one.security.AuthDaoTest;
-import com.didekindroid.lib_one.security.CtrlerAuthTokenTest;
-import com.didekindroid.lib_one.security.JceTests;
-import com.didekindroid.lib_one.security.OauthTokenObservableTest;
-import com.didekindroid.lib_one.security.TokenIdentityCacherTest_1;
-import com.didekindroid.lib_one.security.TokenIdentityCacherTest_2;
-import com.didekindroid.lib_one.usuario.UsuarioBeanTests;
-import com.didekindroid.lib_one.usuario.UsuarioMockDaoTest;
-import com.didekindroid.lib_one.usuario.dao.CtrlerUsuario_Test;
-import com.didekindroid.lib_one.usuario.dao.UsuarioDaoTest;
-import com.didekindroid.lib_one.usuario.dao.UsuarioObservableTest;
-import com.didekindroid.lib_one.usuario.notification.CtrlerNotifyTokenTest;
-import com.didekindroid.lib_one.usuario.notification.ViewerNotifyTokenTest;
+import com.didekindroid.lib_one.security.SecuritySuite;
+import com.didekindroid.lib_one.usuario.UsuarioSuite;
 import com.didekindroid.lib_one.util.DeviceTest;
 import com.didekindroid.lib_one.util.IoHelperTest;
 import com.didekindroid.lib_one.util.UiUtilTest;
@@ -79,22 +68,9 @@ import org.junit.runners.Suite;
         IncidenciaBeanTest.class,
         IncidenciaDataDbHelperTest.class,
         // security.
-        AuthDaoTest.class,
-        CtrlerAuthTokenTest.class,
-        JceTests.class,
-        OauthTokenObservableTest.class,
-        TokenIdentityCacherTest_1.class,
-        TokenIdentityCacherTest_2.class,
-        // usuario.dao.
-        CtrlerUsuario_Test.class,
-        UsuarioObservableTest.class,
-        UsuarioDaoTest.class,
-        // usuario.notification.
-        CtrlerNotifyTokenTest.class,
-        ViewerNotifyTokenTest.class,
+        SecuritySuite.class,
         // usuario.
-        UsuarioMockDaoTest.class,
-        UsuarioBeanTests.class,
+        UsuarioSuite.class,
         // util.
         DeviceTest.class,
         IoHelperTest.class,

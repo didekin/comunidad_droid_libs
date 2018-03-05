@@ -15,7 +15,7 @@ import org.junit.runner.RunWith;
 import java.io.IOException;
 import java.util.List;
 
-import static com.didekindroid.lib_one.HttpInitializer.httpInitializer;
+import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static com.didekindroid.lib_one.incidencia.IncidenciaDataDb.AmbitoIncidencia.AMBITO_INCID_COUNT;
 import static com.didekindroid.lib_one.incidencia.IncidenciaDataDb.AmbitoIncidencia.CREATE_AMBITO_INCIDENCIA;
 import static com.didekindroid.lib_one.incidencia.IncidenciaDataDbHelper.DB_NAME;
@@ -33,13 +33,13 @@ import static org.junit.Assert.assertThat;
 public class IncidenciaDataDbHelperTest {
 
     private IncidenciaDataDbHelper dbHelper;
-    Context context;
-    SQLiteDatabase database;
+    private Context context;
+    private SQLiteDatabase database;
 
     @Before
     public void getFixture() throws Exception
     {
-        context = httpInitializer.get().getContext();
+        context = getTargetContext();
         dbHelper = new IncidenciaDataDbHelper(context);
         database = dbHelper.getWritableDatabase();
     }
@@ -88,9 +88,9 @@ public class IncidenciaDataDbHelperTest {
         final Cursor cursor = dbHelper.doAmbitoIncidenciaCursor();
         List<AmbitoIncidValueObj> list = dbHelper.getAmbitoIncidList(cursor);
         assertThat(list.size(), is(AMBITO_INCID_COUNT));
-        assertThat(list.get(0).id, is((short)0));
+        assertThat(list.get(0).id, is((short) 0));
         assertThat(list.get(0).ambitoStr, is("ámbito de incidencia"));
-        assertThat(list.get(AMBITO_INCID_COUNT - 1).id, is((short)(AMBITO_INCID_COUNT - 1)));
+        assertThat(list.get(AMBITO_INCID_COUNT - 1).id, is((short) (AMBITO_INCID_COUNT - 1)));
         assertThat(list.get(AMBITO_INCID_COUNT - 1).ambitoStr, is("Otros"));
         assertThat(cursor.isClosed(), is(true));
     }

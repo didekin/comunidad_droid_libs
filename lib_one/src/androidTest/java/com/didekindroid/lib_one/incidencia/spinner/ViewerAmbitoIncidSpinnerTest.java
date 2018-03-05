@@ -9,7 +9,6 @@ import com.didekindroid.lib_one.R;
 import com.didekindroid.lib_one.api.ActivityMock;
 import com.didekindroid.lib_one.api.SpinnerTextMockFr;
 import com.didekindroid.lib_one.api.ViewerMock;
-import com.didekindroid.lib_one.api.router.RouterInitializerMock;
 import com.didekindroid.lib_one.incidencia.IncidenciaBean;
 import com.didekindroid.lib_one.security.MySecInitializerMock;
 import com.didekindroid.lib_one.security.TokenIdentityCacher;
@@ -27,12 +26,12 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import io.reactivex.observers.DisposableSingleObserver;
 
-import static com.didekindroid.lib_one.RouterInitializer.routerInitializer;
 import static com.didekindroid.lib_one.incidencia.spinner.IncidenciaSpinnerKey.AMBITO_INCIDENCIA_POSITION;
 import static com.didekindroid.lib_one.incidencia.spinner.ViewerAmbitoIncidSpinner.newViewerAmbitoIncidSpinner;
 import static com.didekindroid.lib_one.security.SecInitializer.secInitializer;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.AFTER_METHOD_EXEC_A;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.BEFORE_METHOD_EXEC;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initRouter;
 import static com.didekindroid.lib_one.testutil.UiTestUtil.checkSavedStateWithItemSelected;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.waitAtMost;
@@ -64,7 +63,7 @@ public class ViewerAmbitoIncidSpinnerTest {
     {
         activity = activityRule.getActivity();
         secInitializer.set(new MySecInitializerMock(activity, new TokenIdentityCacher(activity)));
-        routerInitializer.set(new RouterInitializerMock());
+        initRouter();
 
         activity.runOnUiThread(() -> {
             activity.getSupportFragmentManager().beginTransaction()

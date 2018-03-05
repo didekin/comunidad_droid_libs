@@ -7,7 +7,6 @@ import android.widget.AdapterView;
 
 import com.didekindroid.lib_one.api.exception.UiException;
 import com.didekindroid.lib_one.api.router.RouterActionIf;
-import com.didekindroid.lib_one.api.router.RouterInitializerMock;
 import com.didekindroid.lib_one.api.router.UiExceptionRouterIf;
 import com.didekinlib.http.exception.ErrorBean;
 
@@ -24,10 +23,10 @@ import io.reactivex.Single;
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.InstrumentationRegistry.getTargetContext;
-import static com.didekindroid.lib_one.RouterInitializer.routerInitializer;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.AFTER_METHOD_EXEC_C;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.AFTER_METHOD_WITH_EXCEPTION_EXEC;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.BEFORE_METHOD_EXEC;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initRouter;
 import static com.didekinlib.http.usuario.UsuarioExceptionMsg.BAD_REQUEST;
 import static io.reactivex.Single.just;
 import static org.hamcrest.CoreMatchers.is;
@@ -47,7 +46,7 @@ public class ObserverSingleListTest {
     @Before
     public void setUp()
     {
-        routerInitializer.set(new RouterInitializerMock());
+        initRouter();
         Intent intent = new Intent(getTargetContext(), ActivityMock.class);
         intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
 

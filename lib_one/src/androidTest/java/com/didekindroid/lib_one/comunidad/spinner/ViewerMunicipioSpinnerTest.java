@@ -11,7 +11,6 @@ import com.didekindroid.lib_one.R;
 import com.didekindroid.lib_one.api.ActivityMock;
 import com.didekindroid.lib_one.api.ObserverSingleSelectList;
 import com.didekindroid.lib_one.api.SpinnerTextMockFr;
-import com.didekindroid.lib_one.api.router.RouterInitializerMock;
 import com.didekindroid.lib_one.security.MySecInitializerMock;
 import com.didekindroid.lib_one.security.TokenIdentityCacher;
 import com.didekinlib.model.comunidad.Municipio;
@@ -28,13 +27,13 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import io.reactivex.observers.DisposableSingleObserver;
 
-import static com.didekindroid.lib_one.RouterInitializer.routerInitializer;
 import static com.didekindroid.lib_one.comunidad.spinner.ComunidadSpinnerKey.MUNICIPIO_SPINNER_EVENT;
 import static com.didekindroid.lib_one.comunidad.spinner.ViewerMunicipioSpinner.newViewerMunicipioSpinner;
 import static com.didekindroid.lib_one.comunidad.spinner.ViewerMunicipioSpinner.spinnerEvent_default;
 import static com.didekindroid.lib_one.security.SecInitializer.secInitializer;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.AFTER_METHOD_EXEC_A;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.BEFORE_METHOD_EXEC;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initRouter;
 import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.waitAtMost;
@@ -65,7 +64,7 @@ public class ViewerMunicipioSpinnerTest {
     public void setUp()
     {
         activity = activityRule.getActivity();
-        routerInitializer.set(new RouterInitializerMock());
+        initRouter();
         secInitializer.set(new MySecInitializerMock(activity, new TokenIdentityCacher(activity)));
 
         activity.runOnUiThread(() -> {

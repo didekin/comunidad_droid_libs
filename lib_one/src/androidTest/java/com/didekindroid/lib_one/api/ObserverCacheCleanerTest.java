@@ -5,7 +5,6 @@ import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 
 import com.didekindroid.lib_one.api.exception.UiException;
-import com.didekindroid.lib_one.api.router.RouterInitializerMock;
 import com.didekindroid.lib_one.security.TokenIdentityCacher;
 import com.didekinlib.http.exception.ErrorBean;
 
@@ -16,10 +15,10 @@ import org.junit.runner.RunWith;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-import static com.didekindroid.lib_one.RouterInitializer.routerInitializer;
 import static com.didekindroid.lib_one.security.SecurityTestUtils.doSpringOauthToken;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.AFTER_METHOD_WITH_EXCEPTION_EXEC;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.BEFORE_METHOD_EXEC;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initRouter;
 import static com.didekinlib.http.usuario.UsuarioExceptionMsg.BAD_REQUEST;
 import static io.reactivex.Completable.error;
 import static io.reactivex.Completable.fromSingle;
@@ -48,7 +47,7 @@ public class ObserverCacheCleanerTest {
     public void setUp()
     {
         activity = activityRule.getActivity();
-        routerInitializer.set(new RouterInitializerMock());
+        initRouter();
 
         viewer = new Viewer<View, Controller>(null, activity, null) {
             @Override

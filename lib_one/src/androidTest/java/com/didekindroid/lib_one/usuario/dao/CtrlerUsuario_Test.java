@@ -3,6 +3,7 @@ package com.didekindroid.lib_one.usuario.dao;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.didekindroid.lib_one.api.exception.UiException;
+import com.didekindroid.lib_one.testutil.InitializerTestUtil;
 import com.didekinlib.http.auth.SpringOauthToken;
 import com.didekinlib.model.usuario.Usuario;
 
@@ -51,6 +52,7 @@ public class CtrlerUsuario_Test {
     @Before
     public void setUp() throws Exception
     {
+        InitializerTestUtil.initSec_Http();
         controller = new CtrlerUsuario();
     }
 

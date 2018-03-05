@@ -5,8 +5,6 @@ import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import com.didekindroid.lib_one.api.router.RouterInitializerMock;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -15,7 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static com.didekindroid.lib_one.RouterInitializer.routerInitializer;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initRouter;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.waitAtMost;
 import static org.hamcrest.CoreMatchers.is;
@@ -39,7 +37,7 @@ public class ViewerSelectListTest {
     public void setUp() throws Exception
     {
         activity = activityRule.getActivity();
-        routerInitializer.set(new RouterInitializerMock());
+        initRouter();
 
         activity.runOnUiThread(() -> viewer = new ViewerSelectList<Spinner, CtrlerSelectList<String>, String>(new Spinner(activity), activity, null) {
             @Override

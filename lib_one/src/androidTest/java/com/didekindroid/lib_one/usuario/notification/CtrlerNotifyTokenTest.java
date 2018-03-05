@@ -4,6 +4,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.didekindroid.lib_one.api.exception.UiException;
 import com.didekindroid.lib_one.security.IdentityCacherIf;
+import com.didekindroid.lib_one.testutil.InitializerTestUtil;
 import com.didekindroid.lib_one.usuario.notification.InstanceIdService.ServiceDisposableSingleObserver;
 
 import org.junit.After;
@@ -14,6 +15,7 @@ import org.junit.runner.RunWith;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicReference;
 
+import io.reactivex.Single;
 import io.reactivex.observers.DisposableSingleObserver;
 
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.AFTER_METHOD_EXEC_A;
@@ -25,7 +27,7 @@ import static com.didekindroid.lib_one.usuario.UserTestData.cleanOneUser;
 import static com.didekindroid.lib_one.usuario.UserTestData.comu_real_rodrigo;
 import static com.didekindroid.lib_one.usuario.UserTestData.regUserComuWithTkCache;
 import static com.didekindroid.lib_one.usuario.UserTestData.user_crodrigo;
-import static com.didekindroid.lib_one.usuario.notification.CtrlerNotifyToken.updatedGcmTkSingle;
+import static com.didekindroid.lib_one.usuario.dao.UsuarioDao.usuarioDaoRemote;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
@@ -46,8 +48,15 @@ public class CtrlerNotifyTokenTest {
     @Before
     public void setUp() throws IOException, UiException
     {
+        InitializerTestUtil.initSec_Http();
         regUserComuWithTkCache(comu_real_rodrigo);
-        controller = new CtrlerNotifyToken();
+        controller = new CtrlerNotifyToken() {
+            @Override
+            public Single<Integer> updatedGcmTkSingle()
+            {
+                return Single.fromCallable(() -> usuarioDaoRemote.modifyUserGcmToken("mock_firebase_token"));
+            }
+        };
         identityCacher = controller.getTkCacher();
     }
 
@@ -65,7 +74,7 @@ public class CtrlerNotifyTokenTest {
     @Test
     public void testUpdatedGcmTkSingle() throws Exception
     {
-        updatedGcmTkSingle().test().assertResult(1);
+        controller.updatedGcmTkSingle().test().assertResult(1);
     }
 
     //    ................................. INSTANCE METHODS ...............................

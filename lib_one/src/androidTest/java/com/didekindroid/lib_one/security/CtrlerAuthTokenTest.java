@@ -5,12 +5,9 @@ import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 
 import com.didekindroid.lib_one.api.ActivityMock;
-import com.didekindroid.lib_one.api.ActivityNextMock;
 import com.didekindroid.lib_one.api.ObserverCacheCleaner;
 import com.didekindroid.lib_one.api.Viewer;
 import com.didekindroid.lib_one.api.exception.UiException;
-import com.didekindroid.lib_one.api.router.RouterActionIf;
-import com.didekindroid.lib_one.api.router.UiExceptionRouterIf;
 import com.didekinlib.http.auth.SpringOauthToken;
 import com.didekinlib.http.exception.ErrorBean;
 
@@ -31,6 +28,7 @@ import static com.didekindroid.lib_one.security.SecurityTestUtils.updateSecurity
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.AFTER_METHOD_EXEC_A;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.AFTER_METHOD_WITH_EXCEPTION_EXEC;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.BEFORE_METHOD_EXEC;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http_Router;
 import static com.didekindroid.lib_one.testutil.RxSchedulersUtils.resetAllSchedulers;
 import static com.didekindroid.lib_one.testutil.RxSchedulersUtils.trampolineReplaceAndroidMain;
 import static com.didekindroid.lib_one.testutil.RxSchedulersUtils.trampolineReplaceIoScheduler;
@@ -52,16 +50,18 @@ import static org.junit.Assert.fail;
  * Date: 15/05/17
  * Time: 16:37
  */
+@SuppressWarnings("ConstantConditions")
 @RunWith(AndroidJUnit4.class)
 public class CtrlerAuthTokenTest {
 
-    final static AtomicReference<String> flagMethodExec = new AtomicReference<>(BEFORE_METHOD_EXEC);
+    private final static AtomicReference<String> flagMethodExec = new AtomicReference<>(BEFORE_METHOD_EXEC);
 
     @Rule
     public ActivityTestRule<ActivityMock> activityRule = new ActivityTestRule<ActivityMock>(ActivityMock.class) {
         @Override
         protected void beforeActivityLaunched()
         {
+            initSec_Http_Router();
             try {
                 assertThat(usuarioMockDao.regComuAndUserAndUserComu(comu_real_rodrigo).execute().body(), is(true));
                 updateSecurityData(comu_real_rodrigo.getUsuario().getUserName(), comu_real_rodrigo.getUsuario().getPassword());
@@ -71,21 +71,15 @@ public class CtrlerAuthTokenTest {
         }
     };
 
-    ActivityMock activity;
-    Viewer<?, CtrlerAuthToken> viewer;
-    CtrlerAuthToken controller;
+    private ActivityMock activity;
+    private Viewer<?, CtrlerAuthToken> viewer;
+    private CtrlerAuthToken controller;
 
     @Before
     public void setUp() throws Exception
     {
         activity = activityRule.getActivity();
         viewer = new Viewer<View, CtrlerAuthToken>(null, activity, null) {
-            @Override
-            public UiExceptionRouterIf getExceptionRouter()
-            {
-                return httpMsg -> (RouterActionIf) () -> ActivityNextMock.class;
-            }
-
             @Override
             public void onErrorInObserver(Throwable error)
             {

@@ -3,10 +3,12 @@ package com.didekindroid.lib_one.security;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.didekindroid.lib_one.api.exception.UiException;
+import com.didekindroid.lib_one.testutil.InitializerTestUtil;
 import com.didekinlib.http.HttpHandler;
 import com.didekinlib.http.auth.SpringOauthToken;
 import com.didekinlib.http.exception.ErrorBean;
 
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,12 +45,19 @@ import static org.junit.Assert.fail;
 @RunWith(AndroidJUnit4.class)
 public class AuthDaoTest {
 
-    private HttpHandler httpHandler = httpInitializer.get().getHttpHandler();
+    private HttpHandler httpHandler;
 
     @BeforeClass
     public static void slowSeconds()
     {
+        InitializerTestUtil.initSec_Http();
         cleanWithTkhandler();
+    }
+
+    @Before
+    public void setUp()
+    {
+        httpHandler = httpInitializer.get().getHttpHandler();
     }
 
     @Test

@@ -18,7 +18,6 @@ import com.didekindroid.lib_one.api.SpinnerEventItemSelectIf;
 import com.didekindroid.lib_one.api.SpinnerEventListener;
 import com.didekindroid.lib_one.api.SpinnerTextMockFr;
 import com.didekindroid.lib_one.api.ViewerMock;
-import com.didekindroid.lib_one.api.router.RouterInitializerMock;
 import com.didekindroid.lib_one.security.MySecInitializerMock;
 import com.didekindroid.lib_one.security.TokenIdentityCacher;
 import com.didekinlib.model.comunidad.Provincia;
@@ -35,7 +34,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import io.reactivex.observers.DisposableSingleObserver;
 import timber.log.Timber;
 
-import static com.didekindroid.lib_one.RouterInitializer.routerInitializer;
 import static com.didekindroid.lib_one.comunidad.spinner.ComunidadSpinnerKey.PROVINCIA_ID;
 import static com.didekindroid.lib_one.comunidad.spinner.ViewerProvinciaSpinner.default_spinnerEvent;
 import static com.didekindroid.lib_one.comunidad.spinner.ViewerProvinciaSpinner.newViewerProvinciaSpinner;
@@ -44,6 +42,7 @@ import static com.didekindroid.lib_one.security.SecInitializer.secInitializer;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.AFTER_METHOD_EXEC_A;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.AFTER_METHOD_EXEC_B;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.BEFORE_METHOD_EXEC;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initRouter;
 import static com.didekindroid.lib_one.testutil.UiTestUtil.checkSavedStateWithItemSelected;
 import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -77,7 +76,7 @@ public class ViewerProvinciaSpinnerTest {
     public void setUp()
     {
         activity = activityRule.getActivity();
-        routerInitializer.set(new RouterInitializerMock());
+        initRouter();
         secInitializer.set(new MySecInitializerMock(activity, new TokenIdentityCacher(activity)));
 
         activity.runOnUiThread(() -> {
