@@ -52,7 +52,7 @@ public class FechaPickerFr extends DialogFragment implements DatePickerDialog.On
         Calendar calendar = new GregorianCalendar(year, monthOfYear, dayOfMonth);
 
         fechaPickerUser.getFechaView().setText(UiUtil.formatTimeToString(calendar.getTimeInMillis()));
-        fechaPickerUser.getFechaView().setTextColor(getColor(getActivity(), R.color.black)); // TODO: R a R de librería.
+        fechaPickerUser.getFechaView().setTextColor(getColor(getActivity(), R.color.black));
         fechaPickerUser.getFechaView().setTypeface(DEFAULT);
         fechaPickerUser.getPickerBean().setFechaPrevista(calendar);
     }

@@ -39,6 +39,7 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
+        AppContextTest.class,
         // api.router.
         FragmentInitiatorTest.class,
         RouterActionIfTest.class,

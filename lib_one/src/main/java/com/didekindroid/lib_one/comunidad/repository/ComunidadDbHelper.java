@@ -152,7 +152,7 @@ public class ComunidadDbHelper extends SQLiteOpenHelper {
         Timber.i("In loadMunicipios()");
 
         final Resources resources = mContext.getResources();
-        InputStream inputStream = resources.openRawResource(R.raw.municipio); // TODO: sustituir por referencia R de librería.
+        InputStream inputStream = resources.openRawResource(R.raw.municipio);
         int pkCounter = 0;
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {

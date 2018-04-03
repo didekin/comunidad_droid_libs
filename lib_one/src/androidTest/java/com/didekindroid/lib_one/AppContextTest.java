@@ -1,4 +1,4 @@
-package com.didekindroid.test;
+package com.didekindroid.lib_one;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -9,19 +9,13 @@ import org.junit.runner.RunWith;
 
 import static junit.framework.Assert.assertEquals;
 
-/**
- * Instrumented test, which will execute on an Android device.
- *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
- */
 @RunWith(AndroidJUnit4.class)
-public class ExampleInstrumentedTest {
+public class AppContextTest {
     @Test
-    public void useAppContext() throws Exception
+    public void testAppContext()
     {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
-
         assertEquals("com.didekindroid.lib_one.test", appContext.getPackageName());
     }
 }

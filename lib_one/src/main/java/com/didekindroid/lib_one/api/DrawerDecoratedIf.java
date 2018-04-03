@@ -12,7 +12,8 @@ import timber.log.Timber;
  * Time: 11:08
  */
 
-public interface DrawerDecoratedIf {    // TODO: mover a librería.
+@SuppressWarnings("unused")
+public interface DrawerDecoratedIf {
 
     static TextView getHeaderText(NavigationView navigationView, int navHeaderViewId)
     {

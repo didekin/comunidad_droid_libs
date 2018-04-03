@@ -100,7 +100,7 @@ public class IncidenciaDataDbHelper extends SQLiteOpenHelper {
         Timber.i("In loadAmbitoIncidencia()");
 
         final Resources resources = mContext.getResources();
-        InputStream inputStream = resources.openRawResource(R.raw.ambito_incidencia); // TODO: sustituir por R de librería.
+        InputStream inputStream = resources.openRawResource(R.raw.ambito_incidencia);
         int pkCounter = 0;
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {

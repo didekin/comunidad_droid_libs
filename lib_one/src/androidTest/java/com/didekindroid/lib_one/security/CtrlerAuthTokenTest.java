@@ -17,7 +17,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.io.IOException;
 import java.util.concurrent.atomic.AtomicReference;
 
 import io.reactivex.observers.DisposableCompletableObserver;
@@ -76,7 +75,7 @@ public class CtrlerAuthTokenTest {
     private CtrlerAuthToken controller;
 
     @Before
-    public void setUp() throws Exception
+    public void setUp()
     {
         activity = activityRule.getActivity();
         viewer = new Viewer<View, CtrlerAuthToken>(null, activity, null) {
@@ -108,7 +107,7 @@ public class CtrlerAuthTokenTest {
      * onErrorObserver method: we test that the token cache is cleaned.
      */
     @Test
-    public void testOauthUpdateTokenCacheObserver_1() throws UiException
+    public void testOauthUpdateTokenCacheObserver_1()
     {
         checkInitTokenCache(controller.getTkCacher());
         activity.runOnUiThread(() -> {
@@ -125,7 +124,7 @@ public class CtrlerAuthTokenTest {
      * onComplete method: we test that the token cache is NOT cleaned.
      */
     @Test
-    public void testOauthUpdateTokenCacheObserver_2() throws UiException
+    public void testOauthUpdateTokenCacheObserver_2()
     {
         checkInitTokenCache(controller.getTkCacher());
 
@@ -140,7 +139,7 @@ public class CtrlerAuthTokenTest {
     //  =======================================================================================
 
     @Test
-    public void test_UpdateTkCacheFromRefreshTk() throws Exception
+    public void test_UpdateTkCacheFromRefreshTk()
     {
         try {
             trampolineReplaceIoScheduler();
@@ -153,7 +152,7 @@ public class CtrlerAuthTokenTest {
     }
 
     @Test
-    public void testRefreshAccessToken_1() throws IOException, UiException
+    public void testRefreshAccessToken_1()
     {
         // Precondition: a fully initialized cache.
         assertThat(controller.getTkCacher().getTokenCache().get().getValue().isEmpty(), is(false));
@@ -176,7 +175,7 @@ public class CtrlerAuthTokenTest {
     }
 
     @Test
-    public void testRefreshAccessToken_2() throws IOException, UiException
+    public void testRefreshAccessToken_2()
     {
         // Precondition: a user in DB, cache is null.
         // Borramos cache.
@@ -198,7 +197,7 @@ public class CtrlerAuthTokenTest {
     }
 
     @Test
-    public void testRefreshAccessToken_3() throws IOException, UiException
+    public void testRefreshAccessToken_3()
     {
         // Precondition: a user in DB, refreshToken in cache, accessToken is null.
         String refreshTkOriginal = controller.getTkCacher().getRefreshTokenValue();

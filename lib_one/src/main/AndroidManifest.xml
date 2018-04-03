@@ -3,6 +3,11 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <application
-        android:theme="@style/themeOne"
-        />
+        android:theme="@style/themeOne">
+        <!-- **************************************************************** -->
+        <!-- ACCESORIO -->
+        <!-- **************************************************************** -->
+        <!-- Do nothing activity for non-null initialization in routers, mainly.-->
+        <activity android:name="com.didekindroid.lib_one.util.MuteActivity"/>
+    </application>
 </manifest>

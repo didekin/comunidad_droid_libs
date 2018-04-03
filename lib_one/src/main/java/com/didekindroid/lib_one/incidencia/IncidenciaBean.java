@@ -104,7 +104,7 @@ public class IncidenciaBean implements Serializable {
 
     private boolean validateComunidadId(StringBuilder errorMsg, Resources resources)
     {
-        if (comunidadId <= 0) {     // TODO: mover este string a strings de librería al igual que los anteriores.
+        if (comunidadId <= 0) {
             errorMsg.append(resources.getString(R.string.comunidad_null_in_register)).append(LINE_BREAK.getRegexp());
             return false;
         }

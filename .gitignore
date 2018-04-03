@@ -1,6 +1,6 @@
 # GRADLE
 .gradle
-/local.properties
+local.properties
 **/build
 
 # IDEA
@@ -11,7 +11,8 @@
 .DS_Store
 
 # Releases
-!lib_one/releases/release/*.aar
+lib_one/releases/local/*.aar
+!/**/releases/release/*.aar
 
 #  MISCELÁNEA
 administracion
@@ -26,3 +27,4 @@ lib_one/src/main/res/raw/*bks
 lib_one/src/main/res/values/app_parameters.xml
 # Configuración de entornos
 terminal/*
+
