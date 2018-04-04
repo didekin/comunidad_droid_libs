@@ -15,10 +15,9 @@ import static com.didekindroid.lib_one.security.SecInitializer.secInitializer;
 import static com.didekindroid.lib_one.security.SecurityTestUtils.updateSecurityData;
 import static com.didekindroid.lib_one.usuario.UsuarioMockDao.usuarioMockDao;
 import static com.didekindroid.lib_one.usuario.dao.UsuarioDao.usuarioDaoRemote;
+import static com.didekindroid.lib_one.util.UiUtil.assertTrue;
 import static com.didekinlib.http.exception.GenericExceptionMsg.GENERIC_INTERNAL_ERROR;
 import static com.didekinlib.model.usuariocomunidad.Rol.PROPIETARIO;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 
 /**
  * User: pedro@didekin
@@ -81,10 +80,11 @@ public final class UserTestData {
 
     // =========================  Registet methods =========================
 
+    @SuppressWarnings("ConstantConditions")
     public static void regUserComuWithTkCache(UsuarioComunidad userComuIn) throws IOException, UiException
     {
         //Inserta userComu, comunidad y usuariocomunidad.
-        assertThat(usuarioMockDao.regComuAndUserAndUserComu(userComuIn).execute().body(), is(true));
+        assertTrue(usuarioMockDao.regComuAndUserAndUserComu(userComuIn).execute().body(), "Usuario registered in new comunidad");
         updateSecurityData(userComuIn.getUsuario().getUserName(), userComuIn.getUsuario().getPassword());
     }
 
