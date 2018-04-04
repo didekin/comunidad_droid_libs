@@ -30,16 +30,6 @@ android {
         release {
             minifyEnabled false
         }
-        pre {
-            initWith release
-            resValue "string", "didekin_web_host", '"https://didekin-web-pre.eu-central-1.elasticbeanstalk.com"'
-            resValue "string", "didekin_web_port", '":443"'
-        }
-        local {
-            initWith release
-            resValue "string", "didekin_web_host", '"https://didekinspring.pagekite.me"'
-            resValue "string", "didekin_web_port", '""'
-        }
         debugPre {
             initWith debug
             // Variables for android_studio default run-debug configuration.
@@ -47,7 +37,6 @@ android {
                 resValue "string", "didekin_web_host", '"https://didekin-web-pre.eu-central-1.elasticbeanstalk.com"'
                 resValue "string", "didekin_web_port", '":443"'
             } else {
-                // Variables defined in buildtest.sh environments.
                 resValue "string", "didekin_web_host", "$System.env.TEST_HOST"
                 resValue "string", "didekin_web_port", "$System.env.TEST_PORT"
             }
@@ -61,7 +50,6 @@ android {
                 resValue "string", "didekin_web_host", '"https://didekinspring.pagekite.me"'
                 resValue "string", "didekin_web_port", '""'
             } else {
-                // Variables defined in buildtest.sh for local and awspre environments.
                 resValue "string", "didekin_web_host", "$System.env.TEST_HOST"
                 resValue "string", "didekin_web_port", "$System.env.TEST_PORT"
             }

@@ -11,8 +11,8 @@ local.properties
 .DS_Store
 
 # Releases
-lib_one/releases/local/*.aar
-!/**/releases/release/*.aar
+lib_one/releases/debug/*.aar
+!lib_one/releases/release/*.aar
 
 #  MISCELÁNEA
 administracion
