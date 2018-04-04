@@ -32,20 +32,20 @@ public class CtrlerComAutonomaSpinnerTest {
     private CtrlerComAutonomaSpinner controller;
 
     @Before
-    public void setUp() throws Exception
+    public void setUp()
     {
         controller = new CtrlerComAutonomaSpinner(new TokenIdentityCacher(activityRule.getActivity()));
     }
 
     @After
-    public void tearDown() throws Exception
+    public void tearDown()
     {
         controller.clearSubscriptions();
         resetAllSchedulers();
     }
 
     @Test
-    public void test_ComunidadesAutonomasList() throws Exception
+    public void test_ComunidadesAutonomasList()
     {
         controller.comunidadesAutonomasList().test().assertOf(listTestObserver -> {
             assertThat(listTestObserver.values().size(), is(1));
@@ -54,7 +54,7 @@ public class CtrlerComAutonomaSpinnerTest {
     }
 
     @Test
-    public void test_LoadItemsByEntitiyId() throws Exception
+    public void test_LoadItemsByEntitiyId()
     {
         checkSpinnerCtrlerLoadItems(controller);
     }
