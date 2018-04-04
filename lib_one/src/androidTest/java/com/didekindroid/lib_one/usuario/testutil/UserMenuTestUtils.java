@@ -3,10 +3,11 @@ package com.didekindroid.lib_one.usuario.testutil;
 import android.app.Activity;
 
 import com.didekindroid.lib_one.R;
-import com.didekindroid.lib_one.testutil.EspressoTestUtil;
 import com.didekindroid.lib_one.testutil.MenuTestUtilIf;
 
 import static com.didekindroid.lib_one.security.SecInitializer.secInitializer;
+import static com.didekindroid.lib_one.testutil.EspressoTestUtil.checkItemMnExists;
+import static com.didekindroid.lib_one.testutil.EspressoTestUtil.checkItemMnNotExists;
 
 /**
  * User: pedro@didekin
@@ -20,7 +21,7 @@ public enum UserMenuTestUtils implements MenuTestUtilIf {
         @Override
         public void checkItem(Activity activity)
         {
-            EspressoTestUtil.checkItemMnExists(activity, R.string.delete_me_ac_mn, R.id.delete_me_ac_layout);
+            checkItemMnExists(activity, R.string.delete_me_ac_mn, R.id.delete_me_ac_layout);
         }
     },
 
@@ -29,9 +30,9 @@ public enum UserMenuTestUtils implements MenuTestUtilIf {
         public void checkItem(Activity activity)
         {
             if (secInitializer.get().getTkCacher().isRegisteredUser()) {
-                EspressoTestUtil.checkItemMnNotExists(activity, R.string.login_ac_mn);
+                checkItemMnNotExists(activity, R.string.login_ac_mn);
             } else {
-                EspressoTestUtil.checkItemMnExists(activity, R.string.login_ac_mn, R.id.login_ac_layout);
+                checkItemMnExists(activity, R.string.login_ac_mn, R.id.login_ac_layout);
             }
         }
     },
@@ -40,7 +41,7 @@ public enum UserMenuTestUtils implements MenuTestUtilIf {
         @Override
         public void checkItem(Activity activity)
         {
-            EspressoTestUtil.checkItemMnExists(activity, R.string.password_change_ac_mn, R.id.password_change_ac_layout);
+            checkItemMnExists(activity, R.string.password_change_ac_mn, R.id.password_change_ac_layout);
         }
     },
 
@@ -49,9 +50,9 @@ public enum UserMenuTestUtils implements MenuTestUtilIf {
         public void checkItem(Activity activity)
         {
             if (secInitializer.get().getTkCacher().isRegisteredUser()) {
-                EspressoTestUtil.checkItemMnExists(activity, R.string.user_data_ac_mn, R.id.user_data_ac_layout);
+                checkItemMnExists(activity, R.string.user_data_ac_mn, R.id.user_data_ac_layout);
             } else {
-                EspressoTestUtil.checkItemMnNotExists(activity, R.string.user_data_ac_mn);
+                checkItemMnNotExists(activity, R.string.user_data_ac_mn);
             }
         }
     },;

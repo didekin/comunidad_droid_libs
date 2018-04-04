@@ -1,2 +1,2 @@
 rootProject.name = 'didekindroid_libs'
-include ':lib_one'
+include ':lib_one', ':lib_one_test'

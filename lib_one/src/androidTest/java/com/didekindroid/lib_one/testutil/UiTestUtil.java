@@ -63,7 +63,7 @@ public class UiTestUtil {
         viewer.setSelectedItemId(18L);
         Bundle bundle = new Bundle(1);
         viewer.saveState(bundle);
-        Assert.assertThat(bundle.getLong(bundleKey.getKey()), CoreMatchers.is(18L));
+        assertThat(bundle.getLong(bundleKey.getKey()), CoreMatchers.is(18L));
     }
 
     public static EditText doEditTextView(int resourdeIdLayout, String description)
