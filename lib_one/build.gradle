@@ -29,7 +29,6 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         pre {
             initWith release
@@ -43,11 +42,8 @@ android {
         }
         debugPre {
             initWith debug
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro', 'proguard-debug-rules.pro'
             // Variables for android_studio default run-debug configuration.
             if ("$System.env.TEST_HOST" == "null" || "$System.env.TEST_PORT" == "null") {
-                // AWSPRE url's
                 resValue "string", "didekin_web_host", '"https://didekin-web-pre.eu-central-1.elasticbeanstalk.com"'
                 resValue "string", "didekin_web_port", '":443"'
             } else {

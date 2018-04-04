@@ -1,3 +1,0 @@
--dontwarn com.squareup.javawriter.JavaWriter
--dontwarn org.hamcrest.**
--keep class android.support.test.runner.** { *; }

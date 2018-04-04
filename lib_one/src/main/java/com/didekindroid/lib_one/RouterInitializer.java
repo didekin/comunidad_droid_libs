@@ -50,6 +50,7 @@ public final class RouterInitializer implements RouterInitializerIf {
 
     //    ==================== BUILDER ====================
 
+    @SuppressWarnings("unused")
     public static class RouterInitializerBuilder implements BeanBuilder<RouterInitializer> {
 
         private UiExceptionRouterIf exceptionRouter;
