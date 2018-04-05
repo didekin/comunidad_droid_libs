@@ -14,7 +14,7 @@ public class SavedStateWrapper {
 
     public static final String AFTER_SaveState = "afterSaveStateMethod";
     public static final String AFTER_ClearSubscriptions = "afterClearSubscriptions";
-    public final AtomicReference<String> flagMethod = new AtomicReference<>(BEFORE_METHOD_EXEC);
+    private final AtomicReference<String> flagMethod = new AtomicReference<>(BEFORE_METHOD_EXEC);
 
     public void clearSubscription()
     {
@@ -26,14 +26,8 @@ public class SavedStateWrapper {
         flagMethod.set(AFTER_SaveState);
     }
 
-    public AtomicReference<String> getFlagMethod()
+    public String getFlagMethod()
     {
-        return flagMethod;
+        return flagMethod.get();
     }
-
-    /*public void checkOnSaveInstanceState(final Viewer viewer)
-    {
-        viewer.getActivity().runOnUiThread(() -> getInstrumentation().callActivityOnSaveInstanceState(viewer.getActivity(), new Bundle(0)));
-        waitAtMost(6, SECONDS).untilAtomic(flagMethod, is(AFTER_SaveState));
-    }*/
 }
