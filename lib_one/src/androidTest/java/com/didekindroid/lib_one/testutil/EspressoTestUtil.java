@@ -1,12 +1,19 @@
 package com.didekindroid.lib_one.testutil;
 
 import android.app.Activity;
+import android.content.res.Resources;
+import android.support.test.espresso.NoMatchingRootException;
 import android.support.test.espresso.NoMatchingViewException;
+import android.support.test.espresso.ViewAction;
+import android.support.test.espresso.ViewInteraction;
+import android.support.test.espresso.matcher.RootMatchers;
 import android.view.View;
 
 import com.didekindroid.lib_one.R;
 
+import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
 
 import java.util.concurrent.Callable;
 
@@ -53,6 +60,18 @@ public class EspressoTestUtil {
         return () -> {
             try {
                 onView(viewMatcher).check(matches(isDisplayed()));
+                return true;
+            } catch (NoMatchingViewException ne) {
+                return false;
+            }
+        };
+    }
+
+    public static Callable<Boolean> isViewDisplayedAndPerform(final Matcher<View> viewMatcher, final ViewAction... viewActions)
+    {
+        return () -> {
+            try {
+                onView(viewMatcher).check(matches(isDisplayed())).perform(viewActions);
                 return true;
             } catch (NoMatchingViewException ne) {
                 return false;
@@ -132,5 +151,35 @@ public class EspressoTestUtil {
                 withContentDescription(R.string.navigate_up_txt),
                 isClickable())
         ).check(matches(isDisplayed())).perform(click());
+    }
+
+    //    ============================ TOASTS ============================
+
+    public static void checkToastInTest(int resourceId, Activity activity, int... resourceFieldsErrorId)
+    {
+        Resources resources = activity.getResources();
+
+        ViewInteraction toast = onView(
+                withText(Matchers.containsString(resources.getText(resourceId).toString())))
+                .inRoot(RootMatchers.withDecorView(CoreMatchers.not(activity.getWindow().getDecorView())))
+                .check(matches(isDisplayed()));
+
+        if (resourceFieldsErrorId != null) {
+            for (int field : resourceFieldsErrorId) {
+                toast.check(matches(withText(Matchers.containsString(resources.getText(field).toString()))));
+            }
+        }
+    }
+
+    public static Callable<Boolean> isToastInView(final int resourceStringId, final Activity activity, final int... resorceErrorId)
+    {
+        return () -> {
+            try {
+                checkToastInTest(resourceStringId, activity, resorceErrorId);
+                return true;
+            } catch (NoMatchingViewException | NoMatchingRootException ne) {
+                return false;
+            }
+        };
     }
 }

@@ -9,5 +9,21 @@
         <!-- **************************************************************** -->
         <!-- Do nothing activity for non-null initialization in routers, mainly.-->
         <activity android:name="com.didekindroid.lib_one.util.MuteActivity"/>
+        <!-- **************************************************************** -->
+        <!-- USUARIO -->
+        <!-- **************************************************************** -->
+        <activity
+            android:name=".usuario.DeleteMeAc"
+            android:label="@string/delete_me_ac_label"/>
+        <activity
+            android:name=".usuario.LoginAc"
+            android:launchMode="singleTop"
+            android:label="@string/login_label"/>
+        <activity
+            android:name=".usuario.PasswordChangeAc"
+            android:label="@string/password_ac_label"/>
+        <activity
+            android:name=".usuario.UserDataAc"
+            android:label="@string/user_data_ac_mn"/>
     </application>
 </manifest>

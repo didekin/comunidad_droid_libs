@@ -10,6 +10,7 @@
     <!--Input controls-->
     <string name="navigate_up_txt">Desplazarse hacia arriba</string>
     <string name="modif_button_rot">Modificar</string>
+    <string name="continuar_button_rot">Continuar</string>
     <!-- ============================ MESSAGES ============================== -->
     <string name="exception_generic_message">No podemos continuar. Inténtalo en unos segundos nuevamente.</string>
     <string name="no_internet_conn_toast">No hay conexión de red disponible.</string>
@@ -34,6 +35,7 @@
     <string name="no_user_data_to_be_modified">No hay datos a modificar</string>
     <string name="password">Contraseña</string>
     <string name="password_change_ac_rotulo">Nueva contraseña</string>
+    <string name="password_remote_change">Ya está modificada tu contraseña.</string>
     <string name="password_different">(no coinciden)</string>
     <string name="password_new_in_login">Te hemos enviado tu nueva contraseña. Haz login, nuevamente, con ella.</string>
     <string name="password_send_button_txt">Envío de nueva contraseña</string>
@@ -50,6 +52,15 @@
     <string name="usuario_password_hint">Contraseña: 6–60 letras, números, _</string>
     <string name="usuario_password_confirm_hint">Confirmación contraseña</string>
     <string name="usuario_alias_hint">Nombre: 6–30 letras, números, _</string>
+    <!-- ================= DeleteMe ===================== -->
+    <string name="delete_me_ac_label">Borrar tus datos</string>
+    <!--================= Login =================== -->
+    <string name="login_label">Login</string>
+    <!-- ================== PasswordChange ============== -->
+    <string name="password_ac_label">Tu contraseña</string>
+    <string name="receive_password_by_mail_dialog">
+        Hemos enviado tu nueva contraseña a tu dirección de correo electrónico.\nHaz login a continuación.
+    </string>
     <!--******************************************************************************-->
     <!--                                  COMUNIDAD                                   -->
     <!--******************************************************************************-->

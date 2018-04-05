@@ -1,6 +1,11 @@
 <resources>
+    <!--*****************************************************************************-->
+    <!--                                 GENERIC                                     -->
+    <!--*****************************************************************************-->
+    <string name="decimal_separator">.</string>
     <string name="navigate_up_txt">Navigate-up</string>
     <string name="modif_button_rot">Modify</string>
+    <string name="continuar_button_rot">Proceed</string>
     <!-- ============================ MESSAGES ============================== -->
     <string name="exception_generic_message">We can not continue. Try again in a few seconds.</string>
     <string name="no_internet_conn_toast">No network connection available.</string>
@@ -25,6 +30,7 @@
     <string name="no_user_data_to_be_modified">No data to modify</string>
     <string name="password">Password</string>
     <string name="password_change_ac_rotulo">New password</string>
+    <string name="password_remote_change">Your password is already modified.</string>
     <string name="password_different">(no match)</string>
     <string name="password_new_in_login">We have send you your new password. Sign in, again, with it.</string>
     <string name="password_send_txt">If you do not remember your password, we can send you a new one.</string>
@@ -41,6 +47,15 @@
     <string name="usuario_password_hint">Password: 6–60 letters, numbers, _</string>
     <string name="usuario_password_confirm_hint">Password confirmation</string>
     <string name="usuario_alias_hint">Name: 6–30 letters, numbers, _</string>
+    <!-- ================= DeleteMeAc ===================== -->
+    <string name="delete_me_ac_label">Delete your data</string>
+    <!--================= LoginAc =================== -->
+    <string name="login_label">Login</string>
+    <!-- ================== PasswordChangeAc ============== -->
+    <string name="password_ac_label">Your password</string>
+    <string name="receive_password_by_mail_dialog">
+        We have sent your new password to your email address.\nLog on in the next screen.
+    </string>
     <!--******************************************************************************-->
     <!--                                  COMUNIDAD                                   -->
     <!--******************************************************************************-->
