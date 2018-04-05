@@ -90,5 +90,4 @@ dependencies {
     androidTestUtil rootProject.ext.testOrchestrator
     testImplementation rootProject.ext.junit
     androidTestImplementation rootProject.ext.junit
-    androidTestImplementation project(':lib_one_test')
 }
