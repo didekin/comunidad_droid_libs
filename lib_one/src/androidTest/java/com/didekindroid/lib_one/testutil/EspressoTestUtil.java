@@ -31,8 +31,7 @@ import static org.junit.Assert.fail;
  * Date: 11/02/2018
  * Time: 15:22
  */
-
-@SuppressWarnings({"EmptyCatchBlock", "WeakerAccess", "unused"})
+@SuppressWarnings({"WeakerAccess", "unused", "EmptyCatchBlock"})
 public class EspressoTestUtil {
 
     public static Callable<Boolean> isResourceIdDisplayed(final Integer... resourceIds)

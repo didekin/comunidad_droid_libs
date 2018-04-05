@@ -2,6 +2,7 @@ package com.didekindroid.lib_one.incidencia;
 
 import android.content.res.Resources;
 import android.support.test.runner.AndroidJUnit4;
+import android.view.LayoutInflater;
 import android.widget.EditText;
 
 import com.didekindroid.lib_one.R;
@@ -10,8 +11,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 import static android.support.test.InstrumentationRegistry.getTargetContext;
-import static com.didekindroid.lib_one.testutil.UiTestUtil.doEditTextView;
 import static com.didekindroid.lib_one.util.UiUtil.getErrorMsgBuilder;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
@@ -80,14 +81,14 @@ public class IncidenciaBeanTest {
     }
 
     @Test
-    public void testMakeIncidenciaFromView_1() throws Exception
+    public void testMakeIncidenciaFromView_1()
     {
         final EditText editText = doEditTextView(R.layout.mock_incid_desc_edit_fr, "Description valid");
         assertThat(doIncidenciaBean().makeIncidenciaFromView(editText, errors, resources), notNullValue());
     }
 
     @Test
-    public void testMakeIncidenciaFromView_2() throws Exception
+    public void testMakeIncidenciaFromView_2()
     {
         final EditText editText = doEditTextView(R.layout.mock_incid_desc_edit_fr, "No valid = ** description"); // Check.
         assertThat(doIncidenciaBean().makeIncidenciaFromView(editText, errors, resources), nullValue());
@@ -95,11 +96,19 @@ public class IncidenciaBeanTest {
         assertThat(errors.toString(), containsString(resources.getText(R.string.incid_reg_descripcion).toString()));
     }
 
-
     private IncidenciaBean doIncidenciaBean()
     {
         return new IncidenciaBean()
                 .setCodAmbitoIncid((short) 49)
                 .setComunidadId(2L);
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    private EditText doEditTextView(int resourdeIdLayout, String description)
+    {
+        LayoutInflater inflater = (LayoutInflater) getTargetContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+        EditText editText = inflater.inflate(resourdeIdLayout, null).findViewById(R.id.incid_reg_desc_ed);
+        editText.setText(description);
+        return editText;
     }
 }
