@@ -82,11 +82,11 @@ dependencies {
     runtimeOnly rootProject.ext.retrofit2
     implementation rootProject.ext.rxjava
     implementation rootProject.ext.android_support
-    androidTestImplementation rootProject.ext.testRuler
-    androidTestImplementation rootProject.ext.espresso
     androidTestImplementation rootProject.ext.didekinlib_gcm
-    androidTestImplementation rootProject.ext.awaitility
+    androidTestImplementation rootProject.ext.testRuler
     androidTestImplementation rootProject.ext.testRunner
+    androidTestImplementation rootProject.ext.espresso
+    androidTestImplementation rootProject.ext.awaitility
     androidTestUtil rootProject.ext.testOrchestrator
     testImplementation rootProject.ext.junit
     androidTestImplementation rootProject.ext.junit
