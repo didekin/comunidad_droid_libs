@@ -12,18 +12,23 @@ import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.BEFORE
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class SavedStateWrapper {
 
-    public final String AFTER_SaveState = "afterSaveStateMethod";
+    public static final String AFTER_SaveState = "afterSaveStateMethod";
+    public static final String AFTER_ClearSubscriptions = "afterClearSubscriptions";
     public final AtomicReference<String> flagMethod = new AtomicReference<>(BEFORE_METHOD_EXEC);
 
-    public int clearSubscriptions()
+    public void clearSubscription()
     {
-        flagMethod.set("afterClearSubscriptions");
-        return 0;
+        flagMethod.set(AFTER_ClearSubscriptions);
     }
 
     public void saveState()
     {
         flagMethod.set(AFTER_SaveState);
+    }
+
+    public AtomicReference<String> getFlagMethod()
+    {
+        return flagMethod;
     }
 
     /*public void checkOnSaveInstanceState(final Viewer viewer)
