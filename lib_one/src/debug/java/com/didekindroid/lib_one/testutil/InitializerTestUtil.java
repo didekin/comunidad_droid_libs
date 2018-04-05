@@ -7,7 +7,6 @@ import com.didekindroid.lib_one.R;
 import com.didekindroid.lib_one.api.router.RouterInitializerMock;
 import com.didekindroid.lib_one.security.SecInitializer;
 
-import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static com.didekindroid.lib_one.HttpInitializer.httpInitializer;
 import static com.didekindroid.lib_one.RouterInitializer.routerInitializer;
 import static com.didekindroid.lib_one.security.SecInitializer.secInitializer;
@@ -48,19 +47,9 @@ public final class InitializerTestUtil {
         );
     }
 
-    public static void initSec_Http()
-    {
-        initSec_Http(getTargetContext());
-    }
-
     public static void initSec_Http_Router(Context context)
     {
         initRouter();
         initSec_Http(context);
-    }
-
-    public static void initSec_Http_Router()
-    {
-        initSec_Http_Router(getTargetContext());
     }
 }

@@ -4,7 +4,6 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.didekindroid.lib_one.api.exception.UiException;
 import com.didekindroid.lib_one.security.TokenIdentityCacher;
-import com.didekindroid.lib_one.testutil.InitializerTestUtil;
 import com.didekindroid.lib_one.usuario.UserTestData.CleanUserEnum;
 import com.didekindroid.lib_one.util.IoHelper;
 import com.didekinlib.http.auth.SpringOauthToken;
@@ -18,7 +17,9 @@ import org.junit.runner.RunWith;
 import java.io.File;
 import java.io.IOException;
 
+import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static com.didekindroid.lib_one.security.SecInitializer.secInitializer;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http;
 import static com.didekindroid.lib_one.usuario.UserTestData.CleanUserEnum.CLEAN_NOTHING;
 import static com.didekindroid.lib_one.usuario.UserTestData.CleanUserEnum.CLEAN_RODRIGO;
 import static com.didekindroid.lib_one.usuario.UserTestData.USER_DROID;
@@ -52,9 +53,9 @@ public class UsuarioDaoTest {
     private TokenIdentityCacher tkCacher;
 
     @Before
-    public void setUp() throws Exception
+    public void setUp()
     {
-        InitializerTestUtil.initSec_Http();
+        initSec_Http(getTargetContext());
         tkCacher = (TokenIdentityCacher) secInitializer.get().getTkCacher();
         refreshTkFile = tkCacher.getRefreshTokenFile();
         whatClean = CLEAN_NOTHING;

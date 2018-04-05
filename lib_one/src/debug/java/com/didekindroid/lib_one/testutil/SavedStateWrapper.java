@@ -10,7 +10,7 @@ import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.BEFORE
  * Time: 15:00
  */
 @SuppressWarnings({"unused", "WeakerAccess"})
-public class ViewerSavedStateWrapper {
+public class SavedStateWrapper {
 
     public final String AFTER_SaveState = "afterSaveStateMethod";
     public final AtomicReference<String> flagMethod = new AtomicReference<>(BEFORE_METHOD_EXEC);

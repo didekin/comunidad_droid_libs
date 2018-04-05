@@ -21,6 +21,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import io.reactivex.observers.DisposableCompletableObserver;
 
+import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static com.didekindroid.lib_one.security.SecurityTestUtils.checkInitTokenCache;
 import static com.didekindroid.lib_one.security.SecurityTestUtils.checkNoInitCache;
 import static com.didekindroid.lib_one.security.SecurityTestUtils.updateSecurityData;
@@ -60,7 +61,7 @@ public class CtrlerAuthTokenTest {
         @Override
         protected void beforeActivityLaunched()
         {
-            initSec_Http_Router();
+            initSec_Http_Router(getTargetContext());
             try {
                 assertThat(usuarioMockDao.regComuAndUserAndUserComu(comu_real_rodrigo).execute().body(), is(true));
                 updateSecurityData(comu_real_rodrigo.getUsuario().getUserName(), comu_real_rodrigo.getUsuario().getPassword());

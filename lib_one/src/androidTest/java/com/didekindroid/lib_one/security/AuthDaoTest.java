@@ -3,7 +3,6 @@ package com.didekindroid.lib_one.security;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.didekindroid.lib_one.api.exception.UiException;
-import com.didekindroid.lib_one.testutil.InitializerTestUtil;
 import com.didekinlib.http.HttpHandler;
 import com.didekinlib.http.auth.SpringOauthToken;
 import com.didekinlib.http.exception.ErrorBean;
@@ -17,10 +16,12 @@ import java.io.IOException;
 
 import retrofit2.Response;
 
+import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static com.didekindroid.lib_one.HttpInitializer.httpInitializer;
 import static com.didekindroid.lib_one.security.AuthDao.authDao;
 import static com.didekindroid.lib_one.security.SecInitializer.secInitializer;
 import static com.didekindroid.lib_one.security.SecurityTestUtils.updateSecurityData;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http;
 import static com.didekindroid.lib_one.usuario.UserTestData.cleanOneUser;
 import static com.didekindroid.lib_one.usuario.UserTestData.cleanWithTkhandler;
 import static com.didekindroid.lib_one.usuario.UserTestData.comu_real_rodrigo;
@@ -50,7 +51,7 @@ public class AuthDaoTest {
     @BeforeClass
     public static void slowSeconds()
     {
-        InitializerTestUtil.initSec_Http();
+        initSec_Http(getTargetContext());
         cleanWithTkhandler();
     }
 

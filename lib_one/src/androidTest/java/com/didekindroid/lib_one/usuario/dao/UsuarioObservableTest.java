@@ -2,7 +2,6 @@ package com.didekindroid.lib_one.usuario.dao;
 
 import com.didekindroid.lib_one.api.exception.UiException;
 import com.didekindroid.lib_one.security.TokenIdentityCacher;
-import com.didekindroid.lib_one.testutil.InitializerTestUtil;
 import com.didekindroid.lib_one.usuario.dao.UsuarioDaoTestUtil.SendPswdCallable;
 import com.didekindroid.lib_one.usuario.dao.UsuarioDaoTestUtil.SendPswdCallableError;
 import com.didekinlib.http.auth.SpringOauthToken;
@@ -13,11 +12,13 @@ import org.junit.Test;
 
 import java.io.IOException;
 
+import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static com.didekindroid.lib_one.security.AuthDao.authDao;
 import static com.didekindroid.lib_one.security.SecInitializer.secInitializer;
 import static com.didekindroid.lib_one.security.SecurityTestUtils.checkInitTokenCache;
 import static com.didekindroid.lib_one.security.SecurityTestUtils.checkNoInitCache;
 import static com.didekindroid.lib_one.security.SecurityTestUtils.checkUpdatedCacheAfterPswd;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http;
 import static com.didekindroid.lib_one.usuario.UserTestData.CleanUserEnum.CLEAN_RODRIGO;
 import static com.didekindroid.lib_one.usuario.UserTestData.USER_DROID;
 import static com.didekindroid.lib_one.usuario.UserTestData.cleanOneUser;
@@ -54,7 +55,7 @@ public class UsuarioObservableTest {
     @Before
     public void setUp()
     {
-        InitializerTestUtil.initSec_Http();
+        initSec_Http(getTargetContext());
         cleanWithTkhandler();
         tkCacher = (TokenIdentityCacher) secInitializer.get().getTkCacher();
     }
@@ -98,7 +99,7 @@ public class UsuarioObservableTest {
      * We use a mock callable to avoid changing user password in database: it would make impossible to delete user afterwards.
      */
     @Test
-    public void test_LoginPswdSendSingle_1() throws UiException, IOException, InterruptedException
+    public void test_LoginPswdSendSingle_1() throws UiException, IOException
     {
         regUserComuWithTkCache(comu_real_rodrigo);
         checkInitTokenCache(tkCacher); // Precondition.
@@ -112,7 +113,7 @@ public class UsuarioObservableTest {
      * We use a mock callable to avoid changing user password in database: it would make impossible to delete user afterwards.
      */
     @Test
-    public void test_LoginPswdSendSingle_2() throws UiException, IOException, InterruptedException
+    public void test_LoginPswdSendSingle_2() throws UiException, IOException
     {
         regUserComuWithTkCache(comu_real_rodrigo);
         checkInitTokenCache(tkCacher); // Precondition.

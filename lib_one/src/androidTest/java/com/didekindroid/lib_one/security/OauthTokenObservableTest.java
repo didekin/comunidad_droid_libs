@@ -3,7 +3,6 @@ package com.didekindroid.lib_one.security;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.didekindroid.lib_one.api.exception.UiException;
-import com.didekindroid.lib_one.testutil.InitializerTestUtil;
 import com.didekinlib.http.auth.SpringOauthToken;
 
 import org.junit.After;
@@ -11,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static com.didekindroid.lib_one.security.OauthTokenObservable.oauthTokenAndInitCache;
 import static com.didekindroid.lib_one.security.OauthTokenObservable.oauthTokenFromRefreshTk;
 import static com.didekindroid.lib_one.security.OauthTokenObservable.oauthTokenFromUserPswd;
@@ -19,6 +19,7 @@ import static com.didekindroid.lib_one.security.SecInitializer.secInitializer;
 import static com.didekindroid.lib_one.security.SecurityTestUtils.checkInitTokenCache;
 import static com.didekindroid.lib_one.security.SecurityTestUtils.checkUpdateTokenCache;
 import static com.didekindroid.lib_one.security.SecurityTestUtils.updateSecurityData;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http;
 import static com.didekindroid.lib_one.testutil.RxSchedulersUtils.trampolineReplaceIoScheduler;
 import static com.didekindroid.lib_one.usuario.UserTestData.cleanOneUser;
 import static com.didekindroid.lib_one.usuario.UserTestData.comu_real_rodrigo;
@@ -45,7 +46,7 @@ public class OauthTokenObservableTest {
     @Before
     public void setUp()
     {
-        InitializerTestUtil.initSec_Http();
+        initSec_Http(getTargetContext());
         tkCacher = (TokenIdentityCacher) secInitializer.get().getTkCacher();
     }
 

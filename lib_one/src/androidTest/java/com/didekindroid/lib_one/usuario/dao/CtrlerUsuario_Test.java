@@ -2,8 +2,6 @@ package com.didekindroid.lib_one.usuario.dao;
 
 import android.support.test.runner.AndroidJUnit4;
 
-import com.didekindroid.lib_one.api.exception.UiException;
-import com.didekindroid.lib_one.testutil.InitializerTestUtil;
 import com.didekinlib.http.auth.SpringOauthToken;
 import com.didekinlib.model.usuario.Usuario;
 
@@ -18,10 +16,12 @@ import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.observers.DisposableSingleObserver;
 import timber.log.Timber;
 
+import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static com.didekindroid.lib_one.security.SecurityTestUtils.checkUpdatedCacheAfterPswd;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.AFTER_METHOD_EXEC_A;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.AFTER_METHOD_EXEC_B;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.BEFORE_METHOD_EXEC;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http;
 import static com.didekindroid.lib_one.testutil.RxSchedulersUtils.resetAllSchedulers;
 import static com.didekindroid.lib_one.testutil.RxSchedulersUtils.trampolineReplaceAndroidMain;
 import static com.didekindroid.lib_one.testutil.RxSchedulersUtils.trampolineReplaceIoScheduler;
@@ -50,14 +50,14 @@ public class CtrlerUsuario_Test {
     private CtrlerUsuario controller;
 
     @Before
-    public void setUp() throws Exception
+    public void setUp()
     {
-        InitializerTestUtil.initSec_Http();
+        initSec_Http(getTargetContext());
         controller = new CtrlerUsuario();
     }
 
     @After
-    public void cleanUp() throws UiException
+    public void cleanUp()
     {
         assertThat(controller.clearSubscriptions(), is(0));
         resetAllSchedulers();
@@ -214,7 +214,7 @@ public class CtrlerUsuario_Test {
     }
 
     @Test   // With mock callable to avoid change identity data in cache.
-    public void test_SendNewPassword() throws Exception
+    public void test_SendNewPassword()
     {
         try {
             trampolineReplaceIoScheduler();

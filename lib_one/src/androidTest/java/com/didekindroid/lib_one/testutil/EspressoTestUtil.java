@@ -15,6 +15,7 @@ import static android.support.test.espresso.Espresso.openActionBarOverflowOrOpti
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.RootMatchers.isDialog;
 import static android.support.test.espresso.matcher.ViewMatchers.isClickable;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
@@ -31,7 +32,7 @@ import static org.junit.Assert.fail;
  * Time: 15:22
  */
 
-@SuppressWarnings({"EmptyCatchBlock", "WeakerAccess"})
+@SuppressWarnings({"EmptyCatchBlock", "WeakerAccess", "unused"})
 public class EspressoTestUtil {
 
     public static Callable<Boolean> isResourceIdDisplayed(final Integer... resourceIds)
@@ -58,6 +59,22 @@ public class EspressoTestUtil {
                 return false;
             }
         };
+    }
+
+    // ============================  Dialogs  ============================
+
+    public static void checkTextsInDialog(int... textsDialogs)
+    {
+        for (int textsDialog : textsDialogs) {
+            waitAtMost(6, SECONDS).until(() -> {
+                try {
+                    onView(withText(textsDialog)).inRoot(isDialog()).check(matches(isDisplayed()));
+                    return true;
+                } catch (NoMatchingViewException ne) {
+                    return false;
+                }
+            });
+        }
     }
 
     // ============================  Menu  ============================

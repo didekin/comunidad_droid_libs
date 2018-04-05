@@ -4,7 +4,6 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.didekindroid.lib_one.api.exception.UiException;
 import com.didekindroid.lib_one.security.IdentityCacherIf;
-import com.didekindroid.lib_one.testutil.InitializerTestUtil;
 import com.didekindroid.lib_one.usuario.notification.InstanceIdService.ServiceDisposableSingleObserver;
 
 import org.junit.After;
@@ -18,8 +17,10 @@ import java.util.concurrent.atomic.AtomicReference;
 import io.reactivex.Single;
 import io.reactivex.observers.DisposableSingleObserver;
 
+import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.AFTER_METHOD_EXEC_A;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.BEFORE_METHOD_EXEC;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http;
 import static com.didekindroid.lib_one.testutil.RxSchedulersUtils.resetAllSchedulers;
 import static com.didekindroid.lib_one.testutil.RxSchedulersUtils.trampolineReplaceAndroidMain;
 import static com.didekindroid.lib_one.testutil.RxSchedulersUtils.trampolineReplaceIoScheduler;
@@ -48,7 +49,7 @@ public class CtrlerNotifyTokenTest {
     @Before
     public void setUp() throws IOException, UiException
     {
-        InitializerTestUtil.initSec_Http();
+        initSec_Http(getTargetContext());
         regUserComuWithTkCache(comu_real_rodrigo);
         controller = new CtrlerNotifyToken() {
             @Override
@@ -72,7 +73,7 @@ public class CtrlerNotifyTokenTest {
      * Synchronous execution: no scheduler specified, everything runs in the test runner thread.
      */
     @Test
-    public void testUpdatedGcmTkSingle() throws Exception
+    public void testUpdatedGcmTkSingle()
     {
         controller.updatedGcmTkSingle().test().assertResult(1);
     }
@@ -80,7 +81,7 @@ public class CtrlerNotifyTokenTest {
     //    ................................. INSTANCE METHODS ...............................
 
     @Test
-    public void test_CheckGcmTokenAsync() throws Exception
+    public void test_CheckGcmTokenAsync()
     {
         try {
             trampolineReplaceIoScheduler();
@@ -110,7 +111,7 @@ public class CtrlerNotifyTokenTest {
     }
 
     @Test
-    public void test_CheckGcmTokenSync_1() throws Exception
+    public void test_CheckGcmTokenSync_1()
     {
         // Preconditions.
         assertThat(identityCacher.isRegisteredUser(), is(true));
@@ -138,7 +139,7 @@ public class CtrlerNotifyTokenTest {
     }
 
     @Test
-    public void test_CheckGcmTokenSync_2() throws Exception
+    public void test_CheckGcmTokenSync_2()
     {
         // Preconditions.
         identityCacher.updateIsRegistered(true);

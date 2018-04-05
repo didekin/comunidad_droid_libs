@@ -10,7 +10,6 @@ import com.didekindroid.lib_one.api.ViewerSelectListIf;
 import com.didekindroid.lib_one.util.BundleKey;
 
 import org.hamcrest.CoreMatchers;
-import org.junit.Assert;
 
 import java.io.Serializable;
 import java.util.List;

@@ -15,8 +15,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.io.IOException;
-
 import io.reactivex.Single;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -55,7 +53,7 @@ public class ViewerNotifyTokenTest {
     private IdentityCacherIf identityCacher;
 
     @Before
-    public void setUp() throws IOException, UiException
+    public void setUp()
     {
         activity = (AppCompatActivity) activityRule.getActivity();
         initSec_Http_Router(activity);
@@ -73,7 +71,7 @@ public class ViewerNotifyTokenTest {
     }
 
     @Test
-    public void test_NewViewerFirebaseToken() throws Exception
+    public void test_NewViewerFirebaseToken()
     {
         assertThat(CtrlerNotifyToken.class.isInstance(viewer.getController()), is(true));
     }
@@ -96,7 +94,7 @@ public class ViewerNotifyTokenTest {
     }
 
     @Test
-    public void test_RegGcmTokenObserver_Success() throws Exception
+    public void test_RegGcmTokenObserver_Success()
     {
         // Preconditions.
         viewer.getController().updateIsRegistered(true);
@@ -107,7 +105,7 @@ public class ViewerNotifyTokenTest {
     }
 
     @Test
-    public void test_RegGcmTokenObserver_Error() throws Exception
+    public void test_RegGcmTokenObserver_Error()
     {
         // Preconditions.
         viewer.getController().updateIsRegistered(true);

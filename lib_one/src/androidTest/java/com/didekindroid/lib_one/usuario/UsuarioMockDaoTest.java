@@ -1,10 +1,14 @@
 package com.didekindroid.lib_one.usuario;
 
+import android.support.test.runner.AndroidJUnit4;
+
 import com.didekindroid.lib_one.testutil.InitializerTestUtil;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
+import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static com.didekindroid.lib_one.usuario.UserTestData.cleanOneUser;
 import static com.didekindroid.lib_one.usuario.UserTestData.user_crodrigo;
 import static com.didekindroid.lib_one.usuario.UsuarioMockDao.usuarioMockDao;
@@ -16,12 +20,13 @@ import static org.junit.Assert.assertThat;
  * Date: 10/11/2017
  * Time: 17:34
  */
+@RunWith(AndroidJUnit4.class)
 public class UsuarioMockDaoTest {
 
     @Before
     public void setUp()
     {
-        InitializerTestUtil.initSec_Http();
+        InitializerTestUtil.initSec_Http(getTargetContext());
     }
 
     @Test

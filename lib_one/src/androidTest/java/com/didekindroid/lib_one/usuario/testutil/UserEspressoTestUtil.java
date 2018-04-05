@@ -1,8 +1,5 @@
 package com.didekindroid.lib_one.usuario.testutil;
 
-import android.support.test.espresso.NoMatchingViewException;
-
-
 import com.didekindroid.lib_one.R;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -10,13 +7,7 @@ import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard
 import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.RootMatchers.isDialog;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.awaitility.Awaitility.waitAtMost;
 
 /**
  * User: pedro@didekin
@@ -68,20 +59,6 @@ public final class UserEspressoTestUtil {
         onView(withId(R.id.reg_usuario_email_editT)).perform(replaceText(userName));
         if (password != null) {
             onView(withId(R.id.reg_usuario_password_ediT)).perform(typeText(password));
-        }
-    }
-
-    public static void checkTextsInDialog(int... textsDialogs)
-    {
-        for (int textsDialog : textsDialogs) {
-            waitAtMost(6, SECONDS).until(() -> {
-                try {
-                    onView(withText(textsDialog)).inRoot(isDialog()).check(matches(isDisplayed()));
-                    return true;
-                } catch (NoMatchingViewException ne) {
-                    return false;
-                }
-            });
         }
     }
 }
