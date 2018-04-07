@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.didekindroid.lib_one.R;
 import com.didekindroid.lib_one.api.ActivityNextMock;
+import com.didekindroid.lib_one.api.exception.UiException;
 import com.didekindroid.lib_one.api.router.ContextualRouterIf;
 import com.didekindroid.lib_one.api.router.RouterActionIf;
 import com.didekindroid.lib_one.api.router.RouterInitializerMock;
@@ -77,7 +78,7 @@ public class DeleteMeAcTest {
     //    =====================================  TESTS  ==========================================
 
     @Test
-    public void testOnCreate() throws Exception
+    public void testOnCreate() throws UiException
     {
         assertThat(controller.getTkCacher().isRegisteredUser(), is(true));
         assertThat(activity, notNullValue());
@@ -93,7 +94,7 @@ public class DeleteMeAcTest {
     }
 
     @Test
-    public final void testOnStop() throws Exception
+    public final void testOnStop() throws UiException
     {
         activity.runOnUiThread(() -> getInstrumentation().callActivityOnStop(activity));
         // Check.
@@ -102,7 +103,7 @@ public class DeleteMeAcTest {
     }
 
     @Test
-    public final void testOnStart() throws Exception
+    public final void testOnStart() throws UiException
     {
         activity.runOnUiThread(() -> {
             getInstrumentation().callActivityOnStart(activity);

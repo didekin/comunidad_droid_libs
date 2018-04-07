@@ -30,20 +30,20 @@ public class CtrlerMunicipioSpinnerTest {
     private CtrlerMunicipioSpinner controller;
 
     @Before
-    public void setUp() throws Exception
+    public void setUp()
     {
         controller = new CtrlerMunicipioSpinner(new TokenIdentityCacher(activityRule.getActivity()));
     }
 
     @After
-    public void tearDown() throws Exception
+    public void tearDown()
     {
         controller.clearSubscriptions();
         resetAllSchedulers();
     }
 
     @Test
-    public void test_MunicipiosByProvincia() throws Exception
+    public void test_MunicipiosByProvincia()
     {
         controller.municipiosByProvincia((short) 11).test().assertOf(listTestObserver -> {
             assertThat(listTestObserver.values().size(), is(1)); // Single.
@@ -53,7 +53,7 @@ public class CtrlerMunicipioSpinnerTest {
     }
 
     @Test
-    public void test_LoadItemsByEntitiyId() throws Exception
+    public void test_LoadItemsByEntitiyId()
     {
         checkSpinnerCtrlerLoadItems(controller, 11L);
     }

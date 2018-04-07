@@ -2,6 +2,7 @@ package com.didekindroid.lib_one.usuario.dao;
 
 import android.support.test.runner.AndroidJUnit4;
 
+import com.didekindroid.lib_one.api.exception.UiException;
 import com.didekinlib.http.auth.SpringOauthToken;
 import com.didekinlib.model.usuario.Usuario;
 
@@ -10,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.io.IOException;
 import java.util.concurrent.atomic.AtomicReference;
 
 import io.reactivex.observers.DisposableCompletableObserver;
@@ -66,7 +68,7 @@ public class CtrlerUsuario_Test {
     //    .................................... INSTANCE METHODS .................................
 
     @Test
-    public void testChangePassword() throws Exception
+    public void testChangePassword() throws IOException, UiException
     {
         // Precondition.
         regUserComuWithTkCache(comu_real_rodrigo);
@@ -104,7 +106,7 @@ public class CtrlerUsuario_Test {
     }
 
     @Test
-    public void testDeleteMe() throws Exception
+    public void testDeleteMe() throws IOException, UiException
     {
         regUserComuWithTkCache(comu_real_rodrigo);
 
@@ -132,7 +134,7 @@ public class CtrlerUsuario_Test {
     }
 
     @Test
-    public void testLoadUserData() throws Exception
+    public void testLoadUserData() throws IOException, UiException
     {
         regUserComuWithTkCache(comu_real_rodrigo);
         try {
@@ -157,7 +159,7 @@ public class CtrlerUsuario_Test {
     }
 
     @Test
-    public void testModifyUserName() throws Exception
+    public void testModifyUserName() throws IOException, UiException
     {
         Usuario oldUser = new Usuario.UsuarioBuilder().copyUsuario(regGetUserComu(comu_real_rodrigo)).password(user_crodrigo.getPassword()).build();
 
@@ -188,7 +190,7 @@ public class CtrlerUsuario_Test {
     }
 
     @Test
-    public void testModifyUserAlias() throws Exception
+    public void testModifyUserAlias() throws IOException, UiException
     {
         Usuario oldUser = new Usuario.UsuarioBuilder().copyUsuario(regGetUserComu(comu_real_rodrigo)).password(user_crodrigo.getPassword()).build();
 
@@ -230,7 +232,7 @@ public class CtrlerUsuario_Test {
     }
 
     @Test
-    public void testValidateLogin() throws Exception
+    public void testValidateLogin() throws IOException, UiException
     {
         regUserComuWithTkCache(comu_real_rodrigo);
 

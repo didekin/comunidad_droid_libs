@@ -77,7 +77,7 @@ public class AuthDaoTest {
     }
 
     @Test
-    public void testGetPasswordUserToken_1() throws Exception
+    public void testGetPasswordUserToken_1() throws IOException, UiException
     {
         //Inserta userComu, comunidad, usuariocomunidad y actuliza tokenCache.
         boolean isRegistered = usuarioMockDao.regComuAndUserAndUserComu(comu_real_rodrigo).execute().body();
@@ -92,7 +92,7 @@ public class AuthDaoTest {
     }
 
     @Test
-    public void testGetPasswordUserToken_2() throws Exception
+    public void testGetPasswordUserToken_2() throws UiException, IOException
     {
         //Inserta userComu, comunidad y usuariocomunidad.
         assertThat(usuarioMockDao.regComuAndUserAndUserComu(comu_real_rodrigo).execute().body(), is(true));
@@ -109,7 +109,7 @@ public class AuthDaoTest {
 
     @SuppressWarnings("ConstantConditions")
     @Test
-    public void testGetRefreshUserToken_1() throws Exception
+    public void testGetRefreshUserToken_1() throws UiException, IOException
     {
         //Inserta userComu, comunidad, usuariocomunidad y actuliza tokenCache.
         assertThat(usuarioMockDao.regComuAndUserAndUserComu(comu_real_rodrigo).execute().body(), is(true));
@@ -128,7 +128,7 @@ public class AuthDaoTest {
     }
 
     @Test
-    public void testGetRefreshUserToken_2() throws Exception
+    public void testGetRefreshUserToken_2() throws IOException, UiException
     {
         usuarioMockDao.regComuAndUserAndUserComu(comu_real_rodrigo).execute().body();
 

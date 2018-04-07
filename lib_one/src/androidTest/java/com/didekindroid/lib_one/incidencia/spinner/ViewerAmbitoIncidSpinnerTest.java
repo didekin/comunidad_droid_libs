@@ -78,7 +78,7 @@ public class ViewerAmbitoIncidSpinnerTest {
     // ==================================== TESTS ====================================
 
     @Test
-    public void testNewViewerAmbitoIncidSpinner() throws Exception
+    public void testNewViewerAmbitoIncidSpinner()
     {
         assertThat(newViewerAmbitoIncidSpinner(spinner, new ViewerMock(activity)).getController(), notNullValue());
     }
@@ -104,7 +104,7 @@ public class ViewerAmbitoIncidSpinnerTest {
     }
 
     @Test
-    public void testInitSelectedItemId() throws Exception
+    public void testInitSelectedItemId()
     {
 
         viewer.incidenciaBean = new IncidenciaBean();
@@ -125,13 +125,13 @@ public class ViewerAmbitoIncidSpinnerTest {
     }
 
     @Test
-    public void testSaveState() throws Exception
+    public void testSaveState()
     {
         checkSavedStateWithItemSelected(viewer, AMBITO_INCIDENCIA_POSITION);
     }
 
     @Test
-    public void testDoViewInViewer_1() throws Exception
+    public void testDoViewInViewer_1()
     {
         final String keyBundle = AMBITO_INCIDENCIA_POSITION.key;
         IncidenciaBean incidenciaBean = new IncidenciaBean();
@@ -161,7 +161,7 @@ public class ViewerAmbitoIncidSpinnerTest {
     }
 
     @Test
-    public void testDoViewInViewer_2() throws Exception
+    public void testDoViewInViewer_2()
     {
         IncidenciaBean incidenciaBean = new IncidenciaBean();
         incidenciaBean.setCodAmbitoIncid((short) 13);

@@ -5,7 +5,6 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.didekindroid.lib_one.api.ActivityMock;
-import com.didekindroid.lib_one.api.exception.UiException;
 import com.didekinlib.http.auth.SpringOauthToken;
 
 import org.junit.Before;
@@ -46,7 +45,7 @@ public class TokenIdentityCacherTest_1 {
     // ===================================== TESTS ==========================================
 
     @Test
-    public void testInitTokenAndBackFile() throws Exception
+    public void testInitTokenAndBackFile()
     {
         // Precondition: no file with refreshToken. We receive a fully initialized token instance.
         assertThat(tkCacher.getRefreshTokenFile(), notNullValue());
@@ -62,7 +61,7 @@ public class TokenIdentityCacherTest_1 {
     }
 
     @Test
-    public void testCleanCacheAndBckFile() throws UiException
+    public void testCleanCacheAndBckFile()
     {
         // Preconditions: there exist token data and file.
         SpringOauthToken springOauthToken = doSpringOauthToken();
@@ -87,7 +86,7 @@ public class TokenIdentityCacherTest_1 {
     }
 
     @Test
-    public void testUpdateIsRegistered_1() throws Exception
+    public void testUpdateIsRegistered_1()
     {
         tkCacher.updateIsRegistered(false);
         assertThat(tkCacher.isRegisteredUser(), is(false));
@@ -96,7 +95,7 @@ public class TokenIdentityCacherTest_1 {
     }
 
     @Test
-    public void testUpdateIsRegistered_2() throws Exception
+    public void testUpdateIsRegistered_2()
     {
         // Precondition: registered flag and  GCM token sent to server flags BOTH true.
         tkCacher.updateIsRegistered(true);
@@ -110,7 +109,7 @@ public class TokenIdentityCacherTest_1 {
     }
 
     @Test
-    public void test_IsGcmTokenSentServer() throws Exception
+    public void test_IsGcmTokenSentServer()
     {
         // Precondition: the user is registered.
         tkCacher.updateIsRegistered(true);
@@ -127,7 +126,7 @@ public class TokenIdentityCacherTest_1 {
     // ===================================== ACTIONS TESTS =========================================
 
     @Test
-    public void testInitTokenAction() throws Exception
+    public void testInitTokenAction()
     {
         SpringOauthToken token = doSpringOauthToken();
         tkCacher.initIdentityCache(token);
@@ -135,7 +134,7 @@ public class TokenIdentityCacherTest_1 {
     }
 
     @Test
-    public void testCleanTokenCacheAction() throws Exception
+    public void testCleanTokenCacheAction()
     {
         // No user registered. We test for the non-nullity of refreshTokenFile.
         tkCacher.cleanIdentityCache();

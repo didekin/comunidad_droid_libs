@@ -91,14 +91,14 @@ public class ViewerComuAutonomaSpinnerTest {
     }
 
     @Test
-    public void test_NewViewerComuAutonomaSpinner() throws Exception
+    public void test_NewViewerComuAutonomaSpinner()
     {
         assertThat(newViewerTipoViaSpinner(spinner, activity, null).getController(), notNullValue());
         assertThat(viewer.eventListener, isA(SpinnerEventListener.class));
     }
 
     @Test
-    public void test_InitSelectedItemId() throws Exception
+    public void test_InitSelectedItemId()
     {
         Bundle bundle = new Bundle();
 
@@ -119,7 +119,7 @@ public class ViewerComuAutonomaSpinnerTest {
     }
 
     @Test
-    public void test_DoViewInViewer() throws Exception
+    public void test_DoViewInViewer()
     {
         // State
         final String keyBundle = COMUNIDAD_AUTONOMA_ID.key;
@@ -171,7 +171,7 @@ public class ViewerComuAutonomaSpinnerTest {
     }
 
     @Test
-    public void test_SaveState() throws Exception
+    public void test_SaveState()
     {
         checkSavedStateWithItemSelected(viewer, COMUNIDAD_AUTONOMA_ID);
     }

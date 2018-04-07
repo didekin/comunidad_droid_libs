@@ -20,7 +20,7 @@ public class FragmentInitiator<T extends Fragment> implements FragmentInitiatorI
         containerId = 0;
     }
 
-    FragmentInitiator(AppCompatActivity activity, int containerId)
+    public FragmentInitiator(AppCompatActivity activity, int containerId)
     {
         this.activity = activity;
         this.containerId = containerId;

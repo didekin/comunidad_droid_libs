@@ -73,14 +73,14 @@ public class ObserverSingleSelectItemTest {
     }
 
     @Test
-    public void test_OnSuccess() throws Exception
+    public void test_OnSuccess()
     {
         just(new Bundle(0)).subscribeWith(observer);
         assertThat(flagMethodExec.getAndSet(BEFORE_METHOD_EXEC), is(AFTER_METHOD_EXEC_A));
     }
 
     @Test
-    public void test_OnError() throws Exception
+    public void test_OnError()
     {
         Single.<Bundle>error(new UiException(new ErrorBean(BAD_REQUEST))).subscribeWith(observer);
         assertThat(flagMethodExec.getAndSet(BEFORE_METHOD_EXEC), is(AFTER_METHOD_WITH_EXCEPTION_EXEC));

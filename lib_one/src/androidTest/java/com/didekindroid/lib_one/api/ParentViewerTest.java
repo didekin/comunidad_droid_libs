@@ -46,7 +46,7 @@ public class ParentViewerTest {
     }
 
     @Test
-    public void test_SetChildViewer() throws Exception
+    public void test_SetChildViewer()
     {
         final ViewerMock childViewer = new ViewerMock(activity);
         parentViewer.setChildViewer(childViewer);
@@ -54,7 +54,7 @@ public class ParentViewerTest {
     }
 
     @Test
-    public void test_GetChildViewersFromSuperClass() throws Exception
+    public void test_GetChildViewersFromSuperClass()
     {
         final ViewerMock childViewer = new ViewerMock(activity);
         parentViewer.setChildViewer(childViewer);

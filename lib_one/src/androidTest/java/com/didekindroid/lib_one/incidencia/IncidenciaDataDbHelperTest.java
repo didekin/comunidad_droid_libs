@@ -37,7 +37,7 @@ public class IncidenciaDataDbHelperTest {
     private SQLiteDatabase database;
 
     @Before
-    public void getFixture() throws Exception
+    public void getFixture()
     {
         context = getTargetContext();
         dbHelper = new IncidenciaDataDbHelper(context);
@@ -53,14 +53,14 @@ public class IncidenciaDataDbHelperTest {
     }
 
     @Test
-    public void testDropTipoIncidencia() throws Exception
+    public void testDropTipoIncidencia()
     {
         dbHelper.dropAmbitoIncidencia();
         assertThat(dbHelper.mAmbitoIncidenciaCounter, is(0));
     }
 
     @Test
-    public void testDropAllTables() throws Exception
+    public void testDropAllTables()
     {
         dbHelper.dropAllTables();
         assertThat(dbHelper.mAmbitoIncidenciaCounter, is(0));
@@ -83,7 +83,7 @@ public class IncidenciaDataDbHelperTest {
     }
 
     @Test
-    public void testGetAmbitoIncidList() throws Exception
+    public void testGetAmbitoIncidList()
     {
         final Cursor cursor = dbHelper.doAmbitoIncidenciaCursor();
         List<AmbitoIncidValueObj> list = dbHelper.getAmbitoIncidList(cursor);

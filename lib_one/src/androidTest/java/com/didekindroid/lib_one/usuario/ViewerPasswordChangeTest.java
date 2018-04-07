@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.test.rule.ActivityTestRule;
 
-import com.didekindroid.R;
+import com.didekindroid.lib_one.R;
 import com.didekindroid.lib_one.api.exception.UiException;
 import com.didekindroid.lib_one.usuario.dao.CtrlerUsuario;
 import com.didekinlib.http.exception.ErrorBean;
@@ -21,25 +21,23 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static com.didekindroid.lib_one.testutil.EspressoTestUtil.isResourceIdDisplayed;
+import static com.didekindroid.lib_one.testutil.EspressoTestUtil.isToastInView;
 import static com.didekindroid.lib_one.usuario.UserTestData.USER_DROID;
-import static com.didekindroid.lib_one.usuario.UserTestData.USER_PEPE;
 import static com.didekindroid.lib_one.usuario.UserTestData.cleanOneUser;
+import static com.didekindroid.lib_one.usuario.UserTestData.comu_real_rodrigo;
+import static com.didekindroid.lib_one.usuario.UserTestData.regGetUserComu;
+import static com.didekindroid.lib_one.usuario.UserTestData.user_crodrigo;
+import static com.didekindroid.lib_one.usuario.UserTestNavigation.loginAcResourceId;
+import static com.didekindroid.lib_one.usuario.UserTestNavigation.pswdChangeAcRsId;
+import static com.didekindroid.lib_one.usuario.UserTestNavigation.userDataAcRsId;
 import static com.didekindroid.lib_one.usuario.UsuarioBundleKey.user_name;
+import static com.didekindroid.lib_one.usuario.ViewerPasswordChange.newViewerPswdChange;
 import static com.didekindroid.lib_one.usuario.testutil.UserEspressoTestUtil.typePswdConfirmPswd;
 import static com.didekindroid.lib_one.usuario.testutil.UserEspressoTestUtil.typePswdWithPswdValidation;
-import static com.didekindroid.testutil.ActivityTestUtil.isResourceIdDisplayed;
-import static com.didekindroid.testutil.ActivityTestUtil.isToastInView;
-import static com.didekindroid.usuario.UserTestNavigation.loginAcResourceId;
-import static com.didekindroid.usuario.UserTestNavigation.pswdChangeAcRsId;
-import static com.didekindroid.usuario.UserTestNavigation.userDataAcRsId;
-import static com.didekindroid.usuario.ViewerPasswordChange.newViewerPswdChange;
-import static com.didekindroid.usuariocomunidad.testutil.UserComuNavigationTestConstant.seeUserComuByUserFrRsId;
-import static com.didekindroid.usuariocomunidad.testutil.UserComuTestData.COMU_TRAV_PLAZUELA_PEPE;
-import static com.didekindroid.usuariocomunidad.testutil.UserComuTestData.signUpAndUpdateTk;
 import static com.didekinlib.http.usuario.UsuarioExceptionMsg.BAD_REQUEST;
 import static com.didekinlib.http.usuario.UsuarioExceptionMsg.PASSWORD_NOT_SENT;
 import static com.didekinlib.http.usuario.UsuarioExceptionMsg.USER_NAME_NOT_FOUND;
-import static io.reactivex.Completable.complete;
 import static io.reactivex.Single.just;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.waitAtMost;
@@ -65,7 +63,7 @@ public class ViewerPasswordChangeTest {
         {
             usuario = null;
             try {
-                usuario = signUpAndUpdateTk(COMU_TRAV_PLAZUELA_PEPE);
+                usuario = regGetUserComu(comu_real_rodrigo);
             } catch (Exception e) {
                 fail();
             }
@@ -83,13 +81,13 @@ public class ViewerPasswordChangeTest {
     @After
     public void clearUp() throws UiException
     {
-        cleanOneUser(USER_PEPE);
+        cleanOneUser(user_crodrigo);
     }
 
     //    ============================  TESTS  ===================================
 
     @Test
-    public void testNewViewerPswdChange_1() throws Exception
+    public void testNewViewerPswdChange_1()
     {
         assertThat(activity.viewer.getController(), instanceOf(CtrlerUsuario.class));
         assertThat(activity.viewer.userName.get(), is(activity.getIntent().getStringExtra(user_name.key)));
@@ -97,7 +95,7 @@ public class ViewerPasswordChangeTest {
     }
 
     @Test
-    public void testNewViewerPswdChange_2() throws Exception
+    public void testNewViewerPswdChange_2()
     {
         // Preconditions.
         activity.setIntent(new Intent());
@@ -108,7 +106,7 @@ public class ViewerPasswordChangeTest {
     }
 
     @Test
-    public void testProcessBackUserDataLoaded() throws Exception
+    public void testProcessBackUserDataLoaded()
     {
         // Precondition.
         assertThat(activity.viewer.userName.getAndSet(null), is(usuario.getUserName()));
@@ -121,7 +119,7 @@ public class ViewerPasswordChangeTest {
     }
 
     @Test
-    public void testCheckLoginData_1() throws Exception
+    public void testCheckLoginData_1()
     {
         // Caso WRONG: We test the change to false.
         typePswdConfirmPswd("password1", "password2");
@@ -132,7 +130,7 @@ public class ViewerPasswordChangeTest {
     }
 
     @Test
-    public void testCheckLoginData_2() throws Exception
+    public void testCheckLoginData_2()
     {
         // Caso WRONG: wrong format for current password.
         typePswdWithPswdValidation("password1", "password1", "wrong+password");
@@ -142,18 +140,18 @@ public class ViewerPasswordChangeTest {
     }
 
     @Test
-    public void testCheckLoginData_3() throws UiException
+    public void testCheckLoginData_3()
     {
         // Caso OK: We test the change to true.
         final AtomicBoolean isPswdDataOk = new AtomicBoolean(false);
-        typePswdWithPswdValidation("password1", "password1", USER_PEPE.getPassword());
+        typePswdWithPswdValidation("password1", "password1", user_crodrigo.getPassword());
 
         activity.runOnUiThread(() -> assertThat(isPswdDataOk.getAndSet(activity.viewer.checkLoginData()), is(false)));
         waitAtMost(2, SECONDS).untilTrue(isPswdDataOk);
     }
 
     @Test
-    public void testGetPswdDataFromView() throws Exception
+    public void testGetPswdDataFromView()
     {
         typePswdWithPswdValidation("new_password", "confirmation", "currentPassword");
         assertThat(activity.viewer.getPswdDataFromView()[0], is("new_password"));
@@ -162,7 +160,7 @@ public class ViewerPasswordChangeTest {
     }
 
     @Test
-    public void testOnErrorInObserver_1() throws Exception
+    public void testOnErrorInObserver_1()
     {
         activity.runOnUiThread(() -> activity.viewer.onErrorInObserver(new UiException(new ErrorBean(USER_NAME_NOT_FOUND))));
         waitAtMost(3, SECONDS).until(isToastInView(R.string.user_email_wrong, activity));
@@ -170,7 +168,7 @@ public class ViewerPasswordChangeTest {
     }
 
     @Test
-    public void testOnErrorInObserver_2() throws Exception
+    public void testOnErrorInObserver_2()
     {
         activity.runOnUiThread(() -> activity.viewer.onErrorInObserver(new UiException(new ErrorBean(PASSWORD_NOT_SENT))));
         waitAtMost(3, SECONDS).until(isToastInView(R.string.user_email_wrong, activity));
@@ -178,7 +176,7 @@ public class ViewerPasswordChangeTest {
     }
 
     @Test
-    public void testOnErrorInObserver_3() throws Exception
+    public void testOnErrorInObserver_3()
     {
         activity.runOnUiThread(() -> activity.viewer.onErrorInObserver(new UiException(new ErrorBean(BAD_REQUEST))));
         waitAtMost(4, SECONDS).until(isToastInView(R.string.password_wrong, activity));
@@ -186,14 +184,6 @@ public class ViewerPasswordChangeTest {
     }
 
     //    ============================  TESTS OBSERVERS  ===================================
-
-    @Test
-    public void test_PswdChangeCompletableObserver_Complete()
-    {
-        activity.runOnUiThread(() -> complete().subscribeWith(activity.viewer.new PswdChangeCompletableObserver()));
-        waitAtMost(2, SECONDS).until(isToastInView(R.string.password_remote_change, activity));
-        waitAtMost(2, SECONDS).until(isResourceIdDisplayed(seeUserComuByUserFrRsId));
-    }
 
     @Test
     public void test_PswdSendSingleObserver_Succcess()

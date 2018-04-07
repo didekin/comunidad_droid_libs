@@ -48,7 +48,7 @@ public class FragmentInitiatorTest {
     }
 
     @Test
-    public void test_InitReplaceFragment() throws Exception
+    public void test_InitReplaceFragment()
     {
         // Preconditions.
         Bundle bundle = new Bundle(3);
@@ -66,7 +66,7 @@ public class FragmentInitiatorTest {
     }
 
     @Test
-    public void test_InitFragment() throws Exception
+    public void test_InitFragment()
     {
         // Preconditions.
         Fragment mockFr = new ListMockFr();
@@ -81,7 +81,7 @@ public class FragmentInitiatorTest {
     }
 
     @Test
-    public void test_InitFragmentById() throws Exception
+    public void test_InitFragmentById()
     {
         // Preconditions.
         Bundle bundle = new Bundle(3);

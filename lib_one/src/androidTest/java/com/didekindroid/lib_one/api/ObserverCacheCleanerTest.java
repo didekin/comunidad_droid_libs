@@ -60,13 +60,13 @@ public class ObserverCacheCleanerTest {
     }
 
     @Test
-    public void test_OnComplete() throws Exception
+    public void test_OnComplete()
     {
         assertThat(fromSingle(just("hola")).subscribeWith(new ObserverCacheCleaner(viewer)).isDisposed(), is(true));
     }
 
     @Test
-    public void test_OnError() throws Exception
+    public void test_OnError()
     {
         // Preconditions.
         viewer.getController().getTkCacher().initIdentityCache(doSpringOauthToken());

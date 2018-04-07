@@ -31,20 +31,20 @@ public class CtrlerProvinciaSpinnerTest {
     private CtrlerProvinciaSpinner controller;
 
     @Before
-    public void setUp() throws Exception
+    public void setUp()
     {
         controller = new CtrlerProvinciaSpinner(new TokenIdentityCacher(activityRule.getActivity()));
     }
 
     @After
-    public void tearDown() throws Exception
+    public void tearDown()
     {
         controller.clearSubscriptions();
         resetAllSchedulers();
     }
 
     @Test
-    public void test_ProvinciasByComAutonoma() throws Exception
+    public void test_ProvinciasByComAutonoma()
     {
         controller.provinciasByComAutonoma((short) 11).test()
                 .assertOf(listTestObserver -> {
@@ -55,7 +55,7 @@ public class CtrlerProvinciaSpinnerTest {
     }
 
     @Test
-    public void test_LoadItemsByEntitiyId() throws Exception
+    public void test_LoadItemsByEntitiyId()
     {
         checkSpinnerCtrlerLoadItems(controller, 11L);
     }

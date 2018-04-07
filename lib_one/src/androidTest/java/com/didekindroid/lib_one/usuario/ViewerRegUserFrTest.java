@@ -3,21 +3,15 @@ package com.didekindroid.lib_one.usuario;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.didekindroid.R;
-import com.didekindroid.lib_one.api.InjectorOfParentViewerIf;
-import com.didekindroid.lib_one.api.ParentViewerIf;
-import com.didekindroid.lib_one.usuario.RegUserFr;
-import com.didekindroid.lib_one.usuario.ViewerRegUserFr;
-import com.didekindroid.usuariocomunidad.register.RegComuAndUserAndUserComuAc;
-import com.didekindroid.usuariocomunidad.register.ViewerRegComuUserUserComuAc;
+import com.didekindroid.lib_one.R;
+import com.didekindroid.lib_one.api.ActivityMock;
+import com.didekindroid.lib_one.api.router.FragmentInitiator;
 import com.didekinlib.model.usuario.Usuario;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import java.util.concurrent.atomic.AtomicReference;
 
 import static com.didekindroid.lib_one.usuario.testutil.UserEspressoTestUtil.typeUserNameAlias;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -37,45 +31,34 @@ import static org.junit.Assert.assertThat;
 public class ViewerRegUserFrTest {
 
     @Rule
-    public ActivityTestRule<RegComuAndUserAndUserComuAc> activityRule = new ActivityTestRule<>(RegComuAndUserAndUserComuAc.class, true, true);
-    RegUserFr fragment;
-    RegComuAndUserAndUserComuAc activity;
+    public ActivityTestRule<ActivityMock> activityRule = new ActivityTestRule<>(ActivityMock.class, false, true);
+    private RegUserFr fragment;
+    private ActivityMock activity;
 
     @Before
     public void setUp()
     {
         activity = activityRule.getActivity();
-        fragment = (RegUserFr) activity.getSupportFragmentManager().findFragmentById(R.id.reg_user_frg);
-
-        AtomicReference<ViewerRegUserFr> viewerAtomic = new AtomicReference<>(null);
-        viewerAtomic.compareAndSet(null, fragment.getViewer());
-        waitAtMost(4, SECONDS).untilAtomic(viewerAtomic, notNullValue());
+        fragment = new RegUserFr();
+        new FragmentInitiator<RegUserFr>(activity, R.id.mock_ac_layout).initFragmentTx(fragment);
+        waitAtMost(4, SECONDS).until(() -> activity.getSupportFragmentManager().findFragmentByTag(fragment.getClass().getName()) != null);
+        waitAtMost(4, SECONDS).until(() -> fragment.viewer != null);
     }
 
     @Test
-    public void test_OnActivityCreated() throws Exception
-    {
-        assertThat(fragment.getViewer().getController(), nullValue());
-        assertThat(ViewerRegComuUserUserComuAc.class.isInstance(fragment.getViewer().getParentViewer()), is(true));
-        assertThat(InjectorOfParentViewerIf.class.isInstance(activity), is(true));
-        ParentViewerIf parentViewer = (ParentViewerIf) fragment.getViewer().getParentViewer();
-        assertThat(parentViewer.getChildViewer(ViewerRegUserFr.class), is(fragment.getViewer()));
-    }
-
-    @Test
-    public void test_GetUserFromViewerOk() throws Exception
+    public void test_GetUserFromViewerOk()
     {
         typeUserNameAlias("yo@email.com", "alias1");
-        assertThat(fragment.getViewer().getUserFromViewer(new StringBuilder()), allOf(
+        assertThat(fragment.viewer.getUserFromViewer(new StringBuilder()), allOf(
                 notNullValue(),
                 is(new Usuario.UsuarioBuilder().userName("yo@email.com").alias("alias1").password("password1").build())
         ));
     }
 
     @Test
-    public void test_GetUserFromViewerWrong() throws Exception
+    public void test_GetUserFromViewerWrong()
     {
         typeUserNameAlias("yo_email.com", "alias1");
-        assertThat(fragment.getViewer().getUserFromViewer(new StringBuilder()), nullValue());
+        assertThat(fragment.viewer.getUserFromViewer(new StringBuilder()), nullValue());
     }
 }

@@ -15,6 +15,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.io.IOException;
+
 import io.reactivex.Single;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -77,7 +79,7 @@ public class ViewerNotifyTokenTest {
     }
 
     @Test
-    public void test_CheckGcmTokenAsync() throws Exception
+    public void test_CheckGcmTokenAsync() throws IOException, UiException
     {
         regUserComuWithTkCache(comu_real_rodrigo);
         // Precondition

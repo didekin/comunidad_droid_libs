@@ -92,7 +92,7 @@ public class CtrlerAuthTokenTest {
     }
 
     @After
-    public void tearDown() throws Exception
+    public void tearDown() throws UiException
     {
         viewer.getController().clearSubscriptions();
         resetAllSchedulers();

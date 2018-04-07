@@ -80,7 +80,7 @@ public class UsuarioDaoTest {
     }
 
     @Test
-    public void testDeleteUser() throws Exception
+    public void testDeleteUser() throws IOException, UiException
     {
         //Inserta userComu, comunidad, usuariocomunidad y actuliza tokenCache.
         regUserComuWithTkCache(comu_real_rodrigo);
@@ -99,7 +99,7 @@ public class UsuarioDaoTest {
     }
 
     @Test
-    public void testGetUserData() throws Exception
+    public void testGetUserData() throws IOException, UiException
     {
         //Inserta userComu, comunidad, usuariocomunidad y actuliza tokenCache.
         regUserComuWithTkCache(comu_real_rodrigo);

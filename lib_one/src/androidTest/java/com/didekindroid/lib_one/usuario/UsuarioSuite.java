@@ -24,8 +24,14 @@ import org.junit.runners.Suite;
         CtrlerNotifyTokenTest.class,
         ViewerNotifyTokenTest.class,
         // usuario.
+        DeleteMeAcTest.class,
         UsuarioMockDaoTest.class,
         UsuarioBeanTests.class,
+        ViewerLoginTest.class,
+        ViewerPasswordChangeTest.class,
+        ViewerRegUserFrTest.class,
+        ViewerUserDataTest.class,
+        ViewerUserDrawerTest.class,
 })
 public class UsuarioSuite {
 }

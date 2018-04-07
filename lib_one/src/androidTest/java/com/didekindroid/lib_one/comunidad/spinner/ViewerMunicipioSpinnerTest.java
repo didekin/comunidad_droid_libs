@@ -78,13 +78,13 @@ public class ViewerMunicipioSpinnerTest {
     }
 
     @Test
-    public void test_NewViewerMunicipioSpinner() throws Exception
+    public void test_NewViewerMunicipioSpinner()
     {
         assertThat(newViewerMunicipioSpinner(spinner, activity, null).getController(), notNullValue());
     }
 
     @Test
-    public void test_InitSelectedItemId() throws Exception
+    public void test_InitSelectedItemId()
     {
         Bundle bundle = new Bundle();
 
@@ -106,7 +106,7 @@ public class ViewerMunicipioSpinnerTest {
     }
 
     @Test
-    public void test_GetSelectedPositionFromItemId() throws Exception
+    public void test_GetSelectedPositionFromItemId()
     {
         final List<Municipio> municipios = asList(
                 new Municipio((short) 11, new Provincia((short) 3)),
@@ -123,7 +123,7 @@ public class ViewerMunicipioSpinnerTest {
     }
 
     @Test
-    public void test_DoViewInViewer() throws Exception
+    public void test_DoViewInViewer()
     {
         // State
         final String keyBundle = MUNICIPIO_SPINNER_EVENT.key;
@@ -174,7 +174,7 @@ public class ViewerMunicipioSpinnerTest {
     }
 
     @Test
-    public void test_SaveState() throws Exception
+    public void test_SaveState()
     {
         Bundle bundle = new Bundle(1);
         viewer.saveState(bundle);

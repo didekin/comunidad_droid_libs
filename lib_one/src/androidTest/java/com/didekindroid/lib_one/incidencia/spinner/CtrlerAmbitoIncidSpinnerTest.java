@@ -54,7 +54,7 @@ public class CtrlerAmbitoIncidSpinnerTest {
     }
 
     @Test
-    public void test_LoadItemsByEntitiyId() throws Exception
+    public void test_LoadItemsByEntitiyId()
     {
         checkSpinnerCtrlerLoadItems(controller);
     }

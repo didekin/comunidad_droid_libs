@@ -39,7 +39,7 @@ public class UsuarioBeanTests {
     }
 
     @Test
-    public void test_ValidateRegUser() throws Exception
+    public void test_ValidateRegUser()
     {
         UsuarioBean usuarioBean = new UsuarioBean("user@name.com", "alias1", null, null);
         assertThat(usuarioBean.validateUserNameAlias(resources, errors), is(true));
@@ -49,7 +49,7 @@ public class UsuarioBeanTests {
     }
 
     @Test
-    public void test_ValidateWithoutAlias() throws Exception
+    public void test_ValidateWithoutAlias()
     {
         UsuarioBean usuarioBean = new UsuarioBean("user@name.com", null, "23AB_s_word1", "23AB*_s_word1");
         assertThat(usuarioBean.validateUserNamePswd(resources, errors), is(false));
@@ -59,7 +59,7 @@ public class UsuarioBeanTests {
     }
 
     @Test
-    public void test_ValidateWithOnePassword() throws Exception
+    public void test_ValidateWithOnePassword()
     {
         UsuarioBean usuarioBean = new UsuarioBean("user@name.com", "alias1", "", null);
         assertThat(usuarioBean.validateUserNameAliasPswd(resources, errors), is(false));
@@ -76,7 +76,7 @@ public class UsuarioBeanTests {
     }
 
     @Test
-    public void test_ValidateLoginData() throws Exception
+    public void test_ValidateLoginData()
     {
         UsuarioBean usuarioBean = new UsuarioBean("user_@name.com", null, "23pas_sword1", null);
         assertThat(usuarioBean.validateLoginData(resources, errors), is(true));
@@ -86,7 +86,7 @@ public class UsuarioBeanTests {
     }
 
     @Test
-    public void test_ValidateAlias() throws Exception
+    public void test_ValidateAlias()
     {
         UsuarioBean usuarioBean = new UsuarioBean(null, "alias_com", null, null);
         assertThat(usuarioBean.checkAlias(resources.getText(R.string.alias), errors), is(true));
@@ -96,7 +96,7 @@ public class UsuarioBeanTests {
     }
 
     @Test
-    public void test_ValidateSinglePassword() throws Exception
+    public void test_ValidateSinglePassword()
     {
         /*PASSWORD("[0-9a-zA-Z_]{6,60}")*/
         UsuarioBean usuarioBean = new UsuarioBean(null, null, "23AB_s_word1*", null);
@@ -107,7 +107,7 @@ public class UsuarioBeanTests {
     }
 
     @Test
-    public void test_ValidateDoublePassword() throws Exception
+    public void test_ValidateDoublePassword()
     {
         UsuarioBean usuarioBean = new UsuarioBean("user@name.com", "alias1", "23AB_s_word1", "23AB*_s_word1");
         assertThat(usuarioBean.checkDoublePassword(resources, errors), is(false));
@@ -121,7 +121,7 @@ public class UsuarioBeanTests {
     }
 
     @Test
-    public void test_ValidateUserName() throws Exception
+    public void test_ValidateUserName()
     {
         /*EMAIL("[\\w\\._\\-]{1,48}@[\\w\\-_]{1,40}\\.[\\w&&[^0-9]]{1,10}")*/
         UsuarioBean usuarioBean = new UsuarioBean("user_@name.com", null, null, null);

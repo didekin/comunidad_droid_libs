@@ -24,7 +24,7 @@ public class IoHelperTest {
     private static final int TIPO_VIA_FILE_SIZE = 323;
 
     @Test
-    public void testDoArrayFromFile() throws Exception
+    public void testDoArrayFromFile()
     {
         List<String> tipos = doArrayFromFile(getContext(), R.raw.tipos_vias);
         assertThat(tipos.size(),is(TIPO_VIA_FILE_SIZE));

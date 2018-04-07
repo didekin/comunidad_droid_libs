@@ -15,6 +15,7 @@
     <string name="exception_generic_message">No podemos continuar. Inténtalo en unos segundos nuevamente.</string>
     <string name="no_internet_conn_toast">No hay conexión de red disponible.</string>
     <string name="error_validation_msg">Los siguientes datos no son válidos:</string>
+    <string name="user_email_wrong">No hemos podido enviar la nueva contraseña. Tu dirección de correo electrónico puede ser errónea.</string>
     <!-- ============================ Accesorios ============================== -->
     <string name="confidencialidad_mn">Privacidad</string>
     <!--******************************************************************************-->

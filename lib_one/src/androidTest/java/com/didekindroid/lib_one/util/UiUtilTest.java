@@ -156,7 +156,7 @@ public class UiUtilTest {
     }
 
     @Test
-    public void testNameFile() throws Exception
+    public void testNameFile()
     {
         assertThat(app_preferences_file.toString(),
                 is("com.didekindroid.lib_one.security.IdentityCacherIf.SharedPrefFiles.app_preferences_file"));

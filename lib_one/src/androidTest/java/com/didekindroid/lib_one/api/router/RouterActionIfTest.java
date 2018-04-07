@@ -41,14 +41,14 @@ public class RouterActionIfTest {
     }
 
     @Test
-    public void test_InitActivity() throws Exception
+    public void test_InitActivity()
     {
         router.initActivity(activity);
         onView(withId(nextMockAcLayout)).check(matches(isDisplayed()));
     }
 
     @Test
-    public void test_InitActivity1() throws Exception
+    public void test_InitActivity1()
     {
         Bundle bundle = new Bundle(1);
         bundle.putString("keyTest", "Value_keyTest");
@@ -58,7 +58,7 @@ public class RouterActionIfTest {
     }
 
     @Test
-    public void test_InitActivity2() throws Exception
+    public void test_InitActivity2()
     {
         router.initActivity(activity, null, FLAG_ACTIVITY_CLEAR_TOP);
         onView(withId(nextMockAcLayout)).check(matches(isDisplayed()));

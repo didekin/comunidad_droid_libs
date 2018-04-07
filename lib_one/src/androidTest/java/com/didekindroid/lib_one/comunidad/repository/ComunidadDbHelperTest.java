@@ -43,7 +43,7 @@ public class ComunidadDbHelperTest {
     private ComunidadDbHelper dbHelper;
 
     @Before
-    public void getFixture() throws Exception
+    public void getFixture()
     {
         context = getContext();
         context.deleteDatabase(DB_NAME);
@@ -68,7 +68,7 @@ public class ComunidadDbHelperTest {
     }
 
     @Test
-    public void testDropTables() throws Exception
+    public void testDropTables()
     {
         database = dbHelper.getWritableDatabase();
         checkRecords();
@@ -109,7 +109,7 @@ public class ComunidadDbHelperTest {
     }
 
     @Test
-    public void test_DoProvinciasByCACursor() throws Exception
+    public void test_DoProvinciasByCACursor()
     {
         database = dbHelper.getReadableDatabase();
         checkRecords();
@@ -146,7 +146,7 @@ public class ComunidadDbHelperTest {
     }
 
     @Test
-    public void test_GetMunicipioByProvincia() throws Exception
+    public void test_GetMunicipioByProvincia()
     {
         database = dbHelper.getReadableDatabase();
         checkRecords();
@@ -158,7 +158,7 @@ public class ComunidadDbHelperTest {
     }
 
     @Test
-    public void test_GetMunicipioByProvincia_0() throws Exception
+    public void test_GetMunicipioByProvincia_0()
     {
         database = dbHelper.getReadableDatabase();
 
@@ -168,7 +168,7 @@ public class ComunidadDbHelperTest {
     }
 
     @Test
-    public void test_DoMunicipiosByProvinciaCursor() throws Exception
+    public void test_DoMunicipiosByProvinciaCursor()
     {
         database = dbHelper.getReadableDatabase();
         checkRecords();

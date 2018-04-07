@@ -85,7 +85,7 @@ public class ViewerUserDrawerTest {
     }
 
     @Test
-    public void test_NewViewerDrawerMain() throws Exception
+    public void test_NewViewerDrawerMain() throws UiException
     {
         // Check navigationView
         assertThat(viewer.getNavView().getId(), is(nav_view_rsId));
@@ -96,7 +96,7 @@ public class ViewerUserDrawerTest {
     }
 
     @Test
-    public void test_DoViewInViewer_1() throws Exception
+    public void test_DoViewInViewer_1() throws UiException
     {
         // Precondition: user registered.
         assertThat(viewer.getController().isRegisteredUser(), is(true));
@@ -117,7 +117,7 @@ public class ViewerUserDrawerTest {
     }
 
     @Test
-    public void test_DoViewInViewer_2() throws Exception
+    public void test_DoViewInViewer_2() throws IOException
     {
         // Precondition: user not registered.
         cleanWithTkhandler();
@@ -141,7 +141,7 @@ public class ViewerUserDrawerTest {
     }
 
     @Test
-    public void test_DoViewForRegUser_1() throws Exception
+    public void test_DoViewForRegUser_1() throws UiException
     {
         // Precondition: saveState == null.
         viewer.doViewForRegUser(null);
@@ -151,7 +151,7 @@ public class ViewerUserDrawerTest {
     }
 
     @Test
-    public void test_DoViewForRegUser_2() throws Exception
+    public void test_DoViewForRegUser_2() throws UiException
     {
         // Precondition: saveState != null.
         Bundle bundle = new Bundle(1);
@@ -163,7 +163,7 @@ public class ViewerUserDrawerTest {
     }
 
     @Test
-    public void test_SaveState_1() throws Exception
+    public void test_SaveState_1() throws UiException
     {
         // Preconditions: user is registered.
         viewer.doViewInViewer(null, null);
@@ -178,7 +178,7 @@ public class ViewerUserDrawerTest {
     }
 
     @Test
-    public void test_SaveState_2() throws Exception
+    public void test_SaveState_2() throws UiException
     {
         // Precondition: user is NOT registered.
         viewer.doViewInViewer(null, null);
@@ -190,7 +190,7 @@ public class ViewerUserDrawerTest {
     }
 
     @Test
-    public void test_BuildMenu_1() throws Exception
+    public void test_BuildMenu_1() throws InterruptedException, UiException
     {
         activity.runOnUiThread(() -> viewer.buildMenu(viewer.getNavView(), true));
         SECONDS.sleep(2);
@@ -200,7 +200,7 @@ public class ViewerUserDrawerTest {
     }
 
     @Test
-    public void test_BuildMenu_2() throws Exception
+    public void test_BuildMenu_2() throws InterruptedException, UiException
     {
         activity.runOnUiThread(() -> viewer.buildMenu(viewer.getNavView(), false));
         SECONDS.sleep(2);

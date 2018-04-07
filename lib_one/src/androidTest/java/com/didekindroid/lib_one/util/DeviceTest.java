@@ -20,7 +20,7 @@ import static org.junit.Assert.assertThat;
 public class DeviceTest {
 
     @Test
-    public void test_GetDeviceLanguage() throws Exception
+    public void test_GetDeviceLanguage()
     {
         assertThat(getDeviceLanguage(), allOf(
                 isA(String.class),

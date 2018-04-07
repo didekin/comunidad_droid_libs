@@ -37,7 +37,7 @@ public class ControllerTest {
     }
 
     @Test
-    public void testGetSubscriptions() throws Exception
+    public void testGetSubscriptions()
     {
         assertThat(controller.getSubscriptions(), allOf(
                 is(controller.getSubscriptions()),
@@ -47,7 +47,7 @@ public class ControllerTest {
     }
 
     @Test
-    public void testClearSubscriptions() throws Exception
+    public void testClearSubscriptions()
     {
         assertThat(controller.getSubscriptions().size(), is(0));
         controller.getSubscriptions().add(new Disposable() {
@@ -68,7 +68,7 @@ public class ControllerTest {
     }
 
     @Test
-    public void testIsRegisteredUser() throws Exception
+    public void testIsRegisteredUser()
     {
         controller.updateIsRegistered(true);
         assertThat(controller.isRegisteredUser(), is(true));

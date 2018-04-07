@@ -63,7 +63,7 @@ public class UsuarioObservableTest {
     // ................................. DELETE USER ...............................
 
     @Test
-    public void testGetDeleteMeSingle() throws Exception
+    public void testGetDeleteMeSingle() throws IOException, UiException
     {
         regUserComuWithTkCache(comu_real_rodrigo);
 
@@ -126,7 +126,7 @@ public class UsuarioObservableTest {
     // ..................................... PASSWORD ..........................................
 
     @Test
-    public void test_PasswordChangeWithPswdValidation() throws Exception
+    public void test_PasswordChangeWithPswdValidation() throws IOException, UiException
     {
         regUserComuWithTkCache(comu_real_rodrigo);
         final SpringOauthToken oldToken = tkCacher.getTokenCache().get();
@@ -150,7 +150,7 @@ public class UsuarioObservableTest {
     }
 
     @Test
-    public void test_UserAliasModified() throws Exception
+    public void test_UserAliasModified() throws IOException, UiException
     {
         // Preconditions.
         Usuario oldUsuario = new Usuario.UsuarioBuilder().copyUsuario(regGetUserComu(comu_real_rodrigo))
@@ -169,7 +169,7 @@ public class UsuarioObservableTest {
     }
 
     @Test
-    public void test_UserNameModified() throws Exception
+    public void test_UserNameModified() throws IOException, UiException
     {
         // Preconditions.
         Usuario oldUsuario = new Usuario.UsuarioBuilder().copyUsuario(regGetUserComu(comu_real_rodrigo))

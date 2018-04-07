@@ -34,7 +34,7 @@ public class ViewerSelectListTest {
     private ViewerSelectList<Spinner, CtrlerSelectList<String>, String> viewer;
 
     @Before
-    public void setUp() throws Exception
+    public void setUp()
     {
         activity = activityRule.getActivity();
         initRouter();
@@ -49,7 +49,7 @@ public class ViewerSelectListTest {
     }
 
     @Test
-    public void testGetArrayAdapterForSpinner() throws Exception
+    public void testGetArrayAdapterForSpinner()
     {
         ArrayAdapter<String> adapter = viewer.getArrayAdapterForSpinner(activity);
         assertThat(adapter, notNullValue());
@@ -57,21 +57,21 @@ public class ViewerSelectListTest {
     }
 
     @Test
-    public void testGetSelectedItemId() throws Exception
+    public void testGetSelectedItemId()
     {
         viewer.setSelectedItemId(111L);
         assertThat(viewer.getSelectedItemId(), is(111L));
     }
 
     @Test
-    public void testGetSelectedViewFromItemId() throws Exception
+    public void testGetSelectedViewFromItemId()
     {
         viewer.setSelectedItemId(111L);
         assertThat(viewer.getSelectedPositionFromItemId(111L), is(111));
     }
 
     @Test
-    public void test_OnSuccessLoadItemList() throws Exception
+    public void test_OnSuccessLoadItemList()
     {
         final List<String> stringList = Arrays.asList("string22", "string11", "string44", "string33");
         long itemSelected = 1;

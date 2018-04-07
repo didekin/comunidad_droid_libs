@@ -55,13 +55,13 @@ public class ViewerTest {
     }
 
     @Test
-    public void testGetActivity() throws Exception
+    public void testGetActivity()
     {
         assertThat(viewer.getActivity(), is(activity));
     }
 
     @Test
-    public void test_OnErrorInObserver() throws Exception
+    public void test_OnErrorInObserver()
     {
         UiException uiException = new UiException(new ErrorBean(BAD_REQUEST));
         activity.runOnUiThread(() -> viewer.onErrorInObserver(uiException));
@@ -69,7 +69,7 @@ public class ViewerTest {
     }
 
     @Test
-    public void clearSubscriptions() throws Exception
+    public void clearSubscriptions()
     {
         ControllerIf controller = new Controller(new TokenIdentityCacher(activity)) {
             @Override
@@ -85,13 +85,13 @@ public class ViewerTest {
     }
 
     @Test
-    public void getViewInViewer() throws Exception
+    public void getViewInViewer()
     {
         assertThat(viewer.getViewInViewer(), is(viewInViewer));
     }
 
     @Test
-    public void test_GetController() throws Exception
+    public void test_GetController()
     {
         final ControllerIf controllerLocal = new Controller(new TokenIdentityCacher(activity));
         viewer.setController(controllerLocal);
@@ -99,7 +99,7 @@ public class ViewerTest {
     }
 
     @Test
-    public void test_GetParentViewer() throws Exception
+    public void test_GetParentViewer()
     {
         assertThat(viewer.getParentViewer(), is(parentViewer));
     }

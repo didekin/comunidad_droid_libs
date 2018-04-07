@@ -17,6 +17,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -148,7 +149,7 @@ public class ViewerUserDataTest {
     }
 
     @Test
-    public void testCheckUserData_1() throws Exception
+    public void testCheckUserData_1() throws InterruptedException
     {
         SECONDS.sleep(2);
 
@@ -202,7 +203,7 @@ public class ViewerUserDataTest {
     }
 
     @Test
-    public void testModifyUserData_3() throws Exception
+    public void testModifyUserData_3() throws IOException
     {
         // Datos de entrada userName != oldUser.userName.
         waitAtMost(6, SECONDS).untilAtomic(activity.viewer.getOldUser(), is(usuario));

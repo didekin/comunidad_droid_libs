@@ -90,14 +90,14 @@ public class ViewerProvinciaSpinnerTest {
     }
 
     @Test
-    public void test_NewViewerProvinciaSpinner() throws Exception
+    public void test_NewViewerProvinciaSpinner()
     {
         assertThat(newViewerTipoViaSpinner(spinner, activity, null).getController(), notNullValue());
         assertThat(viewer.eventListener, isA(SpinnerEventListener.class));
     }
 
     @Test
-    public void test_InitSelectedItemId() throws Exception
+    public void test_InitSelectedItemId()
     {
         Bundle bundle = new Bundle();
 
@@ -119,7 +119,7 @@ public class ViewerProvinciaSpinnerTest {
     }
 
     @Test
-    public void test_GetSelectedPositionFromItemId() throws Exception
+    public void test_GetSelectedPositionFromItemId()
     {
         final List<Provincia> provincias =
                 asList(new Provincia((short) 22, "provincia_0"), new Provincia((short) 11, "provincia_1"), new Provincia((short) 33, "provincia_2"));
@@ -133,7 +133,7 @@ public class ViewerProvinciaSpinnerTest {
     }
 
     @Test
-    public void test_DoViewInViewer() throws Exception
+    public void test_DoViewInViewer()
     {
         // State
         final String keyBundle = PROVINCIA_ID.key;
@@ -189,7 +189,7 @@ public class ViewerProvinciaSpinnerTest {
     }
 
     @Test
-    public void test_SaveState() throws Exception
+    public void test_SaveState()
     {
         checkSavedStateWithItemSelected(viewer, PROVINCIA_ID);
     }

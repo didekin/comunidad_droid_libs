@@ -13,11 +13,12 @@ import static com.didekinlib.http.exception.GenericExceptionMsg.GENERIC_INTERNAL
  * Time: 12:28
  */
 
+@SuppressWarnings("WeakerAccess")
 public class UsuarioDaoTestUtil {
 
     public static class SendPswdCallable implements Callable<Boolean> {
         @Override
-        public Boolean call() throws Exception
+        public Boolean call()
         {
             return true;
         }
@@ -25,7 +26,7 @@ public class UsuarioDaoTestUtil {
 
     public static class SendPswdCallableError implements Callable<Boolean> {
         @Override
-        public Boolean call() throws Exception
+        public Boolean call() throws UiException
         {
             throw new UiException(new ErrorBean(GENERIC_INTERNAL_ERROR));
         }

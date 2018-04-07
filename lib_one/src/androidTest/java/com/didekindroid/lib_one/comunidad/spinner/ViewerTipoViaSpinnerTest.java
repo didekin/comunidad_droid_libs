@@ -77,13 +77,13 @@ public class ViewerTipoViaSpinnerTest {
     // ==================================== TESTS ====================================
 
     @Test
-    public void test_NewViewerTipoViaSpinner() throws Exception
+    public void test_NewViewerTipoViaSpinner()
     {
         assertThat(newViewerTipoViaSpinner(spinner, activity, null).getController(), notNullValue());
     }
 
     @Test
-    public void test_GetSelectedPositionFromDesc() throws Exception
+    public void test_GetSelectedPositionFromDesc()
     {
         final List<TipoViaValueObj> tiposVia = Arrays.asList(new TipoViaValueObj("tipo_4"), new TipoViaValueObj("tipo_1"), new TipoViaValueObj("tipo_99"));
         activity.runOnUiThread(() -> {
@@ -97,7 +97,7 @@ public class ViewerTipoViaSpinnerTest {
     }
 
     @Test
-    public void test_OnSuccessLoadItems() throws Exception
+    public void test_OnSuccessLoadItems()
     {
         final List<TipoViaValueObj> tiposVia = new ArrayList<>(3);
         tiposVia.add(new TipoViaValueObj(11, "tipo_11"));
@@ -118,7 +118,7 @@ public class ViewerTipoViaSpinnerTest {
     }
 
     @Test
-    public void test_InitSelectedItemId() throws Exception
+    public void test_InitSelectedItemId()
     {
         Bundle bundle = new Bundle();
 
@@ -132,7 +132,7 @@ public class ViewerTipoViaSpinnerTest {
     }
 
     @Test
-    public void test_DoViewInViewer() throws Exception
+    public void test_DoViewInViewer()
     {
         // State
         final String keyBundle = TIPO_VIA_ID.key;
@@ -163,7 +163,7 @@ public class ViewerTipoViaSpinnerTest {
     }
 
     @Test
-    public void test_SaveState() throws Exception
+    public void test_SaveState()
     {
         checkSavedStateWithItemSelected(viewer, TIPO_VIA_ID);
     }

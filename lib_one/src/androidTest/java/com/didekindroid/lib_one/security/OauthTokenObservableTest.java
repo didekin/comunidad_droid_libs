@@ -10,6 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.io.IOException;
+
 import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static com.didekindroid.lib_one.security.OauthTokenObservable.oauthTokenAndInitCache;
 import static com.didekindroid.lib_one.security.OauthTokenObservable.oauthTokenFromRefreshTk;
@@ -62,7 +64,7 @@ public class OauthTokenObservableTest {
      * Synchronous execution: no scheduler specified, everything runs in the test runner thread.
      */
     @Test
-    public void testOauthTokenFromUserPswd_1() throws Exception
+    public void testOauthTokenFromUserPswd_1() throws IOException, UiException
     {
         assertThat(usuarioMockDao.regComuAndUserAndUserComu(comu_real_rodrigo).execute().body(), is(true));
         updateSecurityData(user_crodrigo.getUserName(), user_crodrigo.getPassword());
@@ -73,7 +75,7 @@ public class OauthTokenObservableTest {
      * Synchronous execution: IO scheduler specified; we use RxJavaPlugins to replace io scheduler; everything runs in the test runner thread.
      */
     @Test
-    public void testOauthTokenFromUserPswd_2() throws Exception
+    public void testOauthTokenFromUserPswd_2() throws IOException, UiException
     {
         assertThat(usuarioMockDao.regComuAndUserAndUserComu(comu_real_rodrigo).execute().body(), is(true));
         updateSecurityData(user_crodrigo.getUserName(), user_crodrigo.getPassword());
@@ -89,7 +91,7 @@ public class OauthTokenObservableTest {
      * Asynchronous execution: two different threads, no blocking.
      */
     @Test
-    public void testOauthTokenFromRefreshTk_1() throws Exception
+    public void testOauthTokenFromRefreshTk_1() throws IOException, UiException, InterruptedException
     {
         assertThat(usuarioMockDao.regComuAndUserAndUserComu(comu_real_rodrigo).execute().body(), is(true));
         updateSecurityData(user_crodrigo.getUserName(), user_crodrigo.getPassword());
@@ -109,7 +111,7 @@ public class OauthTokenObservableTest {
      * Aynchronous execution with blocking.
      */
     @Test
-    public void testOauthTokenFromRefreshTk_2() throws Exception
+    public void testOauthTokenFromRefreshTk_2() throws IOException, UiException
     {
         assertThat(usuarioMockDao.regComuAndUserAndUserComu(comu_real_rodrigo).execute().body(), is(true));
         updateSecurityData(user_crodrigo.getUserName(), user_crodrigo.getPassword());
@@ -124,7 +126,7 @@ public class OauthTokenObservableTest {
      * No blocking.
      */
     @Test
-    public void testOauthTokenAndInitCache_1() throws Exception
+    public void testOauthTokenAndInitCache_1() throws IOException, UiException
     {
         assertThat(usuarioMockDao.regComuAndUserAndUserComu(comu_real_rodrigo).execute().body(), is(true));
         updateSecurityData(user_crodrigo.getUserName(), user_crodrigo.getPassword());
@@ -143,7 +145,7 @@ public class OauthTokenObservableTest {
      * With blocking.
      */
     @Test
-    public void testOauthTokenAndInitCache_2() throws Exception
+    public void testOauthTokenAndInitCache_2() throws IOException, UiException
     {
         assertThat(usuarioMockDao.regComuAndUserAndUserComu(comu_real_rodrigo).execute().body(), is(true));
         updateSecurityData(user_crodrigo.getUserName(), user_crodrigo.getPassword());
@@ -159,7 +161,7 @@ public class OauthTokenObservableTest {
     }
 
     @Test
-    public void test_OauthTokenInitCacheUpdateRegister() throws Exception
+    public void test_OauthTokenInitCacheUpdateRegister() throws IOException
     {
         usuarioMockDao.regComuAndUserAndUserComu(comu_real_rodrigo).execute().body();
         // User not registered.

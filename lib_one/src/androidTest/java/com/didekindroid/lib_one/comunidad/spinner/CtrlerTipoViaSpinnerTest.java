@@ -32,20 +32,20 @@ public class CtrlerTipoViaSpinnerTest {
     private CtrlerTipoViaSpinner controller;
 
     @Before
-    public void setUp() throws Exception
+    public void setUp()
     {
         controller = new CtrlerTipoViaSpinner(new TokenIdentityCacher(activityRule.getActivity()));
     }
 
     @After
-    public void tearDown() throws Exception
+    public void tearDown()
     {
         controller.clearSubscriptions();
         resetAllSchedulers();
     }
 
     @Test
-    public void test_TipoViaList() throws Exception
+    public void test_TipoViaList()
     {
         controller.tipoViaList().test()
                 .assertOf(listTestObserver -> {
@@ -55,7 +55,7 @@ public class CtrlerTipoViaSpinnerTest {
     }
 
     @Test
-    public void test_LoadItemsByEntitiyId() throws Exception
+    public void test_LoadItemsByEntitiyId()
     {
         checkSpinnerCtrlerLoadItems(controller);
     }

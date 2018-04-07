@@ -14,7 +14,7 @@ import timber.log.Timber;
  * Time: 11:00
  */
 
-@SuppressWarnings("InterfaceMayBeAnnotatedFunctional")
+@SuppressWarnings({"InterfaceMayBeAnnotatedFunctional", "unused"})
 public interface FragmentInitiatorIf<T extends Fragment> {
 
     AppCompatActivity getActivity();
