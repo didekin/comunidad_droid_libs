@@ -20,11 +20,11 @@ import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static com.didekindroid.lib_one.HttpInitializer.httpInitializer;
 import static com.didekindroid.lib_one.security.AuthDao.authDao;
 import static com.didekindroid.lib_one.security.SecInitializer.secInitializer;
-import static com.didekindroid.lib_one.security.SecurityTestUtils.updateSecurityData;
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http;
 import static com.didekindroid.lib_one.usuario.UserTestData.cleanOneUser;
 import static com.didekindroid.lib_one.usuario.UserTestData.cleanWithTkhandler;
 import static com.didekindroid.lib_one.usuario.UserTestData.comu_real_rodrigo;
+import static com.didekindroid.lib_one.usuario.UserTestData.regUserComuWithTkCache;
 import static com.didekindroid.lib_one.usuario.UserTestData.user_crodrigo;
 import static com.didekindroid.lib_one.usuario.UsuarioMockDao.usuarioMockDao;
 import static com.didekinlib.http.auth.AuthClient.CL_USER;
@@ -49,7 +49,7 @@ public class AuthDaoTest {
     private HttpHandler httpHandler;
 
     @BeforeClass
-    public static void slowSeconds()
+    public static void staticInit()
     {
         initSec_Http(getTargetContext());
         cleanWithTkhandler();
@@ -94,10 +94,8 @@ public class AuthDaoTest {
     @Test
     public void testGetPasswordUserToken_2() throws UiException, IOException
     {
-        //Inserta userComu, comunidad y usuariocomunidad.
-        assertThat(usuarioMockDao.regComuAndUserAndUserComu(comu_real_rodrigo).execute().body(), is(true));
-        // Solicita token y actuliza tokenCache.
-        updateSecurityData(comu_real_rodrigo.getUsuario().getUserName(), comu_real_rodrigo.getUsuario().getPassword());
+        //Inserta userComu, comunidad y usuariocomunidad. Solicita token y actuliza tokenCache.
+        regUserComuWithTkCache(comu_real_rodrigo);
         // Vuelve a solicitar token.
         SpringOauthToken token = authDao.getPasswordUserToken(user_crodrigo.getUserName(), user_crodrigo.getPassword());
         assertThat(token, notNullValue());
@@ -112,8 +110,7 @@ public class AuthDaoTest {
     public void testGetRefreshUserToken_1() throws UiException, IOException
     {
         //Inserta userComu, comunidad, usuariocomunidad y actuliza tokenCache.
-        assertThat(usuarioMockDao.regComuAndUserAndUserComu(comu_real_rodrigo).execute().body(), is(true));
-        updateSecurityData(user_crodrigo.getUserName(), user_crodrigo.getPassword());
+        regUserComuWithTkCache(comu_real_rodrigo);
         // Initial state.
         SpringOauthToken tokenOld = secInitializer.get().getTkCacher().getTokenCache().get();
         String accessTkOldValue = tokenOld.getValue();

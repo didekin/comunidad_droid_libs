@@ -24,7 +24,6 @@ import io.reactivex.observers.DisposableCompletableObserver;
 import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static com.didekindroid.lib_one.security.SecurityTestUtils.checkInitTokenCache;
 import static com.didekindroid.lib_one.security.SecurityTestUtils.checkNoInitCache;
-import static com.didekindroid.lib_one.security.SecurityTestUtils.updateSecurityData;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.AFTER_METHOD_EXEC_A;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.AFTER_METHOD_WITH_EXCEPTION_EXEC;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.BEFORE_METHOD_EXEC;
@@ -34,8 +33,8 @@ import static com.didekindroid.lib_one.testutil.RxSchedulersUtils.trampolineRepl
 import static com.didekindroid.lib_one.testutil.RxSchedulersUtils.trampolineReplaceIoScheduler;
 import static com.didekindroid.lib_one.usuario.UserTestData.cleanOneUser;
 import static com.didekindroid.lib_one.usuario.UserTestData.comu_real_rodrigo;
+import static com.didekindroid.lib_one.usuario.UserTestData.regUserComuWithTkCache;
 import static com.didekindroid.lib_one.usuario.UserTestData.user_crodrigo;
-import static com.didekindroid.lib_one.usuario.UsuarioMockDao.usuarioMockDao;
 import static com.didekinlib.http.exception.GenericExceptionMsg.GENERIC_INTERNAL_ERROR;
 import static io.reactivex.Completable.error;
 import static io.reactivex.Completable.fromCallable;
@@ -63,8 +62,7 @@ public class CtrlerAuthTokenTest {
         {
             initSec_Http_Router(getTargetContext());
             try {
-                assertThat(usuarioMockDao.regComuAndUserAndUserComu(comu_real_rodrigo).execute().body(), is(true));
-                updateSecurityData(comu_real_rodrigo.getUsuario().getUserName(), comu_real_rodrigo.getUsuario().getPassword());
+                regUserComuWithTkCache(comu_real_rodrigo);
             } catch (Exception e) {
                 fail();
             }
@@ -84,7 +82,6 @@ public class CtrlerAuthTokenTest {
             public void onErrorInObserver(Throwable error)
             {
                 assertThat(flagMethodExec.getAndSet(AFTER_METHOD_WITH_EXCEPTION_EXEC), is(BEFORE_METHOD_EXEC));
-                super.onErrorInObserver(error);
             }
         };
         viewer.setController(new CtrlerAuthToken());
@@ -130,8 +127,8 @@ public class CtrlerAuthTokenTest {
         checkInitTokenCache(controller.getTkCacher());
 
         DisposableCompletableObserver disposable = fromCallable(() -> null).subscribeWith(new ObserverCacheCleaner(viewer));
-
         checkInitTokenCache(controller.getTkCacher());
+        assertThat(flagMethodExec.get(), is(BEFORE_METHOD_EXEC));
         assertThat(disposable.isDisposed(), is(true));
     }
 

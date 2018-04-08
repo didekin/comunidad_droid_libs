@@ -20,8 +20,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.AFTER_METHOD_EXEC_A;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.BEFORE_METHOD_EXEC;
-import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initRouter;
-import static com.didekindroid.lib_one.testutil.MockTestConstant.nextMockAcLayout;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http_Router;
+import static com.didekindroid.lib_one.usuario.UserTestNavigation.loginAcResourceId;
 import static com.didekinlib.http.usuario.UsuarioExceptionMsg.BAD_REQUEST;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -47,7 +47,7 @@ public class ViewerTest {
     public void setUp()
     {
         activity = activityRule.getActivity();
-        initRouter();
+        initSec_Http_Router(activity);
 
         parentViewer = new ViewerMock<>(new View(activity), activity);
         viewInViewer = new View(activity);
@@ -63,9 +63,9 @@ public class ViewerTest {
     @Test
     public void test_OnErrorInObserver()
     {
-        UiException uiException = new UiException(new ErrorBean(BAD_REQUEST));
+        UiException uiException = new UiException(new ErrorBean(BAD_REQUEST)); // error -> LoginAc
         activity.runOnUiThread(() -> viewer.onErrorInObserver(uiException));
-        onView(withId(nextMockAcLayout)).check(matches(isDisplayed()));
+        onView(withId(loginAcResourceId)).check(matches(isDisplayed()));
     }
 
     @Test
