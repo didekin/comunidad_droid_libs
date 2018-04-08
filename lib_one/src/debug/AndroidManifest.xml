@@ -10,6 +10,11 @@
             android:launchMode="singleTask">
         </activity>
         <activity
+            android:name=".api.InjectorParentViewerAc"
+            android:label="@string/injectorParentViewerAc_label"
+            android:launchMode="singleTask">
+        </activity>
+        <activity
             android:name=".api.ActivityNextMock"
             android:label="@string/mock_next_DefaultActivity_label"
             android:parentActivityName=".api.ActivityMock"

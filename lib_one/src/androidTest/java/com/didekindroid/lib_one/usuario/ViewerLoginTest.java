@@ -34,6 +34,7 @@ import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.BEFORE
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.checkTextsInDialog;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.isToastInView;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.isViewDisplayedAndPerform;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http_Router;
 import static com.didekindroid.lib_one.usuario.UserTestData.USER_DROID;
 import static com.didekindroid.lib_one.usuario.UserTestNavigation.loginAcResourceId;
 import static com.didekindroid.lib_one.usuario.UsuarioBundleKey.login_counter_atomic_int;
@@ -60,7 +61,13 @@ public class ViewerLoginTest {
     private static final AtomicReference<String> flagMethodExec = new AtomicReference<>(BEFORE_METHOD_EXEC);
 
     @Rule
-    public IntentsTestRule<? extends Activity> activityRule = new IntentsTestRule<>(LoginAc.class, true, true);
+    public IntentsTestRule<? extends Activity> activityRule = new IntentsTestRule<LoginAc>(LoginAc.class, true, true) {
+        @Override
+        protected void beforeActivityLaunched()
+        {
+            initSec_Http_Router(getTargetContext());
+        }
+    };
 
     private LoginAc activity;
 

@@ -5,7 +5,6 @@ import com.didekindroid.lib_one.R;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.replaceText;
-import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
@@ -24,8 +23,8 @@ public final class UserEspressoTestUtil {
 
     public static void typeUserNameAlias(String email, String alias)
     {
-        onView(withId(R.id.reg_usuario_email_editT)).perform(scrollTo(), replaceText(email));
-        onView(withId(R.id.reg_usuario_alias_ediT)).perform(scrollTo(), replaceText(alias), closeSoftKeyboard());
+        onView(withId(R.id.reg_usuario_email_editT)).perform(replaceText(email));
+        onView(withId(R.id.reg_usuario_alias_ediT)).perform(replaceText(alias), closeSoftKeyboard());
     }
 
     public static void typeUserNamePswd(String userName, String password)

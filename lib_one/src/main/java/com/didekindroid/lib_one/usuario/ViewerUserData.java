@@ -19,8 +19,8 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import timber.log.Timber;
 
-import static com.didekindroid.lib_one.usuario.UserContextualName.user_alias_just_modified;
-import static com.didekindroid.lib_one.usuario.UserContextualName.user_name_just_modified;
+import static com.didekindroid.lib_one.usuario.router.UserContextName.user_alias_just_modified;
+import static com.didekindroid.lib_one.usuario.router.UserContextName.user_name_just_modified;
 import static com.didekindroid.lib_one.usuario.UsuarioBundleKey.usuario_object;
 import static com.didekindroid.lib_one.usuario.ViewerUserDataIf.UserChangeToMake.alias_only;
 import static com.didekindroid.lib_one.usuario.ViewerUserDataIf.UserChangeToMake.nothing;

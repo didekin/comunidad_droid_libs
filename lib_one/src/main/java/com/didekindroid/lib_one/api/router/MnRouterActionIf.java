@@ -6,6 +6,7 @@ package com.didekindroid.lib_one.api.router;
  * Time: 10:41
  */
 
+@SuppressWarnings("unused")
 public interface MnRouterActionIf extends RouterActionIf {
     int getMnItemRsId();
 }

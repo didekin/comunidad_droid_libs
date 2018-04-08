@@ -1,4 +1,4 @@
-package com.didekindroid.lib_one.usuario;
+package com.didekindroid.lib_one.usuario.router;
 
 import com.didekindroid.lib_one.api.router.ContextualNameIf;
 
@@ -8,7 +8,7 @@ import com.didekindroid.lib_one.api.router.ContextualNameIf;
  * Time: 16:12
  */
 
-public enum UserContextualName implements ContextualNameIf {
+public enum UserContextName implements ContextualNameIf {
 
     default_reg_user,
     default_no_reg_user,

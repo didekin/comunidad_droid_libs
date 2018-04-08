@@ -17,7 +17,7 @@ import timber.log.Timber;
  * Time: 15:25
  */
 
-public abstract class ParentViewer<T extends View, C extends ControllerIf> extends Viewer<T, C> implements
+public class ParentViewer<T extends View, C extends ControllerIf> extends Viewer<T, C> implements
         ParentViewerIf<T, C> {
 
     private final Map<Class<? extends ViewerIf>, ViewerIf> childViewers;

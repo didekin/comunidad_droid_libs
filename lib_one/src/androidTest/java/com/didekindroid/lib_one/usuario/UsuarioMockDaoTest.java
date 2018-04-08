@@ -12,6 +12,7 @@ import org.junit.runner.RunWith;
 import java.io.IOException;
 
 import static android.support.test.InstrumentationRegistry.getTargetContext;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http;
 import static com.didekindroid.lib_one.usuario.UserTestData.cleanOneUser;
 import static com.didekindroid.lib_one.usuario.UserTestData.user_crodrigo;
 import static com.didekindroid.lib_one.usuario.UsuarioMockDao.usuarioMockDao;
@@ -29,7 +30,7 @@ public class UsuarioMockDaoTest {
     @Before
     public void setUp()
     {
-        InitializerTestUtil.initSec_Http(getTargetContext());
+        initSec_Http(getTargetContext());
     }
 
     @Test

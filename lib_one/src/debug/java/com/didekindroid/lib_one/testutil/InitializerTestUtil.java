@@ -4,12 +4,18 @@ import android.content.Context;
 
 import com.didekindroid.lib_one.HttpInitializer;
 import com.didekindroid.lib_one.R;
+import com.didekindroid.lib_one.api.router.ContextualRouter;
+import com.didekindroid.lib_one.api.router.ContextualRouterIf;
 import com.didekindroid.lib_one.api.router.RouterInitializerMock;
+import com.didekindroid.lib_one.api.router.UiExceptionRouter;
+import com.didekindroid.lib_one.api.router.UiExceptionRouterIf;
 import com.didekindroid.lib_one.security.SecInitializer;
 
 import static com.didekindroid.lib_one.HttpInitializer.httpInitializer;
 import static com.didekindroid.lib_one.RouterInitializer.routerInitializer;
 import static com.didekindroid.lib_one.security.SecInitializer.secInitializer;
+import static com.didekindroid.lib_one.usuario.router.UserContextAction.userContextAcMap;
+import static com.didekindroid.lib_one.usuario.router.UserUiExceptionAction.exceptionMsgMap;
 
 /**
  * User: pedro@didekin
@@ -31,7 +37,19 @@ public final class InitializerTestUtil {
 
     public static void initRouter()
     {
-        routerInitializer.set(new RouterInitializerMock());
+        routerInitializer.set(new RouterInitializerMock() {
+            @Override
+            public ContextualRouterIf getContextRouter()
+            {
+                return new ContextualRouter(userContextAcMap);
+            }
+
+            @Override
+            public UiExceptionRouterIf getExceptionRouter()
+            {
+                return new UiExceptionRouter(exceptionMsgMap);
+            }
+        });
     }
 
     public static void initSec_Http(Context context)

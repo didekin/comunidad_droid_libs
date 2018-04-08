@@ -11,6 +11,7 @@ import timber.log.Timber;
 
 import static com.didekindroid.lib_one.RouterInitializer.routerInitializer;
 import static com.didekindroid.lib_one.usuario.UsuarioBundleKey.user_name;
+import static com.didekindroid.lib_one.usuario.ViewerLogin.newViewerLogin;
 import static com.didekindroid.lib_one.util.UiUtil.doToolBar;
 
 /**
@@ -42,7 +43,7 @@ public class LoginAc extends AppCompatActivity {
         setContentView(acView);
         doToolBar(this, true);
 
-        viewerLogin = ViewerLogin.newViewerLogin(this);
+        viewerLogin = newViewerLogin(this);
         viewerLogin.doViewInViewer(savedInstanceState, getIntent().hasExtra(user_name.key) ? getIntent().getStringExtra(user_name.key) : null);
     }
 

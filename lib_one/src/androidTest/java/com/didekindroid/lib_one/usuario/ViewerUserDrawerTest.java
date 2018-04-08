@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.util.Set;
 import java.util.TreeSet;
 
+import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -27,6 +28,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.clickNavigateUp;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.isViewDisplayed;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http_Router;
 import static com.didekindroid.lib_one.usuario.UserTestData.CleanUserEnum.CLEAN_RODRIGO;
 import static com.didekindroid.lib_one.usuario.UserTestData.cleanOptions;
 import static com.didekindroid.lib_one.usuario.UserTestData.cleanWithTkhandler;
@@ -63,6 +65,7 @@ public class ViewerUserDrawerTest {
         protected Intent getActivityIntent()
         {
             try {
+                initSec_Http_Router(getTargetContext());
                 regUserComuWithTkCache(comu_real_rodrigo);
             } catch (IOException | UiException e) {
                 fail();

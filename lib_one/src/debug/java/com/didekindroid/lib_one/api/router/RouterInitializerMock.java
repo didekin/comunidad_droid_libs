@@ -1,7 +1,5 @@
 package com.didekindroid.lib_one.api.router;
 
-import com.didekindroid.lib_one.api.ActivityNextMock;
-
 /**
  * User: pedro@didekin
  * Date: 18/02/2018
@@ -12,7 +10,7 @@ public class RouterInitializerMock implements RouterInitializerIf {
     @Override
     public UiExceptionRouterIf getExceptionRouter()
     {
-        return httpMsg -> (RouterActionIf) () -> ActivityNextMock.class;
+        return null;
     }
 
     @Override

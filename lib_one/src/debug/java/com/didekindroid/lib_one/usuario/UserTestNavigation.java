@@ -7,6 +7,7 @@ import com.didekindroid.lib_one.R;
  * Date: 25/04/17
  * Time: 12:08
  */
+@SuppressWarnings("WeakerAccess")
 public final class UserTestNavigation {
 
     public static final int loginAcResourceId = R.id.login_ac_layout;

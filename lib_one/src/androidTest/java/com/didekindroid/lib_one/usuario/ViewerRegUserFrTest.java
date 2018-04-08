@@ -5,6 +5,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.didekindroid.lib_one.R;
 import com.didekindroid.lib_one.api.ActivityMock;
+import com.didekindroid.lib_one.api.InjectorParentViewerAc;
 import com.didekindroid.lib_one.api.router.FragmentInitiator;
 import com.didekinlib.model.usuario.Usuario;
 
@@ -13,6 +14,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initRouter;
 import static com.didekindroid.lib_one.usuario.testutil.UserEspressoTestUtil.typeUserNameAlias;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.waitAtMost;
@@ -31,7 +33,13 @@ import static org.junit.Assert.assertThat;
 public class ViewerRegUserFrTest {
 
     @Rule
-    public ActivityTestRule<ActivityMock> activityRule = new ActivityTestRule<>(ActivityMock.class, false, true);
+    public ActivityTestRule<InjectorParentViewerAc> activityRule = new ActivityTestRule<InjectorParentViewerAc>(InjectorParentViewerAc.class, false, true) {
+        @Override
+        protected void beforeActivityLaunched()
+        {
+            initRouter();
+        }
+    };
     private RegUserFr fragment;
     private ActivityMock activity;
 

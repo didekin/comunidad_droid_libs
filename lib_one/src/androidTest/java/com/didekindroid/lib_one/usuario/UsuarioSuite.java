@@ -5,6 +5,7 @@ import com.didekindroid.lib_one.usuario.dao.UsuarioDaoTest;
 import com.didekindroid.lib_one.usuario.dao.UsuarioObservableTest;
 import com.didekindroid.lib_one.usuario.notification.CtrlerNotifyTokenTest;
 import com.didekindroid.lib_one.usuario.notification.ViewerNotifyTokenTest;
+import com.didekindroid.lib_one.usuario.router.UserContextActionTest;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -23,6 +24,8 @@ import org.junit.runners.Suite;
         // usuario.notification.
         CtrlerNotifyTokenTest.class,
         ViewerNotifyTokenTest.class,
+        // usuario.router
+        UserContextActionTest.class,
         // usuario.
         DeleteMeAcTest.class,
         UsuarioMockDaoTest.class,

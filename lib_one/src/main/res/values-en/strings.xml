@@ -21,6 +21,9 @@
     <string name="delete_me_ac_mn">Delete your data</string>
     <string name="login_ac_mn">Login</string>
     <string name="password_change_ac_mn">Renew password</string>
+    <!-- ============================= Messages ============================= -->
+    <string name="user_without_signedUp">"Sign in. Or search your community and sign up.\nIf it does not exist, register it in 'New community'."</string>
+    <string name="user_with_token_null">"Sign in to continue."</string>
     <!---->
     <string name="alias">Name</string>
     <string name="delete_me_ac_unreg_rot_txt">Do you wish to remove your data in Dídekin?</string>

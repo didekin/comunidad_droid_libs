@@ -9,5 +9,5 @@ import android.support.annotation.NonNull;
  */
 @FunctionalInterface
 public interface UiExceptionRouterIf {
-    RouterActionIf getActionFromMsg(@NonNull String httpMsg);
+    UiExceptionActionIf getActionFromMsg(@NonNull String httpMsg);
 }

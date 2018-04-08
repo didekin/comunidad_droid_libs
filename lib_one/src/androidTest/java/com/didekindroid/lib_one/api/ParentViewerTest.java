@@ -4,9 +4,6 @@ import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 
-import com.didekindroid.lib_one.api.router.RouterActionIf;
-import com.didekindroid.lib_one.api.router.UiExceptionRouterIf;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -36,13 +33,7 @@ public class ParentViewerTest {
         activity = activityRule.getActivity();
         initRouter();
 
-        parentViewer = new ParentViewer<View, Controller>(null, activity, null) {
-            @Override
-            public UiExceptionRouterIf getExceptionRouter()
-            {
-                return httpMsg -> (RouterActionIf) () -> ActivityNextMock.class;
-            }
-        };
+        parentViewer = new ParentViewer<>(null, activity, null);
     }
 
     @Test
@@ -58,13 +49,7 @@ public class ParentViewerTest {
     {
         final ViewerMock childViewer = new ViewerMock(activity);
         parentViewer.setChildViewer(childViewer);
-        final Viewer<View, Controller> childViewer2 = new Viewer<View, Controller>(null, activity, null) {
-            @Override
-            public UiExceptionRouterIf getExceptionRouter()
-            {
-                return httpMsg -> (RouterActionIf) () -> ActivityNextMock.class;
-            }
-        };
+        final Viewer<View, Controller> childViewer2 = new Viewer<>(null, activity, null);
         parentViewer.setChildViewer(childViewer2);
         assertThat(parentViewer.getChildViewersFromSuperClass(ViewerIf.class).size(), is(2));
     }

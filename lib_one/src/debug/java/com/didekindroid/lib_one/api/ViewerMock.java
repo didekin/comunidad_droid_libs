@@ -4,9 +4,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.didekindroid.lib_one.api.router.RouterActionIf;
-import com.didekindroid.lib_one.api.router.UiExceptionRouterIf;
-
 import timber.log.Timber;
 
 /**
@@ -26,12 +23,6 @@ public class ViewerMock<T extends View, C extends ControllerIf> extends Viewer<T
     public ViewerMock(T view, AppCompatActivity activity)
     {
         super(view, activity, null);
-    }
-
-    @Override
-    public UiExceptionRouterIf getExceptionRouter()
-    {
-        return httpMsg -> (RouterActionIf) () -> ActivityNextMock.class;
     }
 
     @Override

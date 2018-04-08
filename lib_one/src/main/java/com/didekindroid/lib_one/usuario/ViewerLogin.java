@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import io.reactivex.observers.DisposableSingleObserver;
 import timber.log.Timber;
 
-import static com.didekindroid.lib_one.usuario.UserContextualName.login_just_done;
+import static com.didekindroid.lib_one.usuario.router.UserContextName.login_just_done;
 import static com.didekindroid.lib_one.usuario.UsuarioBundleKey.login_counter_atomic_int;
 import static com.didekindroid.lib_one.usuario.UsuarioBundleKey.usuario_object;
 import static com.didekindroid.lib_one.usuario.ViewerLogin.PasswordMailDialog.newInstance;

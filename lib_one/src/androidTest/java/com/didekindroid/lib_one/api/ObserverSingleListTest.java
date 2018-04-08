@@ -6,8 +6,6 @@ import android.support.test.runner.AndroidJUnit4;
 import android.widget.AdapterView;
 
 import com.didekindroid.lib_one.api.exception.UiException;
-import com.didekindroid.lib_one.api.router.RouterActionIf;
-import com.didekindroid.lib_one.api.router.UiExceptionRouterIf;
 import com.didekinlib.http.exception.ErrorBean;
 
 import org.junit.Before;
@@ -83,12 +81,6 @@ public class ObserverSingleListTest {
         {
             assertThat(itemsList.size(), is(3));
             assertThat(flagMethodExec.getAndSet(AFTER_METHOD_EXEC_C), is(BEFORE_METHOD_EXEC));
-        }
-
-        @Override
-        public UiExceptionRouterIf getExceptionRouter()
-        {
-            return httpMsg -> (RouterActionIf) () -> ActivityNextMock.class;
         }
 
         @Override

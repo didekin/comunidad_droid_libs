@@ -24,7 +24,6 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http_Router;
-import static com.didekindroid.lib_one.testutil.MockTestConstant.nextMockAcLayout;
 import static com.didekindroid.lib_one.testutil.RxSchedulersUtils.resetAllSchedulers;
 import static com.didekindroid.lib_one.testutil.RxSchedulersUtils.trampolineReplaceAndroidMain;
 import static com.didekindroid.lib_one.testutil.RxSchedulersUtils.trampolineReplaceIoScheduler;
@@ -32,6 +31,7 @@ import static com.didekindroid.lib_one.usuario.UserTestData.cleanOneUser;
 import static com.didekindroid.lib_one.usuario.UserTestData.comu_real_rodrigo;
 import static com.didekindroid.lib_one.usuario.UserTestData.regUserComuWithTkCache;
 import static com.didekindroid.lib_one.usuario.UserTestData.user_crodrigo;
+import static com.didekindroid.lib_one.usuario.UserTestNavigation.loginAcResourceId;
 import static com.didekindroid.lib_one.usuario.dao.UsuarioDao.usuarioDaoRemote;
 import static com.didekindroid.lib_one.usuario.notification.ViewerNotifyToken.newViewerFirebaseToken;
 import static com.didekinlib.http.usuario.UsuarioExceptionMsg.USER_DATA_NOT_INSERTED;
@@ -115,11 +115,11 @@ public class ViewerNotifyTokenTest {
 
         activity.runOnUiThread(
                 () -> Single.<Integer>error(
-                        new UiException(new ErrorBean(USER_DATA_NOT_INSERTED))
+                        new UiException(new ErrorBean(USER_DATA_NOT_INSERTED)) // error -> LoginAc
                 ).subscribeWith(viewer.new RegGcmTokenObserver()));
 
         assertThat(identityCacher.isGcmTokenSentServer(), is(false));
         // Check: show next activity layout, as referenced in RouterInitializerMock.
-        onView(withId(nextMockAcLayout)).check(matches(isDisplayed()));
+        onView(withId(loginAcResourceId)).check(matches(isDisplayed()));
     }
 }

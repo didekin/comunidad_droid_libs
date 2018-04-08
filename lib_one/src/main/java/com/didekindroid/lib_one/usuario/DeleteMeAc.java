@@ -16,7 +16,7 @@ import timber.log.Timber;
 import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK;
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 import static com.didekindroid.lib_one.RouterInitializer.routerInitializer;
-import static com.didekindroid.lib_one.usuario.UserContextualName.user_just_deleted;
+import static com.didekindroid.lib_one.usuario.router.UserContextName.user_just_deleted;
 import static com.didekindroid.lib_one.usuario.UsuarioAssertionMsg.user_should_have_been_deleted;
 import static com.didekindroid.lib_one.util.CommonAssertionMsg.user_should_be_registered;
 import static com.didekindroid.lib_one.util.UiUtil.assertTrue;
