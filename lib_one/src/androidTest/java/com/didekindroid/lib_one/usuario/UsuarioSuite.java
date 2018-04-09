@@ -1,5 +1,6 @@
 package com.didekindroid.lib_one.usuario;
 
+import com.didekindroid.lib_one.accesorio.ConfidencialidadAcTest;
 import com.didekindroid.lib_one.usuario.dao.CtrlerUsuario_Test;
 import com.didekindroid.lib_one.usuario.dao.UsuarioDaoTest;
 import com.didekindroid.lib_one.usuario.dao.UsuarioObservableTest;
@@ -17,6 +18,8 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
+        // usuario.accesorio
+        ConfidencialidadAcTest.class,
         // usuario.dao.
         CtrlerUsuario_Test.class,
         UsuarioObservableTest.class,
@@ -28,6 +31,8 @@ import org.junit.runners.Suite;
         UserContextActionTest.class,
         // usuario.
         DeleteMeAcTest.class,
+        LoginAcTest.class,
+        UserDataAcTest.class,
         UsuarioMockDaoTest.class,
         UsuarioBeanTests.class,
         ViewerLoginTest.class,

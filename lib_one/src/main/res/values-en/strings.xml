@@ -13,6 +13,7 @@
     <string name="user_email_wrong">We were unable to send the new password. Your mail address may be wrong.</string>
     <!-- ========================== Accesorios ============================== -->
     <string name="confidencialidad_mn">Privacy</string>
+    <string name="confidencialidad_ac_label">Data privacy</string>
     <!--******************************************************************************-->
     <!--                                  USUARIO                                     -->
     <!--******************************************************************************-->

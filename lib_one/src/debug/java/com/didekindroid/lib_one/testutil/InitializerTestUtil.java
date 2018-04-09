@@ -1,11 +1,15 @@
 package com.didekindroid.lib_one.testutil;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.didekindroid.lib_one.HttpInitializer;
 import com.didekindroid.lib_one.R;
+import com.didekindroid.lib_one.api.ActivityMock;
 import com.didekindroid.lib_one.api.router.ContextualRouter;
 import com.didekindroid.lib_one.api.router.ContextualRouterIf;
+import com.didekindroid.lib_one.api.router.MnRouter;
+import com.didekindroid.lib_one.api.router.MnRouterIf;
 import com.didekindroid.lib_one.api.router.RouterInitializerMock;
 import com.didekindroid.lib_one.api.router.UiExceptionRouter;
 import com.didekindroid.lib_one.api.router.UiExceptionRouterIf;
@@ -15,7 +19,8 @@ import static com.didekindroid.lib_one.HttpInitializer.httpInitializer;
 import static com.didekindroid.lib_one.RouterInitializer.routerInitializer;
 import static com.didekindroid.lib_one.security.SecInitializer.secInitializer;
 import static com.didekindroid.lib_one.usuario.router.UserContextAction.userContextAcMap;
-import static com.didekindroid.lib_one.usuario.router.UserUiExceptionAction.exceptionMsgMap;
+import static com.didekindroid.lib_one.usuario.router.UserMnAction.userMnItemMap;
+import static com.didekindroid.lib_one.usuario.router.UserUiExceptionAction.userExceptionMsgMap;
 
 /**
  * User: pedro@didekin
@@ -47,7 +52,19 @@ public final class InitializerTestUtil {
             @Override
             public UiExceptionRouterIf getExceptionRouter()
             {
-                return new UiExceptionRouter(exceptionMsgMap);
+                return new UiExceptionRouter(userExceptionMsgMap);
+            }
+
+            @Override
+            public MnRouterIf getMnRouter()
+            {
+                return new MnRouter(userMnItemMap);
+            }
+
+            @Override
+            public Class<? extends Activity> getDefaultAc()
+            {
+                return ActivityMock.class;
             }
         });
     }

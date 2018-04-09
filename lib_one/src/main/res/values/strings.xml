@@ -18,6 +18,8 @@
     <string name="user_email_wrong">No hemos podido enviar la nueva contraseña. Tu dirección de correo electrónico puede ser errónea.</string>
     <!-- ============================ Accesorios ============================== -->
     <string name="confidencialidad_mn">Privacidad</string>
+    <string name="confidencialidad_ac_label">Protección de datos</string>
+    <string name="proteccion_datos_txt">Library place holder value</string>  <!--To be overriden in apps.-->
     <!--******************************************************************************-->
     <!--                                  USUARIO                                     -->
     <!--******************************************************************************-->

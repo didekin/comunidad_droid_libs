@@ -1,5 +1,7 @@
 package com.didekindroid.lib_one.api.router;
 
+import android.app.Activity;
+
 /**
  * User: pedro@didekin
  * Date: 14/02/2018
@@ -13,4 +15,6 @@ public interface RouterInitializerIf {
     MnRouterIf getMnRouter();
 
     ContextualRouterIf getContextRouter();
+
+    Class<? extends Activity> getDefaultAc();
 }

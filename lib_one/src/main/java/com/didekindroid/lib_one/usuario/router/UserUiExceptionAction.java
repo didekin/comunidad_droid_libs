@@ -58,12 +58,12 @@ public enum UserUiExceptionAction implements UiExceptionActionIf {
 
     // ==========================  Static members ============================
 
-    public static final Map<String, UiExceptionActionIf> exceptionMsgMap = new HashMap<>(values().length * 3);
+    public static final Map<String, UiExceptionActionIf> userExceptionMsgMap = new HashMap<>(values().length * 3);
 
     static {
         for (UserUiExceptionAction action : values()) {
             for (ExceptionMsgIf message : action.exceptionMsgSet) {
-                exceptionMsgMap.put(message.getHttpMessage(), action);
+                userExceptionMsgMap.put(message.getHttpMessage(), action);
             }
         }
     }

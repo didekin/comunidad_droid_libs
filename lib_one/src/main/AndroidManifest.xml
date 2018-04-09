@@ -10,6 +10,12 @@
         <!-- Do nothing activity for non-null initialization in routers, mainly.-->
         <activity android:name="com.didekindroid.lib_one.util.MuteActivity"/>
         <!-- **************************************************************** -->
+        <!-- ACCESORIO -->
+        <!-- **************************************************************** -->
+        <activity
+            android:name=".accesorio.ConfidencialidadAc"
+            android:label="@string/confidencialidad_ac_label"/>
+        <!-- **************************************************************** -->
         <!-- USUARIO -->
         <!-- **************************************************************** -->
         <activity

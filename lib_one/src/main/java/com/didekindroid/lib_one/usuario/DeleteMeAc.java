@@ -72,7 +72,7 @@ public class DeleteMeAc extends AppCompatActivity {
     // ============================================================
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
+    public boolean onOptionsItemSelected(MenuItem item)    // TODO: test.
     {
         Timber.d("onOptionsItemSelected()");
 

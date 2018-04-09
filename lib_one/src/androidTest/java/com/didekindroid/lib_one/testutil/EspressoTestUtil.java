@@ -6,6 +6,7 @@ import android.support.test.espresso.NoMatchingRootException;
 import android.support.test.espresso.NoMatchingViewException;
 import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.ViewInteraction;
+import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.matcher.RootMatchers;
 import android.view.View;
 
@@ -20,6 +21,7 @@ import java.util.concurrent.Callable;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.isDialog;
@@ -151,6 +153,18 @@ public class EspressoTestUtil {
                 withContentDescription(R.string.navigate_up_txt),
                 isClickable())
         ).check(matches(isDisplayed())).perform(click());
+    }
+
+    public static void checkBack(ViewInteraction viewInteraction, Integer... activityLayoutIds)
+    {
+        viewInteraction.perform(closeSoftKeyboard()).perform(ViewActions.pressBack());
+        for (Integer layout : activityLayoutIds) {
+            try {
+                waitAtMost(6, SECONDS).until(isResourceIdDisplayed(layout));
+            } catch (Exception e) {
+                fail();
+            }
+        }
     }
 
     //    ============================ TOASTS ============================

@@ -1,5 +1,7 @@
 package com.didekindroid.lib_one.api.router;
 
+import android.app.Activity;
+
 /**
  * User: pedro@didekin
  * Date: 18/02/2018
@@ -21,6 +23,12 @@ public class RouterInitializerMock implements RouterInitializerIf {
 
     @Override
     public ContextualRouterIf getContextRouter()
+    {
+        return null;
+    }
+
+    @Override
+    public Class<? extends Activity> getDefaultAc()
     {
         return null;
     }

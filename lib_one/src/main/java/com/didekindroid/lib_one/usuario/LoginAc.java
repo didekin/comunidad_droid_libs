@@ -63,12 +63,17 @@ public class LoginAc extends AppCompatActivity {
         viewerLogin.clearSubscriptions();
     }
 
+    public ViewerLogin getViewerLogin()
+    {
+        return viewerLogin;
+    }
+
     // ============================================================
     //    ..... ACTION BAR ....
     // ============================================================
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
+    public boolean onOptionsItemSelected(MenuItem item)    // TODO: test.
     {
         Timber.d("onOptionsItemSelected()");
         int resourceId = item.getItemId();

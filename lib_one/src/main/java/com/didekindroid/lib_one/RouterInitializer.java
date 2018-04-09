@@ -1,5 +1,7 @@
 package com.didekindroid.lib_one;
 
+import android.app.Activity;
+
 import com.didekindroid.lib_one.api.router.ContextualRouterIf;
 import com.didekindroid.lib_one.api.router.MnRouterIf;
 import com.didekindroid.lib_one.api.router.RouterInitializerIf;
@@ -21,6 +23,7 @@ public final class RouterInitializer implements RouterInitializerIf {
     private final UiExceptionRouterIf exceptionRouter;
     private final MnRouterIf mnRouter;
     private final ContextualRouterIf contextRouter;
+    private final Class<? extends Activity> defaultAc;
 
     @SuppressWarnings("SyntheticAccessorCall")
     private RouterInitializer(RouterInitializerBuilder builder)
@@ -28,6 +31,7 @@ public final class RouterInitializer implements RouterInitializerIf {
         exceptionRouter = builder.exceptionRouter;
         mnRouter = builder.mnRouter;
         contextRouter = builder.contextRouter;
+        defaultAc = builder.defaultAc;
     }
 
     @Override
@@ -48,6 +52,12 @@ public final class RouterInitializer implements RouterInitializerIf {
         return contextRouter;
     }
 
+    @Override
+    public Class<? extends Activity> getDefaultAc()
+    {
+        return defaultAc;
+    }
+
     //    ==================== BUILDER ====================
 
     @SuppressWarnings("unused")
@@ -56,6 +66,7 @@ public final class RouterInitializer implements RouterInitializerIf {
         private UiExceptionRouterIf exceptionRouter;
         private MnRouterIf mnRouter;
         private ContextualRouterIf contextRouter;
+        private Class<? extends Activity> defaultAc;
 
         public RouterInitializerBuilder exceptionRouter(UiExceptionRouterIf exceptionRouterIn)
         {
@@ -72,6 +83,12 @@ public final class RouterInitializer implements RouterInitializerIf {
         public RouterInitializerBuilder contexRouter(ContextualRouterIf contextRouterIn)
         {
             contextRouter = contextRouterIn;
+            return this;
+        }
+
+        public RouterInitializerBuilder defaultAc(Class<? extends Activity> defaultAcIn)
+        {
+            defaultAc = defaultAcIn;
             return this;
         }
 
