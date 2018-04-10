@@ -18,8 +18,12 @@ import java.util.Set;
 
 import timber.log.Timber;
 
+import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+import static com.didekindroid.lib_one.RouterInitializer.routerInitializer;
 import static com.didekindroid.lib_one.util.UiUtil.makeToast;
+import static com.didekinlib.http.exception.GenericExceptionMsg.GENERIC_INTERNAL_ERROR;
+import static com.didekinlib.http.exception.GenericExceptionMsg.NOT_FOUND;
 import static com.didekinlib.http.usuario.UsuarioExceptionMsg.BAD_REQUEST;
 import static com.didekinlib.http.usuario.UsuarioExceptionMsg.PASSWORD_NOT_SENT;
 import static com.didekinlib.http.usuario.UsuarioExceptionMsg.TOKEN_NULL;
@@ -43,6 +47,20 @@ import static java.util.EnumSet.of;
 
 public enum UserUiExceptionAction implements UiExceptionActionIf {
 
+    generic(
+            of(GENERIC_INTERNAL_ERROR, NOT_FOUND),
+            R.string.exception_generic_message,
+            routerInitializer.get().getDefaultAc()) {
+        @Override
+        public void initActivity(@NonNull Activity activity)
+        {
+            Timber.d("initActivity()");
+            if (getResourceIdForToast() > 0) {
+                makeToast(activity, getResourceIdForToast());
+            }
+            initActivity(activity, null, FLAG_ACTIVITY_NEW_TASK | FLAG_ACTIVITY_CLEAR_TOP);
+        }
+    },
     show_login_noUser(
             of(BAD_REQUEST, USERCOMU_WRONG_INIT, USER_COMU_NOT_FOUND, USER_DATA_NOT_INSERTED,
                     USER_NAME_DUPLICATE, USER_NAME_NOT_FOUND, USER_WRONG_INIT),

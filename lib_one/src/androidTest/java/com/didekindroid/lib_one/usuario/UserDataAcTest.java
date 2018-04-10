@@ -26,6 +26,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.checkBack;
+import static com.didekindroid.lib_one.testutil.EspressoTestUtil.checkUp;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.isResourceIdDisplayed;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.isToastInView;
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http_Router;
@@ -42,10 +43,13 @@ import static com.didekindroid.lib_one.usuario.UsuarioBundleKey.user_name;
 import static com.didekindroid.lib_one.usuario.UsuarioMockDao.usuarioMockDao;
 import static com.didekindroid.lib_one.usuario.testutil.UserEspressoTestUtil.typeUserNameAliasPswd;
 import static com.didekindroid.lib_one.usuario.testutil.UserEspressoTestUtil.typeUserNamePswd;
+import static com.didekindroid.lib_one.usuario.testutil.UserMenuTestUtils.DELETE_ME_AC;
+import static com.didekindroid.lib_one.usuario.testutil.UserMenuTestUtils.PASSWORD_CHANGE_AC;
 import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.waitAtMost;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
@@ -54,16 +58,17 @@ import static org.junit.Assert.fail;
  * Date: 09/04/2018
  * Time: 12:06
  */
+@SuppressWarnings("ConstantConditions")
 public class UserDataAcTest {
 
     private UserDataAc activity;
+    private boolean skipClean;
 
     @Rule
     public IntentsTestRule<? extends Activity> mActivityRule = new IntentsTestRule<UserDataAc>(UserDataAc.class) {
         @Override
         protected void beforeActivityLaunched()
         {
-
             initSec_Http_Router(getTargetContext());
             try {
                 regGetUserComu(comu_real_rodrigo);
@@ -77,12 +82,15 @@ public class UserDataAcTest {
     public void setUp()
     {
         activity = (UserDataAc) mActivityRule.getActivity();
+        skipClean = false;
     }
 
     @After
-    public void tearDown()
+    public void tearDown() throws UiException
     {
-
+        if (!skipClean) {
+            cleanOptions(CLEAN_RODRIGO);
+        }
     }
 
     // ============================================================
@@ -90,14 +98,12 @@ public class UserDataAcTest {
     // ============================================================
 
     @Test  // Wrong password.
-    public void testModifyUserDataWrongPswd() throws InterruptedException, UiException
+    public void testModifyUserDataWrongPswd() throws InterruptedException
     {
         SECONDS.sleep(2);
         typeUserNameAliasPswd("new_crodrigo@didekin.es", user_crodrigo.getAlias(), "wrong_password");
         onView(withId(R.id.user_data_modif_button)).perform(scrollTo()).check(matches(isDisplayed())).perform(click());
         waitAtMost(6, SECONDS).until(isToastInView(R.string.password_wrong, activity));
-
-        cleanOptions(CLEAN_RODRIGO);
     }
 
     @Test  // Modify userName and alias OK.
@@ -106,7 +112,7 @@ public class UserDataAcTest {
         SECONDS.sleep(2);
         typeClickWait();
 
-        assertThat(usuarioMockDao.deleteUser(USER_DROID.getUserName()).execute().body(), is(true));
+        skipClean = usuarioMockDao.deleteUser(USER_DROID.getUserName()).execute().body();
     }
 
     @Test  // Modify userName OK.
@@ -119,22 +125,38 @@ public class UserDataAcTest {
         // Check passwordSent dialog and back.
         checkBack(onView(withText(R.string.receive_password_by_mail_dialog)).inRoot(isDialog()).check(matches(isDisplayed())), userDataAcRsId);
 
-        assertThat(usuarioMockDao.deleteUser(USER_DROID.getUserName()).execute().body(), is(true));
+        skipClean = usuarioMockDao.deleteUser(USER_DROID.getUserName()).execute().body();
     }
 
     @Test
-    public final void testOnStop() throws UiException
+    public final void testOnStop()
     {
         activity.runOnUiThread(() -> {
             getInstrumentation().callActivityOnStop(activity);
             // Check.
             assertThat(requireNonNull(activity.viewer.getController()).getSubscriptions().size(), is(0));
         });
-
-        cleanOptions(CLEAN_RODRIGO);
     }
 
+    //    =================================  MENU TESTS ==================================
 
+    @SuppressWarnings("RedundantThrows")
+    @Test
+    public void testDeleteMeMn() throws InterruptedException
+    {
+        DELETE_ME_AC.checkItem(activity);
+        checkUp(userDataAcRsId);
+    }
+
+    @SuppressWarnings("RedundantThrows")
+    @Test
+    public void testPasswordChangeMn() throws InterruptedException
+    {
+        waitAtMost(6, SECONDS).untilAtomic(activity.viewer.getOldUser(), notNullValue());
+        PASSWORD_CHANGE_AC.checkItem(activity);
+        intended(hasExtra(user_name.key, user_crodrigo.getUserName()));
+        checkUp(userDataAcRsId);
+    }
 
     /*    =================================  HELPERS ==================================*/
 

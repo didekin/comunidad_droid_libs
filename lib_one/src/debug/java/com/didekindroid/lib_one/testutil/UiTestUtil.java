@@ -39,6 +39,36 @@ import static com.didekindroid.lib_one.util.UiUtil.assertTrue;
 @SuppressWarnings({"ConstantConditions", "unused"})
 public class UiTestUtil {
 
+    public static int focusOnView(Activity activity, int viewRsId)
+    {
+        final View view = activity.findViewById(viewRsId);
+
+        activity.runOnUiThread(() -> {
+            view.setFocusable(true);
+            view.setFocusableInTouchMode(true);
+            view.requestFocus();
+        });
+        return viewRsId;
+    }
+
+    public static Menu doMockMenu(Activity activity, int menuMockRsId)
+    {
+        PopupMenu popupMenu = new PopupMenu(activity, null);
+        Menu menu = popupMenu.getMenu();
+        activity.getMenuInflater().inflate(menuMockRsId, menu);
+        return menu;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public static void cleanTasks(Activity activity)
+    {
+        ActivityManager manager = (ActivityManager) activity.getSystemService(ACTIVITY_SERVICE);
+        List<ActivityManager.AppTask> tasks = manager.getAppTasks();
+        for (ActivityManager.AppTask task : tasks) {
+            task.finishAndRemoveTask();
+        }
+    }
+
     //    ============================= CONTROLLER/Adapters ===================================
 
     public static CompositeDisposable addSubscription(ControllerIf controller)
@@ -82,36 +112,6 @@ public class UiTestUtil {
             resetAllSchedulers();
         }
         assertTrue(controller.getSubscriptions().size() == 1, "subscriptions size OK");
-    }
-
-    public static int focusOnView(Activity activity, int viewRsId)
-    {
-        final View view = activity.findViewById(viewRsId);
-
-        activity.runOnUiThread(() -> {
-            view.setFocusable(true);
-            view.setFocusableInTouchMode(true);
-            view.requestFocus();
-        });
-        return viewRsId;
-    }
-
-    public static Menu doMockMenu(Activity activity, int menuMockRsId)
-    {
-        PopupMenu popupMenu = new PopupMenu(activity, null);
-        Menu menu = popupMenu.getMenu();
-        activity.getMenuInflater().inflate(menuMockRsId, menu);
-        return menu;
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public static void cleanTasks(Activity activity)
-    {
-        ActivityManager manager = (ActivityManager) activity.getSystemService(ACTIVITY_SERVICE);
-        List<ActivityManager.AppTask> tasks = manager.getAppTasks();
-        for (ActivityManager.AppTask task : tasks) {
-            task.finishAndRemoveTask();
-        }
     }
 
     //    ============================ VIEWERS ============================

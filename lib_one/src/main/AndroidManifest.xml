@@ -20,14 +20,24 @@
         <!-- **************************************************************** -->
         <activity
             android:name=".usuario.DeleteMeAc"
-            android:label="@string/delete_me_ac_label"/>
+            android:label="@string/delete_me_ac_label"
+            android:parentActivityName="com.didekindroid.lib_one.usuario.UserDataAc">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.didekindroid.lib_one.usuario.UserDataAc"/>
+        </activity>
         <activity
             android:name=".usuario.LoginAc"
-            android:launchMode="singleTop"
-            android:label="@string/login_label"/>
+            android:label="@string/login_label"
+            android:launchMode="singleTop"/>
         <activity
-            android:name=".usuario.PasswordChangeAc"
-            android:label="@string/password_ac_label"/>
+            android:name="com.didekindroid.lib_one.usuario.PasswordChangeAc"
+            android:label="@string/password_ac_label"
+            android:parentActivityName="com.didekindroid.lib_one.usuario.UserDataAc">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.didekindroid.lib_one.usuario.UserDataAc"/>
+        </activity>
         <activity
             android:name=".usuario.UserDataAc"
             android:label="@string/user_data_ac_mn"/>

@@ -7,6 +7,8 @@ import com.didekindroid.lib_one.usuario.dao.UsuarioObservableTest;
 import com.didekindroid.lib_one.usuario.notification.CtrlerNotifyTokenTest;
 import com.didekindroid.lib_one.usuario.notification.ViewerNotifyTokenTest;
 import com.didekindroid.lib_one.usuario.router.UserContextActionTest;
+import com.didekindroid.lib_one.usuario.router.UserMnActionTest;
+import com.didekindroid.lib_one.usuario.router.UserUiExceptionActionTest;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -29,9 +31,12 @@ import org.junit.runners.Suite;
         ViewerNotifyTokenTest.class,
         // usuario.router
         UserContextActionTest.class,
+        UserMnActionTest.class,
+        UserUiExceptionActionTest.class,
         // usuario.
         DeleteMeAcTest.class,
         LoginAcTest.class,
+        PasswordChangeTest.class,
         UserDataAcTest.class,
         UsuarioMockDaoTest.class,
         UsuarioBeanTests.class,

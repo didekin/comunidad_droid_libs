@@ -167,7 +167,7 @@ public final class ViewerPasswordChange extends Viewer<View, CtrlerUsuario> {
 
     // ...................... SUBSCRIBERS .........................
 
-    class PswdChangeCompletableObserver extends DisposableCompletableObserver {
+    public class PswdChangeCompletableObserver extends DisposableCompletableObserver {
         @Override
         public void onComplete()
         {

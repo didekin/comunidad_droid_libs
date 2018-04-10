@@ -7,7 +7,6 @@ import android.support.test.runner.AndroidJUnit4;
 import com.didekindroid.lib_one.R;
 import com.didekindroid.lib_one.api.ActivityMock;
 import com.didekindroid.lib_one.api.router.ContextualRouterIf;
-import com.didekindroid.lib_one.api.router.RouterActionIf;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -16,14 +15,22 @@ import org.junit.runner.RunWith;
 
 import static com.didekindroid.lib_one.RouterInitializer.routerInitializer;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.checkTextsInDialog;
+import static com.didekindroid.lib_one.testutil.EspressoTestUtil.isResourceIdDisplayed;
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http_Router;
 import static com.didekindroid.lib_one.usuario.UserTestData.CleanUserEnum.CLEAN_RODRIGO;
 import static com.didekindroid.lib_one.usuario.UserTestData.cleanOptions;
 import static com.didekindroid.lib_one.usuario.UserTestData.comu_real_rodrigo;
 import static com.didekindroid.lib_one.usuario.UserTestData.regGetUserComu;
+import static com.didekindroid.lib_one.usuario.UserTestNavigation.loginAcResourceId;
 import static com.didekindroid.lib_one.usuario.UsuarioBundleKey.usuario_object;
+import static com.didekindroid.lib_one.usuario.router.UserContextAction.login_from_default;
+import static com.didekindroid.lib_one.usuario.router.UserContextAction.login_from_user;
 import static com.didekindroid.lib_one.usuario.router.UserContextAction.showPswdSentMessage;
+import static com.didekindroid.lib_one.usuario.router.UserContextName.default_reg_user;
+import static com.didekindroid.lib_one.usuario.router.UserContextName.pswd_just_sent_to_user;
 import static com.didekindroid.lib_one.usuario.router.UserContextName.user_name_just_modified;
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.awaitility.Awaitility.waitAtMost;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -49,16 +56,32 @@ public class UserContextActionTest {
     }
 
     @Test
-    public void test_user_name_just_modified() throws Exception
+    public void testShowPswdSentMessage() throws Exception
     {
-        RouterActionIf action = router.getActionFromContextNm(user_name_just_modified);
-        assertThat(action, is(showPswdSentMessage));
-
+        // Preconditions.
         Bundle bundle = new Bundle(1);
         bundle.putSerializable(usuario_object.key, regGetUserComu(comu_real_rodrigo));
-        activity.runOnUiThread(() -> action.initActivity(activity, bundle, 0));
+
+        assertThat(router.getActionFromContextNm(user_name_just_modified), is(showPswdSentMessage));
+        activity.runOnUiThread(() -> showPswdSentMessage.initActivity(activity, bundle, 0));
         checkTextsInDialog(R.string.receive_password_by_mail_dialog, R.string.continuar_button_rot);
 
         cleanOptions(CLEAN_RODRIGO);
+    }
+
+    @Test
+    public void testLogin_from_user()
+    {
+        assertThat(router.getActionFromContextNm(pswd_just_sent_to_user), is(login_from_user));
+        activity.runOnUiThread(() -> login_from_user.initActivity(activity));
+        waitAtMost(4, SECONDS).until(isResourceIdDisplayed(loginAcResourceId));
+    }
+
+    @Test
+    public void testLogin_from_default()
+    {
+        assertThat(router.getActionFromContextNm(default_reg_user), is(login_from_default));
+        activity.runOnUiThread(() -> login_from_default.initActivity(activity));
+        waitAtMost(4, SECONDS).until(isResourceIdDisplayed(loginAcResourceId));
     }
 }

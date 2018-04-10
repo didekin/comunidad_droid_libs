@@ -70,6 +70,7 @@ public class ConfidencialidadAcTest {
         }
     }
 
+    @Test
     public void testBackStack()
     {
         List<Intent> intents = Arrays.asList(stackBuilder.getIntents());
@@ -81,8 +82,6 @@ public class ConfidencialidadAcTest {
     @Test
     public void test_OnCreate_UP()
     {
-        testBackStack();
-
         onView(withId(R.id.proteccion_datos_textview)).check(matches(withText(R.string.proteccion_datos_txt)));
         onView(withId(R.id.confidencialidad_fab)).check(matches(isDisplayed()));
 
@@ -98,7 +97,7 @@ public class ConfidencialidadAcTest {
         waitAtMost(6, SECONDS).until(isViewDisplayed(withId(R.id.confidencialidad_fab)));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             onView(withId(R.id.confidencialidad_fab)).perform(click());
-            waitAtMost(4, SECONDS).until(isResourceIdDisplayed(mockAcLayout));
+            waitAtMost(4, SECONDS).until(isResourceIdDisplayed(mockAcLayout)); // It depends on backStack.
         }
     }
 }

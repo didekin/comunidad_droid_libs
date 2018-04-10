@@ -8,16 +8,25 @@ import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.matcher.RootMatchers;
+import android.support.test.runner.lifecycle.Stage;
 import android.view.View;
 
 import com.didekindroid.lib_one.R;
+import com.didekindroid.lib_one.api.ControllerIf;
 
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 
+import java.util.Collection;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
+import java.util.concurrent.atomic.AtomicInteger;
 
+import timber.log.Timber;
+
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -30,9 +39,13 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static android.support.test.runner.lifecycle.ActivityLifecycleMonitorRegistry.getInstance;
+import static com.didekindroid.lib_one.testutil.UiTestUtil.addSubscription;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.waitAtMost;
 import static org.hamcrest.CoreMatchers.allOf;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
 /**
@@ -79,6 +92,27 @@ public class EspressoTestUtil {
                 return false;
             }
         };
+    }
+
+    // ============================  Controllers  ============================
+
+    public static void checkSubscriptionsOnStop(final Activity activity, final ControllerIf... controllers)
+    {
+        final AtomicInteger atomicInteger = new AtomicInteger(0);
+        for (ControllerIf controller : controllers) {
+            atomicInteger.addAndGet(addSubscription(controller).size());
+        }
+        assertThat(atomicInteger.get() >= controllers.length, is(true));
+
+        activity.runOnUiThread(() -> {
+            getInstrumentation().callActivityOnStop(activity);
+            atomicInteger.set(0);
+            for (ControllerIf controller : controllers) {
+                atomicInteger.addAndGet(controller.getSubscriptions().size());
+            }
+        });
+
+        waitAtMost(6, SECONDS).untilAtomic(atomicInteger, is(0));
     }
 
     // ============================  Dialogs  ============================
@@ -165,6 +199,24 @@ public class EspressoTestUtil {
                 fail();
             }
         }
+    }
+
+    public static Collection<Activity> getActivitesInTaskByStage(final Stage stage) throws ExecutionException, InterruptedException
+    {
+        Timber.d("============= getActivitesInTaskByStage() =================");
+
+        final FutureTask<Collection<Activity>> taskGetActivities = new FutureTask<>(() -> getInstance().getActivitiesInStage(stage));
+        getInstrumentation().runOnMainSync(taskGetActivities);
+        return taskGetActivities.get();
+    }
+
+    public static Stage getStageByActivity(final Activity activity) throws ExecutionException, InterruptedException
+    {
+        Timber.d("============= getStageByActivity() =================");
+
+        final FutureTask<Stage> taskGetActivities = new FutureTask<>(() -> getInstance().getLifecycleStageOf(activity));
+        getInstrumentation().runOnMainSync(taskGetActivities);
+        return taskGetActivities.get();
     }
 
     //    ============================ TOASTS ============================

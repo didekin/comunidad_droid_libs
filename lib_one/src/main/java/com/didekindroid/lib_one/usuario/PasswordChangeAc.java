@@ -44,4 +44,9 @@ public class PasswordChangeAc extends AppCompatActivity {
         super.onStop();
         viewer.clearSubscriptions();
     }
+
+    public ViewerPasswordChange getViewer()
+    {
+        return viewer;
+    }
 }
