@@ -11,7 +11,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static android.support.test.espresso.intent.Intents.intended;
@@ -20,18 +19,13 @@ import static com.didekindroid.lib_one.RouterInitializer.routerInitializer;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.isResourceIdDisplayed;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.isToastInView;
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http_Router;
-import static com.didekindroid.lib_one.testutil.MockTestConstant.mockAcLayout;
 import static com.didekindroid.lib_one.usuario.UserTestNavigation.loginAcResourceId;
-import static com.didekindroid.lib_one.usuario.router.UserUiExceptionAction.generic;
 import static com.didekindroid.lib_one.usuario.router.UserUiExceptionAction.show_login_noUser;
 import static com.didekindroid.lib_one.usuario.router.UserUiExceptionAction.show_login_tokenNull;
-import static com.didekinlib.http.exception.GenericExceptionMsg.GENERIC_INTERNAL_ERROR;
 import static com.didekinlib.http.usuario.UsuarioExceptionMsg.TOKEN_NULL;
 import static com.didekinlib.http.usuario.UsuarioExceptionMsg.USERCOMU_WRONG_INIT;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.waitAtMost;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 
 /**
  * User: pedro@didekin
@@ -61,15 +55,6 @@ public class UserUiExceptionActionTest {
     // ============================================================
     //    ................ TESTS ..............
     // ============================================================
-
-    @Test
-    public void test_generic()
-    {
-        final UiException ue = new UiException(new ErrorBean(GENERIC_INTERNAL_ERROR));
-        assertThat(routerInitializer.get().getDefaultAc().equals(ActivityMock.class), is(true));
-        run(ue, generic, mockAcLayout);
-        intended(hasFlag(FLAG_ACTIVITY_CLEAR_TOP));
-    }
 
     @Test
     public void test_show_login_noUser()
