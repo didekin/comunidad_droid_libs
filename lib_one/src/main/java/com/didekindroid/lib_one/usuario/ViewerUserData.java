@@ -39,7 +39,7 @@ import static com.didekinlib.http.usuario.UsuarioExceptionMsg.BAD_REQUEST;
  * Date: 22/03/17
  * Time: 10:27
  */
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "WeakerAccess"})
 public final class ViewerUserData extends Viewer<View, CtrlerUsuarioIf> implements ViewerUserDataIf {
 
     private final EditText emailView;
@@ -47,7 +47,6 @@ public final class ViewerUserData extends Viewer<View, CtrlerUsuarioIf> implemen
     private final EditText passwordView;
     private final AtomicReference<UsuarioBean> usuarioBean;
     private final AtomicReference<Usuario> oldUser;
-    @SuppressWarnings("WeakerAccess")
     final AtomicReference<Usuario> newUser;
 
     private ViewerUserData(View view, Activity activity)
@@ -220,8 +219,7 @@ public final class ViewerUserData extends Viewer<View, CtrlerUsuarioIf> implemen
         }
     }
 
-    // ================================= Getters ==================================
-
+    /* ================================= Getters ==================================*/
 
     public EditText getEmailView()
     {

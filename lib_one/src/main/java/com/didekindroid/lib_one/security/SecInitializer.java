@@ -5,7 +5,6 @@ import android.content.res.Resources;
 
 import com.didekinlib.http.JksInClient;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -68,7 +67,7 @@ public class SecInitializer implements SecInitializerIf {
         }
 
         @Override
-        public InputStream getInputStream() throws IOException
+        public InputStream getInputStream()
         {
             return secInitializer.get().getAppResources().openRawResource(jksResourceId);
         }

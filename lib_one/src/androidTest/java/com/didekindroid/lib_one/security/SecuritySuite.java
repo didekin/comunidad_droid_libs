@@ -15,6 +15,7 @@ import org.junit.runners.Suite;
         CtrlerAuthTokenTest.class,
         JceTests.class,
         OauthTokenObservableTest.class,
+        SecInitializerTest.class,
         TokenIdentityCacherTest_1.class,
         TokenIdentityCacherTest_2.class,
 })

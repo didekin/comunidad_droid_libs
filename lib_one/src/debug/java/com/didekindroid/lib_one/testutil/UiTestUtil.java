@@ -36,7 +36,7 @@ import static com.didekindroid.lib_one.util.UiUtil.assertTrue;
  * Time: 13:28
  */
 
-@SuppressWarnings({"ConstantConditions", "unused"})
+@SuppressWarnings({"ConstantConditions", "unused", "WeakerAccess"})
 public class UiTestUtil {
 
     public static int focusOnView(Activity activity, int viewRsId)
@@ -49,14 +49,6 @@ public class UiTestUtil {
             view.requestFocus();
         });
         return viewRsId;
-    }
-
-    public static Menu doMockMenu(Activity activity, int menuMockRsId)
-    {
-        PopupMenu popupMenu = new PopupMenu(activity, null);
-        Menu menu = popupMenu.getMenu();
-        activity.getMenuInflater().inflate(menuMockRsId, menu);
-        return menu;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -112,6 +104,16 @@ public class UiTestUtil {
             resetAllSchedulers();
         }
         assertTrue(controller.getSubscriptions().size() == 1, "subscriptions size OK");
+    }
+
+    //    ============================ MENU ============================
+
+    public static Menu doMockMenu(Activity activity, int menuMockRsId)
+    {
+        PopupMenu popupMenu = new PopupMenu(activity, null);
+        Menu menu = popupMenu.getMenu();
+        activity.getMenuInflater().inflate(menuMockRsId, menu);
+        return menu;
     }
 
     //    ============================ VIEWERS ============================

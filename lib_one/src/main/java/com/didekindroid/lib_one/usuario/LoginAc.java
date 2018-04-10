@@ -73,7 +73,7 @@ public class LoginAc extends AppCompatActivity {
     // ============================================================
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)    // TODO: test.
+    public boolean onOptionsItemSelected(MenuItem item)
     {
         Timber.d("onOptionsItemSelected()");
         int resourceId = item.getItemId();

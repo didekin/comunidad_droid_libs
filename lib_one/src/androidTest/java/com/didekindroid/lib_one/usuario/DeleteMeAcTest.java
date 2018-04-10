@@ -1,5 +1,6 @@
 package com.didekindroid.lib_one.usuario;
 
+import android.os.Build;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.v7.app.AppCompatActivity;
 
@@ -9,14 +10,14 @@ import com.didekindroid.lib_one.api.exception.UiException;
 import com.didekindroid.lib_one.api.router.ContextualRouterIf;
 import com.didekindroid.lib_one.api.router.RouterActionIf;
 import com.didekindroid.lib_one.api.router.RouterInitializerMock;
-import com.didekindroid.lib_one.usuario.dao.CtrlerUsuario;
-import com.didekindroid.lib_one.usuario.dao.CtrlerUsuarioIf;
 
 import org.hamcrest.CoreMatchers;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import static android.app.TaskStackBuilder.create;
 import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK;
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
@@ -31,12 +32,15 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.didekindroid.lib_one.RouterInitializer.routerInitializer;
-import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http;
+import static com.didekindroid.lib_one.testutil.EspressoTestUtil.checkUp;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http_Router;
 import static com.didekindroid.lib_one.testutil.MockTestConstant.nextMockAcLayout;
+import static com.didekindroid.lib_one.testutil.UiTestUtil.cleanTasks;
 import static com.didekindroid.lib_one.usuario.UserTestData.CleanUserEnum.CLEAN_RODRIGO;
 import static com.didekindroid.lib_one.usuario.UserTestData.cleanOptions;
 import static com.didekindroid.lib_one.usuario.UserTestData.comu_real_rodrigo;
 import static com.didekindroid.lib_one.usuario.UserTestData.regGetUserComu;
+import static com.didekindroid.lib_one.usuario.UserTestNavigation.userDataAcRsId;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.waitAtMost;
 import static org.hamcrest.CoreMatchers.allOf;
@@ -59,31 +63,44 @@ public class DeleteMeAcTest {
         @Override
         protected void beforeActivityLaunched()
         {
-            // Precondition: the user is registered.
             try {
-                initSec_Http(getTargetContext());
+                initSec_Http_Router(getTargetContext());
                 regGetUserComu(comu_real_rodrigo);
             } catch (Exception e) {
                 fail();
             }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                create(getTargetContext()).addParentStack(DeleteMeAc.class).startActivities();
+            }
         }
     };
-    private CtrlerUsuarioIf controller;
+    private boolean mustClean;
 
     @Before
     public void setUp()
     {
         activity = (DeleteMeAc) mActivityRule.getActivity();
-        // Default initialization.
-        controller = new CtrlerUsuario();
+        mustClean = true;
+    }
+
+    @After
+    public void clean() throws UiException
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            cleanTasks(activity);
+        }
+
+        if (mustClean) {
+            cleanOptions(CLEAN_RODRIGO);
+        }
     }
 
     //    =====================================  TESTS  ==========================================
 
     @Test
-    public void testOnCreate() throws UiException
+    public void testOnCreate()
     {
-        assertThat(controller.getTkCacher().isRegisteredUser(), is(true));
+        assertThat(activity.controller.getTkCacher().isRegisteredUser(), is(true));
         assertThat(activity, notNullValue());
 
         onView(withId(R.id.delete_me_ac_layout)).check(matches(isDisplayed()));
@@ -93,27 +110,27 @@ public class DeleteMeAcTest {
         onView(allOf(withContentDescription(R.string.navigate_up_txt), isClickable()))
                 .check(matches(isDisplayed()));
 
-        cleanOptions(CLEAN_RODRIGO);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            checkUp(userDataAcRsId);
+        }
     }
 
     @Test
-    public final void testOnStop() throws UiException
+    public final void testOnStop()
     {
         activity.runOnUiThread(() -> getInstrumentation().callActivityOnStop(activity));
         // Check.
-        assertThat(controller.getSubscriptions().size(), CoreMatchers.is(0));
-        cleanOptions(CLEAN_RODRIGO);
+        assertThat(activity.controller.getSubscriptions().size(), CoreMatchers.is(0));
     }
 
     @Test
-    public final void testOnStart() throws UiException
+    public final void testOnStart()
     {
         activity.runOnUiThread(() -> {
             getInstrumentation().callActivityOnStart(activity);
             // Check.
-            assertThat(controller, notNullValue());
+            assertThat(activity.controller, notNullValue());
         });
-        cleanOptions(CLEAN_RODRIGO);
     }
 
     @Test
@@ -128,9 +145,10 @@ public class DeleteMeAcTest {
         });
 
         onView(withId(R.id.delete_me_ac_unreg_button)).check(matches(isDisplayed())).perform(click());
-        waitAtMost(4, SECONDS).until(() -> controller.isRegisteredUser(), is(false));
+        waitAtMost(4, SECONDS).until(() -> activity.controller.isRegisteredUser(), is(false));
         onView(withId(nextMockAcLayout)).check(matches(isDisplayed()));
         intended(hasFlag(FLAG_ACTIVITY_NEW_TASK | FLAG_ACTIVITY_CLEAR_TASK));
-    }
 
+        mustClean = false;
+    }
 }

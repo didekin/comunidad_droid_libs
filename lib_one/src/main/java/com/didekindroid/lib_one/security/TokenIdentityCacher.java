@@ -31,9 +31,10 @@ import static com.didekinlib.http.usuario.UsuarioExceptionMsg.TOKEN_NULL;
  * Date: 25/06/15
  * Time: 17:28
  */
+@SuppressWarnings("WeakerAccess")
 public final class TokenIdentityCacher implements IdentityCacherIf {
 
-    static final String refresh_token_filename = "tk_file";
+    public static final String refresh_token_filename = "tk_file";
 
     private final AtomicReference<SpringOauthToken> tokenCache;
     private final File refreshTokenFile;

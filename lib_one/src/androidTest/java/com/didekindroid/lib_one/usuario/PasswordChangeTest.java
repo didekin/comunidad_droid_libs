@@ -3,7 +3,6 @@ package com.didekindroid.lib_one.usuario;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -77,7 +76,6 @@ public class PasswordChangeTest {
         assertThat(requireNonNull(activity.viewer.getController()).isRegisteredUser(), is(true));
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @After
     public void clean() throws UiException
     {

@@ -49,6 +49,11 @@ public class UserDataAc extends AppCompatActivity {
         viewer.clearSubscriptions();
     }
 
+    public ViewerUserData getViewer()
+    {
+        return viewer;
+    }
+
 //    ============================================================
 //    ..... ACTION BAR ....
 //    ============================================================
@@ -62,7 +67,7 @@ public class UserDataAc extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)         // TODO: test.
+    public boolean onOptionsItemSelected(MenuItem item)
     {
         Timber.d("onOptionsItemSelected()");
 

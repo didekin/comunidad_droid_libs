@@ -33,8 +33,8 @@ public final class InitializerTestUtil {
     private static final int webHost = R.string.didekin_web_host;
     private static final int webHostPort = R.string.didekin_web_port;
     private static final int timeOut = R.string.timeOut;
-    private static final int bks_pswd = R.string.didekindroid_bks_pswd;
-    private static final int bks_name = R.string.didekindroid_bks_name;
+    public static final int bks_pswd = R.string.didekindroid_bks_pswd;
+    public static final int bks_name = R.string.didekindroid_bks_name;
 
     private InitializerTestUtil()
     {

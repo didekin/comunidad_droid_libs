@@ -18,6 +18,7 @@ import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -27,6 +28,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import timber.log.Timber;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -40,7 +42,9 @@ import static android.support.test.espresso.matcher.ViewMatchers.withContentDesc
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static android.support.test.runner.lifecycle.ActivityLifecycleMonitorRegistry.getInstance;
+import static com.didekindroid.lib_one.security.TokenIdentityCacher.refresh_token_filename;
 import static com.didekindroid.lib_one.testutil.UiTestUtil.addSubscription;
+import static com.didekindroid.lib_one.util.IoHelper.writeFileFromString;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.waitAtMost;
 import static org.hamcrest.CoreMatchers.allOf;
@@ -217,6 +221,14 @@ public class EspressoTestUtil {
         final FutureTask<Stage> taskGetActivities = new FutureTask<>(() -> getInstance().getLifecycleStageOf(activity));
         getInstrumentation().runOnMainSync(taskGetActivities);
         return taskGetActivities.get();
+    }
+
+    //    ============================ Security ============================
+
+    public static void writeFile(String stringToFile)
+    {
+        File refreshTkFile = new File(getTargetContext().getFilesDir(), refresh_token_filename);
+        writeFileFromString(stringToFile, refreshTkFile);
     }
 
     //    ============================ TOASTS ============================
