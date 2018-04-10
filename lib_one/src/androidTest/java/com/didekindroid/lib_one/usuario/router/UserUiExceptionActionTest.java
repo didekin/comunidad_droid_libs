@@ -70,6 +70,8 @@ public class UserUiExceptionActionTest {
         run(ue, show_login_tokenNull, loginAcResourceId);
     }
 
+    // TODO: falta test de un action.
+
     // ============================  Helpers ==============================
 
     private void run(UiException ue, UserUiExceptionAction uiExceptionAction, int checkLayout)
