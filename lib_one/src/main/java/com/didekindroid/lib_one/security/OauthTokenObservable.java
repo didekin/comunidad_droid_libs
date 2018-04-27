@@ -24,6 +24,10 @@ import static io.reactivex.Single.fromCallable;
 public final class OauthTokenObservable {
 
     /**
+     * Preconditions:
+     * 1. A token contains information about a user and about a FirebaseInstanceID.
+     * 2. The same user in two different devices must have different tokens, even if userName and password are the same.
+     *
      * @return a Single to obtain a new access token with userName and password credentials.
      */
     public static Single<SpringOauthToken> oauthTokenFromUserPswd(final Usuario usuario)
@@ -47,7 +51,7 @@ public final class OauthTokenObservable {
 
         return fromCallable(() -> authDao.getRefreshUserToken(refreshToken))
                 .doOnSuccess(secInitializer.get().getTkCacher()::initIdentityCache)
-                .toCompletable();
+                .ignoreElement();
     }
 
     /**
@@ -62,7 +66,7 @@ public final class OauthTokenObservable {
         Timber.d("oauthTokenAndInitCache()");
         return oauthTokenFromUserPswd(usuario)
                 .doOnSuccess(secInitializer.get().getTkCacher().getInitTokenUpdateRegisterAction())
-                .toCompletable();
+                .ignoreElement();
     }
 
     /**
@@ -76,6 +80,6 @@ public final class OauthTokenObservable {
         Timber.d("oauthTokenAndInitCache()");
         return oauthTokenFromUserPswd(usuario)
                 .doOnSuccess(secInitializer.get().getTkCacher().getInitTokenUpdateRegisterAction())
-                .toCompletable();
+                .ignoreElement();
     }
 }

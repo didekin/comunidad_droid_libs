@@ -37,6 +37,7 @@ public final class TokenIdentityCacher implements IdentityCacherIf {
     public static final String refresh_token_filename = "tk_file";
 
     private final AtomicReference<SpringOauthToken> tokenCache;
+    // TODO: this field can be deleted and used Context.openFileOutput(FILE_NAME, Context.MODE_PRIVATE), or openFileInput(FILE_NAME) when reading.
     private final File refreshTokenFile;
     private final Context context;
 

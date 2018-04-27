@@ -21,6 +21,7 @@ import timber.log.Timber;
  * Date: 19/06/15
  * Time: 12:30
  */
+@SuppressWarnings("WeakerAccess")
 public final class IoHelper {
 
     private IoHelper()
