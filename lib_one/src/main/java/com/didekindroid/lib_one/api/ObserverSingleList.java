@@ -14,7 +14,8 @@ import timber.log.Timber;
  * Time: 10:06
  */
 @SuppressWarnings("WeakerAccess")
-public class ObserverSingleList<H extends ViewerListIf<?,?, E>,E extends Serializable> extends DisposableSingleObserver<List<E>> {
+public class ObserverSingleList<H extends ViewerListIf<?, ?, E>, E extends Serializable> extends
+        DisposableSingleObserver<List<E>> {
 
     private final H viewer;
 
@@ -28,7 +29,7 @@ public class ObserverSingleList<H extends ViewerListIf<?,?, E>,E extends Seriali
     {
         Timber.d("onSuccess()");
         List<E> newList;
-        if (list == null){
+        if (list == null) {
             newList = new ArrayList<>(0);
         } else {
             newList = Collections.unmodifiableList(list);

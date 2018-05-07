@@ -2,14 +2,18 @@ package com.didekindroid.lib_one.security;
 
 import android.support.test.runner.AndroidJUnit4;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.security.KeyStore;
 import java.security.Provider;
-import java.util.Arrays;
 
+import timber.log.Timber;
+
+import static java.security.KeyStore.getDefaultType;
 import static java.security.Security.getProviders;
+import static java.util.Arrays.binarySearch;
+import static java.util.Arrays.sort;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -21,22 +25,39 @@ import static org.junit.Assert.assertThat;
 @RunWith(AndroidJUnit4.class)
 public class JceTests {
 
+    @Before
+    public void setUp(){
+        Timber.plant(new Timber.DebugTree());
+    }
+
     @Test
-    public void testProviders_2()
+    public void testProviders_1()
     {
         Provider[] providers = getProviders();
         String[] providerNames = new String[providers.length];
         for (int i = 0; i < providerNames.length; ++i) {
             providerNames[i] = providers[i].getName();
+            Timber.d("=============%s%n", providerNames[i]);
         }
-        Arrays.sort(providerNames);
-        assertThat(Arrays.binarySearch(providerNames, "BC") >= 0, is(true));
+        sort(providerNames);
+        assertThat(binarySearch(providerNames, "BC") >= 0, is(true));
+    }
+
+    @Test
+    public void testProviders_2()
+    {
+        Provider[] providers = getProviders();
+        for (Provider provider : providers) {
+            if (provider.getName().equals("BC")) {
+                Timber.d("=============%s%n", provider.getServices().toString());
+            }
+        }
     }
 
     @Test
     public void testKeyStore()
     {
-        String keyStoreType = KeyStore.getDefaultType();
+        String keyStoreType = getDefaultType();
         assertThat(keyStoreType, is("BKS"));
     }
 }

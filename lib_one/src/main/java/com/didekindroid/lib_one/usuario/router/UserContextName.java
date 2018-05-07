@@ -19,6 +19,5 @@ public enum UserContextName implements ContextualNameIf {
     user_name_just_modified,
     pswd_just_modified,
     pswd_just_sent_to_user,
-    user_just_deleted,
-    ;
+    user_just_deleted,;
 }

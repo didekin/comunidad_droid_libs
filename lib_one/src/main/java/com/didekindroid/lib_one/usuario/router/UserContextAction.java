@@ -18,13 +18,13 @@ import java.util.Set;
 
 import timber.log.Timber;
 
+import static com.didekindroid.lib_one.usuario.UsuarioAssertionMsg.user_name_should_be_initialized;
+import static com.didekindroid.lib_one.usuario.UsuarioBundleKey.usuario_object;
 import static com.didekindroid.lib_one.usuario.router.UserContextName.default_reg_user;
 import static com.didekindroid.lib_one.usuario.router.UserContextName.new_comu_user_usercomu_just_registered;
 import static com.didekindroid.lib_one.usuario.router.UserContextName.new_user_usercomu_just_registered;
 import static com.didekindroid.lib_one.usuario.router.UserContextName.pswd_just_sent_to_user;
 import static com.didekindroid.lib_one.usuario.router.UserContextName.user_name_just_modified;
-import static com.didekindroid.lib_one.usuario.UsuarioAssertionMsg.user_name_should_be_initialized;
-import static com.didekindroid.lib_one.usuario.UsuarioBundleKey.usuario_object;
 import static com.didekindroid.lib_one.util.UiUtil.assertTrue;
 import static java.util.EnumSet.of;
 
@@ -51,8 +51,7 @@ public enum UserContextAction implements RouterActionIf {
             DialogFragment newFragment = PasswordSentDialog.newInstance(bundle);
             newFragment.show(activity.getFragmentManager(), "passwordMailDialog");
         }
-    },
-    ;
+    },;
 
     // ==========================  Static members ============================
 

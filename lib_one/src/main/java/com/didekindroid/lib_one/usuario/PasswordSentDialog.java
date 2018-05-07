@@ -11,10 +11,10 @@ import com.didekinlib.model.usuario.Usuario;
 import timber.log.Timber;
 
 import static com.didekindroid.lib_one.RouterInitializer.routerInitializer;
-import static com.didekindroid.lib_one.usuario.router.UserContextName.pswd_just_sent_to_user;
 import static com.didekindroid.lib_one.usuario.UsuarioAssertionMsg.user_name_should_be_initialized;
 import static com.didekindroid.lib_one.usuario.UsuarioBundleKey.user_name;
 import static com.didekindroid.lib_one.usuario.UsuarioBundleKey.usuario_object;
+import static com.didekindroid.lib_one.usuario.router.UserContextName.pswd_just_sent_to_user;
 import static com.didekindroid.lib_one.util.UiUtil.assertTrue;
 
 /**

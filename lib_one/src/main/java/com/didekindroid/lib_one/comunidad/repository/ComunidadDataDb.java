@@ -12,11 +12,11 @@ import static com.didekindroid.lib_one.comunidad.repository.ComunidadDataDb.Prov
  */
 public final class ComunidadDataDb {
 
+    static final String SQL_ENABLE_FK = "PRAGMA foreign_keys=ON;";
+
     private ComunidadDataDb()
     {
     }
-
-    static final String SQL_ENABLE_FK = "PRAGMA foreign_keys=ON;";
 
     public interface TipoVia extends BaseColumns {
 

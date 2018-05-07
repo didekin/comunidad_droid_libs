@@ -28,7 +28,7 @@ public class ObserverSingleSelectList<H extends ViewerSelectListIf<?, ?, E>, E e
     {
         Timber.d("onSuccess()");
         List<E> newList;
-        if (list == null){
+        if (list == null) {
             newList = new ArrayList<>(0);
         } else {
             newList = Collections.unmodifiableList(list);

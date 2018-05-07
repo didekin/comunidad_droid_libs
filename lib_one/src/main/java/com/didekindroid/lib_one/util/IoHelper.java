@@ -102,6 +102,6 @@ public final class IoHelper {
     public static String lineToLowerCase(String line)
     {
         String lineTrim = line.trim();
-        return lineTrim.substring(0,1) + lineTrim.substring(1).toLowerCase(Locale.getDefault());
+        return lineTrim.substring(0, 1) + lineTrim.substring(1).toLowerCase(Locale.getDefault());
     }
 }

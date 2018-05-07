@@ -23,10 +23,10 @@ import java.util.concurrent.atomic.AtomicReference;
 import io.reactivex.observers.DisposableSingleObserver;
 import timber.log.Timber;
 
-import static com.didekindroid.lib_one.usuario.router.UserContextName.login_just_done;
 import static com.didekindroid.lib_one.usuario.UsuarioBundleKey.login_counter_atomic_int;
 import static com.didekindroid.lib_one.usuario.UsuarioBundleKey.usuario_object;
 import static com.didekindroid.lib_one.usuario.ViewerLogin.PasswordMailDialog.newInstance;
+import static com.didekindroid.lib_one.usuario.router.UserContextName.login_just_done;
 import static com.didekindroid.lib_one.util.CommonAssertionMsg.bean_fromView_should_be_initialized;
 import static com.didekindroid.lib_one.util.UiUtil.assertTrue;
 import static com.didekindroid.lib_one.util.UiUtil.checkInternet;
@@ -228,20 +228,6 @@ public final class ViewerLogin extends Viewer<View, CtrlerUsuario> {
     // ....................... SUBSCRIBERS ...................
     // ============================================================
 
-    abstract class LoginObserver extends DisposableSingleObserver<Boolean> {
-
-        @Override
-        public void onError(Throwable e)
-        {
-            Timber.d("onError, message: %s", e.getMessage());
-            onErrorInObserver(e);
-        }
-    }
-
-    // ============================================================
-    // ....................... Inner classes ...................
-    // ============================================================
-
     public static class PasswordMailDialog extends DialogFragment {
 
         private ViewerLogin viewerLogin;
@@ -272,6 +258,20 @@ public final class ViewerLogin extends Viewer<View, CtrlerUsuario> {
                             }
                     );
             return builder.create();
+        }
+    }
+
+    // ============================================================
+    // ....................... Inner classes ...................
+    // ============================================================
+
+    abstract class LoginObserver extends DisposableSingleObserver<Boolean> {
+
+        @Override
+        public void onError(Throwable e)
+        {
+            Timber.d("onError, message: %s", e.getMessage());
+            onErrorInObserver(e);
         }
     }
 }

@@ -15,5 +15,6 @@ import io.reactivex.observers.DisposableSingleObserver;
 public interface CtrlerSelectListIf<E extends Serializable> extends ControllerIf {
 
     boolean loadItemsByEntitiyId(DisposableSingleObserver<List<E>> observer, Long... entityId);
+
     boolean selectItem(DisposableSingleObserver<Bundle> observer, E item);
 }

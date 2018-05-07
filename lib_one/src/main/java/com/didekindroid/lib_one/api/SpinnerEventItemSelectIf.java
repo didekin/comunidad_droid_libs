@@ -6,7 +6,7 @@ import java.io.Serializable;
  * User: pedro@didekin
  * Date: 12/05/17
  * Time: 17:31
- *
+ * <p>
  * This class encapsulates spinner selection.
  */
 

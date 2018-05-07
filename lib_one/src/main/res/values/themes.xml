@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="themeOne" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- customize the color palette -->
         <item name="colorPrimary">@color/purple_700</item>

@@ -10,5 +10,6 @@ import android.widget.TextView;
 public interface FechaPickerUserIf {
 
     TextView getFechaView();
+
     FechaPickerBean getPickerBean();
 }

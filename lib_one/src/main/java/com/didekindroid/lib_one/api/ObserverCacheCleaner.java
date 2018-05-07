@@ -13,9 +13,9 @@ import static com.didekindroid.lib_one.util.UiUtil.assertTrue;
 @SuppressWarnings("WeakerAccess")
 public class ObserverCacheCleaner extends DisposableCompletableObserver {
 
-    private final Viewer<?,?> viewer;
+    private final Viewer<?, ?> viewer;
 
-    public ObserverCacheCleaner(Viewer<?,?> viewer)
+    public ObserverCacheCleaner(Viewer<?, ?> viewer)
     {
         this.viewer = viewer;
         assertTrue(viewer.getController() != null, "Controller not null");

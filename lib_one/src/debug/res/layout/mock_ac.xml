@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout
+    android:id="@+id/mock_ac_layout"
     style="@style/baseLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:fitsSystemWindows="true"
-    android:id="@+id/mock_ac_layout">
+    android:fitsSystemWindows="true">
 
     <fragment
         android:id="@+id/list_mock_frg"

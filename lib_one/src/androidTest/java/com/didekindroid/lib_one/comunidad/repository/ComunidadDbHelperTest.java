@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteCursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.didekindroid.lib_one.comunidad.spinner.TipoViaValueObj;
@@ -20,7 +19,6 @@ import org.junit.runner.RunWith;
 import java.util.List;
 
 import static android.support.test.InstrumentationRegistry.getContext;
-import static com.didekindroid.lib_one.HttpInitializer.httpInitializer;
 import static com.didekindroid.lib_one.comunidad.repository.ComunidadDataDb.ComunidadAutonoma.NUMBER_RECORDS;
 import static com.didekindroid.lib_one.comunidad.repository.ComunidadDataDb.TipoVia;
 import static com.didekindroid.lib_one.comunidad.repository.ComunidadDbHelper.DB_NAME;

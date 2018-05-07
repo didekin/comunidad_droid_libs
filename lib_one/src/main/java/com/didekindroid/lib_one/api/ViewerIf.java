@@ -19,6 +19,7 @@ public interface ViewerIf<T extends View, C extends ControllerIf> {
 
 
     Activity getActivity();
+
     UiExceptionRouterIf getExceptionRouter();
 
     void onErrorInObserver(Throwable error);

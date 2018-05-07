@@ -19,7 +19,8 @@ public interface FragmentInitiatorIf<T extends Fragment> {
 
     AppCompatActivity getActivity();
 
-    default int getContainerId(){
+    default int getContainerId()
+    {
         return 0;
     }
 

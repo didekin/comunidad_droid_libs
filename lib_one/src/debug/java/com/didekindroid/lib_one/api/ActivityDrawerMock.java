@@ -51,17 +51,17 @@ public class ActivityDrawerMock extends AppCompatActivity implements DrawerDecor
         }
     }
 
-    public void setViewerDrawer(ViewerUserDrawer viewerDrawer)
-    {
-        this.viewerDrawer = viewerDrawer;
-    }
-
-    /* ==================================== DrawerDecoratedIf ====================================*/
-
     @Override
     public ViewerUserDrawer getViewerDrawer()
     {
         return viewerDrawer;
+    }
+
+    /* ==================================== DrawerDecoratedIf ====================================*/
+
+    public void setViewerDrawer(ViewerUserDrawer viewerDrawer)
+    {
+        this.viewerDrawer = viewerDrawer;
     }
 
     @Override

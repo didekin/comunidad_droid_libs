@@ -19,12 +19,12 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import timber.log.Timber;
 
-import static com.didekindroid.lib_one.usuario.router.UserContextName.user_alias_just_modified;
-import static com.didekindroid.lib_one.usuario.router.UserContextName.user_name_just_modified;
 import static com.didekindroid.lib_one.usuario.UsuarioBundleKey.usuario_object;
 import static com.didekindroid.lib_one.usuario.ViewerUserDataIf.UserChangeToMake.alias_only;
 import static com.didekindroid.lib_one.usuario.ViewerUserDataIf.UserChangeToMake.nothing;
 import static com.didekindroid.lib_one.usuario.ViewerUserDataIf.UserChangeToMake.userName;
+import static com.didekindroid.lib_one.usuario.router.UserContextName.user_alias_just_modified;
+import static com.didekindroid.lib_one.usuario.router.UserContextName.user_name_just_modified;
 import static com.didekindroid.lib_one.util.CommonAssertionMsg.user_should_be_registered;
 import static com.didekindroid.lib_one.util.UiUtil.assertTrue;
 import static com.didekindroid.lib_one.util.UiUtil.checkInternet;

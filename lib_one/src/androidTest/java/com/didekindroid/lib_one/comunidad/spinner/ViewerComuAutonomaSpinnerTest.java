@@ -158,7 +158,7 @@ public class ViewerComuAutonomaSpinnerTest {
 
         // Action.
         viewer.doViewInViewer(new Bundle(0), new ComuAutonomaSpinnerEventItemSelect(new ComunidadAutonoma((short) 9)));
-         /* doViewInViewer() --> loadItemsByEntitiyId() --> onSuccessLoadItemList() --> view.setSelection() --> ComuAutonomaSelectedListener.onItemSelected() */
+        /* doViewInViewer() --> loadItemsByEntitiyId() --> onSuccessLoadItemList() --> view.setSelection() --> ComuAutonomaSelectedListener.onItemSelected() */
         // Check
         waitAtMost(6, SECONDS).until((Callable<Adapter>) ((AdapterView<? extends Adapter>) viewer.getViewInViewer())::getAdapter, notNullValue());
         assertThat(viewer.getViewInViewer().getCount(), is(NUMBER_RECORDS));

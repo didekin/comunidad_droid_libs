@@ -74,14 +74,14 @@ public class UserDataAc extends AppCompatActivity {
         MnRouterIf router = routerInitializer.get().getMnRouter();
         int resourceId = item.getItemId();
 
-        if (resourceId == android.R.id.home){
+        if (resourceId == android.R.id.home) {
             router.getActionFromMnItemId(resourceId).initActivity(this);
-        } else if(resourceId == R.id.password_change_ac_mn){
+        } else if (resourceId == R.id.password_change_ac_mn) {
             router.getActionFromMnItemId(resourceId)
                     .initActivity(this, user_name.getBundleForKey(viewer.getOldUser().get().getUserName()));
-        } else if(resourceId == R.id.delete_me_ac_mn){
+        } else if (resourceId == R.id.delete_me_ac_mn) {
             router.getActionFromMnItemId(resourceId).initActivity(this);
-        }  else {
+        } else {
             return super.onOptionsItemSelected(item);
         }
         return true;

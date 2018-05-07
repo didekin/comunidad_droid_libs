@@ -23,7 +23,8 @@ import static io.reactivex.schedulers.Schedulers.io;
 @SuppressWarnings("WeakerAccess")
 public class CtrlerComAutonomaSpinner extends CtrlerSelectList<ComunidadAutonoma> {
 
-    public CtrlerComAutonomaSpinner(){
+    public CtrlerComAutonomaSpinner()
+    {
         super();
     }
 

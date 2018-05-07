@@ -42,7 +42,7 @@ public final class AuthDao implements AuthEndPoints {
     //  ================================== AuthEndPoints implementation ============================
 
     @Override
-    public Call<SpringOauthToken> getPasswordUserToken(String authClient, String username, String password, String grantType)
+    public Call<SpringOauthToken> getPasswordUserToken(String authClient, String username, String password, String grantType)  // TODO: suprimir.
     {
         return endPoint.getPasswordUserToken(authClient, username, password, grantType);
     }
@@ -65,6 +65,7 @@ public final class AuthDao implements AuthEndPoints {
 
     public SpringOauthToken getPasswordUserToken(String userName, String password) throws UiException
     {
+        // TODO: cambiar método para llamar nuevo endpoint en interfaz, sin SpringOauthToken.
         Timber.d("getPasswordUserToken()");
         try {
             Response<SpringOauthToken> response = getPasswordUserToken(
@@ -80,6 +81,7 @@ public final class AuthDao implements AuthEndPoints {
 
     SpringOauthToken getRefreshUserToken(String refreshTokenKey) throws UiException
     {
+        // TODO: cambiar método para llamar ventana pidiendo cambio de versión.
         Timber.d("getRefreshUserToken()");
         try {
             Response<SpringOauthToken> response = getRefreshUserToken(

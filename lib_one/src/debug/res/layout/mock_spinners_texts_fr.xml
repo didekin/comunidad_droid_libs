@@ -3,9 +3,10 @@
               style="@style/baseLayout.withPadding"
               xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
+              android:layout_marginTop="@dimen/app_bar_bottom_margin"
               tools:context="com.didekindroid.lib_one.api.ActivityMock"
-              tools:showIn="@layout/mock_ac"
-              android:layout_marginTop="@dimen/app_bar_bottom_margin">
+              tools:showIn="@layout/mock_ac">
+
     <Spinner
         android:id="@+id/comunidad_spinner"
         style="@style/spinnerBase"/>
@@ -47,7 +48,7 @@
         android:hint="@string/numero_en_via"
         android:inputType="number"
         android:maxEms="6"
-    />
+        />
 
     <EditText
         android:id="@+id/comunidad_sufijo_numero_editT"
@@ -55,6 +56,6 @@
         android:hint="@string/sufijo_numero_en_via_hint"
         android:inputType="textNoSuggestions"
         android:maxEms="6"
-    />
+        />
 
 </LinearLayout>

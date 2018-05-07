@@ -480,7 +480,7 @@ public class ComunidadDbHelper extends SQLiteOpenHelper {
         }
 
         Cursor cursor = doTipoViaCursor();
-        if (cursor == null){
+        if (cursor == null) {
             return new ArrayList<>(0);
         }
 

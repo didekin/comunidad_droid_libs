@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-
 import com.didekindroid.lib_one.R;
 
 import timber.log.Timber;

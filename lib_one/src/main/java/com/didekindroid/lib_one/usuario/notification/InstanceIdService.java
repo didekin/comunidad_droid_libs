@@ -25,7 +25,7 @@ public class InstanceIdService extends FirebaseInstanceIdService {
     }
 
     /**
-     *  Inner class to make easier to test the service's method in the controller.
+     * Inner class to make easier to test the service's method in the controller.
      */
     @SuppressWarnings("WeakerAccess")
     public static class ServiceDisposableSingleObserver extends DisposableSingleObserver<Integer> {

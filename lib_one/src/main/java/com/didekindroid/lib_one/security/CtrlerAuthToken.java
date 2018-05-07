@@ -30,8 +30,8 @@ public class CtrlerAuthToken extends Controller implements CtrlerAuthTokenIf {
      * Preconditions:
      * - token in cache has expired. {There must be an expiration period in json tokens.}
      * - FirebaseInstanceID.getId() should be the same as the one encoded in the local json token.
-     *
-     *
+     * <p>
+     * <p>
      * Postconditions:
      * If tokenCache.getRefreshToken() != null, but tokenCache.get().getValue() is null (no access token in cache,
      * but there exists a refresh token), the access token is remotely retrieved and updated in cache.

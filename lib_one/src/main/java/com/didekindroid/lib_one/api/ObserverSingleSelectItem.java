@@ -12,7 +12,8 @@ import timber.log.Timber;
  * Date: 20/03/17
  * Time: 14:03
  */
-public class ObserverSingleSelectItem<H extends ViewerSelectListIf<?, ?, E>, E extends Serializable> extends DisposableSingleObserver<Bundle> {
+public class ObserverSingleSelectItem<H extends ViewerSelectListIf<?, ?, E>, E extends Serializable> extends
+        DisposableSingleObserver<Bundle> {
 
     private final H viewer;
 

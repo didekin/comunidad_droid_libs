@@ -4,7 +4,6 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-
 import com.didekindroid.lib_one.R;
 
 import timber.log.Timber;

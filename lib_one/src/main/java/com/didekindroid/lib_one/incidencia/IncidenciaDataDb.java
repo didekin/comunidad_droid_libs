@@ -9,7 +9,9 @@ import android.provider.BaseColumns;
  */
 public final class IncidenciaDataDb {
 
-    private IncidenciaDataDb(){}
+    private IncidenciaDataDb()
+    {
+    }
 
 
     public interface AmbitoIncidencia extends BaseColumns {

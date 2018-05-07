@@ -3,7 +3,6 @@ package com.didekindroid.lib_one.usuario;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.didekindroid.lib_one.api.exception.UiException;
-import com.didekindroid.lib_one.testutil.InitializerTestUtil;
 
 import org.junit.Before;
 import org.junit.Test;

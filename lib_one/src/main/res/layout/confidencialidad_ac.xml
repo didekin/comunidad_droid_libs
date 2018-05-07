@@ -16,6 +16,7 @@
         style="@style/baseLayout.scroll"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:showIn="@layout/confidencialidad_ac">
+
         <TextView
             android:id="@+id/proteccion_datos_textview"
             android:layout_width="match_parent"

@@ -20,9 +20,9 @@ import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.observers.DisposableSingleObserver;
 import timber.log.Timber;
 
+import static com.didekindroid.lib_one.usuario.UsuarioBundleKey.user_name;
 import static com.didekindroid.lib_one.usuario.router.UserContextName.pswd_just_modified;
 import static com.didekindroid.lib_one.usuario.router.UserContextName.pswd_just_sent_to_user;
-import static com.didekindroid.lib_one.usuario.UsuarioBundleKey.user_name;
 import static com.didekindroid.lib_one.util.CommonAssertionMsg.user_should_be_registered;
 import static com.didekindroid.lib_one.util.ConnectionUtils.isInternetConnected;
 import static com.didekindroid.lib_one.util.UiUtil.assertTrue;
