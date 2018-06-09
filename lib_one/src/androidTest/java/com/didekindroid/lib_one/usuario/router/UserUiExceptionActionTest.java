@@ -11,8 +11,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import java.io.IOException;
-
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static android.support.test.espresso.intent.Intents.intended;
@@ -31,7 +29,7 @@ import static com.didekindroid.lib_one.usuario.router.UserUiExceptionAction.show
 import static com.didekindroid.lib_one.usuario.router.UserUiExceptionAction.show_login_tokenNull;
 import static com.didekindroid.lib_one.usuario.router.UserUiExceptionAction.show_userData_wrongMail;
 import static com.didekinlib.http.usuario.UsuarioExceptionMsg.PASSWORD_NOT_SENT;
-import static com.didekinlib.http.usuario.UsuarioExceptionMsg.TOKEN_NULL;
+import static com.didekinlib.http.usuario.UsuarioExceptionMsg.TOKEN_ENCRYP_DECRYP_ERROR;
 import static com.didekinlib.http.usuario.UsuarioExceptionMsg.USERCOMU_WRONG_INIT;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.waitAtMost;
@@ -75,12 +73,12 @@ public class UserUiExceptionActionTest {
     @Test
     public void test_show_login_tokenNull()
     {
-        final UiException ue = new UiException(new ErrorBean(TOKEN_NULL));
+        final UiException ue = new UiException(new ErrorBean(TOKEN_ENCRYP_DECRYP_ERROR));
         run(ue, show_login_tokenNull, loginAcResourceId);
     }
 
     @Test
-    public void test_show_userData_wrongMail() throws IOException, UiException
+    public void test_show_userData_wrongMail()
     {
         // Preconditions.
         regUserComuWithTkCache(comu_real_rodrigo);

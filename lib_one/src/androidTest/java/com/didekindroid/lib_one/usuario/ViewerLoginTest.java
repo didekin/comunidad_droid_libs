@@ -21,7 +21,7 @@ import org.junit.runner.RunWith;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.observers.DisposableCompletableObserver;
 
 import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static android.support.test.espresso.Espresso.onView;
@@ -41,7 +41,7 @@ import static com.didekindroid.lib_one.usuario.UsuarioBundleKey.login_counter_at
 import static com.didekindroid.lib_one.usuario.UsuarioBundleKey.usuario_object;
 import static com.didekindroid.lib_one.usuario.ViewerLogin.PasswordMailDialog.newInstance;
 import static com.didekindroid.lib_one.usuario.testutil.UserEspressoTestUtil.typeLoginData;
-import static com.didekinlib.http.usuario.UsuarioExceptionMsg.USER_NAME_NOT_FOUND;
+import static com.didekinlib.http.usuario.UsuarioExceptionMsg.USER_NOT_FOUND;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.waitAtMost;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -157,7 +157,7 @@ public class ViewerLoginTest {
         activity.viewerLogin.getCounterWrong().set(3);
         userBeanPreconditions();
         // Exec.
-        activity.runOnUiThread(() -> activity.viewerLogin.processLoginBackInView(false));
+        activity.runOnUiThread(() -> activity.viewerLogin.processLoginBackInView());
         // Check.
         waitAtMost(3, SECONDS).untilAtomic(activity.viewerLogin.getCounterWrong(), equalTo(4));
         checkTextsInDialog(R.string.send_password_by_mail_dialog, R.string.send_password_by_mail_YES);
@@ -169,7 +169,7 @@ public class ViewerLoginTest {
         // Precondition.
         activity.viewerLogin.getCounterWrong().set(2);
         // Exec.
-        activity.runOnUiThread(() -> activity.viewerLogin.processLoginBackInView(false));
+        activity.runOnUiThread(() -> activity.viewerLogin.processLoginBackInView());
         // Check.
         waitAtMost(5, SECONDS).untilAtomic(activity.viewerLogin.getCounterWrong(), equalTo(3));
         waitAtMost(5, SECONDS).until(isToastInView(R.string.password_wrong, activity));
@@ -181,7 +181,7 @@ public class ViewerLoginTest {
     {
         activity.viewerLogin.setController(new CtrlerUsuario() {
             @Override
-            public boolean sendNewPassword(@NonNull DisposableSingleObserver<Boolean> observer, @NonNull Usuario usuario)
+            public boolean passwordSend(@NonNull DisposableCompletableObserver observer, @NonNull Usuario usuario)
             {
                 assertThat(flagMethodExec.getAndSet(AFTER_METHOD_EXEC_A), is(BEFORE_METHOD_EXEC));
                 return false;
@@ -201,7 +201,7 @@ public class ViewerLoginTest {
     @Test
     public void testProcessBackSendPswdInView()
     {
-        activity.runOnUiThread(() -> activity.viewerLogin.processBackSendPswdInView(true));
+        activity.runOnUiThread(() -> activity.viewerLogin.processBackSendPswdInView());
         waitAtMost(4, SECONDS).until(isToastInView(R.string.password_new_in_login, activity));
     }
 
@@ -249,7 +249,7 @@ public class ViewerLoginTest {
     @Test
     public void testOnErrorInObserver_1()
     {
-        activity.runOnUiThread(() -> activity.viewerLogin.onErrorInObserver(new UiException(new ErrorBean(USER_NAME_NOT_FOUND))));
+        activity.runOnUiThread(() -> activity.viewerLogin.onErrorInObserver(new UiException(new ErrorBean(USER_NOT_FOUND))));
         waitAtMost(3, SECONDS).until(isToastInView(R.string.username_wrong_in_login, activity));
         onView(withId(loginAcResourceId)).check(matches(isDisplayed()));
     }
@@ -261,7 +261,7 @@ public class ViewerLoginTest {
     @Test
     public void test_NewInstance()
     {
-        UsuarioBean usuarioBean = new UsuarioBean("email@mail.es", "alias", "password", "password");
+        UsuarioBean usuarioBean = new UsuarioBean("email@mail.es", "alias", "passwordSend", "passwordSend");
         usuarioBean.validateLoginData(activity.getResources(), new StringBuilder(0));
         PasswordMailDialog dialog = newInstance(usuarioBean, activity.viewerLogin);
         assertThat(dialog.getArguments().getSerializable(usuario_object.key), notNullValue());

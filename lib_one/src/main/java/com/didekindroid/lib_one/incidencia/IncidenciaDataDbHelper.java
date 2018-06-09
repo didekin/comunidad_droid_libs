@@ -29,7 +29,6 @@ import static com.didekindroid.lib_one.util.UiUtil.assertTrue;
  * Date: 16/11/15
  * Time: 16:43
  */
-@SuppressWarnings("WeakerAccess")
 public class IncidenciaDataDbHelper extends SQLiteOpenHelper {
 
     public static final String DB_NAME = "incidencia.db";

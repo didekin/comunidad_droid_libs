@@ -135,7 +135,7 @@ public class UserMnActionTest {
     {
         initSec_Http(activity);
         secInitializer.get().getTkCacher().updateIsRegistered(true);
-        waitAtMost(4, SECONDS).until(secInitializer.get().getTkCacher()::isRegisteredUser);
+        waitAtMost(4, SECONDS).until(secInitializer.get().getTkCacher()::isRegisteredCache);
 
         delete_me_mn.initActivity(activity);
         intended(hasComponent(DeleteMeAc.class.getName()));
@@ -154,7 +154,7 @@ public class UserMnActionTest {
     {
         initSec_Http_Router(activity);
         secInitializer.get().getTkCacher().updateIsRegistered(true);
-        waitAtMost(4, SECONDS).until(secInitializer.get().getTkCacher()::isRegisteredUser);
+        waitAtMost(4, SECONDS).until(secInitializer.get().getTkCacher()::isRegisteredCache);
 
         password_change_mn.initActivity(activity);
         intended(hasComponent(PasswordChangeAc.class.getName()));
@@ -165,7 +165,7 @@ public class UserMnActionTest {
     {
         initSec_Http_Router(activity);
         secInitializer.get().getTkCacher().updateIsRegistered(true);
-        waitAtMost(4, SECONDS).until(secInitializer.get().getTkCacher()::isRegisteredUser);
+        waitAtMost(4, SECONDS).until(secInitializer.get().getTkCacher()::isRegisteredCache);
 
         user_data_mn.initActivity(activity);
         intended(hasComponent(UserDataAc.class.getName()));

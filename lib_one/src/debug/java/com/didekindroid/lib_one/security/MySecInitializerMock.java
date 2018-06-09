@@ -13,9 +13,9 @@ import com.didekinlib.http.JksInClient;
 public class MySecInitializerMock implements SecInitializerIf {
 
     private final Context context;
-    private final IdentityCacherIf identityCacher;
+    private final AuthTkCacherIf identityCacher;
 
-    public MySecInitializerMock(Context contextIn, IdentityCacherIf identityCacherIn)
+    public MySecInitializerMock(Context contextIn, AuthTkCacherIf identityCacherIn)
     {
         context = contextIn;
         identityCacher = identityCacherIn;
@@ -28,7 +28,7 @@ public class MySecInitializerMock implements SecInitializerIf {
     }
 
     @Override
-    public IdentityCacherIf getTkCacher()
+    public AuthTkCacherIf getTkCacher()
     {
         return identityCacher;
     }

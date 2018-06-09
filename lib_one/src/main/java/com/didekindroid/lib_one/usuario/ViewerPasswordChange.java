@@ -17,7 +17,6 @@ import java.io.Serializable;
 import java.util.concurrent.atomic.AtomicReference;
 
 import io.reactivex.observers.DisposableCompletableObserver;
-import io.reactivex.observers.DisposableSingleObserver;
 import timber.log.Timber;
 
 import static com.didekindroid.lib_one.usuario.UsuarioBundleKey.user_name;
@@ -31,7 +30,7 @@ import static com.didekindroid.lib_one.util.UiUtil.getUiExceptionFromThrowable;
 import static com.didekindroid.lib_one.util.UiUtil.makeToast;
 import static com.didekinlib.http.usuario.UsuarioExceptionMsg.BAD_REQUEST;
 import static com.didekinlib.http.usuario.UsuarioExceptionMsg.PASSWORD_NOT_SENT;
-import static com.didekinlib.http.usuario.UsuarioExceptionMsg.USER_NAME_NOT_FOUND;
+import static com.didekinlib.http.usuario.UsuarioExceptionMsg.USER_NOT_FOUND;
 import static com.didekinlib.model.common.dominio.ValidDataPatterns.PASSWORD;
 
 /**
@@ -67,7 +66,7 @@ public final class ViewerPasswordChange extends Viewer<View, CtrlerUsuario> {
         instance.setController(new CtrlerUsuario());
         // Check for userName
         if (instance.userName.get() == null) {
-            instance.controller.loadUserData(new AbstractSingleObserver<Usuario>(instance) {
+            instance.controller.getUserData(new AbstractSingleObserver<Usuario>(instance) {
                 @Override
                 public void onSuccess(Usuario usuario)
                 {
@@ -91,7 +90,7 @@ public final class ViewerPasswordChange extends Viewer<View, CtrlerUsuario> {
         modifyButton.setOnClickListener(
                 v -> {
                     if (checkLoginData()) {
-                        controller.changePassword(
+                        controller.passwordChange(
                                 new PswdChangeCompletableObserver(),
                                 oldUserPswd.get(),
                                 usuarioBean.get().getUsuario()
@@ -102,7 +101,7 @@ public final class ViewerPasswordChange extends Viewer<View, CtrlerUsuario> {
 
         Button sendPswdButton = view.findViewById(R.id.password_send_ac_button);
         sendPswdButton.setOnClickListener(
-                v -> controller.sendNewPassword(new PswdSendSingleObserver(), new Usuario.UsuarioBuilder().userName(userName.get()).build())
+                v -> controller.passwordSend(new PswdSendCompletableObserver(), new Usuario.UsuarioBuilder().userName(userName.get()).build())
         );
     }
 
@@ -113,7 +112,7 @@ public final class ViewerPasswordChange extends Viewer<View, CtrlerUsuario> {
         UiException uiException = getUiExceptionFromThrowable(error);
         String errorMsg = uiException.getErrorBean().getMessage();
 
-        if (errorMsg.equals(USER_NAME_NOT_FOUND.getHttpMessage())
+        if (errorMsg.equals(USER_NOT_FOUND.getHttpMessage())
                 || errorMsg.equals(PASSWORD_NOT_SENT.getHttpMessage())) {
             getExceptionRouter().getActionFromMsg(PASSWORD_NOT_SENT.getHttpMessage()).initActivity(activity);
         } else if (errorMsg.equals(BAD_REQUEST.getHttpMessage())) {
@@ -184,20 +183,18 @@ public final class ViewerPasswordChange extends Viewer<View, CtrlerUsuario> {
         }
     }
 
-    class PswdSendSingleObserver extends DisposableSingleObserver<Boolean> {
+    class PswdSendCompletableObserver extends DisposableCompletableObserver {
 
         @Override
-        public void onSuccess(@io.reactivex.annotations.NonNull Boolean isSendPassword)
+        public void onComplete()
         {
-            Timber.d("onSuccess(), isSentPassword = %b", isSendPassword);
-            if (isSendPassword) {
-                makeToast(activity, R.string.password_new_in_login);
-            }
+            Timber.d("onComplete()");
+            makeToast(activity, R.string.password_new_in_login);
             getContextualRouter().getActionFromContextNm(pswd_just_sent_to_user).initActivity(activity);
         }
 
         @Override
-        public void onError(@io.reactivex.annotations.NonNull Throwable e)
+        public void onError(@NonNull Throwable e)
         {
             Timber.d("onError");
             onErrorInObserver(e);

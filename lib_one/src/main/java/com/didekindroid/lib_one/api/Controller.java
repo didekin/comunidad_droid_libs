@@ -2,7 +2,7 @@ package com.didekindroid.lib_one.api;
 
 import android.support.annotation.NonNull;
 
-import com.didekindroid.lib_one.security.IdentityCacherIf;
+import com.didekindroid.lib_one.security.AuthTkCacherIf;
 
 import io.reactivex.disposables.CompositeDisposable;
 import timber.log.Timber;
@@ -19,14 +19,14 @@ import static com.didekindroid.lib_one.util.UiUtil.destroySubscriptions;
 public class Controller implements ControllerIf {
 
     private final CompositeDisposable subscriptions;
-    private final IdentityCacherIf tkCacher;
+    private final AuthTkCacherIf tkCacher;
 
     public Controller()
     {
         this(secInitializer.get().getTkCacher());
     }
 
-    public Controller(IdentityCacherIf identityCacher)
+    public Controller(AuthTkCacherIf identityCacher)
     {
         subscriptions = new CompositeDisposable();
         tkCacher = identityCacher;
@@ -49,7 +49,7 @@ public class Controller implements ControllerIf {
     @Override
     public boolean isRegisteredUser()
     {
-        boolean isRegistered = tkCacher.isRegisteredUser();
+        boolean isRegistered = tkCacher.isRegisteredCache();
         Timber.d("isRegisteredUser() = %b", isRegistered);
         return isRegistered;
     }
@@ -63,7 +63,7 @@ public class Controller implements ControllerIf {
 
     @Override
     @NonNull
-    public IdentityCacherIf getTkCacher()
+    public AuthTkCacherIf getTkCacher()
     {
         Timber.d("getTkCacher()");
         return tkCacher;

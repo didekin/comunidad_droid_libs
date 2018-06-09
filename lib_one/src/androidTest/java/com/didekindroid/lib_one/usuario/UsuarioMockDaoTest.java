@@ -2,19 +2,23 @@ package com.didekindroid.lib_one.usuario;
 
 import android.support.test.runner.AndroidJUnit4;
 
-import com.didekindroid.lib_one.api.exception.UiException;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.io.IOException;
+import java.util.Objects;
+
+import retrofit2.Response;
 
 import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http;
+import static com.didekindroid.lib_one.usuario.UserMockDao.usuarioMockDao;
 import static com.didekindroid.lib_one.usuario.UserTestData.cleanOneUser;
+import static com.didekindroid.lib_one.usuario.UserTestData.comu_real_rodrigo;
+import static com.didekindroid.lib_one.usuario.UserTestData.regUserComuWithTkCache;
 import static com.didekindroid.lib_one.usuario.UserTestData.user_crodrigo;
-import static com.didekindroid.lib_one.usuario.UsuarioMockDao.usuarioMockDao;
+import static com.didekindroid.lib_one.usuario.dao.UsuarioDao.usuarioDaoRemote;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -33,16 +37,18 @@ public class UsuarioMockDaoTest {
     }
 
     @Test
-    public void test_DeleteUser() throws IOException
+    public void test_DeleteUser()
     {
-        assertThat(usuarioMockDao.regComuAndUserAndUserComu(UserTestData.comu_real_rodrigo).execute().body(), is(true));
-        assertThat(usuarioMockDao.deleteUser(user_crodrigo.getUserName()).execute().body(), is(true));
+        assertThat(regUserComuWithTkCache(comu_real_rodrigo), notNullValue());
+        // Exec, check.
+        usuarioMockDao.deleteUser(user_crodrigo.getUserName()).map(Response::body).test().assertResult(true);
+        assertThat(usuarioDaoRemote.getTkCacher().isRegisteredCache(), is(false));
     }
 
     @Test
-    public void testRegComuAndUserAndUserComu() throws IOException, UiException
+    public void testRegComuAndUserAndUserComu()
     {
-        assertThat(usuarioMockDao.regComuAndUserAndUserComu(UserTestData.comu_real_rodrigo).execute().body(), is(true));
-        cleanOneUser(user_crodrigo);
+        usuarioMockDao.regComuAndUserAndUserComu(comu_real_rodrigo).map(Response::body).test().assertValue(Objects::nonNull);
+        cleanOneUser(user_crodrigo.getUserName());
     }
 }

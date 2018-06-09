@@ -2,7 +2,7 @@ package com.didekindroid.lib_one.comunidad.spinner;
 
 import com.didekindroid.lib_one.api.CtrlerSelectList;
 import com.didekindroid.lib_one.comunidad.repository.ComunidadDbHelper;
-import com.didekindroid.lib_one.security.IdentityCacherIf;
+import com.didekindroid.lib_one.security.AuthTkCacherIf;
 import com.didekinlib.model.comunidad.ComunidadAutonoma;
 
 import java.util.List;
@@ -28,7 +28,7 @@ public class CtrlerComAutonomaSpinner extends CtrlerSelectList<ComunidadAutonoma
         super();
     }
 
-    public CtrlerComAutonomaSpinner(IdentityCacherIf identityCacher)
+    public CtrlerComAutonomaSpinner(AuthTkCacherIf identityCacher)
     {
         super(identityCacher);
     }

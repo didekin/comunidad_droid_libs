@@ -65,13 +65,13 @@ public class UsuarioBeanTests {
         assertThat(usuarioBean.validateUserNameAliasPswd(resources, errors), is(false));
         assertThat(errors.toString(), containsString(resources.getText(R.string.password).toString()));
 
-        usuarioBean = new UsuarioBean("user@name.com", "alias1", "password", null);
+        usuarioBean = new UsuarioBean("user@name.com", "alias1", "passwordSend", null);
         assertThat(usuarioBean.validateUserNameAliasPswd(resources, errors), is(true));
         assertThat(usuarioBean.getUsuario().getUserName(), is("user@name.com"));
         assertThat(usuarioBean.getUsuario().getAlias(), is("alias1"));
-        assertThat(usuarioBean.getUsuario().getPassword(), is("password"));
+        assertThat(usuarioBean.getUsuario().getPassword(), is("passwordSend"));
 
-        usuarioBean = new UsuarioBean("user@name.com", "alias1", "password", "hola");
+        usuarioBean = new UsuarioBean("user@name.com", "alias1", "passwordSend", "hola");
         assertThat(usuarioBean.validateUserNameAliasPswd(resources, errors), is(true));
     }
 

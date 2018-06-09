@@ -2,7 +2,7 @@ package com.didekindroid.lib_one.incidencia.spinner;
 
 import com.didekindroid.lib_one.api.CtrlerSelectList;
 import com.didekindroid.lib_one.incidencia.IncidenciaDataDbHelper;
-import com.didekindroid.lib_one.security.IdentityCacherIf;
+import com.didekindroid.lib_one.security.AuthTkCacherIf;
 
 import java.util.List;
 
@@ -18,8 +18,6 @@ import static io.reactivex.schedulers.Schedulers.io;
  * Date: 30/03/17
  * Time: 13:20
  */
-
-@SuppressWarnings({"WeakerAccess", "unused"})
 public class CtrlerAmbitoIncidSpinner extends CtrlerSelectList<AmbitoIncidValueObj> {
 
     public CtrlerAmbitoIncidSpinner()
@@ -27,7 +25,7 @@ public class CtrlerAmbitoIncidSpinner extends CtrlerSelectList<AmbitoIncidValueO
         super();
     }
 
-    public CtrlerAmbitoIncidSpinner(IdentityCacherIf identityCacher)
+    public CtrlerAmbitoIncidSpinner(AuthTkCacherIf identityCacher)
     {
         super(identityCacher);
     }

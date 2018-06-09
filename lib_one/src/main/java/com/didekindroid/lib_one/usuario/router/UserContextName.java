@@ -12,7 +12,7 @@ public enum UserContextName implements ContextualNameIf {
 
     default_reg_user,
     default_no_reg_user,
-    login_just_done,
+    login_just_done, // Used in apps.
     new_comu_user_usercomu_just_registered,
     new_user_usercomu_just_registered,
     user_alias_just_modified,

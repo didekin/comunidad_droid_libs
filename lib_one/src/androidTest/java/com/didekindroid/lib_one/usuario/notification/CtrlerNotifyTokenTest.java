@@ -2,34 +2,30 @@ package com.didekindroid.lib_one.usuario.notification;
 
 import android.support.test.runner.AndroidJUnit4;
 
-import com.didekindroid.lib_one.api.exception.UiException;
-import com.didekindroid.lib_one.security.IdentityCacherIf;
-import com.didekindroid.lib_one.usuario.notification.InstanceIdService.ServiceDisposableSingleObserver;
+import com.didekindroid.lib_one.security.AuthTkCacherIf;
+import com.didekindroid.lib_one.usuario.notification.InstanceIdService.ServiceDisposableObserver;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.io.IOException;
 import java.util.concurrent.atomic.AtomicReference;
 
-import io.reactivex.Single;
-import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.observers.DisposableCompletableObserver;
+import timber.log.Timber;
 
 import static android.support.test.InstrumentationRegistry.getTargetContext;
-import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.AFTER_METHOD_EXEC_A;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.BEFORE_METHOD_EXEC;
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http;
-import static com.didekindroid.lib_one.testutil.RxSchedulersUtils.resetAllSchedulers;
-import static com.didekindroid.lib_one.testutil.RxSchedulersUtils.trampolineReplaceAndroidMain;
-import static com.didekindroid.lib_one.testutil.RxSchedulersUtils.trampolineReplaceIoScheduler;
+import static com.didekindroid.lib_one.testutil.MockTestConstant.subscription_added_in_observer_ok;
+import static com.didekindroid.lib_one.testutil.RxSchedulersUtils.execCheckSchedulersTest;
 import static com.didekindroid.lib_one.usuario.UserTestData.cleanOneUser;
 import static com.didekindroid.lib_one.usuario.UserTestData.comu_real_rodrigo;
 import static com.didekindroid.lib_one.usuario.UserTestData.regUserComuWithTkCache;
 import static com.didekindroid.lib_one.usuario.UserTestData.user_crodrigo;
-import static com.didekindroid.lib_one.usuario.dao.UsuarioDao.usuarioDaoRemote;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
@@ -44,125 +40,76 @@ public class CtrlerNotifyTokenTest {
     static final AtomicReference<String> flagControl = new AtomicReference<>(BEFORE_METHOD_EXEC);
 
     private CtrlerNotifyToken controller;
-    private IdentityCacherIf identityCacher;
+    private AuthTkCacherIf identityCacher;
 
     @Before
-    public void setUp() throws IOException, UiException
+    public void setUp()
     {
         initSec_Http(getTargetContext());
         regUserComuWithTkCache(comu_real_rodrigo);
-        controller = new CtrlerNotifyToken() {
-            @Override
-            public Single<Integer> updatedGcmTkSingle()
-            {
-                return Single.fromCallable(() -> usuarioDaoRemote.modifyUserGcmToken("mock_firebase_token"));
-            }
-        };
+        controller = new CtrlerNotifyToken();
         identityCacher = controller.getTkCacher();
     }
 
     @After
-    public void cleanUp() throws UiException
+    public void cleanUp()
     {
-        cleanOneUser(user_crodrigo);
-    }
-
-    //    ................................ OBSERVABLES/SUBSCRIBERS .................................
-
-    /**
-     * Synchronous execution: no scheduler specified, everything runs in the test runner thread.
-     */
-    @Test
-    public void testUpdatedGcmTkSingle()
-    {
-        controller.updatedGcmTkSingle().test().assertResult(1);
+        cleanOneUser(user_crodrigo.getUserName());
     }
 
     //    ................................. INSTANCE METHODS ...............................
 
     @Test
-    public void test_CheckGcmTokenAsync()
-    {
-        try {
-            trampolineReplaceIoScheduler();
-            trampolineReplaceAndroidMain();
-
-            /* Preconditions.*/
-            assertThat(identityCacher.isRegisteredUser(), is(true));
-            identityCacher.updateIsGcmTokenSentServer(true);
-            /* Execute. FALSE: no update because is already updated.*/
-            assertThat(controller.checkGcmTokenAsync(new TestDisposableSingleObserver()), is(false));
-            assertThat(controller.getSubscriptions().size(), is(0));
-            // Mantains status.
-            assertThat(flagControl.get(), is(BEFORE_METHOD_EXEC));
-            assertThat(identityCacher.isGcmTokenSentServer(), is(true));
-
-            // Preconditions.
-            identityCacher.updateIsGcmTokenSentServer(false);
-            /* Execute.*/
-            assertThat(controller.checkGcmTokenAsync(new TestDisposableSingleObserver()), is(true));
-            assertThat(controller.getSubscriptions().size(), is(1));
-            // Change status.
-            assertThat(flagControl.getAndSet(BEFORE_METHOD_EXEC), is(AFTER_METHOD_EXEC_A));
-
-        } finally {
-            resetAllSchedulers();
-        }
-    }
-
-    @Test
-    public void test_CheckGcmTokenSync_1()
+    public void test_modifyGcmTokenSync_1()
     {
         // Preconditions.
-        assertThat(identityCacher.isRegisteredUser(), is(true));
-        identityCacher.updateIsGcmTokenSentServer(true);
+        assertThat(regUserComuWithTkCache(comu_real_rodrigo), notNullValue());
+        identityCacher.updateIsGcmTokenSentServer(false);
         /* Execute.*/
-        assertThat(controller.checkGcmTokenSync(new ServiceDisposableSingleObserver(controller)), is(true));
-        // The token is updated: controller open subscription.
-        assertThat(controller.getSubscriptions().size(), is(1));
+        execCheckSchedulersTest(controller.modifyGcmTokenSync(new TestCompletableObserver()));
+        assertThat(identityCacher.isGcmTokenSentServer(), is(true));
 
         // Preconditions.
         identityCacher.updateIsRegistered(false);
         /* Execute.*/
-        assertThat(controller.checkGcmTokenSync(new ServiceDisposableSingleObserver(controller)), is(false));
-        // NO increase in subscriptions.
-        assertThat(controller.getSubscriptions().size(), is(1));
-        assertThat(identityCacher.isGcmTokenSentServer(), is(false));
-
-        // Preconditions.
-        identityCacher.updateIsRegistered(true);
-        identityCacher.updateIsGcmTokenSentServer(false);
-        /* Execute.*/
-        assertThat(controller.checkGcmTokenSync(new ServiceDisposableSingleObserver(controller)), is(true));
-        assertThat(controller.getSubscriptions().size(), is(2));
-        assertThat(identityCacher.isGcmTokenSentServer(), is(true));
+        try {
+            execCheckSchedulersTest(controller.modifyGcmTokenSync(new TestCompletableObserver()));
+            fail();
+        } catch (AssertionError e) {
+            assertThat(e.getMessage(), is(subscription_added_in_observer_ok));
+        }
+        cleanOneUser(user_crodrigo.getUserName());
     }
 
     @Test
-    public void test_CheckGcmTokenSync_2()
+    public void test_modifyGcmTokenSync_2()
     {
         // Preconditions.
         identityCacher.updateIsRegistered(true);
         identityCacher.updateIsGcmTokenSentServer(false);
         assertThat(controller.getSubscriptions().size(), is(0));
 
-        controller.checkGcmTokenSync(new ServiceDisposableSingleObserver(controller));
+        controller.modifyGcmTokenSync(new ServiceDisposableObserver(controller));
         assertThat(controller.getSubscriptions().size(), is(1));
         assertThat(identityCacher.isGcmTokenSentServer(), is(true));
     }
 
     // ==============================  HELPERS  ==================================
 
-    static class TestDisposableSingleObserver extends DisposableSingleObserver<Integer> {
+    class TestCompletableObserver extends DisposableCompletableObserver {
+
         @Override
-        public void onSuccess(Integer integer)
+        public void onComplete()
         {
-            assertThat(flagControl.getAndSet(AFTER_METHOD_EXEC_A), is(BEFORE_METHOD_EXEC));
+            assertThat(controller.getSubscriptions().size(), is(1));
+            dispose();
         }
 
         @Override
         public void onError(Throwable e)
         {
+            dispose();
+            Timber.d("============= %s =============", e.getClass().getName());
             fail();
         }
     }

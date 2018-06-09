@@ -3,7 +3,7 @@ package com.didekindroid.lib_one.api;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.didekindroid.lib_one.security.TokenIdentityCacher;
+import com.didekindroid.lib_one.security.AuthTkCacher;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -33,7 +33,7 @@ public class ControllerTest {
     @Before
     public void setUp()
     {
-        controller = new Controller(new TokenIdentityCacher(activityRule.getActivity()));
+        controller = new Controller(new AuthTkCacher(activityRule.getActivity()));
     }
 
     @Test

@@ -10,7 +10,6 @@ import android.view.Menu;
 import com.didekindroid.lib_one.R;
 import com.didekindroid.lib_one.api.ActivityDrawerMock;
 import com.didekindroid.lib_one.api.ActivityNextMock;
-import com.didekindroid.lib_one.api.exception.UiException;
 import com.didekindroid.lib_one.api.router.MnRouterIf;
 import com.didekindroid.lib_one.api.router.RouterInitializerMock;
 
@@ -19,7 +18,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.io.IOException;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -42,13 +40,13 @@ import static com.didekindroid.lib_one.testutil.EspressoTestUtil.isViewDisplayed
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http_Router;
 import static com.didekindroid.lib_one.testutil.MockTestConstant.nextMockAcLayout;
 import static com.didekindroid.lib_one.usuario.UserTestData.CleanUserEnum.CLEAN_RODRIGO;
+import static com.didekindroid.lib_one.usuario.UserTestData.cleanOneUser;
 import static com.didekindroid.lib_one.usuario.UserTestData.cleanOptions;
 import static com.didekindroid.lib_one.usuario.UserTestData.cleanWithTkhandler;
 import static com.didekindroid.lib_one.usuario.UserTestData.comu_real_rodrigo;
 import static com.didekindroid.lib_one.usuario.UserTestData.regUserComuWithTkCache;
 import static com.didekindroid.lib_one.usuario.UserTestData.user_crodrigo;
 import static com.didekindroid.lib_one.usuario.UsuarioBundleKey.user_alias;
-import static com.didekindroid.lib_one.usuario.UsuarioMockDao.usuarioMockDao;
 import static com.didekindroid.lib_one.usuario.ViewerUserDrawer.newViewerDrawerMain;
 import static com.didekindroid.lib_one.util.DrawerConstant.default_header_no_reg_user;
 import static com.didekindroid.lib_one.util.DrawerConstant.header_textview_rsId;
@@ -59,7 +57,6 @@ import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 
 
 /**
@@ -76,12 +73,8 @@ public class ViewerUserDrawerTest {
         @Override
         protected Intent getActivityIntent()
         {
-            try {
-                initSec_Http_Router(getTargetContext());
-                regUserComuWithTkCache(comu_real_rodrigo);
-            } catch (IOException | UiException e) {
-                fail();
-            }
+            initSec_Http_Router(getTargetContext());
+            regUserComuWithTkCache(comu_real_rodrigo);
             return new Intent();
         }
     };
@@ -102,7 +95,7 @@ public class ViewerUserDrawerTest {
     //    ==================================  TESTS  ==================================
 
     @Test
-    public void test_NewViewerDrawerMain() throws UiException
+    public void test_NewViewerDrawerMain()
     {
         // Check navigationView
         assertThat(viewer.getNavView().getId(), is(nav_view_rsId));
@@ -113,7 +106,7 @@ public class ViewerUserDrawerTest {
     }
 
     @Test
-    public void test_DoViewInViewer_1() throws UiException
+    public void test_DoViewInViewer_1()
     {
         // Precondition: user registered.
         assertThat(viewer.getController().isRegisteredUser(), is(true));
@@ -134,7 +127,7 @@ public class ViewerUserDrawerTest {
     }
 
     @Test
-    public void test_DoViewInViewer_2() throws IOException
+    public void test_DoViewInViewer_2()
     {
         // Precondition: user not registered.
         cleanWithTkhandler();
@@ -153,12 +146,11 @@ public class ViewerUserDrawerTest {
                 }
         );
 
-        usuarioMockDao.deleteUser(user_crodrigo.getUserName()).execute();
-        cleanWithTkhandler();
+        cleanOneUser(user_crodrigo.getUserName());
     }
 
     @Test
-    public void test_DoViewForRegUser_1() throws UiException
+    public void test_DoViewForRegUser_1()
     {
         // Precondition: saveState == null.
         viewer.doViewForRegUser(null);
@@ -168,7 +160,7 @@ public class ViewerUserDrawerTest {
     }
 
     @Test
-    public void test_DoViewForRegUser_2() throws UiException
+    public void test_DoViewForRegUser_2()
     {
         // Precondition: saveState != null.
         Bundle bundle = new Bundle(1);
@@ -180,7 +172,7 @@ public class ViewerUserDrawerTest {
     }
 
     @Test
-    public void test_SaveState_1() throws UiException
+    public void test_SaveState_1()
     {
         // Preconditions: user is registered.
         viewer.doViewInViewer(null, null);
@@ -195,7 +187,7 @@ public class ViewerUserDrawerTest {
     }
 
     @Test
-    public void test_SaveState_2() throws UiException
+    public void test_SaveState_2()
     {
         // Precondition: user is NOT registered.
         viewer.doViewInViewer(null, null);
@@ -207,7 +199,7 @@ public class ViewerUserDrawerTest {
     }
 
     @Test
-    public void test_BuildMenu_1() throws InterruptedException, UiException
+    public void test_BuildMenu_1() throws InterruptedException
     {
         activity.runOnUiThread(() -> viewer.buildMenu(viewer.getNavView(), true));
         SECONDS.sleep(2);
@@ -217,7 +209,7 @@ public class ViewerUserDrawerTest {
     }
 
     @Test
-    public void test_BuildMenu_2() throws InterruptedException, UiException
+    public void test_BuildMenu_2() throws InterruptedException
     {
         activity.runOnUiThread(() -> viewer.buildMenu(viewer.getNavView(), false));
         SECONDS.sleep(2);
@@ -250,7 +242,7 @@ public class ViewerUserDrawerTest {
      * It tests implicitly ViewerUserDrawer.doViewInViewer() and explicitly DrawerMainMnItemSelListener.onNavigationItemSelected().
      */
     @Test
-    public void test_OnNavigationItemSelected_1() throws UiException, InterruptedException
+    public void test_OnNavigationItemSelected_1() throws InterruptedException
     {
         // RouterInitializer for test.
         routerInitializer.set(new RouterInitializerMock() {

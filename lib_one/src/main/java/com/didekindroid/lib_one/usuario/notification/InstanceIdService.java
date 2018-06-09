@@ -2,7 +2,7 @@ package com.didekindroid.lib_one.usuario.notification;
 
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
-import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.observers.DisposableCompletableObserver;
 import timber.log.Timber;
 
 /**
@@ -20,7 +20,7 @@ public class InstanceIdService extends FirebaseInstanceIdService {
     {
         Timber.d("onTokenRefresh()");
         final CtrlerNotifyTokenIf controller = new CtrlerNotifyToken();
-        controller.checkGcmTokenSync(new ServiceDisposableSingleObserver(controller));
+        controller.modifyGcmTokenSync(new ServiceDisposableObserver(controller));
         controller.clearSubscriptions();
     }
 
@@ -28,22 +28,20 @@ public class InstanceIdService extends FirebaseInstanceIdService {
      * Inner class to make easier to test the service's method in the controller.
      */
     @SuppressWarnings("WeakerAccess")
-    public static class ServiceDisposableSingleObserver extends DisposableSingleObserver<Integer> {
+    public static class ServiceDisposableObserver extends DisposableCompletableObserver {
 
         private final CtrlerNotifyTokenIf controller;
 
-        ServiceDisposableSingleObserver(CtrlerNotifyTokenIf controller)
+        ServiceDisposableObserver(CtrlerNotifyTokenIf controller)
         {
             this.controller = controller;
         }
 
         @Override
-        public void onSuccess(Integer isUpdated)
+        public void onComplete()
         {
-            Timber.d("onSuccess(%d)", isUpdated);
-            if (isUpdated > 0) {
-                controller.getTkCacher().updateIsGcmTokenSentServer(true);
-            }
+            Timber.d("onComplete()");
+            controller.getTkCacher().updateIsGcmTokenSentServer(true);
         }
 
         @Override

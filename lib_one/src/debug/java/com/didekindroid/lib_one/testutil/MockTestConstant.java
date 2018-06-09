@@ -13,6 +13,7 @@ public final class MockTestConstant {
 
     public static final int nextMockAcLayout = R.id.next_mock_ac_layout;
     public static final int mockAcLayout = R.id.mock_ac_layout;
+    public static final String subscription_added_in_observer_ok = "Controller subscription added";
 
     private MockTestConstant()
     {

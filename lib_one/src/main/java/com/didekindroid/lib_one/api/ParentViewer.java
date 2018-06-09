@@ -22,7 +22,6 @@ public class ParentViewer<T extends View, C extends ControllerIf> extends Viewer
 
     private final Map<Class<? extends ViewerIf>, ViewerIf> childViewers;
 
-    @SuppressWarnings({"WeakerAccess", "unused"})
     protected ParentViewer(T view, AppCompatActivity activity, ParentViewerIf parentViewer)
     {
         super(view, activity, parentViewer);

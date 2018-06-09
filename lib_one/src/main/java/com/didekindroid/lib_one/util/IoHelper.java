@@ -51,13 +51,13 @@ public final class IoHelper {
             }
 
         } catch (IOException e) {
-            Timber.e(e.getMessage());
+            Timber.e(e);
             throw new RuntimeException(e);
         } finally {
             try {
                 reader.close();
             } catch (IOException e) {
-                Timber.e(e.getMessage());
+                Timber.e(e);
             }
         }
 
@@ -70,30 +70,26 @@ public final class IoHelper {
     {
         Timber.d("readStringFromFile()");
 
-        RandomAccessFile readableRefreshTkFile;
-        byte[] bytesRefreshToken;
-        try {
-            readableRefreshTkFile = new RandomAccessFile(file, "r");
-            bytesRefreshToken = new byte[(int) readableRefreshTkFile.length()];
-            readableRefreshTkFile.readFully(bytesRefreshToken);
-            readableRefreshTkFile.close();
+        byte[] bytesAuthTk;
+        try (RandomAccessFile authTkFile = new RandomAccessFile(file, "r")) {
+            bytesAuthTk = new byte[(int) authTkFile.length()];
+            authTkFile.readFully(bytesAuthTk);
+            authTkFile.close();
         } catch (IOException e) {
-            Timber.e(e.getLocalizedMessage(), e.getMessage());
+            Timber.e(e);
             throw new RuntimeException(e);
         }
-        return new String(bytesRefreshToken).trim();
+        return new String(bytesAuthTk).trim();
     }
 
     public static void writeFileFromString(String stringToWrite, File fileToWrite)
     {
         Timber.d("writeFileFromString()");
-        FileOutputStream stringFileStream;
-        try {
-            stringFileStream = new FileOutputStream(fileToWrite);
+        try (FileOutputStream stringFileStream = new FileOutputStream(fileToWrite)) {
             stringFileStream.write(stringToWrite.getBytes());
             stringFileStream.close();
         } catch (IOException e) {
-            Timber.e(e.getLocalizedMessage(), e.getMessage());
+            Timber.e(e);
             throw new RuntimeException(e);
         }
     }

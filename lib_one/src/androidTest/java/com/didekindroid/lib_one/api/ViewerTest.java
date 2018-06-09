@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.didekindroid.lib_one.api.exception.UiException;
-import com.didekindroid.lib_one.security.TokenIdentityCacher;
+import com.didekindroid.lib_one.security.AuthTkCacher;
 import com.didekinlib.http.exception.ErrorBean;
 
 import org.junit.Before;
@@ -71,7 +71,7 @@ public class ViewerTest {
     @Test
     public void clearSubscriptions()
     {
-        ControllerIf controller = new Controller(new TokenIdentityCacher(activity)) {
+        ControllerIf controller = new Controller(new AuthTkCacher(activity)) {
             @Override
             public int clearSubscriptions()
             {
@@ -93,7 +93,7 @@ public class ViewerTest {
     @Test
     public void test_GetController()
     {
-        final ControllerIf controllerLocal = new Controller(new TokenIdentityCacher(activity));
+        final ControllerIf controllerLocal = new Controller(new AuthTkCacher(activity));
         viewer.setController(controllerLocal);
         assertThat(viewer.getController(), is(controllerLocal));
     }

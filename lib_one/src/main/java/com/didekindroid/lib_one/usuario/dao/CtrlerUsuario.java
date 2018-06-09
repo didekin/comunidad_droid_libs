@@ -5,20 +5,11 @@ import android.support.annotation.NonNull;
 import com.didekindroid.lib_one.api.Controller;
 import com.didekinlib.model.usuario.Usuario;
 
-import java.util.concurrent.Callable;
-
 import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.observers.DisposableSingleObserver;
 import timber.log.Timber;
 
 import static com.didekindroid.lib_one.usuario.dao.UsuarioDao.usuarioDaoRemote;
-import static com.didekindroid.lib_one.usuario.dao.UsuarioObservable.deleteMeSingle;
-import static com.didekindroid.lib_one.usuario.dao.UsuarioObservable.loginPswdSendSingle;
-import static com.didekindroid.lib_one.usuario.dao.UsuarioObservable.loginUpdateTkCache;
-import static com.didekindroid.lib_one.usuario.dao.UsuarioObservable.passwordChangeWithPswdValidation;
-import static com.didekindroid.lib_one.usuario.dao.UsuarioObservable.userAliasModified;
-import static com.didekindroid.lib_one.usuario.dao.UsuarioObservable.userDataSingle;
-import static com.didekindroid.lib_one.usuario.dao.UsuarioObservable.userNameModified;
 import static io.reactivex.android.schedulers.AndroidSchedulers.mainThread;
 import static io.reactivex.schedulers.Schedulers.io;
 
@@ -27,83 +18,28 @@ import static io.reactivex.schedulers.Schedulers.io;
  * Date: 21/02/17
  * Time: 12:53
  */
-@SuppressWarnings("WeakerAccess")
 public class CtrlerUsuario extends Controller implements CtrlerUsuarioIf {
 
-    @Override
-    public boolean changePassword(DisposableCompletableObserver observer, final Usuario oldUser, final Usuario newUser)
+    private final UsuarioDao usuarioDao;
+
+    public CtrlerUsuario()
     {
-        Timber.d("changePassword()");
-        return getSubscriptions().add(
-                passwordChangeWithPswdValidation(oldUser, newUser)
-                        .subscribeOn(io())
-                        .observeOn(mainThread())
-                        .subscribeWith(observer)
-        );
+        super(usuarioDaoRemote.getTkCacher());
+        usuarioDao = usuarioDaoRemote;
+    }
+
+    public CtrlerUsuario(UsuarioDao usuarioDaoIn)
+    {
+        super(usuarioDaoIn.getTkCacher());
+        usuarioDao = usuarioDaoIn;
     }
 
     @Override
-    public boolean deleteMe(DisposableSingleObserver<Boolean> observer)
+    public boolean deleteMe(DisposableCompletableObserver observer)
     {
         Timber.d("deleteMe()");
         return getSubscriptions().add(
-                deleteMeSingle.subscribeOn(io())
-                        .observeOn(mainThread())
-                        .subscribeWith(observer));
-    }
-
-    @Override
-    public boolean loadUserData(DisposableSingleObserver<Usuario> observer)
-    {
-        Timber.d("loadUserData()");
-        return getSubscriptions().add(
-                userDataSingle.subscribeOn(io())
-                        .observeOn(mainThread())
-                        .subscribeWith(observer)
-        );
-    }
-
-    @Override
-    public boolean modifyUserName(DisposableSingleObserver<Boolean> observer, Usuario oldUser, Usuario newUser)
-    {
-        Timber.d("modifyUserName()");
-        return getSubscriptions().add(
-                userNameModified(oldUser, newUser)
-                        .subscribeOn(io())
-                        .observeOn(mainThread())
-                        .subscribeWith(observer));
-    }
-
-    @Override
-    public boolean modifyUserAlias(DisposableSingleObserver<Boolean> observer, Usuario oldUser, Usuario newUser)
-    {
-        Timber.d("modifyUserName()");
-        return getSubscriptions().add(
-                userAliasModified(oldUser, newUser)
-                        .subscribeOn(io())
-                        .observeOn(mainThread())
-                        .subscribeWith(observer));
-    }
-
-    @Override
-    public boolean sendNewPassword(@NonNull DisposableSingleObserver<Boolean> observer, @NonNull final Usuario usuario)
-    {
-        Timber.d("sendNewPassword()");
-        Callable<Boolean> sendPswdCallable = () -> usuarioDaoRemote.sendPassword(usuario.getUserName());
-        return sendNewPassword(sendPswdCallable, observer);
-    }
-
-    /**
-     * Test friendly variant.
-     */
-    @Override
-    public boolean sendNewPassword(@NonNull Callable<Boolean> sendPswdCall,
-                                   @NonNull DisposableSingleObserver<Boolean> observer)
-    {
-        Timber.d("sendNewPassword()");
-
-        return getSubscriptions().add(
-                loginPswdSendSingle(sendPswdCall)    // Borra token in cache.
+                usuarioDao.deleteUser()
                         .subscribeOn(io())
                         .observeOn(mainThread())
                         .subscribeWith(observer)
@@ -111,11 +47,69 @@ public class CtrlerUsuario extends Controller implements CtrlerUsuarioIf {
     }
 
     @Override
-    public boolean validateLogin(@NonNull DisposableSingleObserver<Boolean> observer, @NonNull Usuario usuario)
+    public boolean getUserData(DisposableSingleObserver<Usuario> observer)
     {
-        Timber.i("validateLogin()");
+        Timber.d("getUserData()");
         return getSubscriptions().add(
-                loginUpdateTkCache(usuario)
+                usuarioDao.getUserData()
+                        .subscribeOn(io())
+                        .observeOn(mainThread())
+                        .subscribeWith(observer)
+        );
+    }
+
+    @Override
+    public boolean login(@NonNull DisposableCompletableObserver observer, @NonNull Usuario usuario)
+    {
+        Timber.i("login()");
+        return getSubscriptions().add(
+                usuarioDao.login(usuario.getUserName(), usuario.getPassword())
+                        .subscribeOn(io())
+                        .observeOn(mainThread())
+                        .subscribeWith(observer)
+        );
+    }
+
+    @Override
+    public boolean modifyUserName(DisposableSingleObserver<Boolean> observer, Usuario newUser)
+    {
+        Timber.d("modifyUserName()");
+        return getSubscriptions().add(
+                usuarioDao.modifyUserName(newUser)
+                        .subscribeOn(io())
+                        .observeOn(mainThread())
+                        .subscribeWith(observer));
+    }
+
+    @Override
+    public boolean modifyUserAlias(DisposableSingleObserver<Boolean> observer, Usuario newUser)
+    {
+        Timber.d("modifyUserName()");
+        return getSubscriptions().add(
+                usuarioDao.modifyUserAlias(newUser)
+                        .subscribeOn(io())
+                        .observeOn(mainThread())
+                        .subscribeWith(observer));
+    }
+
+    @Override
+    public boolean passwordChange(DisposableCompletableObserver observer, final Usuario oldUser, final Usuario newUser)
+    {
+        Timber.d("passwordChange()");
+        return getSubscriptions().add(
+                usuarioDao.passwordChange(oldUser.getPassword(), newUser.getPassword())
+                        .subscribeOn(io())
+                        .observeOn(mainThread())
+                        .subscribeWith(observer)
+        );
+    }
+
+    @Override
+    public boolean passwordSend(@NonNull DisposableCompletableObserver observer, @NonNull final Usuario usuario)
+    {
+        Timber.d("passwordSend()");
+        return getSubscriptions().add(
+                usuarioDao.passwordSend(usuario.getUserName())
                         .subscribeOn(io())
                         .observeOn(mainThread())
                         .subscribeWith(observer)

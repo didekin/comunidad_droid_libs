@@ -10,6 +10,9 @@ local.properties
 # MAC
 .DS_Store
 
+# GOOGLE
+/**/google-services.json
+
 # Releases
 lib_one/releases/debug/*.aar
 !lib_one/releases/release/*.aar

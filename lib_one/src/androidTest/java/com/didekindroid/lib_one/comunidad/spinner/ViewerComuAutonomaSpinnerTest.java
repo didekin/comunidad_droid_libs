@@ -17,8 +17,8 @@ import com.didekindroid.lib_one.api.SpinnerEventItemSelectIf;
 import com.didekindroid.lib_one.api.SpinnerEventListener;
 import com.didekindroid.lib_one.api.SpinnerTextMockFr;
 import com.didekindroid.lib_one.api.ViewerMock;
+import com.didekindroid.lib_one.security.AuthTkCacher;
 import com.didekindroid.lib_one.security.MySecInitializerMock;
-import com.didekindroid.lib_one.security.TokenIdentityCacher;
 import com.didekinlib.model.comunidad.ComunidadAutonoma;
 
 import org.junit.Before;
@@ -74,7 +74,7 @@ public class ViewerComuAutonomaSpinnerTest {
     public void setUp()
     {
         activity = activityRule.getActivity();
-        secInitializer.set(new MySecInitializerMock(activity, new TokenIdentityCacher(activity)));
+        secInitializer.set(new MySecInitializerMock(activity, new AuthTkCacher(activity)));
         initRouter();
 
         activity.runOnUiThread(() -> {

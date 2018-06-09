@@ -13,7 +13,6 @@ import timber.log.Timber;
  * Date: 24/10/2017
  * Time: 10:06
  */
-@SuppressWarnings("WeakerAccess")
 public class ObserverSingleList<H extends ViewerListIf<?, ?, E>, E extends Serializable> extends
         DisposableSingleObserver<List<E>> {
 

@@ -7,7 +7,6 @@ import java.io.Serializable;
  * Date: 03/05/17
  * Time: 10:13
  */
-@SuppressWarnings("WeakerAccess")
 public class TipoViaValueObj implements Serializable {
 
     private final int pk;

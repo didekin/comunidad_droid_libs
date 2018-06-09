@@ -19,7 +19,6 @@ import static com.didekinlib.model.incidencia.dominio.IncidDataPatterns.INCID_DE
  * Date: 16/11/15
  * Time: 11:19
  */
-@SuppressWarnings({"WeakerAccess", "SameParameterValue", "unused"})
 public class IncidenciaBean implements Serializable {
 
     private short codAmbitoIncid;

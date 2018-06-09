@@ -2,7 +2,7 @@ package com.didekindroid.lib_one.api;
 
 import android.os.Bundle;
 
-import com.didekindroid.lib_one.security.IdentityCacherIf;
+import com.didekindroid.lib_one.security.AuthTkCacherIf;
 
 import java.io.Serializable;
 
@@ -23,7 +23,7 @@ public abstract class CtrlerSelectList<E extends Serializable> extends Controlle
         super();
     }
 
-    public CtrlerSelectList(IdentityCacherIf identityCacher)
+    public CtrlerSelectList(AuthTkCacherIf identityCacher)
     {
         super(identityCacher);
     }

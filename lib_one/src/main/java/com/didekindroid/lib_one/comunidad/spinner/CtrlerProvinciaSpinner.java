@@ -2,7 +2,7 @@ package com.didekindroid.lib_one.comunidad.spinner;
 
 import com.didekindroid.lib_one.api.CtrlerSelectList;
 import com.didekindroid.lib_one.comunidad.repository.ComunidadDbHelper;
-import com.didekindroid.lib_one.security.TokenIdentityCacher;
+import com.didekindroid.lib_one.security.AuthTkCacher;
 import com.didekinlib.model.comunidad.Provincia;
 
 import java.util.List;
@@ -29,9 +29,9 @@ public class CtrlerProvinciaSpinner extends CtrlerSelectList<Provincia> {
         super();
     }
 
-    public CtrlerProvinciaSpinner(TokenIdentityCacher tokenIdentityCacher)
+    public CtrlerProvinciaSpinner(AuthTkCacher authTkCacher)
     {
-        super(tokenIdentityCacher);
+        super(authTkCacher);
     }
 
     // .................................... OBSERVABLE .......................................

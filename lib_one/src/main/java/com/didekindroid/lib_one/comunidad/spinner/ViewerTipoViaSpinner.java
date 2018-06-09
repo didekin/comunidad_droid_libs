@@ -24,8 +24,6 @@ import static com.didekindroid.lib_one.comunidad.spinner.ComunidadSpinnerKey.TIP
  * Date: 03/05/17
  * Time: 10:09
  */
-
-@SuppressWarnings({"WeakerAccess", "unused"})
 public final class ViewerTipoViaSpinner extends
         ViewerSelectList<Spinner, CtrlerTipoViaSpinner, TipoViaValueObj> {
 

@@ -18,7 +18,6 @@ import timber.log.Timber;
  * Date: 18/04/17
  * Time: 13:56
  */
-@SuppressWarnings("ALL")
 public abstract class ViewerSelectList<T extends AdapterView<? super ArrayAdapter<E>>, C extends CtrlerSelectListIf<E>, E extends Serializable>
         extends Viewer<T, C>
         implements ViewerSelectListIf<T, C, E> {

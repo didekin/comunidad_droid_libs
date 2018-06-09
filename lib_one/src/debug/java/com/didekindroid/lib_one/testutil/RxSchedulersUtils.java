@@ -3,6 +3,7 @@ package com.didekindroid.lib_one.testutil;
 import io.reactivex.android.plugins.RxAndroidPlugins;
 import io.reactivex.plugins.RxJavaPlugins;
 
+import static com.didekindroid.lib_one.util.UiUtil.assertTrue;
 import static io.reactivex.schedulers.Schedulers.single;
 import static io.reactivex.schedulers.Schedulers.trampoline;
 
@@ -11,7 +12,6 @@ import static io.reactivex.schedulers.Schedulers.trampoline;
  * Date: 25/01/17
  * Time: 11:52
  */
-
 public class RxSchedulersUtils {
 
     public static void trampolineReplaceIoScheduler()
@@ -30,13 +30,11 @@ public class RxSchedulersUtils {
         trampolineReplaceIoScheduler();
     }
 
-    @SuppressWarnings("unused")
     public static void singleReplaceAndroidMain()
     {
         RxAndroidPlugins.setMainThreadSchedulerHandler(scheduler -> single());
     }
 
-    @SuppressWarnings("unused")
     public static void singleReplaceIoScheduler()
     {
         RxJavaPlugins.setIoSchedulerHandler(scheduler -> single());
@@ -48,4 +46,14 @@ public class RxSchedulersUtils {
         RxAndroidPlugins.reset();
     }
 
+    public static void execCheckSchedulersTest(boolean isSubscribed)
+    {
+        try {
+            trampolineReplaceIoScheduler();
+            trampolineReplaceAndroidMain();
+            assertTrue(isSubscribed, MockTestConstant.subscription_added_in_observer_ok);
+        } finally {
+            resetAllSchedulers();
+        }
+    }
 }

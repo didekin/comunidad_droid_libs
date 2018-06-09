@@ -15,7 +15,7 @@ public interface SecInitializerIf {
 
     JksInClient getJksInClient();
 
-    IdentityCacherIf getTkCacher();
+    AuthTkCacherIf getTkCacher();
 
     Resources getAppResources();
 }

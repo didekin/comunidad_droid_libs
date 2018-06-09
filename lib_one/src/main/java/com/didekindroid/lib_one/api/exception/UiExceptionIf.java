@@ -2,6 +2,10 @@ package com.didekindroid.lib_one.api.exception;
 
 import com.didekinlib.http.exception.ErrorBean;
 
+import io.reactivex.functions.Consumer;
+
+import static com.didekinlib.http.exception.GenericExceptionMsg.GENERIC_INTERNAL_ERROR;
+
 /**
  * User: pedro@didekin
  * Date: 16/11/16
@@ -14,4 +18,9 @@ public interface UiExceptionIf {
 
     String getErrorHtppMsg();
 
+    Consumer<Throwable> uiExceptionConsumer = exception -> {
+        if (!(exception instanceof UiException)) {
+            throw new UiException(new ErrorBean(GENERIC_INTERNAL_ERROR));
+        }
+    };
 }

@@ -100,7 +100,7 @@ public class DeleteMeAcTest {
     @Test
     public void testOnCreate()
     {
-        assertThat(activity.controller.getTkCacher().isRegisteredUser(), is(true));
+        assertThat(activity.controller.getTkCacher().isRegisteredCache(), is(true));
         assertThat(activity, notNullValue());
 
         onView(withId(R.id.delete_me_ac_layout)).check(matches(isDisplayed()));

@@ -28,11 +28,13 @@ public final class HttpInitializer implements HttpInitializerIf {
     private final Context context;
     private final HttpHandler httpHandler;
 
-    @SuppressWarnings("SyntheticAccessorCall")
     private HttpInitializer(HttpInitializerBuilder builder)
     {
         context = builder.context;
-        httpHandler = new HttpHandler(builder.webHostPortStr, builder.jksInClient, builder.timeOut);
+        httpHandler = new HttpHandler.HttpHandlerBuilder(builder.webHostPortStr)
+                .timeOutSec(builder.timeOut)
+                .keyStoreClient(builder.jksInClient)
+                .build();
     }
 
     @Override
@@ -59,7 +61,6 @@ public final class HttpInitializer implements HttpInitializerIf {
 
     //    ==================== BUILDER ====================
 
-    @SuppressWarnings("unused")
     public static class HttpInitializerBuilder implements BeanBuilder<HttpInitializer> {
 
         private Context context;

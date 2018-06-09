@@ -5,6 +5,7 @@ import android.support.test.espresso.intent.rule.IntentsTestRule;
 
 import com.didekindroid.lib_one.R;
 import com.didekindroid.lib_one.api.exception.UiException;
+import com.didekindroid.lib_one.usuario.dao.UsuarioDaoTest;
 
 import org.junit.After;
 import org.junit.Before;
@@ -33,6 +34,7 @@ import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http
 import static com.didekindroid.lib_one.testutil.UiTestUtil.focusOnView;
 import static com.didekindroid.lib_one.usuario.UserTestData.CleanUserEnum.CLEAN_RODRIGO;
 import static com.didekindroid.lib_one.usuario.UserTestData.USER_DROID;
+import static com.didekindroid.lib_one.usuario.UserTestData.cleanOneUser;
 import static com.didekindroid.lib_one.usuario.UserTestData.cleanOptions;
 import static com.didekindroid.lib_one.usuario.UserTestData.comu_real_rodrigo;
 import static com.didekindroid.lib_one.usuario.UserTestData.regGetUserComu;
@@ -40,7 +42,7 @@ import static com.didekindroid.lib_one.usuario.UserTestData.user_crodrigo;
 import static com.didekindroid.lib_one.usuario.UserTestNavigation.loginAcResourceId;
 import static com.didekindroid.lib_one.usuario.UserTestNavigation.userDataAcRsId;
 import static com.didekindroid.lib_one.usuario.UsuarioBundleKey.user_name;
-import static com.didekindroid.lib_one.usuario.UsuarioMockDao.usuarioMockDao;
+import static com.didekindroid.lib_one.usuario.UserMockDao.usuarioMockDao;
 import static com.didekindroid.lib_one.usuario.testutil.UserEspressoTestUtil.typeUserNameAliasPswd;
 import static com.didekindroid.lib_one.usuario.testutil.UserEspressoTestUtil.typeUserNamePswd;
 import static com.didekindroid.lib_one.usuario.testutil.UserMenuTestUtils.DELETE_ME_AC;
@@ -97,7 +99,7 @@ public class UserDataAcTest {
     //    ................ TESTS ..............
     // ============================================================
 
-    @Test  // Wrong password.
+    @Test  // Wrong passwordSend.
     public void testModifyUserDataWrongPswd() throws InterruptedException
     {
         SECONDS.sleep(2);
@@ -112,7 +114,8 @@ public class UserDataAcTest {
         SECONDS.sleep(2);
         typeClickWait();
 
-        skipClean = usuarioMockDao.deleteUser(USER_DROID.getUserName()).execute().body();
+        cleanOneUser(USER_DROID.getUserName());
+        skipClean = true;
     }
 
     @Test  // Modify userName OK.
@@ -125,7 +128,8 @@ public class UserDataAcTest {
         // Check passwordSent dialog and back.
         checkBack(onView(withText(R.string.receive_password_by_mail_dialog)).inRoot(isDialog()).check(matches(isDisplayed())), userDataAcRsId);
 
-        skipClean = usuarioMockDao.deleteUser(USER_DROID.getUserName()).execute().body();
+        cleanOneUser(USER_DROID.getUserName());
+        skipClean = true;
     }
 
     @Test

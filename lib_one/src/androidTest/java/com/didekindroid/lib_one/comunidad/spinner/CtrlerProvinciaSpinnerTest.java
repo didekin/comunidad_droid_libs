@@ -4,7 +4,7 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.didekindroid.lib_one.api.ActivityMock;
-import com.didekindroid.lib_one.security.TokenIdentityCacher;
+import com.didekindroid.lib_one.security.AuthTkCacher;
 
 import org.junit.After;
 import org.junit.Before;
@@ -33,7 +33,7 @@ public class CtrlerProvinciaSpinnerTest {
     @Before
     public void setUp()
     {
-        controller = new CtrlerProvinciaSpinner(new TokenIdentityCacher(activityRule.getActivity()));
+        controller = new CtrlerProvinciaSpinner(new AuthTkCacher(activityRule.getActivity()));
     }
 
     @After

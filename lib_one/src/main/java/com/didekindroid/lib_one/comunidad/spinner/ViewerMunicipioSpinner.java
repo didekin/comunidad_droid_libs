@@ -29,8 +29,6 @@ import static com.didekindroid.lib_one.util.UiUtil.assertTrue;
  * The spinner with municipios is loaded with 'local' data, with a SqLite Pk, not necessarily the same as
  * the Mysql PK in remote. To avoid conflicts, the municipio code inside its provincia is used for itemSelectedId.
  */
-
-@SuppressWarnings({"WeakerAccess", "unused"})
 public final class ViewerMunicipioSpinner extends
         ViewerSelectList<Spinner, CtrlerMunicipioSpinner, Municipio> {
 

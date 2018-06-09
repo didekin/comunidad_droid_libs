@@ -20,7 +20,7 @@ import java.io.Serializable;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
-import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.observers.DisposableCompletableObserver;
 import timber.log.Timber;
 
 import static com.didekindroid.lib_one.usuario.UsuarioBundleKey.login_counter_atomic_int;
@@ -34,7 +34,9 @@ import static com.didekindroid.lib_one.util.UiUtil.getContetViewInAc;
 import static com.didekindroid.lib_one.util.UiUtil.getErrorMsgBuilder;
 import static com.didekindroid.lib_one.util.UiUtil.getUiExceptionFromThrowable;
 import static com.didekindroid.lib_one.util.UiUtil.makeToast;
-import static com.didekinlib.http.usuario.UsuarioExceptionMsg.USER_NAME_NOT_FOUND;
+import static com.didekinlib.http.usuario.UsuarioExceptionMsg.PASSWORD_WRONG;
+import static com.didekinlib.http.usuario.UsuarioExceptionMsg.USER_NOT_FOUND;
+import static com.didekinlib.http.usuario.UsuarioExceptionMsg.USER_WRONG_INIT;
 
 /**
  * User: pedro@didekin
@@ -79,12 +81,19 @@ public final class ViewerLogin extends Viewer<View, CtrlerUsuario> {
                 v -> {
                     Timber.d("onClick()");
                     if (checkLoginData()) {
-                        controller.validateLogin(
-                                new LoginObserver() {
+                        controller.login(
+                                new DisposableCompletableObserver() {
                                     @Override
-                                    public void onSuccess(Boolean isLoginOk)
+                                    public void onComplete()
                                     {
-                                        processLoginBackInView(isLoginOk);
+                                        processLoginBackInView();
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e)
+                                    {
+                                        Timber.d("onError, message: %s", e.getMessage());
+                                        processLoginErrorBackInView(e);
                                     }
                                 },
                                 usuarioBean.get().getUsuario()
@@ -140,22 +149,31 @@ public final class ViewerLogin extends Viewer<View, CtrlerUsuario> {
         };
     }
 
-    public void processLoginBackInView(boolean isLoginOk)
+    public void processLoginBackInView()  // TODO: test.
     {
         Timber.d("processLoginBackInView()");
+        getContextualRouter().getActionFromContextNm(login_just_done).initActivity(activity);
+        activity.finish();
+    }
 
-        if (isLoginOk) {
-            Timber.d("login OK");
-            getContextualRouter().getActionFromContextNm(login_just_done).initActivity(activity);
-            activity.finish();
-        } else {
+    void processLoginErrorBackInView(Throwable error)     // TODO: test.
+    {
+        Timber.d("processLoginErrorBackInView()");
+        String messageErr = getUiExceptionFromThrowable(error).getErrorBean().getMessage();
+
+        if (messageErr.equals(PASSWORD_WRONG.getHttpMessage())
+                || messageErr.equals(USER_NOT_FOUND.getHttpMessage())
+                || messageErr.equals(USER_WRONG_INIT.getHttpMessage())) {
+
             int counter = counterWrong.addAndGet(1);
             Timber.d("Password wrong, counterWrong = %d%n", counter - 1);
-            if (counter > 3) { /* Password wrong*/
+            if (counter > 3) {
                 showDialogAfterErrors();
             } else {
                 makeToast(activity, R.string.password_wrong);
             }
+        } else {
+            super.onErrorInObserver(error);
         }
     }
 
@@ -169,35 +187,41 @@ public final class ViewerLogin extends Viewer<View, CtrlerUsuario> {
 
     public void doDialogPositiveClick(Usuario usuario)
     {
-        Timber.d("sendNewPassword()");
+        Timber.d("passwordSend()");
         if (usuario == null) {
             makeToast(activity, R.string.username_wrong_in_login);
             return;
         }
-        controller.sendNewPassword(new LoginObserver() {
+        controller.passwordSend(new DisposableCompletableObserver() {
             @Override
-            public void onSuccess(Boolean isSentPassword)
+            public void onComplete()
             {
-                processBackSendPswdInView(isSentPassword);
+                processBackSendPswdInView();
+            }
+
+            @Override
+            public void onError(Throwable e)
+            {
+                Timber.d("onError, message: %s", e.getMessage());
+                onErrorInObserver(e);
             }
         }, usuario);
     }
 
-    public void processBackSendPswdInView(boolean isSendPassword)
+    public void processBackSendPswdInView()
     {
         Timber.d("processBackSendPswdInView()");
-        if (isSendPassword) {
-            makeToast(activity, R.string.password_new_in_login);
-            activity.recreate();
-        }
+        makeToast(activity, R.string.password_new_in_login);
+        activity.recreate();
     }
 
-    @SuppressWarnings("ThrowableNotThrown")
+
+    @SuppressWarnings("ThrowableNotThrown") // Recycled in a UI message.
     @Override
     public void onErrorInObserver(Throwable error)
     {
         Timber.d("onErrorInObserver()");
-        if (getUiExceptionFromThrowable(error).getErrorBean().getMessage().equals(USER_NAME_NOT_FOUND.getHttpMessage())) {
+        if (getUiExceptionFromThrowable(error).getErrorBean().getMessage().equals(USER_NOT_FOUND.getHttpMessage())) {
             makeToast(activity, R.string.username_wrong_in_login);
         } else {
             super.onErrorInObserver(error);
@@ -258,20 +282,6 @@ public final class ViewerLogin extends Viewer<View, CtrlerUsuario> {
                             }
                     );
             return builder.create();
-        }
-    }
-
-    // ============================================================
-    // ....................... Inner classes ...................
-    // ============================================================
-
-    abstract class LoginObserver extends DisposableSingleObserver<Boolean> {
-
-        @Override
-        public void onError(Throwable e)
-        {
-            Timber.d("onError, message: %s", e.getMessage());
-            onErrorInObserver(e);
         }
     }
 }

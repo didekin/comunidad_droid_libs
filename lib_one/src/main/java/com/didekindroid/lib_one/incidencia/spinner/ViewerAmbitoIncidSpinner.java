@@ -23,8 +23,6 @@ import static com.didekindroid.lib_one.incidencia.spinner.IncidenciaSpinnerKey.A
  * Date: 30/03/17
  * Time: 15:36
  */
-
-@SuppressWarnings("WeakerAccess")
 public final class ViewerAmbitoIncidSpinner extends
         ViewerSelectList<Spinner, CtrlerAmbitoIncidSpinner, AmbitoIncidValueObj> {
 

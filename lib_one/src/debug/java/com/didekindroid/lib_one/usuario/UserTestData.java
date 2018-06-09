@@ -1,7 +1,5 @@
 package com.didekindroid.lib_one.usuario;
 
-import com.didekindroid.lib_one.api.exception.UiException;
-import com.didekinlib.http.exception.ErrorBean;
 import com.didekinlib.model.comunidad.Comunidad;
 import com.didekinlib.model.comunidad.ComunidadAutonoma;
 import com.didekinlib.model.comunidad.Municipio;
@@ -9,15 +7,14 @@ import com.didekinlib.model.comunidad.Provincia;
 import com.didekinlib.model.usuario.Usuario;
 import com.didekinlib.model.usuariocomunidad.UsuarioComunidad;
 
-import java.io.IOException;
-
+import static com.didekindroid.lib_one.HttpInitializer.httpInitializer;
 import static com.didekindroid.lib_one.security.SecInitializer.secInitializer;
-import static com.didekindroid.lib_one.security.SecurityTestUtils.updateSecurityData;
-import static com.didekindroid.lib_one.usuario.UsuarioMockDao.usuarioMockDao;
+import static com.didekindroid.lib_one.usuario.UserMockDao.usuarioMockDao;
 import static com.didekindroid.lib_one.usuario.dao.UsuarioDao.usuarioDaoRemote;
 import static com.didekindroid.lib_one.util.UiUtil.assertTrue;
-import static com.didekinlib.http.exception.GenericExceptionMsg.GENERIC_INTERNAL_ERROR;
+import static com.didekinlib.http.usuario.TkValidaPatterns.tkEncrypted_direct_symmetricKey_REGEX;
 import static com.didekinlib.model.usuariocomunidad.Rol.PROPIETARIO;
+import static com.google.firebase.iid.FirebaseInstanceId.getInstance;
 
 /**
  * User: pedro@didekin
@@ -78,74 +75,86 @@ public final class UserTestData {
     {
     }
 
-    // =========================  Registet methods =========================
+    // =========================  Register methods =========================
 
-    @SuppressWarnings("ConstantConditions")
-    public static void regUserComuWithTkCache(UsuarioComunidad userComuIn) throws IOException, UiException
+    public static String regUserComuWithTkCache(UsuarioComunidad userComuIn)
     {
-        //Inserta userComu, comunidad y usuariocomunidad.
-        assertTrue(usuarioMockDao.regComuAndUserAndUserComu(userComuIn).execute().body(), "Usuario registered in new comunidad");
-        updateSecurityData(userComuIn.getUsuario().getUserName(), userComuIn.getUsuario().getPassword());
+        UsuarioComunidad userComuWithGcmTk = new UsuarioComunidad.UserComuBuilder
+                (
+                        userComuIn.getComunidad(),
+                        new Usuario.UsuarioBuilder()
+                                .copyUsuario(userComuIn.getUsuario())
+                                .gcmToken(getInstance().getToken())  // We need this token in the server.
+                                .build()
+                )
+                .userComuRest(userComuIn)
+                .build();
+        
+        return usuarioMockDao.regComuAndUserAndUserComu(userComuWithGcmTk)
+                .map(response -> httpInitializer.get().getResponseBody(response))
+                .doOnSuccess(newAuthTk -> secInitializer.get().getTkCacher()
+                        .updateAuthToken(newAuthTk)
+                        .updateUserName(userComuWithGcmTk.getUsuario().getUserName())
+                        .updateIsGcmTokenSentServer(true))
+                .blockingGet();
     }
 
-    public static Usuario regGetUserComu(UsuarioComunidad userComuIn) throws IOException, UiException
+    public static Usuario regGetUserComu(UsuarioComunidad userComuIn)
     {
-        //Inserta userComu, comunidad y usuariocomunidad.
-        regUserComuWithTkCache(userComuIn);
-        return usuarioDaoRemote.getUserData();
+        assertTrue(tkEncrypted_direct_symmetricKey_REGEX.isPatternOk(regUserComuWithTkCache(userComuIn)), "authToken not null");
+        return usuarioDaoRemote.getUserData().blockingGet();
+
     }
 
     // =========================  Cleaning methods =========================
 
-    public static void cleanOneUser(Usuario usuario) throws UiException
+    public static void cleanOneUser(String userName)
     {
-        updateSecurityData(usuario.getUserName(), usuario.getPassword());
-        try {
-            usuarioMockDao.deleteUser(usuario.getUserName()).execute().body();
-        } catch (IOException e) {
-            throw new UiException(new ErrorBean(GENERIC_INTERNAL_ERROR));
-        }
+        assertTrue(
+                usuarioMockDao.deleteUser(userName)
+                        .map(response -> httpInitializer.get().getResponseBody(response))
+                        .blockingGet(),
+                "OK deletion");
         cleanWithTkhandler();
     }
 
-    public static void cleanTwoUsers(Usuario usuarioOne, Usuario usuarioTwo) throws UiException
+    public static void cleanTwoUsers(String userNameOne, String userNameTwo)
     {
-        cleanOneUser(usuarioOne);
-        cleanOneUser(usuarioTwo);
+        cleanOneUser(userNameOne);
+        cleanOneUser(userNameTwo);
     }
 
     public static void cleanWithTkhandler()
     {
-        secInitializer.get().getTkCacher().cleanIdentityCache();
         secInitializer.get().getTkCacher().updateIsRegistered(false);
     }
 
-    public static void cleanOptions(CleanUserEnum whatClean) throws UiException
+    public static void cleanOptions(CleanUserEnum whatClean)
     {
         switch (whatClean) {
             case CLEAN_TK_HANDLER:
                 cleanWithTkhandler();
                 break;
             case CLEAN_JUAN:
-                cleanOneUser(USER_JUAN);
+                cleanOneUser(USER_JUAN.getUserName());
                 break;
             case CLEAN_PEPE:
-                cleanOneUser(USER_PEPE);
+                cleanOneUser(USER_PEPE.getUserName());
                 break;
             case CLEAN_JUAN2:
-                cleanOneUser(USER_JUAN2);
+                cleanOneUser(USER_JUAN2.getUserName());
                 break;
             case CLEAN_DROID:
-                cleanOneUser(USER_DROID);
+                cleanOneUser(USER_DROID.getUserName());
                 break;
             case CLEAN_RODRIGO:
-                cleanOneUser(user_crodrigo);
+                cleanOneUser(user_crodrigo.getUserName());
                 break;
             case CLEAN_JUAN_AND_PEPE:
-                cleanTwoUsers(USER_JUAN, USER_PEPE);
+                cleanTwoUsers(USER_JUAN.getUserName(), USER_PEPE.getUserName());
                 break;
             case CLEAN_JUAN2_AND_PEPE:
-                cleanTwoUsers(USER_JUAN2, USER_PEPE);
+                cleanTwoUsers(USER_JUAN2.getUserName(), USER_PEPE.getUserName());
                 break;
             case CLEAN_NOTHING:
                 break;

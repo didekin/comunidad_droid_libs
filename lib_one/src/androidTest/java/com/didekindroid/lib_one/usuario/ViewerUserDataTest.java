@@ -17,7 +17,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -40,7 +39,6 @@ import static com.didekindroid.lib_one.usuario.UserTestData.regGetUserComu;
 import static com.didekindroid.lib_one.usuario.UserTestData.user_crodrigo;
 import static com.didekindroid.lib_one.usuario.UserTestNavigation.userDataAcRsId;
 import static com.didekindroid.lib_one.usuario.UsuarioBundleKey.user_name;
-import static com.didekindroid.lib_one.usuario.UsuarioMockDao.usuarioMockDao;
 import static com.didekindroid.lib_one.usuario.ViewerUserDataIf.UserChangeToMake.alias_only;
 import static com.didekindroid.lib_one.usuario.ViewerUserDataIf.UserChangeToMake.nothing;
 import static com.didekindroid.lib_one.usuario.ViewerUserDataIf.UserChangeToMake.userName;
@@ -95,12 +93,12 @@ public class ViewerUserDataTest {
     }
 
     @After
-    public void cleanUp() throws UiException
+    public void cleanUp()
     {
         if (isClean) {
             return;
         }
-        cleanOneUser(user_crodrigo);
+        cleanOneUser(user_crodrigo.getUserName());
     }
 
     // ============================================================
@@ -206,7 +204,7 @@ public class ViewerUserDataTest {
     }
 
     @Test
-    public void testModifyUserData_3() throws IOException
+    public void testModifyUserData_3()
     {
         // Datos de entrada userName != oldUser.userName.
         waitAtMost(6, SECONDS).untilAtomic(activity.viewer.getOldUser(), is(usuario));
@@ -215,7 +213,7 @@ public class ViewerUserDataTest {
         activity.runOnUiThread(() -> activity.viewer.modifyUserData(userName));
         checkTextsInDialog(R.string.receive_password_by_mail_dialog, R.string.continuar_button_rot);
 
-        assertThat(usuarioMockDao.deleteUser(USER_DROID.getUserName()).execute().body(), is(true));
+        cleanOneUser(USER_DROID.getUserName());
         isClean = true;
     }
 

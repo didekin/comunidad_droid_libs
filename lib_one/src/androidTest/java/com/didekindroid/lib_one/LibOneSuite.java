@@ -1,7 +1,6 @@
 package com.didekindroid.lib_one;
 
 import com.didekindroid.lib_one.api.ControllerTest;
-import com.didekindroid.lib_one.api.ObserverCacheCleanerTest;
 import com.didekindroid.lib_one.api.ObserverSingleListTest;
 import com.didekindroid.lib_one.api.ObserverSingleSelectItemTest;
 import com.didekindroid.lib_one.api.ObserverSingleSelectListTest;
@@ -45,7 +44,6 @@ import org.junit.runners.Suite;
         RouterActionIfTest.class,
         // api.
         ControllerTest.class,
-        ObserverCacheCleanerTest.class,
         ObserverSingleListTest.class,
         ObserverSingleSelectItemTest.class,
         ObserverSingleSelectListTest.class,

@@ -81,7 +81,7 @@ public final class ViewerUserDrawer extends Viewer<DrawerLayout, CtrlerUsuario> 
         if (savedState != null && savedState.containsKey(user_alias.key)) {
             drawerHeaderRot.setText(savedState.getString(user_alias.key));
         } else {
-            controller.loadUserData(new AbstractSingleObserver<Usuario>(this) {
+            controller.getUserData(new AbstractSingleObserver<Usuario>(this) {
                 @Override
                 public void onSuccess(Usuario usuario)
                 {

@@ -39,8 +39,8 @@ import static com.didekindroid.lib_one.usuario.testutil.UserEspressoTestUtil.typ
 import static com.didekindroid.lib_one.usuario.testutil.UserEspressoTestUtil.typePswdWithPswdValidation;
 import static com.didekinlib.http.usuario.UsuarioExceptionMsg.BAD_REQUEST;
 import static com.didekinlib.http.usuario.UsuarioExceptionMsg.PASSWORD_NOT_SENT;
-import static com.didekinlib.http.usuario.UsuarioExceptionMsg.USER_NAME_NOT_FOUND;
-import static io.reactivex.Single.just;
+import static com.didekinlib.http.usuario.UsuarioExceptionMsg.USER_NOT_FOUND;
+import static io.reactivex.Completable.complete;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.waitAtMost;
 import static org.hamcrest.CoreMatchers.instanceOf;
@@ -82,9 +82,9 @@ public class ViewerPasswordChangeTest {
     }
 
     @After
-    public void clearUp() throws UiException
+    public void clearUp()
     {
-        cleanOneUser(user_crodrigo);
+        cleanOneUser(user_crodrigo.getUserName());
     }
 
     //    ============================  TESTS  ===================================
@@ -135,8 +135,8 @@ public class ViewerPasswordChangeTest {
     @Test
     public void testCheckLoginData_2()
     {
-        // Caso WRONG: wrong format for current password.
-        typePswdWithPswdValidation("password1", "password1", "wrong+password");
+        // Caso WRONG: wrong format for current passwordSend.
+        typePswdWithPswdValidation("password1", "password1", "wrong+passwordSend");
 
         activity.runOnUiThread(() -> activity.viewer.checkLoginData());
         waitAtMost(4L, SECONDS).until(isToastInView(R.string.password_wrong, activity));
@@ -165,7 +165,7 @@ public class ViewerPasswordChangeTest {
     @Test
     public void testOnErrorInObserver_1()
     {
-        activity.runOnUiThread(() -> activity.viewer.onErrorInObserver(new UiException(new ErrorBean(USER_NAME_NOT_FOUND))));
+        activity.runOnUiThread(() -> activity.viewer.onErrorInObserver(new UiException(new ErrorBean(USER_NOT_FOUND))));
         waitAtMost(3, SECONDS).until(isToastInView(R.string.user_email_wrong, activity));
         onView(withId(userDataAcRsId)).check(matches(isDisplayed()));
     }
@@ -191,7 +191,7 @@ public class ViewerPasswordChangeTest {
     @Test
     public void test_PswdSendSingleObserver_Succcess()
     {
-        activity.runOnUiThread(() -> just(true).subscribeWith(activity.viewer.new PswdSendSingleObserver()));
+        activity.runOnUiThread(() -> complete().subscribeWith(activity.viewer.new PswdSendCompletableObserver()));
         waitAtMost(2, SECONDS).until(isToastInView(R.string.password_new_in_login, activity));
         waitAtMost(2, SECONDS).until(isResourceIdDisplayed(loginAcResourceId));
     }

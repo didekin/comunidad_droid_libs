@@ -1,26 +1,22 @@
 package com.didekindroid.lib_one.usuario.dao;
 
 import com.didekindroid.lib_one.api.HttpInitializerIf;
-import com.didekindroid.lib_one.api.exception.UiException;
-import com.didekindroid.lib_one.security.IdentityCacherIf;
+import com.didekindroid.lib_one.security.AuthTkCacherIf;
 import com.didekindroid.lib_one.security.SecInitializerIf;
-import com.didekinlib.http.auth.SpringOauthToken;
-import com.didekinlib.http.exception.ErrorBean;
 import com.didekinlib.http.usuario.UsuarioEndPoints;
-import com.didekinlib.model.usuario.GcmTokenWrapper;
 import com.didekinlib.model.usuario.Usuario;
 
-import java.io.EOFException;
-import java.io.IOException;
-
-import retrofit2.Call;
+import io.reactivex.Completable;
+import io.reactivex.Single;
 import retrofit2.Response;
 import timber.log.Timber;
 
 import static com.didekindroid.lib_one.HttpInitializer.httpInitializer;
+import static com.didekindroid.lib_one.api.exception.UiExceptionIf.uiExceptionConsumer;
 import static com.didekindroid.lib_one.security.SecInitializer.secInitializer;
 import static com.didekindroid.lib_one.util.Device.getDeviceLanguage;
-import static com.didekinlib.http.exception.GenericExceptionMsg.GENERIC_INTERNAL_ERROR;
+import static com.google.firebase.iid.FirebaseInstanceId.getInstance;
+import static java.lang.Thread.currentThread;
 
 
 /**
@@ -28,11 +24,10 @@ import static com.didekinlib.http.exception.GenericExceptionMsg.GENERIC_INTERNAL
  * Date: 07/06/15
  * Time: 15:06
  */
-@SuppressWarnings("WeakerAccess")
-public final class UsuarioDao implements UsuarioEndPoints, UsuarioDaoIf {
+public final class UsuarioDao implements UsuarioEndPoints {
 
-    public static final UsuarioDaoIf usuarioDaoRemote = new UsuarioDao(secInitializer.get(), httpInitializer.get());
-    private final IdentityCacherIf tkCacher;
+    public static final UsuarioDao usuarioDaoRemote = new UsuarioDao(secInitializer.get(), httpInitializer.get());
+    private final AuthTkCacherIf tkCacher;
     private final UsuarioEndPoints endPoint;
 
     private UsuarioDao(SecInitializerIf secInitializerIn, HttpInitializerIf httpInitializerIn)
@@ -41,7 +36,7 @@ public final class UsuarioDao implements UsuarioEndPoints, UsuarioDaoIf {
         tkCacher = secInitializerIn.getTkCacher();
     }
 
-    public IdentityCacherIf getTkCacher()
+    public AuthTkCacherIf getTkCacher()
     {
         return tkCacher;
     }
@@ -49,55 +44,43 @@ public final class UsuarioDao implements UsuarioEndPoints, UsuarioDaoIf {
     //  ================================== UsuarioEndPoints implementation ============================
 
     @Override
-    public Call<Boolean> deleteAccessToken(String accessToken, String oldAccessToken)
+    public Single<Response<Boolean>> deleteUser(String authHeader)
     {
-        return endPoint.deleteAccessToken(accessToken, oldAccessToken);
+        return endPoint.deleteUser(authHeader);
     }
 
     @Override
-    public Call<Boolean> deleteUser(String accessToken)
+    public Single<Response<Usuario>> getUserData(String authHeader)
     {
-        return endPoint.deleteUser(accessToken);
+        return endPoint.getUserData(authHeader);
     }
 
     @Override
-    public Call<GcmTokenWrapper> getGcmToken(String accessToken)
+    public Single<Response<String>> login(String userName, String password, String appID)
     {
-        return endPoint.getGcmToken(accessToken);
+        return endPoint.login(userName, password, appID);
     }
 
     @Override
-    public Call<Usuario> getUserData(String accessToken)
+    public Single<Response<String>> modifyGcmToken(String authHeader, String gcmToken)
     {
-        return endPoint.getUserData(accessToken);
+        return endPoint.modifyGcmToken(authHeader, gcmToken);
     }
 
     @Override
-    public Call<Boolean> login(String userName, String password)
+    public Single<Response<Integer>> modifyUser(String deviceLanguage, String authHeader, Usuario usuario)
     {
-        return endPoint.login(userName, password);
+        return endPoint.modifyUser(deviceLanguage, authHeader, usuario);
     }
 
     @Override
-    public Call<Integer> modifyUserGcmToken(String accessToken, String gcmToken)
+    public Single<Response<String>> passwordChange(String authHeader, String oldPswd, String newPassword)
     {
-        return endPoint.modifyUserGcmToken(accessToken, gcmToken);
+        return endPoint.passwordChange(authHeader, oldPswd, newPassword);
     }
 
     @Override
-    public Call<Integer> modifyUser(String deviceLanguage, String accessToken, Usuario usuario)
-    {
-        return endPoint.modifyUser(deviceLanguage, accessToken, usuario);
-    }
-
-    @Override
-    public Call<Integer> passwordChange(String accessToken, String newPassword)
-    {
-        return endPoint.passwordChange(accessToken, newPassword);
-    }
-
-    @Override
-    public Call<Boolean> passwordSend(String deviceLanguage, String userName)
+    public Single<Response<Boolean>> passwordSend(String deviceLanguage, String userName)
     {
         Timber.d("passwordSend()");
         return endPoint.passwordSend(deviceLanguage, userName);
@@ -107,116 +90,95 @@ public final class UsuarioDao implements UsuarioEndPoints, UsuarioDaoIf {
 //                          CONVENIENCE METHODS
 //  =============================================================================
 
-    @Override
-    public boolean deleteAccessToken(String oldAccessToken) throws UiException
+    public Completable deleteUser()
     {
-        Timber.d("deleteAccessToken(), Thread: %s", Thread.currentThread().getName());
-
-        try {
-            Response<Boolean> response = deleteAccessToken(tkCacher.checkBearerTokenInCache(), oldAccessToken).execute();
-            return httpInitializer.get().getResponseBody(response);
-        } catch (IOException e) {
-            throw new UiException(new ErrorBean(GENERIC_INTERNAL_ERROR));
-        }
+        Timber.d("deleteUser(), Thread: %s", currentThread().getName());
+        return deleteUser(tkCacher.doAuthHeaderStr())
+                .map(response -> httpInitializer.get().getResponseBody(response))
+                .doOnError(uiExceptionConsumer)
+                .doOnSuccess(isDeleted -> {
+                    if (isDeleted) {
+                        tkCacher.updateIsRegistered(false);
+                    }
+                })
+                .ignoreElement();
     }
 
-    @Override
-    public boolean deleteUser() throws UiException
+    public Single<String> getGcmToken()
     {
-        Timber.d("deleteUser(), Thread: %s", Thread.currentThread().getName());
-        try {
-            Response<Boolean> response = deleteUser(tkCacher.checkBearerTokenInCache()).execute();
-            return httpInitializer.get().getResponseBody(response);
-        } catch (IOException e) {
-            throw new UiException(new ErrorBean(GENERIC_INTERNAL_ERROR));
-        }
+        Timber.d("getGcmToken(), Thread: %s", currentThread().getName());
+        return getUserData(tkCacher.doAuthHeaderStr())
+                .map(response -> httpInitializer.get().getResponseBody(response).getGcmToken())
+                .doOnError(uiExceptionConsumer);
     }
 
-    @Override
-    public String getGcmToken() throws UiException
+    public Single<Usuario> getUserData()
     {
-        Timber.d("getGcmToken(), Thread: %s", Thread.currentThread().getName());
-        try {
-            Response<GcmTokenWrapper> response = getGcmToken(tkCacher.checkBearerTokenInCache()).execute();
-            return httpInitializer.get().getResponseBody(response).getToken();
-        } catch (IOException e) {
-            throw new UiException(new ErrorBean(GENERIC_INTERNAL_ERROR));
-        }
+        Timber.d("getUserData(), Thread: %s", currentThread().getName());
+        return getUserData(tkCacher.doAuthHeaderStr())
+                .map(response -> httpInitializer.get().getResponseBody(response))
+                .doOnSuccess(usuario -> tkCacher.updateUserName(usuario.getUserName()))
+                .doOnError(uiExceptionConsumer);
     }
 
-    @Override
-    public Usuario getUserData() throws UiException
+    public Completable login(String userName, String password)
     {
-        Timber.d("getUserData(), Thread: %s", Thread.currentThread().getName());
-        try {
-            Response<Usuario> response = getUserData(tkCacher.checkBearerTokenInCache()).execute();
-            return httpInitializer.get().getResponseBody(response);
-        } catch (EOFException eo) {
-            return null;
-        } catch (IOException e) {
-            throw new UiException(new ErrorBean(GENERIC_INTERNAL_ERROR));
-        }
+        Timber.d("login(), Thread: %s", currentThread().getName());
+        return login(userName, password, getInstance().getToken())
+                .map(response -> httpInitializer.get().getResponseBody(response))
+                .doOnError(uiExceptionConsumer)
+                .doOnSuccess(newAuthTk -> tkCacher.updateAuthToken(newAuthTk).updateUserName(userName).updateIsGcmTokenSentServer(true))
+                .ignoreElement();
     }
 
-    /**
-     * @return false if the userName exists but the password doesn't match that in the data base.
-     * @throws UiException if USER_NAME_NOT_FOUND or GENERIC_INTERNAL_ERROR.
-     */
-    @Override
-    public boolean loginInternal(String userName, String password) throws UiException
+    public Completable modifyGcmToken(String gcmToken)
     {
-        Timber.d("loginInternal(), Thread: %s", Thread.currentThread().getName());
-        try {
-            Response<Boolean> response = login(userName, password).execute();
-            return httpInitializer.get().getResponseBody(response);
-        } catch (IOException e) {
-            throw new UiException(new ErrorBean(GENERIC_INTERNAL_ERROR));
-        }
+        Timber.d("modifyGcmToken(), Thread: %s", currentThread().getName());
+        return modifyGcmToken(tkCacher.doAuthHeaderStr(), gcmToken)
+                .map(response -> httpInitializer.get().getResponseBody(response))
+                .doOnError(uiExceptionConsumer)
+                .doOnSuccess(newAuthTk -> tkCacher.updateAuthToken(newAuthTk).updateIsGcmTokenSentServer(true))
+                .ignoreElement();
     }
 
-    @Override
-    public int modifyUserGcmToken(String gcmToken) throws UiException
+    public Single<Boolean> modifyUserName(Usuario usuario)
     {
-        Timber.d("modifyUserGcmToken(), Thread: %s", Thread.currentThread().getName());
-        try {
-            Response<Integer> response = modifyUserGcmToken(tkCacher.checkBearerTokenInCache(), gcmToken).execute();
-            return httpInitializer.get().getResponseBody(response);
-        } catch (IOException e) {
-            throw new UiException(new ErrorBean(GENERIC_INTERNAL_ERROR));
-        }
+        Timber.d("modifyUserName(), Thread: %s", currentThread().getName());
+        return modifyUser(getDeviceLanguage(), tkCacher.doAuthHeaderStr(), usuario)
+                .map(response -> httpInitializer.get().getResponseBody(response) > 0)
+                .doOnSuccess(isDone -> {
+                    if (isDone) {
+                        tkCacher.updateUserName(null);
+                    }
+                })
+                .doOnError(uiExceptionConsumer);
     }
 
-    @Override
-    public int modifyUserWithToken(SpringOauthToken oauthToken, Usuario usuario) throws UiException
+    public Single<Boolean> modifyUserAlias(Usuario usuario)
     {
-        Timber.d("modifyUserWithToken(), Thread: %s", Thread.currentThread().getName());
-        try {
-            return httpInitializer.get().getResponseBody(modifyUser(getDeviceLanguage(), tkCacher.checkBearerToken(oauthToken), usuario).execute());
-        } catch (IOException e) {
-            throw new UiException(new ErrorBean(GENERIC_INTERNAL_ERROR));
-        }
+        Timber.d("modifyUseAlias(), Thread: %s", currentThread().getName());
+        return modifyUser(getDeviceLanguage(), tkCacher.doAuthHeaderStr(), usuario)
+                .map(response -> httpInitializer.get().getResponseBody(response) > 0)
+                .doOnError(uiExceptionConsumer);
     }
 
-    @Override
-    public int passwordChange(SpringOauthToken oldOauthToken, String newPassword) throws UiException
+    public Completable passwordChange(String oldPswd, String newPassword)
     {
-        Timber.d("passwordChange(), Thread: %s", Thread.currentThread().getName());
-        try {
-            Response<Integer> response = passwordChange(tkCacher.checkBearerToken(oldOauthToken), newPassword).execute();
-            return httpInitializer.get().getResponseBody(response);
-        } catch (IOException e) {
-            throw new UiException(new ErrorBean(GENERIC_INTERNAL_ERROR));
-        }
+        Timber.d("passwordChange(), Thread: %s", currentThread().getName());
+        return passwordChange(tkCacher.doAuthHeaderStr(), oldPswd, newPassword)
+                .map(response -> httpInitializer.get().getResponseBody(response))
+                .doOnError(uiExceptionConsumer)
+                .doOnSuccess(tkCacher::updateAuthToken)
+                .ignoreElement();
     }
 
-    @Override
-    public boolean sendPassword(String email) throws UiException
+    public Completable passwordSend(String userName)
     {
-        Timber.d("sendPassword(), Thread: %s", Thread.currentThread().getName());
-        try {
-            return httpInitializer.get().getResponseBody(passwordSend(getDeviceLanguage(), email).execute());
-        } catch (IOException e) {
-            throw new UiException(new ErrorBean(GENERIC_INTERNAL_ERROR));
-        }
+        Timber.d("passwordSend(), Thread: %s", currentThread().getName());
+        return passwordSend(getDeviceLanguage(), userName)
+                .map(response -> httpInitializer.get().getResponseBody(response))
+                .doOnSuccess(isSent -> tkCacher.updateAuthToken(null))
+                .doOnError(uiExceptionConsumer)
+                .ignoreElement();
     }
 }

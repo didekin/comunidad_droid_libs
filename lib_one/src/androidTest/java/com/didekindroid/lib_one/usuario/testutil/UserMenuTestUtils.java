@@ -29,7 +29,7 @@ public enum UserMenuTestUtils implements MenuTestUtilIf {
         @Override
         public void checkItem(Activity activity)
         {
-            if (secInitializer.get().getTkCacher().isRegisteredUser()) {
+            if (secInitializer.get().getTkCacher().isRegisteredCache()) {
                 checkItemMnNotExists(activity, R.string.login_ac_mn);
             } else {
                 checkItemMnExists(activity, R.string.login_ac_mn, R.id.login_ac_layout);
@@ -49,7 +49,7 @@ public enum UserMenuTestUtils implements MenuTestUtilIf {
         @Override
         public void checkItem(Activity activity)
         {
-            if (secInitializer.get().getTkCacher().isRegisteredUser()) {
+            if (secInitializer.get().getTkCacher().isRegisteredCache()) {
                 checkItemMnExists(activity, R.string.user_data_ac_mn, R.id.user_data_ac_layout);
             } else {
                 checkItemMnNotExists(activity, R.string.user_data_ac_mn);

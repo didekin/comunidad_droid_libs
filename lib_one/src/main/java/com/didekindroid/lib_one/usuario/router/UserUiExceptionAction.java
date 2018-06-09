@@ -22,15 +22,15 @@ import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 import static com.didekindroid.lib_one.util.UiUtil.makeToast;
 import static com.didekinlib.http.usuario.UsuarioExceptionMsg.BAD_REQUEST;
 import static com.didekinlib.http.usuario.UsuarioExceptionMsg.PASSWORD_NOT_SENT;
-import static com.didekinlib.http.usuario.UsuarioExceptionMsg.TOKEN_NULL;
+import static com.didekinlib.http.usuario.UsuarioExceptionMsg.TOKEN_ENCRYP_DECRYP_ERROR;
 import static com.didekinlib.http.usuario.UsuarioExceptionMsg.UNAUTHORIZED;
 import static com.didekinlib.http.usuario.UsuarioExceptionMsg.UNAUTHORIZED_TX_TO_USER;
 import static com.didekinlib.http.usuario.UsuarioExceptionMsg.USERCOMU_WRONG_INIT;
 import static com.didekinlib.http.usuario.UsuarioExceptionMsg.USER_COMU_NOT_FOUND;
 import static com.didekinlib.http.usuario.UsuarioExceptionMsg.USER_DATA_NOT_INSERTED;
 import static com.didekinlib.http.usuario.UsuarioExceptionMsg.USER_DATA_NOT_MODIFIED;
-import static com.didekinlib.http.usuario.UsuarioExceptionMsg.USER_NAME_DUPLICATE;
-import static com.didekinlib.http.usuario.UsuarioExceptionMsg.USER_NAME_NOT_FOUND;
+import static com.didekinlib.http.usuario.UsuarioExceptionMsg.USER_DUPLICATE;
+import static com.didekinlib.http.usuario.UsuarioExceptionMsg.USER_NOT_FOUND;
 import static com.didekinlib.http.usuario.UsuarioExceptionMsg.USER_WRONG_INIT;
 import static java.util.Collections.unmodifiableSet;
 import static java.util.EnumSet.of;
@@ -44,15 +44,27 @@ import static java.util.EnumSet.of;
 public enum UserUiExceptionAction implements UiExceptionActionIf {
 
     show_login_noUser(
-            of(BAD_REQUEST, USERCOMU_WRONG_INIT, USER_COMU_NOT_FOUND, USER_DATA_NOT_INSERTED,
-                    USER_NAME_DUPLICATE, USER_NAME_NOT_FOUND, USER_WRONG_INIT),
+            of(
+                    BAD_REQUEST,
+                    USERCOMU_WRONG_INIT,
+                    USER_COMU_NOT_FOUND,
+                    USER_DATA_NOT_INSERTED,
+                    USER_DUPLICATE,
+                    USER_NOT_FOUND,
+                    USER_WRONG_INIT),
             R.string.user_without_signedUp,
             LoginAc.class),
     show_login_tokenNull(
-            of(TOKEN_NULL, UNAUTHORIZED, UNAUTHORIZED_TX_TO_USER, USER_DATA_NOT_MODIFIED),
+            of(
+                    TOKEN_ENCRYP_DECRYP_ERROR,
+                    UNAUTHORIZED,
+                    UNAUTHORIZED_TX_TO_USER,
+                    USER_DATA_NOT_MODIFIED),
             R.string.user_with_token_null,
             LoginAc.class),
-    show_userData_wrongMail(of(PASSWORD_NOT_SENT),
+    show_userData_wrongMail(
+            of(
+                    PASSWORD_NOT_SENT),
             R.string.user_email_wrong,
             UserDataAc.class),;
 

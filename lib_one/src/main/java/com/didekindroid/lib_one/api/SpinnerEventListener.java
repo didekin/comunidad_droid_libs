@@ -9,8 +9,6 @@ import android.support.annotation.NonNull;
  * <p>
  * Implementations process spinner selection events in futher related actions.
  */
-
-@SuppressWarnings("InterfaceMayBeAnnotatedFunctional")
 public interface SpinnerEventListener {
     void doOnClickItemId(@NonNull SpinnerEventItemSelectIf spinnerEventItemSelect);
 }

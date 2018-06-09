@@ -24,7 +24,6 @@ import static com.didekindroid.lib_one.comunidad.spinner.ComunidadSpinnerKey.COM
  * Date: 03/05/17
  * Time: 18:53
  */
-@SuppressWarnings({"WeakerAccess", "unused"})
 public final class ViewerComuAutonomaSpinner extends
         ViewerSelectList<Spinner, CtrlerComAutonomaSpinner, ComunidadAutonoma> {
 

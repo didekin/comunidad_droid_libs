@@ -73,7 +73,7 @@ public final class ViewerUserData extends Viewer<View, CtrlerUsuarioIf> implemen
     {
         Timber.d("doViewInViewer()");
         assertTrue(controller.isRegisteredUser(), user_should_be_registered);
-        controller.loadUserData(new AbstractSingleObserver<Usuario>(this) {
+        controller.getUserData(new AbstractSingleObserver<Usuario>(this) {
             @Override
             public void onSuccess(Usuario usuario)
             {
@@ -185,7 +185,6 @@ public final class ViewerUserData extends Viewer<View, CtrlerUsuarioIf> implemen
                                         .initActivity(activity, usuario_object.getBundleForKey(newUser.get()));
                             }
                         },
-                        oldUser.get(),
                         newUser.get());
             case alias_only:
                 return controller.modifyUserAlias(
@@ -198,7 +197,6 @@ public final class ViewerUserData extends Viewer<View, CtrlerUsuarioIf> implemen
                                 getContextualRouter().getActionFromContextNm(user_alias_just_modified).initActivity(activity);
                             }
                         },
-                        oldUser.get(),
                         newUser.get());
             default:
                 return false;

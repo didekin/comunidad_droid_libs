@@ -2,7 +2,7 @@ package com.didekindroid.lib_one.comunidad.spinner;
 
 import com.didekindroid.lib_one.api.CtrlerSelectList;
 import com.didekindroid.lib_one.comunidad.repository.ComunidadDbHelper;
-import com.didekindroid.lib_one.security.IdentityCacherIf;
+import com.didekindroid.lib_one.security.AuthTkCacherIf;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ public class CtrlerTipoViaSpinner extends CtrlerSelectList<TipoViaValueObj> {
         super();
     }
 
-    public CtrlerTipoViaSpinner(IdentityCacherIf identityCacher)
+    public CtrlerTipoViaSpinner(AuthTkCacherIf identityCacher)
     {
         super(identityCacher);
     }

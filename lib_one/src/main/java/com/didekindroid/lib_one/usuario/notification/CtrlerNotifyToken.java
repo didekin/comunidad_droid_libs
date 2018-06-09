@@ -1,13 +1,12 @@
 package com.didekindroid.lib_one.usuario.notification;
 
 import com.didekindroid.lib_one.api.Controller;
-import com.google.firebase.iid.FirebaseInstanceId;
 
-import io.reactivex.Single;
-import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.observers.DisposableCompletableObserver;
 import timber.log.Timber;
 
 import static com.didekindroid.lib_one.usuario.dao.UsuarioDao.usuarioDaoRemote;
+import static com.google.firebase.iid.FirebaseInstanceId.getInstance;
 import static io.reactivex.android.schedulers.AndroidSchedulers.mainThread;
 import static io.reactivex.schedulers.Schedulers.io;
 
@@ -16,40 +15,9 @@ import static io.reactivex.schedulers.Schedulers.io;
  * Date: 03/03/17
  * Time: 14:23
  */
-@SuppressWarnings({"WeakerAccess"})
 public class CtrlerNotifyToken extends Controller implements CtrlerNotifyTokenIf {
 
-    //    .................................... OBSERVABLES .................................
-
-    /**
-     * Postconditions: the user's gcm token in database is updated.
-     *
-     * @return a Single with an item == 1 if the gcmToken is updated.
-     */
-    public Single<Integer> updatedGcmTkSingle()
-    {
-        return Single.fromCallable(() -> {
-                    String token = FirebaseInstanceId.getInstance().getToken();
-                    return usuarioDaoRemote.modifyUserGcmToken(token);
-                }
-        );
-    }
-
-    //    .................................... INSTANCE METHODS .................................
-
-
-    @Override
-    public boolean checkGcmTokenAsync(DisposableSingleObserver<Integer> observer)
-    {
-        Timber.d("checkGcmTokenAsync()");
-        return getTkCacher().isRegisteredUser()
-                && !getTkCacher().isGcmTokenSentServer()
-                && getSubscriptions().add(
-                updatedGcmTkSingle()
-                        .subscribeOn(io())
-                        .observeOn(mainThread())
-                        .subscribeWith(observer));
-    }
+/* .................................... INSTANCE METHODS .................................*/
 
     /**
      * Synchronous variant for the service InstanceIdService.
@@ -58,9 +26,11 @@ public class CtrlerNotifyToken extends Controller implements CtrlerNotifyTokenIf
      * @param observer is instantiated by the viewer who calls the controller.
      */
     @Override
-    public boolean checkGcmTokenSync(DisposableSingleObserver<Integer> observer)
+    public boolean modifyGcmTokenSync(DisposableCompletableObserver observer)
     {
-        Timber.d("checkGcmTokenSync()");
-        return getTkCacher().isRegisteredUser() && getSubscriptions().add(updatedGcmTkSingle().subscribeWith(observer));
+        Timber.d("modifyGcmTokenSync()");
+        return getTkCacher().isRegisteredCache()
+                && getSubscriptions().add(usuarioDaoRemote.modifyGcmToken(getInstance().getToken())
+                        .subscribeWith(observer));
     }
 }

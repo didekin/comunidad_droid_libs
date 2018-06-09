@@ -79,7 +79,7 @@ public class PasswordChangeTest {
     @After
     public void clean() throws UiException
     {
-        cleanOneUser(user_crodrigo);
+        cleanOneUser(user_crodrigo.getUserName());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             cleanTasks(activity);
         }

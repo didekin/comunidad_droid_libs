@@ -5,7 +5,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.didekindroid.lib_one.api.ActivityMock;
 import com.didekindroid.lib_one.comunidad.repository.ComunidadDataDb;
-import com.didekindroid.lib_one.security.TokenIdentityCacher;
+import com.didekindroid.lib_one.security.AuthTkCacher;
 
 import org.junit.After;
 import org.junit.Before;
@@ -34,7 +34,7 @@ public class CtrlerTipoViaSpinnerTest {
     @Before
     public void setUp()
     {
-        controller = new CtrlerTipoViaSpinner(new TokenIdentityCacher(activityRule.getActivity()));
+        controller = new CtrlerTipoViaSpinner(new AuthTkCacher(activityRule.getActivity()));
     }
 
     @After

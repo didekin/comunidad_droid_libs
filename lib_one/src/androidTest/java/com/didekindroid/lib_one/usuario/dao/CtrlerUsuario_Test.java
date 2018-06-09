@@ -2,8 +2,7 @@ package com.didekindroid.lib_one.usuario.dao;
 
 import android.support.test.runner.AndroidJUnit4;
 
-import com.didekindroid.lib_one.api.exception.UiException;
-import com.didekinlib.http.auth.SpringOauthToken;
+import com.didekindroid.lib_one.testutil.RxSchedulersUtils;
 import com.didekinlib.model.usuario.Usuario;
 
 import org.junit.After;
@@ -11,7 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.io.IOException;
 import java.util.concurrent.atomic.AtomicReference;
 
 import io.reactivex.observers.DisposableCompletableObserver;
@@ -19,24 +17,17 @@ import io.reactivex.observers.DisposableSingleObserver;
 import timber.log.Timber;
 
 import static android.support.test.InstrumentationRegistry.getTargetContext;
-import static com.didekindroid.lib_one.security.SecurityTestUtils.checkUpdatedCacheAfterPswd;
-import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.AFTER_METHOD_EXEC_A;
-import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.AFTER_METHOD_EXEC_B;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.BEFORE_METHOD_EXEC;
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http;
 import static com.didekindroid.lib_one.testutil.RxSchedulersUtils.resetAllSchedulers;
-import static com.didekindroid.lib_one.testutil.RxSchedulersUtils.trampolineReplaceAndroidMain;
-import static com.didekindroid.lib_one.testutil.RxSchedulersUtils.trampolineReplaceIoScheduler;
 import static com.didekindroid.lib_one.usuario.UserTestData.USER_DROID;
 import static com.didekindroid.lib_one.usuario.UserTestData.cleanOneUser;
-import static com.didekindroid.lib_one.usuario.UserTestData.cleanWithTkhandler;
 import static com.didekindroid.lib_one.usuario.UserTestData.comu_real_rodrigo;
 import static com.didekindroid.lib_one.usuario.UserTestData.regGetUserComu;
 import static com.didekindroid.lib_one.usuario.UserTestData.regUserComuWithTkCache;
 import static com.didekindroid.lib_one.usuario.UserTestData.user_crodrigo;
-import static com.didekindroid.lib_one.usuario.UsuarioMockDao.usuarioMockDao;
-import static com.didekindroid.lib_one.usuario.dao.UsuarioDao.usuarioDaoRemote;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
@@ -61,201 +52,117 @@ public class CtrlerUsuario_Test {
     @After
     public void cleanUp()
     {
-        assertThat(controller.clearSubscriptions(), is(0));
         resetAllSchedulers();
+        assertThat(controller.clearSubscriptions(), is(0));
     }
 
     //    .................................... INSTANCE METHODS .................................
 
     @Test
-    public void testChangePassword() throws IOException, UiException
+    public void testDeleteMe()
+    {
+        assertThat(regUserComuWithTkCache(comu_real_rodrigo), notNullValue());
+        RxSchedulersUtils.execCheckSchedulersTest(controller.deleteMe(new TestCompletableObserver()));
+//        assertThat(controller.getSubscriptions().size(), is(1));
+    }
+
+    @Test
+    public void testGetUserData()
+    {
+        assertThat(regUserComuWithTkCache(comu_real_rodrigo), notNullValue());
+        RxSchedulersUtils.execCheckSchedulersTest(controller.getUserData(new TestSingleObserver<>()));
+        cleanOneUser(user_crodrigo.getUserName());
+    }
+
+    @Test
+    public void testLogin()
+    {
+        assertThat(regUserComuWithTkCache(comu_real_rodrigo), notNullValue());
+        RxSchedulersUtils.execCheckSchedulersTest(controller.login(new TestCompletableObserver(), user_crodrigo));
+        cleanOneUser(user_crodrigo.getUserName());
+    }
+
+    @Test
+    public void testModifyUserName()
+    {
+        RxSchedulersUtils.execCheckSchedulersTest(controller.modifyUserName(
+                new TestSingleObserver<>(),
+                new Usuario.UsuarioBuilder()
+                        .copyUsuario(regGetUserComu(comu_real_rodrigo))
+                        .userName(USER_DROID.getUserName())
+                        .build()));
+
+        cleanOneUser(USER_DROID.getUserName());
+    }
+
+    @Test
+    public void testModifyUserAlias()
+    {
+        RxSchedulersUtils.execCheckSchedulersTest(controller.modifyUserAlias(
+                new TestSingleObserver<>(),
+                new Usuario.UsuarioBuilder()
+                        .copyUsuario(regGetUserComu(comu_real_rodrigo))
+                        .alias("new_pepe_alias")
+                        .build()));
+
+        cleanOneUser(user_crodrigo.getUserName());
+    }
+
+    @Test
+    public void testPasswordChange()
     {
         // Precondition.
-        regUserComuWithTkCache(comu_real_rodrigo);
+        Usuario oldUser = new Usuario.UsuarioBuilder()
+                .copyUsuario(regGetUserComu(comu_real_rodrigo))
+                .password(user_crodrigo.getPassword())
+                .build();
 
-        SpringOauthToken oldToken = controller.getTkCacher().getTokenCache().get();
-        Usuario newUser = new Usuario.UsuarioBuilder().userName(user_crodrigo.getUserName()).password("new_password").build();
+        RxSchedulersUtils.execCheckSchedulersTest(controller.passwordChange(new TestCompletableObserver(),
+                oldUser,
+                new Usuario.UsuarioBuilder()
+                        .copyUsuario(oldUser)
+                        .password("new_password")
+                        .build()));
 
-        try {
-            trampolineReplaceIoScheduler();
-            trampolineReplaceAndroidMain();
-            assertThat(controller.changePassword(
-                    new DisposableCompletableObserver() {
-                        @Override
-                        public void onComplete()
-                        {
-                            assertThat(flagMethodExec.getAndSet(AFTER_METHOD_EXEC_B), is(BEFORE_METHOD_EXEC));
-                        }
-
-                        @Override
-                        public void onError(Throwable e)
-                        {
-                            fail();
-                        }
-                    }, user_crodrigo, newUser),
-                    is(true));
-        } finally {
-            resetAllSchedulers();
-        }
-
-        assertThat(controller.getSubscriptions().size(), is(1));
-        // onComplete()
-        assertThat(flagMethodExec.getAndSet(BEFORE_METHOD_EXEC), is(AFTER_METHOD_EXEC_B));
-        checkUpdatedCacheAfterPswd(true, oldToken, controller.getTkCacher());
-        usuarioDaoRemote.deleteUser();
+        cleanOneUser(user_crodrigo.getUserName());
     }
 
     @Test
-    public void testDeleteMe() throws IOException, UiException
+    public void testPasswordSend()
     {
-        regUserComuWithTkCache(comu_real_rodrigo);
-
-        try {
-            trampolineReplaceIoScheduler();
-            trampolineReplaceAndroidMain();
-            assertThat(controller.deleteMe(new DisposableSingleObserver<Boolean>() {
-                @Override
-                public void onSuccess(Boolean aBoolean)
-                {
-                    assertThat(flagMethodExec.getAndSet(AFTER_METHOD_EXEC_A), is(BEFORE_METHOD_EXEC));
-                }
-
-                @Override
-                public void onError(Throwable e)
-                {
-                    fail();
-                }
-            }), is(true));
-        } finally {
-            resetAllSchedulers();
-        }
-        assertThat(controller.getSubscriptions().size(), is(1));
-        assertThat(flagMethodExec.getAndSet(BEFORE_METHOD_EXEC), is(AFTER_METHOD_EXEC_A));
-    }
-
-    @Test
-    public void testLoadUserData() throws IOException, UiException
-    {
-        regUserComuWithTkCache(comu_real_rodrigo);
-        try {
-            trampolineReplaceIoScheduler();
-            trampolineReplaceAndroidMain();
-            assertThat(controller.loadUserData(
-                    new TestSingleObserver<Usuario>() {
-                        @Override
-                        public void onSuccess(Usuario usuario)
-                        {
-                            assertThat(flagMethodExec.getAndSet(AFTER_METHOD_EXEC_B), is(BEFORE_METHOD_EXEC));
-                        }
-                    }),
-                    is(true));
-        } finally {
-            resetAllSchedulers();
-        }
-        assertThat(controller.getSubscriptions().size(), is(1));
-        assertThat(flagMethodExec.getAndSet(BEFORE_METHOD_EXEC), is(AFTER_METHOD_EXEC_B));
-
-        cleanOneUser(user_crodrigo);
-    }
-
-    @Test
-    public void testModifyUserName() throws IOException, UiException
-    {
-        Usuario oldUser = new Usuario.UsuarioBuilder().copyUsuario(regGetUserComu(comu_real_rodrigo)).password(user_crodrigo.getPassword()).build();
-
-        try {
-            trampolineReplaceIoScheduler();
-            trampolineReplaceAndroidMain();
-            assertThat(controller.modifyUserName(
-                    new TestSingleObserver<Boolean>() {
-                        @Override
-                        public void onSuccess(Boolean item)
-                        {
-                            assertThat(flagMethodExec.getAndSet(AFTER_METHOD_EXEC_B), is(BEFORE_METHOD_EXEC));
-                        }
-                    }, oldUser, new Usuario.UsuarioBuilder()
-                            .copyUsuario(oldUser)
-                            .userName(USER_DROID.getUserName())
-                            .password(user_crodrigo.getPassword())
-                            .build()),
-                    is(true));
-        } finally {
-            resetAllSchedulers();
-        }
-        assertThat(controller.getSubscriptions().size(), is(1));
-        assertThat(flagMethodExec.getAndSet(BEFORE_METHOD_EXEC), is(AFTER_METHOD_EXEC_B));
-
-        assertThat(usuarioMockDao.deleteUser(USER_DROID.getUserName()).execute().body(), is(true));
-        cleanWithTkhandler();
-    }
-
-    @Test
-    public void testModifyUserAlias() throws IOException, UiException
-    {
-        Usuario oldUser = new Usuario.UsuarioBuilder().copyUsuario(regGetUserComu(comu_real_rodrigo)).password(user_crodrigo.getPassword()).build();
-
-        try {
-            trampolineReplaceIoScheduler();
-            trampolineReplaceAndroidMain();
-            assertThat(controller.modifyUserAlias(
-                    new TestSingleObserver<Boolean>() {
-                        @Override
-                        public void onSuccess(Boolean item)
-                        {
-                            assertThat(flagMethodExec.getAndSet(AFTER_METHOD_EXEC_B), is(BEFORE_METHOD_EXEC));
-                        }
-                    }, oldUser, new Usuario.UsuarioBuilder().copyUsuario(oldUser).alias("new_pepe_alias").build()),
-                    is(true));
-        } finally {
-            resetAllSchedulers();
-        }
-        assertThat(controller.getSubscriptions().size(), is(1));
-        assertThat(flagMethodExec.getAndSet(BEFORE_METHOD_EXEC), is(AFTER_METHOD_EXEC_B));
-
-        cleanOneUser(user_crodrigo);
-    }
-
-    @Test   // With mock callable to avoid change identity data in cache.
-    public void test_SendNewPassword()
-    {
-        try {
-            trampolineReplaceIoScheduler();
-            trampolineReplaceAndroidMain();
-            assertThat(controller.sendNewPassword(
-                    new UsuarioDaoTestUtil.SendPswdCallable(),
-                    new TestSingleObserver<>()),
-                    is(true));
-        } finally {
-            resetAllSchedulers();
-        }
-        assertThat(controller.getSubscriptions().size(), is(1));
-    }
-
-    @Test
-    public void testValidateLogin() throws IOException, UiException
-    {
-        regUserComuWithTkCache(comu_real_rodrigo);
-
-        try {
-            trampolineReplaceIoScheduler();
-            trampolineReplaceAndroidMain();
-            assertThat(controller.validateLogin(new TestSingleObserver<>(), user_crodrigo), is(true));
-        } finally {
-            resetAllSchedulers();
-        }
-        assertThat(controller.getSubscriptions().size(), is(1));
-        cleanOneUser(user_crodrigo);
+        // Precondition.
+        RxSchedulersUtils.execCheckSchedulersTest(controller.passwordSend(new TestCompletableObserver(), regGetUserComu(comu_real_rodrigo)));
+        cleanOneUser(user_crodrigo.getUserName());
     }
 
     //  ============================================================================================
     //    .................................... HELPERS .................................
     //  ============================================================================================
 
-    static class TestSingleObserver<T> extends DisposableSingleObserver<T> {
+    class TestSingleObserver<T> extends DisposableSingleObserver<T> {
 
         @Override
         public void onSuccess(T successBack)
         {
+            assertThat(controller.getSubscriptions().size(), is(1));
+            dispose();
+        }
+
+        @Override
+        public void onError(Throwable e)
+        {
+            dispose();
+            Timber.d("============= %s =============", e.getClass().getName());
+            fail();
+        }
+    }
+
+    class TestCompletableObserver extends DisposableCompletableObserver {
+
+        @Override
+        public void onComplete()
+        {
+            assertThat(controller.getSubscriptions().size(), is(1));
             dispose();
         }
 

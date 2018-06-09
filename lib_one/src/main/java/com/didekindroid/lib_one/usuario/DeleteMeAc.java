@@ -10,13 +10,12 @@ import com.didekindroid.lib_one.R;
 import com.didekindroid.lib_one.usuario.dao.CtrlerUsuario;
 import com.didekindroid.lib_one.usuario.dao.CtrlerUsuarioIf;
 
-import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.observers.DisposableCompletableObserver;
 import timber.log.Timber;
 
 import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK;
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 import static com.didekindroid.lib_one.RouterInitializer.routerInitializer;
-import static com.didekindroid.lib_one.usuario.UsuarioAssertionMsg.user_should_have_been_deleted;
 import static com.didekindroid.lib_one.usuario.router.UserContextName.user_just_deleted;
 import static com.didekindroid.lib_one.util.CommonAssertionMsg.user_should_be_registered;
 import static com.didekindroid.lib_one.util.UiUtil.assertTrue;
@@ -90,13 +89,12 @@ public class DeleteMeAc extends AppCompatActivity {
     // .............................. HELPERS ..................................
 
     @SuppressWarnings("WeakerAccess")
-    class DeleteMeSingleObserver extends DisposableSingleObserver<Boolean> {
+    class DeleteMeSingleObserver extends DisposableCompletableObserver {
 
         @Override
-        public void onSuccess(Boolean isDeleted)
+        public void onComplete()
         {
             Timber.d("onSuccess(), Thread: %s", Thread.currentThread().getName());
-            assertTrue(isDeleted, user_should_have_been_deleted);
             routerInitializer.get().getContextRouter().getActionFromContextNm(user_just_deleted)
                     .initActivity(DeleteMeAc.this, null, FLAG_ACTIVITY_NEW_TASK | FLAG_ACTIVITY_CLEAR_TASK);
         }

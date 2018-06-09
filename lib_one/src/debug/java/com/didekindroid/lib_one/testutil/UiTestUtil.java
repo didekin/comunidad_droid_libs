@@ -19,6 +19,7 @@ import com.didekindroid.lib_one.util.BundleKey;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -35,8 +36,6 @@ import static com.didekindroid.lib_one.util.UiUtil.assertTrue;
  * Date: 18/02/2018
  * Time: 13:28
  */
-
-@SuppressWarnings({"ConstantConditions", "unused", "WeakerAccess"})
 public class UiTestUtil {
 
     public static int focusOnView(Activity activity, int viewRsId)
@@ -55,7 +54,7 @@ public class UiTestUtil {
     public static void cleanTasks(Activity activity)
     {
         ActivityManager manager = (ActivityManager) activity.getSystemService(ACTIVITY_SERVICE);
-        List<ActivityManager.AppTask> tasks = manager.getAppTasks();
+        List<ActivityManager.AppTask> tasks = Objects.requireNonNull(manager).getAppTasks();
         for (ActivityManager.AppTask task : tasks) {
             task.finishAndRemoveTask();
         }
@@ -110,6 +109,7 @@ public class UiTestUtil {
 
     public static Menu doMockMenu(Activity activity, int menuMockRsId)
     {
+        @SuppressWarnings("ConstantConditions")
         PopupMenu popupMenu = new PopupMenu(activity, null);
         Menu menu = popupMenu.getMenu();
         activity.getMenuInflater().inflate(menuMockRsId, menu);

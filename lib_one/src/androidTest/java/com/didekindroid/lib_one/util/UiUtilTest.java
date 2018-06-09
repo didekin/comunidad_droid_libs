@@ -20,7 +20,6 @@ import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.KITKAT;
 import static android.os.Build.VERSION_CODES.M;
 import static android.support.test.InstrumentationRegistry.getContext;
-import static com.didekindroid.lib_one.security.IdentityCacherIf.SharedPrefFiles.app_preferences_file;
 import static com.didekindroid.lib_one.util.UiUtil.SPAIN_LOCALE;
 import static com.didekindroid.lib_one.util.UiUtil.formatDoubleZeroDecimal;
 import static com.didekindroid.lib_one.util.UiUtil.formatTimeStampToString;
@@ -153,13 +152,6 @@ public class UiUtilTest {
         } catch (ParseException pe) {
             assertThat(pe, instanceOf(ParseException.class));
         }
-    }
-
-    @Test
-    public void testNameFile()
-    {
-        assertThat(app_preferences_file.toString(),
-                is("com.didekindroid.lib_one.security.IdentityCacherIf.SharedPrefFiles.app_preferences_file"));
     }
 
     @TargetApi(Build.VERSION_CODES.KITKAT)

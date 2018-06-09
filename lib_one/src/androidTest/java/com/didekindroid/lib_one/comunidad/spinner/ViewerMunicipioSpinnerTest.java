@@ -11,8 +11,8 @@ import com.didekindroid.lib_one.R;
 import com.didekindroid.lib_one.api.ActivityMock;
 import com.didekindroid.lib_one.api.ObserverSingleSelectList;
 import com.didekindroid.lib_one.api.SpinnerTextMockFr;
+import com.didekindroid.lib_one.security.AuthTkCacher;
 import com.didekindroid.lib_one.security.MySecInitializerMock;
-import com.didekindroid.lib_one.security.TokenIdentityCacher;
 import com.didekinlib.model.comunidad.Municipio;
 import com.didekinlib.model.comunidad.Provincia;
 
@@ -65,7 +65,7 @@ public class ViewerMunicipioSpinnerTest {
     {
         activity = activityRule.getActivity();
         initRouter();
-        secInitializer.set(new MySecInitializerMock(activity, new TokenIdentityCacher(activity)));
+        secInitializer.set(new MySecInitializerMock(activity, new AuthTkCacher(activity)));
 
         activity.runOnUiThread(() -> {
             activity.getSupportFragmentManager().beginTransaction()

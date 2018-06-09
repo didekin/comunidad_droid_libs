@@ -3,7 +3,7 @@ package com.didekindroid.lib_one.usuario.notification;
 
 import com.didekindroid.lib_one.api.ControllerIf;
 
-import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.observers.DisposableCompletableObserver;
 
 /**
  * User: pedro@didekin
@@ -12,9 +12,5 @@ import io.reactivex.observers.DisposableSingleObserver;
  */
 
 public interface CtrlerNotifyTokenIf extends ControllerIf {
-
-    boolean checkGcmTokenAsync(DisposableSingleObserver<Integer> observer);
-
-    boolean checkGcmTokenSync(DisposableSingleObserver<Integer> observer);
-
+    boolean modifyGcmTokenSync(DisposableCompletableObserver observer);
 }

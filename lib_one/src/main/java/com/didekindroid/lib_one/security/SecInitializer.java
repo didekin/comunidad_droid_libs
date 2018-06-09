@@ -24,7 +24,7 @@ public class SecInitializer implements SecInitializerIf {
     //  ======================================================================================
 
     private final JksInClient jksInClient;
-    private final IdentityCacherIf tkCacher;
+    private final AuthTkCacherIf tkCacher;
     private final Resources appResources;
 
     public SecInitializer(Context contextIn, int jksPswdResourceId, int jksNameResourceId)
@@ -34,7 +34,7 @@ public class SecInitializer implements SecInitializerIf {
                 appResources.getString(jksPswdResourceId),
                 appResources.getIdentifier(appResources.getString(jksNameResourceId), "raw", contextIn.getPackageName())
         );
-        tkCacher = new TokenIdentityCacher(contextIn);
+        tkCacher = new AuthTkCacher(contextIn);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class SecInitializer implements SecInitializerIf {
     }
 
     @Override
-    public IdentityCacherIf getTkCacher()
+    public AuthTkCacherIf getTkCacher()
     {
         return tkCacher;
     }

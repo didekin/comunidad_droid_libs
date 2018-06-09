@@ -24,7 +24,6 @@ import static com.didekindroid.lib_one.comunidad.spinner.ComunidadSpinnerKey.PRO
  * Date: 05/05/17
  * Time: 16:31
  */
-@SuppressWarnings({"WeakerAccess", "unused"})
 public final class ViewerProvinciaSpinner extends
         ViewerSelectList<Spinner, CtrlerProvinciaSpinner, Provincia> {
 

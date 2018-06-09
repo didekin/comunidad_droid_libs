@@ -10,7 +10,6 @@ import java.io.Serializable;
 
 public class AmbitoIncidValueObj implements Serializable {
 
-    @SuppressWarnings({"FieldCanBeLocal", "unused"})
     public final short id;
     public final String ambitoStr;
 

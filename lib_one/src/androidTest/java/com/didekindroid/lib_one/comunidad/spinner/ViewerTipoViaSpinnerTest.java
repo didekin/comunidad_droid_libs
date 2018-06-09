@@ -8,8 +8,8 @@ import android.widget.Spinner;
 import com.didekindroid.lib_one.R;
 import com.didekindroid.lib_one.api.ActivityMock;
 import com.didekindroid.lib_one.api.SpinnerTextMockFr;
+import com.didekindroid.lib_one.security.AuthTkCacher;
 import com.didekindroid.lib_one.security.MySecInitializerMock;
-import com.didekindroid.lib_one.security.TokenIdentityCacher;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -62,7 +62,7 @@ public class ViewerTipoViaSpinnerTest {
     {
         activity = activityRule.getActivity();
         initRouter();
-        secInitializer.set(new MySecInitializerMock(activity, new TokenIdentityCacher(activity)));
+        secInitializer.set(new MySecInitializerMock(activity, new AuthTkCacher(activity)));
 
         activity.runOnUiThread(() -> {
             activity.getSupportFragmentManager().beginTransaction()
