@@ -29,7 +29,7 @@ import static com.didekindroid.lib_one.RouterInitializer.routerInitializer;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.checkUp;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.isResourceIdDisplayed;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.isViewDisplayed;
-import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initRouter;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initRouterAll;
 import static com.didekindroid.lib_one.testutil.MockTestConstant.mockAcLayout;
 import static com.didekindroid.lib_one.testutil.UiTestUtil.cleanTasks;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -54,7 +54,7 @@ public class ConfidencialidadAcTest {
         @Override
         protected void beforeActivityLaunched()
         {
-            initRouter();
+            initRouterAll();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 stackBuilder = create(getTargetContext()).addParentStack(ConfidencialidadAc.class);
                 stackBuilder.startActivities();

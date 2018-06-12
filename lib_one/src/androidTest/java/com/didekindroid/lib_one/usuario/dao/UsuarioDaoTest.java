@@ -25,6 +25,7 @@ import static com.didekindroid.lib_one.usuario.UserTestData.regGetUserComu;
 import static com.didekindroid.lib_one.usuario.UserTestData.regUserComuWithTkCache;
 import static com.didekindroid.lib_one.usuario.UserTestData.user_crodrigo;
 import static com.didekindroid.lib_one.usuario.dao.UsuarioDao.usuarioDaoRemote;
+import static com.didekinlib.http.usuario.TkValidaPatterns.tkEncrypted_direct_symmetricKey_REGEX;
 import static com.didekinlib.http.usuario.UsuarioExceptionMsg.USER_NOT_FOUND;
 import static java.lang.Boolean.TRUE;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -39,7 +40,6 @@ import static org.junit.Assert.assertThat;
  * Date: 07/09/15
  * Time: 11:08
  */
-@SuppressWarnings("ConstantConditions")
 @RunWith(AndroidJUnit4.class)
 public class UsuarioDaoTest {
 
@@ -108,9 +108,10 @@ public class UsuarioDaoTest {
     {
         whatClean = CLEAN_RODRIGO;
         Usuario userDb = regGetUserComu(comu_real_rodrigo);
-
+        // Pongo a null el authToken para ver el cambio:
+        tkCacher.updateAuthToken(null);
         usuarioDaoRemote.login(user_crodrigo.getUserName(), user_crodrigo.getPassword()).test().await();
-        assertThat(userDb.getTokenAuth().equals(tkCacher.getAuthToken()), is(true));
+        assertThat(tkEncrypted_direct_symmetricKey_REGEX.isPatternOk(tkCacher.getAuthToken()), is(true));
         assertThat(tkCacher.isRegisteredCache(), is(true));
         assertThat(tkCacher.isGcmTokenSentServer(), is(true));
         assertThat(tkCacher.getUserName(), is(userDb.getUserName()));
@@ -123,10 +124,8 @@ public class UsuarioDaoTest {
         Usuario userDb = regGetUserComu(comu_real_rodrigo);
 
         usuarioDaoRemote.modifyGcmToken("new_crodrigo_gcmtoken").test().await();
-        assertThat(tkCacher.getAuthToken(), allOf(
-                not(is(userDb.getTokenAuth())),
-                is("new_crodrigo_gcmtoken")
-        ));
+        assertThat(tkEncrypted_direct_symmetricKey_REGEX.isPatternOk(tkCacher.getAuthToken()),
+                is(true));
         assertThat(tkCacher.isGcmTokenSentServer(), is(true));
     }
 
@@ -147,8 +146,6 @@ public class UsuarioDaoTest {
     @Test
     public void testmodifyUserName() throws InterruptedException
     {
-        whatClean = CLEAN_NOTHING;
-
         Usuario usuarioIn = new Usuario.UsuarioBuilder()
                 .copyUsuario(regGetUserComu(comu_real_rodrigo))
                 .userName(USER_DROID.getUserName())

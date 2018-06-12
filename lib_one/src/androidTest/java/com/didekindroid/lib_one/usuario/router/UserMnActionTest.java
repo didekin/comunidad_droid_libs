@@ -154,7 +154,6 @@ public class UserMnActionTest {
     {
         initSec_Http_Router(activity);
         secInitializer.get().getTkCacher().updateIsRegistered(true);
-        waitAtMost(4, SECONDS).until(secInitializer.get().getTkCacher()::isRegisteredCache);
 
         password_change_mn.initActivity(activity);
         intended(hasComponent(PasswordChangeAc.class.getName()));

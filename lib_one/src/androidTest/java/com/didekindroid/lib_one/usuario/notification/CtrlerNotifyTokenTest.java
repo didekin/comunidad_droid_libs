@@ -12,14 +12,9 @@ import org.junit.runner.RunWith;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-import io.reactivex.observers.DisposableCompletableObserver;
-import timber.log.Timber;
-
 import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.BEFORE_METHOD_EXEC;
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http;
-import static com.didekindroid.lib_one.testutil.MockTestConstant.subscription_added_in_observer_ok;
-import static com.didekindroid.lib_one.testutil.RxSchedulersUtils.execCheckSchedulersTest;
 import static com.didekindroid.lib_one.usuario.UserTestData.cleanOneUser;
 import static com.didekindroid.lib_one.usuario.UserTestData.comu_real_rodrigo;
 import static com.didekindroid.lib_one.usuario.UserTestData.regUserComuWithTkCache;
@@ -27,7 +22,6 @@ import static com.didekindroid.lib_one.usuario.UserTestData.user_crodrigo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 
 /**
  * User: pedro@didekin
@@ -46,7 +40,7 @@ public class CtrlerNotifyTokenTest {
     public void setUp()
     {
         initSec_Http(getTargetContext());
-        regUserComuWithTkCache(comu_real_rodrigo);
+        assertThat(regUserComuWithTkCache(comu_real_rodrigo), notNullValue());
         controller = new CtrlerNotifyToken();
         identityCacher = controller.getTkCacher();
     }
@@ -63,54 +57,22 @@ public class CtrlerNotifyTokenTest {
     public void test_modifyGcmTokenSync_1()
     {
         // Preconditions.
-        assertThat(regUserComuWithTkCache(comu_real_rodrigo), notNullValue());
         identityCacher.updateIsGcmTokenSentServer(false);
         /* Execute.*/
-        execCheckSchedulersTest(controller.modifyGcmTokenSync(new TestCompletableObserver()));
+        controller.modifyGcmTokenSync(new ServiceDisposableObserver(controller));
         assertThat(identityCacher.isGcmTokenSentServer(), is(true));
-
-        // Preconditions.
-        identityCacher.updateIsRegistered(false);
-        /* Execute.*/
-        try {
-            execCheckSchedulersTest(controller.modifyGcmTokenSync(new TestCompletableObserver()));
-            fail();
-        } catch (AssertionError e) {
-            assertThat(e.getMessage(), is(subscription_added_in_observer_ok));
-        }
-        cleanOneUser(user_crodrigo.getUserName());
+        assertThat(controller.getSubscriptions().size(), is(1));
     }
 
     @Test
     public void test_modifyGcmTokenSync_2()
     {
         // Preconditions.
-        identityCacher.updateIsRegistered(true);
+        identityCacher.updateIsRegistered(false);
         identityCacher.updateIsGcmTokenSentServer(false);
+        /* Execute.*/
+        assertThat(controller.modifyGcmTokenSync(new ServiceDisposableObserver(controller)), is(false));
         assertThat(controller.getSubscriptions().size(), is(0));
-
-        controller.modifyGcmTokenSync(new ServiceDisposableObserver(controller));
-        assertThat(controller.getSubscriptions().size(), is(1));
-        assertThat(identityCacher.isGcmTokenSentServer(), is(true));
-    }
-
-    // ==============================  HELPERS  ==================================
-
-    class TestCompletableObserver extends DisposableCompletableObserver {
-
-        @Override
-        public void onComplete()
-        {
-            assertThat(controller.getSubscriptions().size(), is(1));
-            dispose();
-        }
-
-        @Override
-        public void onError(Throwable e)
-        {
-            dispose();
-            Timber.d("============= %s =============", e.getClass().getName());
-            fail();
-        }
+        assertThat(identityCacher.isGcmTokenSentServer(), is(false));
     }
 }

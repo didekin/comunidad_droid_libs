@@ -12,7 +12,10 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.didekindroid.lib_one.R;
+import com.didekindroid.lib_one.api.ActivityNextMock;
 import com.didekindroid.lib_one.api.Viewer;
+import com.didekindroid.lib_one.api.ViewerIf;
+import com.didekindroid.lib_one.api.router.RouterInitializerIf;
 import com.didekindroid.lib_one.usuario.dao.CtrlerUsuario;
 import com.didekinlib.model.usuario.Usuario;
 
@@ -50,10 +53,16 @@ public final class ViewerLogin extends Viewer<View, CtrlerUsuario> {
     public final AtomicReference<UsuarioBean> usuarioBean;
     private AtomicInteger counterWrong;
 
-    private ViewerLogin(Activity activity)
+    protected ViewerLogin(Activity activity)
     {
         super(getContetViewInAc(activity), activity, null);
         counterWrong = new AtomicInteger(0);
+        usuarioBean = new AtomicReference<>(null);
+    }
+
+    protected ViewerLogin(Activity activity, ViewerIf parentViewer, RouterInitializerIf routerInitializer)
+    {
+        super(getContetViewInAc(activity), activity, null, routerInitializer);
         usuarioBean = new AtomicReference<>(null);
     }
 
@@ -149,14 +158,14 @@ public final class ViewerLogin extends Viewer<View, CtrlerUsuario> {
         };
     }
 
-    public void processLoginBackInView()  // TODO: test.
+    public void processLoginBackInView()
     {
         Timber.d("processLoginBackInView()");
         getContextualRouter().getActionFromContextNm(login_just_done).initActivity(activity);
         activity.finish();
     }
 
-    void processLoginErrorBackInView(Throwable error)     // TODO: test.
+    void processLoginErrorBackInView(Throwable error)
     {
         Timber.d("processLoginErrorBackInView()");
         String messageErr = getUiExceptionFromThrowable(error).getErrorBean().getMessage();

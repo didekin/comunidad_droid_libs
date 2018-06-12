@@ -40,7 +40,7 @@ public final class InitializerTestUtil {
     {
     }
 
-    public static void initRouter()
+    public static void initRouterAll()
     {
         routerInitializer.set(new RouterInitializerMock() {
             @Override
@@ -84,7 +84,7 @@ public final class InitializerTestUtil {
 
     public static void initSec_Http_Router(Context context)
     {
-        initRouter();
+        initRouterAll();
         initSec_Http(context);
     }
 }

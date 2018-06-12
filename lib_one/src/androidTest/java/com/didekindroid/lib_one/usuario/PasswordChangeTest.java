@@ -7,7 +7,6 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.didekindroid.lib_one.R;
-import com.didekindroid.lib_one.api.exception.UiException;
 
 import org.junit.After;
 import org.junit.Before;
@@ -77,7 +76,7 @@ public class PasswordChangeTest {
     }
 
     @After
-    public void clean() throws UiException
+    public void clean()
     {
         cleanOneUser(user_crodrigo.getUserName());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

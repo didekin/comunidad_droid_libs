@@ -23,7 +23,7 @@ import io.reactivex.Single;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.AFTER_METHOD_EXEC_A;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.AFTER_METHOD_WITH_EXCEPTION_EXEC;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.BEFORE_METHOD_EXEC;
-import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initRouter;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initRouterAll;
 import static com.didekinlib.http.usuario.UsuarioExceptionMsg.BAD_REQUEST;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.waitAtMost;
@@ -49,7 +49,7 @@ public class ObserverSingleSelectListTest {
     public void setUp()
     {
         final Activity activity = activityRule.getActivity();
-        initRouter();
+        initRouterAll();
 
         activity.runOnUiThread(() -> observerSingleSelectList = new ObserverSingleSelectList<>(
                         new ViewerSelectList<Spinner, CtrlerSelectList<String>, String>(new Spinner(activity), activity) {

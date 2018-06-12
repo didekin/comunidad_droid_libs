@@ -9,7 +9,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initRouter;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initRouterAll;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -31,7 +31,7 @@ public class ParentViewerTest {
     public void setUp()
     {
         activity = activityRule.getActivity();
-        initRouter();
+        initRouterAll();
 
         parentViewer = new ParentViewer<>(null, activity, null);
     }

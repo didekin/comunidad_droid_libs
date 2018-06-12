@@ -89,7 +89,7 @@ public final class UserTestData {
                 )
                 .userComuRest(userComuIn)
                 .build();
-        
+
         return usuarioMockDao.regComuAndUserAndUserComu(userComuWithGcmTk)
                 .map(response -> httpInitializer.get().getResponseBody(response))
                 .doOnSuccess(newAuthTk -> secInitializer.get().getTkCacher()

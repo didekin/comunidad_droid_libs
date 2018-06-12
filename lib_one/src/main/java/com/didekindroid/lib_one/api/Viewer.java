@@ -36,7 +36,7 @@ public class Viewer<T extends View, C extends ControllerIf> implements ViewerIf<
         this(view, activity, parentViewer, routerInitializer.get());
     }
 
-    private Viewer(T view, Activity activity, ViewerIf parentViewer, RouterInitializerIf routerInitializerIn)
+    protected Viewer(T view, Activity activity, ViewerIf parentViewer, RouterInitializerIf routerInitializerIn)
     {
         this.view = view;
         this.activity = activity;

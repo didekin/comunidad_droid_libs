@@ -4,15 +4,11 @@ import android.app.Activity;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 
 import com.didekindroid.lib_one.R;
-import com.didekindroid.lib_one.api.exception.UiException;
-import com.didekindroid.lib_one.usuario.dao.UsuarioDaoTest;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.io.IOException;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.InstrumentationRegistry.getTargetContext;
@@ -29,7 +25,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.checkBack;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.checkUp;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.isResourceIdDisplayed;
-import static com.didekindroid.lib_one.testutil.EspressoTestUtil.isToastInView;
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http_Router;
 import static com.didekindroid.lib_one.testutil.UiTestUtil.focusOnView;
 import static com.didekindroid.lib_one.usuario.UserTestData.CleanUserEnum.CLEAN_RODRIGO;
@@ -42,7 +37,6 @@ import static com.didekindroid.lib_one.usuario.UserTestData.user_crodrigo;
 import static com.didekindroid.lib_one.usuario.UserTestNavigation.loginAcResourceId;
 import static com.didekindroid.lib_one.usuario.UserTestNavigation.userDataAcRsId;
 import static com.didekindroid.lib_one.usuario.UsuarioBundleKey.user_name;
-import static com.didekindroid.lib_one.usuario.UserMockDao.usuarioMockDao;
 import static com.didekindroid.lib_one.usuario.testutil.UserEspressoTestUtil.typeUserNameAliasPswd;
 import static com.didekindroid.lib_one.usuario.testutil.UserEspressoTestUtil.typeUserNamePswd;
 import static com.didekindroid.lib_one.usuario.testutil.UserMenuTestUtils.DELETE_ME_AC;
@@ -60,7 +54,6 @@ import static org.junit.Assert.fail;
  * Date: 09/04/2018
  * Time: 12:06
  */
-@SuppressWarnings("ConstantConditions")
 public class UserDataAcTest {
 
     private UserDataAc activity;
@@ -88,7 +81,7 @@ public class UserDataAcTest {
     }
 
     @After
-    public void tearDown() throws UiException
+    public void tearDown()
     {
         if (!skipClean) {
             cleanOptions(CLEAN_RODRIGO);
@@ -99,17 +92,8 @@ public class UserDataAcTest {
     //    ................ TESTS ..............
     // ============================================================
 
-    @Test  // Wrong passwordSend.
-    public void testModifyUserDataWrongPswd() throws InterruptedException
-    {
-        SECONDS.sleep(2);
-        typeUserNameAliasPswd("new_crodrigo@didekin.es", user_crodrigo.getAlias(), "wrong_password");
-        onView(withId(R.id.user_data_modif_button)).perform(scrollTo()).check(matches(isDisplayed())).perform(click());
-        waitAtMost(6, SECONDS).until(isToastInView(R.string.password_wrong, activity));
-    }
-
     @Test  // Modify userName and alias OK.
-    public void testModifyUserData() throws InterruptedException, IOException
+    public void testModifyUserData() throws InterruptedException
     {
         SECONDS.sleep(2);
         typeClickWait();
@@ -119,7 +103,7 @@ public class UserDataAcTest {
     }
 
     @Test  // Modify userName OK.
-    public void testModifyUserData_Back() throws InterruptedException, IOException
+    public void testModifyUserData_Back() throws InterruptedException
     {
         SECONDS.sleep(2);
         typeUserNamePswd(USER_DROID.getUserName(), user_crodrigo.getPassword());

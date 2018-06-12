@@ -8,7 +8,10 @@ import android.support.test.runner.AndroidJUnit4;
 import android.widget.EditText;
 
 import com.didekindroid.lib_one.R;
+import com.didekindroid.lib_one.api.ActivityNextMock;
 import com.didekindroid.lib_one.api.exception.UiException;
+import com.didekindroid.lib_one.api.router.ContextualRouterIf;
+import com.didekindroid.lib_one.api.router.RouterInitializerMock;
 import com.didekindroid.lib_one.usuario.ViewerLogin.PasswordMailDialog;
 import com.didekindroid.lib_one.usuario.dao.CtrlerUsuario;
 import com.didekinlib.http.exception.ErrorBean;
@@ -35,12 +38,15 @@ import static com.didekindroid.lib_one.testutil.EspressoTestUtil.checkTextsInDia
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.isToastInView;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.isViewDisplayedAndPerform;
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http_Router;
+import static com.didekindroid.lib_one.testutil.MockTestConstant.nextMockAcLayout;
 import static com.didekindroid.lib_one.usuario.UserTestData.USER_DROID;
 import static com.didekindroid.lib_one.usuario.UserTestNavigation.loginAcResourceId;
 import static com.didekindroid.lib_one.usuario.UsuarioBundleKey.login_counter_atomic_int;
 import static com.didekindroid.lib_one.usuario.UsuarioBundleKey.usuario_object;
 import static com.didekindroid.lib_one.usuario.ViewerLogin.PasswordMailDialog.newInstance;
+import static com.didekindroid.lib_one.usuario.router.UserContextName.login_just_done;
 import static com.didekindroid.lib_one.usuario.testutil.UserEspressoTestUtil.typeLoginData;
+import static com.didekinlib.http.usuario.UsuarioExceptionMsg.PASSWORD_WRONG;
 import static com.didekinlib.http.usuario.UsuarioExceptionMsg.USER_NOT_FOUND;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.waitAtMost;
@@ -150,26 +156,53 @@ public class ViewerLoginTest {
         checkTextsInDialog(R.string.send_password_by_mail_dialog, R.string.send_password_by_mail_YES);
     }
 
+    @Test
+    public void test_processLoginBackInView()
+    {
+        activity.viewerLogin = new ViewerLogin(
+                activity,
+                null,
+                new RouterInitializerMock() {
+                    @Override
+                    public ContextualRouterIf getContextRouter()
+                    {
+                        return contextualName -> {
+                            if (contextualName.equals(login_just_done)) {
+                                return () -> ActivityNextMock.class;
+                            }
+                            throw new IllegalArgumentException("ContextualName wrong");
+                        };
+                    }
+                });
+
+        activity.viewerLogin.setController(new CtrlerUsuario());
+
+        // Exec.
+        activity.runOnUiThread(() -> activity.viewerLogin.processLoginBackInView());
+        // Check.
+        onView(withId(nextMockAcLayout)).check(matches(isDisplayed()));
+    }
+
     @Test   // Login NO ok, counterWrong > 3.
-    public void testProcessLoginBackInView_1()
+    public void test_processLoginErrorBackInView_1()
     {
         // Precondition.
         activity.viewerLogin.getCounterWrong().set(3);
         userBeanPreconditions();
         // Exec.
-        activity.runOnUiThread(() -> activity.viewerLogin.processLoginBackInView());
+        activity.runOnUiThread(() -> activity.viewerLogin.processLoginErrorBackInView(new UiException(new ErrorBean(PASSWORD_WRONG))));
         // Check.
         waitAtMost(3, SECONDS).untilAtomic(activity.viewerLogin.getCounterWrong(), equalTo(4));
         checkTextsInDialog(R.string.send_password_by_mail_dialog, R.string.send_password_by_mail_YES);
     }
 
     @Test   // Login NO ok, counterWrong <= 3.
-    public void testProcessLoginBackInView_2()
+    public void test_processLoginErrorBackInView_2()
     {
         // Precondition.
         activity.viewerLogin.getCounterWrong().set(2);
         // Exec.
-        activity.runOnUiThread(() -> activity.viewerLogin.processLoginBackInView());
+        activity.runOnUiThread(() -> activity.viewerLogin.processLoginErrorBackInView(new UiException(new ErrorBean(PASSWORD_WRONG))));
         // Check.
         waitAtMost(5, SECONDS).untilAtomic(activity.viewerLogin.getCounterWrong(), equalTo(3));
         waitAtMost(5, SECONDS).until(isToastInView(R.string.password_wrong, activity));

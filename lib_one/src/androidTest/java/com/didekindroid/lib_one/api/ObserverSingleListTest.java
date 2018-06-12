@@ -24,7 +24,7 @@ import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.AFTER_METHOD_EXEC_C;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.AFTER_METHOD_WITH_EXCEPTION_EXEC;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.BEFORE_METHOD_EXEC;
-import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initRouter;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initRouterAll;
 import static com.didekinlib.http.usuario.UsuarioExceptionMsg.BAD_REQUEST;
 import static io.reactivex.Single.just;
 import static org.hamcrest.CoreMatchers.is;
@@ -44,7 +44,7 @@ public class ObserverSingleListTest {
     @Before
     public void setUp()
     {
-        initRouter();
+        initRouterAll();
         Intent intent = new Intent(getTargetContext(), ActivityMock.class);
         intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
 

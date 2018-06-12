@@ -81,8 +81,7 @@ dependencies {
     implementation rootProject.didekinlib_model
     implementation rootProject.didekinlib_http
     implementation rootProject.timber
-    runtimeOnly rootProject.retrofit2
-    runtimeOnly rootProject.json_4_j
+    implementation rootProject.retrofit2
     implementation rootProject.rxjava
     implementation rootProject.android_support
     androidTestImplementation rootProject.didekinlib_gcm

@@ -33,7 +33,7 @@ import static com.didekindroid.lib_one.comunidad.spinner.ViewerMunicipioSpinner.
 import static com.didekindroid.lib_one.security.SecInitializer.secInitializer;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.AFTER_METHOD_EXEC_A;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.BEFORE_METHOD_EXEC;
-import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initRouter;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initRouterAll;
 import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.waitAtMost;
@@ -64,7 +64,7 @@ public class ViewerMunicipioSpinnerTest {
     public void setUp()
     {
         activity = activityRule.getActivity();
-        initRouter();
+        initRouterAll();
         secInitializer.set(new MySecInitializerMock(activity, new AuthTkCacher(activity)));
 
         activity.runOnUiThread(() -> {

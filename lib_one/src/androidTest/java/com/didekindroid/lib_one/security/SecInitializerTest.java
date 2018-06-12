@@ -12,8 +12,9 @@ import org.junit.Test;
 
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.bks_name;
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.bks_pswd;
+import static org.hamcrest.CoreMatchers.allOf;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -50,7 +51,6 @@ public class SecInitializerTest {
         assertThat(secInitializer.getJksInClient(), notNullValue());
         assertThat(secInitializer.getAppResources(), notNullValue());
         tkCacher = (AuthTkCacher) secInitializer.getTkCacher();
-        assertThat(tkCacher, notNullValue());
-        assertThat(tkCacher.isRegisteredCache(), nullValue());
+        assertThat(tkCacher.isRegisteredCache(), allOf(notNullValue(), is(false)));
     }
 }

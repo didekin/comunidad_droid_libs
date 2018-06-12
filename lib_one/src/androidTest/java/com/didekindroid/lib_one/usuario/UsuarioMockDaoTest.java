@@ -6,8 +6,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.Objects;
-
 import retrofit2.Response;
 
 import static android.support.test.InstrumentationRegistry.getTargetContext;
@@ -17,9 +15,9 @@ import static com.didekindroid.lib_one.usuario.UserTestData.cleanOneUser;
 import static com.didekindroid.lib_one.usuario.UserTestData.comu_real_rodrigo;
 import static com.didekindroid.lib_one.usuario.UserTestData.regUserComuWithTkCache;
 import static com.didekindroid.lib_one.usuario.UserTestData.user_crodrigo;
-import static com.didekindroid.lib_one.usuario.dao.UsuarioDao.usuarioDaoRemote;
+import static com.didekinlib.http.usuario.TkValidaPatterns.tkEncrypted_direct_symmetricKey_REGEX;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -42,13 +40,17 @@ public class UsuarioMockDaoTest {
         assertThat(regUserComuWithTkCache(comu_real_rodrigo), notNullValue());
         // Exec, check.
         usuarioMockDao.deleteUser(user_crodrigo.getUserName()).map(Response::body).test().assertResult(true);
-        assertThat(usuarioDaoRemote.getTkCacher().isRegisteredCache(), is(false));
     }
 
     @Test
     public void testRegComuAndUserAndUserComu()
     {
-        usuarioMockDao.regComuAndUserAndUserComu(comu_real_rodrigo).map(Response::body).test().assertValue(Objects::nonNull);
+        usuarioMockDao.regComuAndUserAndUserComu(comu_real_rodrigo)
+                .map(Response::body)
+                .test()
+                .assertOf(
+                        testObserver -> assertThat(tkEncrypted_direct_symmetricKey_REGEX.isPatternOk(testObserver.values().get(0)), is(true))
+                );
         cleanOneUser(user_crodrigo.getUserName());
     }
 }

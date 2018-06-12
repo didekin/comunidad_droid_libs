@@ -5,7 +5,7 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.didekindroid.lib_one.api.ActivityMock;
-import com.didekinlib.http.usuario.AuthHeader;
+import com.didekinlib.http.usuario.AuthHeaderIf;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -71,15 +71,17 @@ public class AuthTkCacherTest {
     @Test
     public void test_updateIsGcmTokenSentServer()
     {
+        tkCacher.updateIsRegistered(false);
         // Exec.
         tkCacher.updateIsGcmTokenSentServer(true);
         // Check.
         assertThat(tkCacher.isGcmTokenSentServer(), is(true));
-        assertThat(tkCacher.isRegisteredCache(), is(true));
+        assertThat(tkCacher.isRegisteredCache(), is(true)); // Change value in cache.
         // Exec.
         tkCacher.updateIsGcmTokenSentServer(false);
         // Check.
         assertThat(tkCacher.isGcmTokenSentServer(), is(false));
+        assertThat(tkCacher.isRegisteredCache(), is(true)); // Don't change value in cache.
     }
 
     @Test
@@ -103,7 +105,7 @@ public class AuthTkCacherTest {
     {
         // Inicializamos todos los datos.
         tkCacher.updateUserName(USER_PEPE.getUserName()).updateUserName("pepe_authToken");
-        AuthHeader authHeader = tkCacher.doAuthHeader();
+        AuthHeaderIf authHeader = tkCacher.doAuthHeader();
         assertThat(authHeader.getAppID(), is(getInstance().getToken()));
         assertThat(authHeader.getToken(), is(tkCacher.getAuthTokenCache()));
         assertThat(authHeader.getUserName(), is(tkCacher.getUserNameCache()));

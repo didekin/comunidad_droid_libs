@@ -6,7 +6,6 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.didekindroid.lib_one.R;
-import com.didekindroid.lib_one.api.exception.UiException;
 
 import org.junit.After;
 import org.junit.Before;
@@ -84,7 +83,7 @@ public class LoginAcTest {
     }
 
     @After
-    public void cleanUp() throws UiException
+    public void cleanUp()
     {
         cleanOptions(CLEAN_RODRIGO);
     }

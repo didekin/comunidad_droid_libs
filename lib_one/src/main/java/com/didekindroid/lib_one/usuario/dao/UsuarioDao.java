@@ -111,7 +111,7 @@ public final class UsuarioDao implements UsuarioEndPoints {
                 .map(response -> httpInitializer.get().getResponseBody(response).getGcmToken())
                 .doOnError(uiExceptionConsumer);
     }
-
+//
     public Single<Usuario> getUserData()
     {
         Timber.d("getUserData(), Thread: %s", currentThread().getName());

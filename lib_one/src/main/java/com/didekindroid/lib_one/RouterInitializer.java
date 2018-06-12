@@ -25,7 +25,6 @@ public final class RouterInitializer implements RouterInitializerIf {
     private final ContextualRouterIf contextRouter;
     private final Class<? extends Activity> defaultAc;
 
-    @SuppressWarnings("SyntheticAccessorCall")
     private RouterInitializer(RouterInitializerBuilder builder)
     {
         exceptionRouter = builder.exceptionRouter;
@@ -60,7 +59,6 @@ public final class RouterInitializer implements RouterInitializerIf {
 
     //    ==================== BUILDER ====================
 
-    @SuppressWarnings("unused")
     public static class RouterInitializerBuilder implements BeanBuilder<RouterInitializer> {
 
         private UiExceptionRouterIf exceptionRouter;
@@ -92,7 +90,6 @@ public final class RouterInitializer implements RouterInitializerIf {
             return this;
         }
 
-        @SuppressWarnings("SyntheticAccessorCall")
         @Override
         public RouterInitializer build()
         {

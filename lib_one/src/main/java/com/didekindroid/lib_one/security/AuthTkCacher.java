@@ -3,7 +3,8 @@ package com.didekindroid.lib_one.security;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.didekinlib.http.usuario.AuthHeader;
+import com.didekinlib.http.usuario.AuthHeaderIf;
+import com.google.gson.Gson;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
@@ -11,6 +12,10 @@ import java.util.concurrent.atomic.AtomicReference;
 import timber.log.Timber;
 
 import static android.content.Context.MODE_PRIVATE;
+import static android.util.Base64.NO_WRAP;
+import static android.util.Base64.URL_SAFE;
+import static android.util.Base64.decode;
+import static android.util.Base64.encodeToString;
 import static com.didekindroid.lib_one.security.AuthTkCacher.SharedPrefConstant.app_pref_file_name;
 import static com.didekindroid.lib_one.security.AuthTkCacher.SharedPrefConstant.authToken_key;
 import static com.didekindroid.lib_one.security.AuthTkCacher.SharedPrefConstant.is_gcmTk_sent_server_key;
@@ -82,14 +87,15 @@ public final class AuthTkCacher implements AuthTkCacherIf {
     {
         Timber.d("updateIsRegistered()");
         SharedPreferences.Editor editor = getSharedPref().edit();
-        editor.putBoolean(is_user_registered_key.toString(), isRegisteredUser);
-        if (!isRegisteredUser) {
+        synchronized (this){
+            editor.putBoolean(is_user_registered_key.toString(), isRegisteredUser).apply();
+            isRegisteredCache.set(isRegisteredUser);
+        }
+        if (!isRegisteredCache.get()) {
             updateUserName(null);
             updateAuthToken(null);
             updateIsGcmTokenSentServer(false);
         }
-        editor.apply();
-        isRegisteredCache.set(isRegisteredUser);
         return this;
     }
 
@@ -99,9 +105,9 @@ public final class AuthTkCacher implements AuthTkCacherIf {
         Timber.d("updateUserName()");
         if (userName != null) {
             updateIsRegistered(true);
-            getSharedPref().edit().putString(user_name_key.toString(), userName).apply();
-            userNameCache.set(userName);
         }
+        getSharedPref().edit().putString(user_name_key.toString(), userName).apply();
+        userNameCache.set(getUserName());
         return this;
     }
 
@@ -109,10 +115,10 @@ public final class AuthTkCacher implements AuthTkCacherIf {
     public AuthTkCacher updateIsGcmTokenSentServer(boolean isSentToServer)
     {
         Timber.d("updateIsGcmTokenSentServer(), isSentToServer = %b", isSentToServer);
-        if (isSentToServer) {
+        if (isSentToServer){
             updateIsRegistered(true);
-            getSharedPref().edit().putBoolean(is_gcmTk_sent_server_key.toString(), true).apply();
         }
+        getSharedPref().edit().putBoolean(is_gcmTk_sent_server_key.toString(), isSentToServer).apply();
         return this;
     }
 
@@ -162,13 +168,9 @@ public final class AuthTkCacher implements AuthTkCacherIf {
 
     //    ............................ Helpers .................................
 
-    AuthHeader doAuthHeader()
+    AuthHeaderIf doAuthHeader()
     {
-        return new AuthHeader.AuthHeaderBuilder()
-                .userName(userNameCache.get())
-                .appId(requireNonNull(getInstance().getToken()))
-                .tokenInLocal(authTokenCache.get())
-                .build();
+        return new AuthHeaderDroid(userNameCache.get(), requireNonNull(getInstance().getToken()), authTokenCache.get());
     }
 
     //  ======================================================================================
@@ -189,6 +191,60 @@ public final class AuthTkCacher implements AuthTkCacherIf {
         public String toString()
         {
             return getClass().getName().concat(".").concat(name());
+        }
+    }
+
+    static class AuthHeaderDroid implements AuthHeaderIf {
+
+        private final String userName;
+        private final String appID;
+        private final String token;
+
+
+        AuthHeaderDroid(String userName, String appID, String token)
+        {
+            this.userName = userName;
+            this.appID = appID;
+            this.token = token;
+        }
+
+        public AuthHeaderDroid(String base64Str)
+        {
+            AuthHeaderIf header = new Gson()
+                    .fromJson(new String(decode(base64Str, URL_SAFE)), AuthHeaderDroid.class);
+            userName = header.getUserName();
+            appID = header.getAppID();
+            token = header.getToken();
+        }
+
+        @Override
+        public String toString()
+        {
+            return new Gson().toJson(this);
+        }
+
+        @Override
+        public String getBase64Str()
+        {
+            return encodeToString(toString().getBytes(), URL_SAFE | NO_WRAP);
+        }
+
+        @Override
+        public String getUserName()
+        {
+            return userName;
+        }
+
+        @Override
+        public String getAppID()
+        {
+            return appID;
+        }
+
+        @Override
+        public String getToken()
+        {
+            return token;
         }
     }
 }
