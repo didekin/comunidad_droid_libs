@@ -3,6 +3,9 @@ package com.didekindroid.lib_one.security;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.didekindroid.lib_one.api.exception.UiException;
+import com.didekinlib.http.exception.ErrorBean;
+import com.didekinlib.http.exception.ExceptionMsgIf;
 import com.didekinlib.http.usuario.AuthHeaderIf;
 import com.google.gson.Gson;
 
@@ -22,14 +25,12 @@ import static com.didekindroid.lib_one.security.AuthTkCacher.SharedPrefConstant.
 import static com.didekindroid.lib_one.security.AuthTkCacher.SharedPrefConstant.is_user_registered_key;
 import static com.didekindroid.lib_one.security.AuthTkCacher.SharedPrefConstant.user_name_key;
 import static com.google.firebase.iid.FirebaseInstanceId.getInstance;
-import static java.util.Objects.requireNonNull;
 
 /**
  * User: pedro@didekin
  * Date: 25/06/15
  * Time: 17:28
  */
-@SuppressWarnings("UnusedReturnValue")
 public final class AuthTkCacher implements AuthTkCacherIf {
 
     public static final String identity_token_should_be_notnull = "identity_token_should_be_notnull";
@@ -87,7 +88,7 @@ public final class AuthTkCacher implements AuthTkCacherIf {
     {
         Timber.d("updateIsRegistered()");
         SharedPreferences.Editor editor = getSharedPref().edit();
-        synchronized (this){
+        synchronized (this) {
             editor.putBoolean(is_user_registered_key.toString(), isRegisteredUser).apply();
             isRegisteredCache.set(isRegisteredUser);
         }
@@ -115,7 +116,7 @@ public final class AuthTkCacher implements AuthTkCacherIf {
     public AuthTkCacher updateIsGcmTokenSentServer(boolean isSentToServer)
     {
         Timber.d("updateIsGcmTokenSentServer(), isSentToServer = %b", isSentToServer);
-        if (isSentToServer){
+        if (isSentToServer) {
             updateIsRegistered(true);
         }
         getSharedPref().edit().putBoolean(is_gcmTk_sent_server_key.toString(), isSentToServer).apply();
@@ -161,16 +162,16 @@ public final class AuthTkCacher implements AuthTkCacherIf {
     }
 
     @Override
-    public String doAuthHeaderStr()
+    public String doAuthHeaderStr() throws UiException
     {
         return doAuthHeader().getBase64Str();
     }
 
     //    ............................ Helpers .................................
 
-    AuthHeaderIf doAuthHeader()
+    AuthHeaderIf doAuthHeader() throws UiException
     {
-        return new AuthHeaderDroid(userNameCache.get(), requireNonNull(getInstance().getToken()), authTokenCache.get());
+        return new AuthHeaderDroid(userNameCache.get(), getInstance().getToken(), authTokenCache.get());
     }
 
     //  ======================================================================================
@@ -194,6 +195,21 @@ public final class AuthTkCacher implements AuthTkCacherIf {
         }
     }
 
+    static class AuthTkCacherExceptionMsg implements ExceptionMsgIf {
+
+        @Override
+        public String getHttpMessage()
+        {
+            return "AuthTkCache not properly initialized.";
+        }
+
+        @Override
+        public int getHttpStatus()
+        {
+            throw new UnsupportedOperationException();
+        }
+    }
+
     static class AuthHeaderDroid implements AuthHeaderIf {
 
         private final String userName;
@@ -201,11 +217,14 @@ public final class AuthTkCacher implements AuthTkCacherIf {
         private final String token;
 
 
-        AuthHeaderDroid(String userName, String appID, String token)
+        AuthHeaderDroid(String userNameIn, String appIDIn, String tokenIn) throws UiException
         {
-            this.userName = userName;
-            this.appID = appID;
-            this.token = token;
+            this.userName = userNameIn;
+            this.appID = appIDIn;
+            this.token = tokenIn;
+            if (userName == null || appID == null || token == null) {
+                throw new UiException(new ErrorBean(new AuthTkCacherExceptionMsg()));
+            }
         }
 
         public AuthHeaderDroid(String base64Str)

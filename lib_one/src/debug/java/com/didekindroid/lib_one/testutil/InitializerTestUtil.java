@@ -27,7 +27,6 @@ import static com.didekindroid.lib_one.usuario.router.UserUiExceptionAction.user
  * Date: 02/03/2018
  * Time: 16:29
  */
-@SuppressWarnings("WeakerAccess")
 public final class InitializerTestUtil {
 
     private static final int webHost = R.string.didekin_web_host;

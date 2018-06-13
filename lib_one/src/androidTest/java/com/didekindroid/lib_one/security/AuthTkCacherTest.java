@@ -5,6 +5,7 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.didekindroid.lib_one.api.ActivityMock;
+import com.didekindroid.lib_one.api.exception.UiException;
 import com.didekinlib.http.usuario.AuthHeaderIf;
 
 import org.junit.Before;
@@ -18,6 +19,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
 /**
  * User: pedro
@@ -101,15 +103,28 @@ public class AuthTkCacherTest {
     }
 
     @Test
-    public void test_doAuthHeader()
+    public void test_doAuthHeader_1() throws UiException
     {
         // Inicializamos todos los datos.
-        tkCacher.updateUserName(USER_PEPE.getUserName()).updateUserName("pepe_authToken");
+        tkCacher.updateUserName(USER_PEPE.getUserName()).updateAuthToken("pepe_authToken");
         AuthHeaderIf authHeader = tkCacher.doAuthHeader();
         assertThat(authHeader.getAppID(), is(getInstance().getToken()));
         assertThat(authHeader.getToken(), is(tkCacher.getAuthTokenCache()));
         assertThat(authHeader.getUserName(), is(tkCacher.getUserNameCache()));
 
         assertThat(tkCacher.doAuthHeaderStr().length() > 0, is(true));
+    }
+
+    @Test
+    public void test_doAuthHeader_2()
+    {
+        // NO inicializamos todos los datos.
+        tkCacher.updateUserName(USER_PEPE.getUserName());
+        try {
+            tkCacher.doAuthHeader();
+            fail();
+        } catch (UiException ue) {
+            assertThat(ue.getErrorBean().getMessage(), is(new AuthTkCacher.AuthTkCacherExceptionMsg().getHttpMessage()));
+        }
     }
 }

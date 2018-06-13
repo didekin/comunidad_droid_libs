@@ -3,12 +3,16 @@ package com.didekindroid.lib_one.security;
 
 import android.content.Context;
 
+import com.didekindroid.lib_one.api.exception.UiException;
+
 /**
  * User: pedro@didekin
  * Date: 21/12/16
  * Time: 18:17
  */
 public interface AuthTkCacherIf {
+
+
 
     Context getContext();
 
@@ -24,5 +28,5 @@ public interface AuthTkCacherIf {
 
     AuthTkCacher updateAuthToken(String authTokenIn);
 
-    String doAuthHeaderStr();
+    String doAuthHeaderStr() throws UiException;
 }

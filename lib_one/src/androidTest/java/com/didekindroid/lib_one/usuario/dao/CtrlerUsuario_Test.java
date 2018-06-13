@@ -2,7 +2,7 @@ package com.didekindroid.lib_one.usuario.dao;
 
 import android.support.test.runner.AndroidJUnit4;
 
-import com.didekindroid.lib_one.usuario.UserTestData;
+import com.didekindroid.lib_one.usuario.UserTestData.CleanUserEnum;
 import com.didekinlib.model.usuario.Usuario;
 
 import org.junit.After;
@@ -41,7 +41,7 @@ import static org.junit.Assert.fail;
 public class CtrlerUsuario_Test {
 
     private CtrlerUsuario controller;
-    private UserTestData.CleanUserEnum whatClean = CLEAN_RODRIGO;
+    private CleanUserEnum whatClean = CLEAN_RODRIGO;
 
     @Before
     public void setUp()
