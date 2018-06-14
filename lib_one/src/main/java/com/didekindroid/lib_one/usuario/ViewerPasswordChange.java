@@ -63,20 +63,6 @@ public final class ViewerPasswordChange extends Viewer<View, CtrlerUsuario> {
         Timber.d("newViewerPswdChange()");
         final ViewerPasswordChange instance = new ViewerPasswordChange(activity);
         instance.setController(new CtrlerUsuario());
-        // Check for userName; if there isn't one, retrieve it from DB remote.
-        if (instance.userName.get() == null) {
-            try {
-                instance.controller.getUserData(new AbstractSingleObserver<Usuario>(instance) {
-                    @Override
-                    public void onSuccess(Usuario usuario)
-                    {
-                        instance.processBackUserDataLoaded(usuario);
-                    }
-                });
-            } catch (UiException e) {
-                instance.onErrorInController(e);
-            }
-        }
         return instance;
     }
 
@@ -88,6 +74,21 @@ public final class ViewerPasswordChange extends Viewer<View, CtrlerUsuario> {
         Timber.d("doViewInViewer()");
         // Precondition.
         assertTrue(controller.isRegisteredUser(), user_should_be_registered);
+
+        // Check for userName; if there isn't one, retrieve it from DB remote.
+        if (userName.get() == null) {
+            try {
+                controller.getUserData(new AbstractSingleObserver<Usuario>(this) {
+                    @Override
+                    public void onSuccess(Usuario usuario)
+                    {
+                        processBackUserDataLoaded(usuario);
+                    }
+                });
+            } catch (UiException e) {
+                onErrorInController(e);
+            }
+        }
 
         Button modifyButton = view.findViewById(R.id.password_change_ac_button);
         modifyButton.setOnClickListener(

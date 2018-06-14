@@ -8,6 +8,7 @@ import com.didekindroid.lib_one.R;
 
 import timber.log.Timber;
 
+import static com.didekindroid.lib_one.usuario.ViewerPasswordChange.newViewerPswdChange;
 import static com.didekindroid.lib_one.util.UiUtil.doToolBar;
 
 /**
@@ -33,7 +34,7 @@ public class PasswordChangeAc extends AppCompatActivity {
         setContentView(acView);
         doToolBar(this, true);
 
-        viewer = ViewerPasswordChange.newViewerPswdChange(this);
+        viewer = newViewerPswdChange(this);
         viewer.doViewInViewer(savedInstanceState, null);
     }
 

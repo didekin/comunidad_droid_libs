@@ -108,7 +108,6 @@ public class AuthTkCacherTest {
     public void test_doAuthHeader_2()
     {
         // NO inicializamos todos los datos.
-        tkCacher.updateAuthToken("pepe_authToken");
         try {
             tkCacher.doAuthHeader();
             fail();

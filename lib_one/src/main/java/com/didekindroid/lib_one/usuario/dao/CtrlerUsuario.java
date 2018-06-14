@@ -25,14 +25,8 @@ public class CtrlerUsuario extends Controller implements CtrlerUsuarioIf {
 
     public CtrlerUsuario()
     {
-        super(usuarioDaoRemote.getTkCacher());
+        super();
         usuarioDao = usuarioDaoRemote;
-    }
-
-    public CtrlerUsuario(UsuarioDao usuarioDaoIn)
-    {
-        super(usuarioDaoIn.getTkCacher());
-        usuarioDao = usuarioDaoIn;
     }
 
     @Override

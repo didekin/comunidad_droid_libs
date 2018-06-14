@@ -16,7 +16,6 @@ import com.didekindroid.lib_one.usuario.LoginAc;
 import com.didekindroid.lib_one.usuario.PasswordChangeAc;
 import com.didekindroid.lib_one.usuario.UserDataAc;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -78,11 +77,6 @@ public class UserMnActionTest {
     public void setUp()
     {
         activity = activityRule.getActivity();
-    }
-
-    @After
-    public void cleanUp()
-    {
         if (secInitializer.get() != null) {
             secInitializer.get().getTkCacher().updateIsRegistered(false);
         }

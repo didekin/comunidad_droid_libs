@@ -37,11 +37,6 @@ public final class UsuarioDao implements UsuarioEndPoints {
         tkCacher = secInitializerIn.getTkCacher();
     }
 
-    public AuthTkCacherIf getTkCacher()
-    {
-        return tkCacher;
-    }
-
     //  ================================== UsuarioEndPoints implementation ============================
 
     @Override
