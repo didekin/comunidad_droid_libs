@@ -12,8 +12,6 @@ import com.didekindroid.lib_one.api.exception.UiException;
  */
 public interface AuthTkCacherIf {
 
-
-
     Context getContext();
 
     boolean isRegisteredCache();
@@ -21,8 +19,6 @@ public interface AuthTkCacherIf {
     boolean isGcmTokenSentServer();
 
     AuthTkCacher updateIsRegistered(boolean isRegisteredUser);
-
-    AuthTkCacher updateUserName(String userName);
 
     AuthTkCacher updateIsGcmTokenSentServer(boolean isSentToServer);
 

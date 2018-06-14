@@ -39,12 +39,11 @@ import static com.didekinlib.model.common.dominio.ValidDataPatterns.PASSWORD;
  * Time: 20:08
  * <p>
  * Preconditions:
- * 1. An intent is received with the userName. If not, the viewer accessed user data directly.
+ * 1. An intent is received with the userName.
  */
 public final class ViewerPasswordChange extends Viewer<View, CtrlerUsuario> {
 
     final AtomicReference<UsuarioBean> usuarioBean;
-    @SuppressWarnings("WeakerAccess")
     final AtomicReference<Usuario> oldUserPswd;
     final AtomicReference<String> userName;
 
@@ -64,15 +63,19 @@ public final class ViewerPasswordChange extends Viewer<View, CtrlerUsuario> {
         Timber.d("newViewerPswdChange()");
         final ViewerPasswordChange instance = new ViewerPasswordChange(activity);
         instance.setController(new CtrlerUsuario());
-        // Check for userName
+        // Check for userName; if there isn't one, retrieve it from DB remote.
         if (instance.userName.get() == null) {
-            instance.controller.getUserData(new AbstractSingleObserver<Usuario>(instance) {
-                @Override
-                public void onSuccess(Usuario usuario)
-                {
-                    instance.processBackUserDataLoaded(usuario);
-                }
-            });
+            try {
+                instance.controller.getUserData(new AbstractSingleObserver<Usuario>(instance) {
+                    @Override
+                    public void onSuccess(Usuario usuario)
+                    {
+                        instance.processBackUserDataLoaded(usuario);
+                    }
+                });
+            } catch (UiException e) {
+                instance.onErrorInController(e);
+            }
         }
         return instance;
     }
@@ -90,18 +93,24 @@ public final class ViewerPasswordChange extends Viewer<View, CtrlerUsuario> {
         modifyButton.setOnClickListener(
                 v -> {
                     if (checkLoginData()) {
-                        controller.passwordChange(
-                                new PswdChangeCompletableObserver(),
-                                oldUserPswd.get(),
-                                usuarioBean.get().getUsuario()
-                        );
+                        try {
+                            controller.passwordChange(
+                                    new PswdChangeCompletableObserver(),
+                                    oldUserPswd.get(),
+                                    usuarioBean.get().getUsuario()
+                            );
+                        } catch (UiException e) {
+                            onErrorInController(e);
+                        }
                     }
                 }
         );
 
         Button sendPswdButton = view.findViewById(R.id.password_send_ac_button);
         sendPswdButton.setOnClickListener(
-                v -> controller.passwordSend(new PswdSendCompletableObserver(), new Usuario.UsuarioBuilder().userName(userName.get()).build())
+                v -> controller.passwordSend(
+                        new PswdSendCompletableObserver(),
+                        new Usuario.UsuarioBuilder().userName(userName.get()).build())
         );
     }
 

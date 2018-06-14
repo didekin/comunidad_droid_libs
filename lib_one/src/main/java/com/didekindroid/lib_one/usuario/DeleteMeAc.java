@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.didekindroid.lib_one.R;
+import com.didekindroid.lib_one.api.exception.UiException;
 import com.didekindroid.lib_one.usuario.dao.CtrlerUsuario;
 import com.didekindroid.lib_one.usuario.dao.CtrlerUsuarioIf;
 
@@ -44,7 +45,13 @@ public class DeleteMeAc extends AppCompatActivity {
         doToolBar(this, true);
 
         Button mUnregisterButton = findViewById(R.id.delete_me_ac_unreg_button);
-        mUnregisterButton.setOnClickListener(v -> controller.deleteMe(new DeleteMeSingleObserver()));
+        mUnregisterButton.setOnClickListener(v -> {
+            try {
+                controller.deleteMe(new DeleteMeSingleObserver());
+            } catch (UiException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     @Override

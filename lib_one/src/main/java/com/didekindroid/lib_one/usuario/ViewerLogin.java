@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.didekindroid.lib_one.R;
-import com.didekindroid.lib_one.api.ActivityNextMock;
 import com.didekindroid.lib_one.api.Viewer;
 import com.didekindroid.lib_one.api.ViewerIf;
 import com.didekindroid.lib_one.api.router.RouterInitializerIf;
@@ -101,7 +100,6 @@ public final class ViewerLogin extends Viewer<View, CtrlerUsuario> {
                                     @Override
                                     public void onError(Throwable e)
                                     {
-                                        Timber.d("onError, message: %s", e.getMessage());
                                         processLoginErrorBackInView(e);
                                     }
                                 },

@@ -1,5 +1,6 @@
 package com.didekindroid.lib_one.usuario.notification;
 
+import com.didekindroid.lib_one.api.exception.UiException;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
 import io.reactivex.observers.DisposableCompletableObserver;
@@ -20,7 +21,11 @@ public class InstanceIdService extends FirebaseInstanceIdService {
     {
         Timber.d("onTokenRefresh()");
         final CtrlerNotifyTokenIf controller = new CtrlerNotifyToken();
-        controller.modifyGcmTokenSync(new ServiceDisposableObserver(controller));
+        try {
+            controller.modifyGcmTokenSync(new ServiceDisposableObserver(controller));
+        } catch (UiException e) {
+            Timber.e("======= onTokenRefresh(); exception: %s%n ============", e.getErrorHtppMsg());
+        }
         controller.clearSubscriptions();
     }
 

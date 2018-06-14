@@ -42,4 +42,8 @@ public interface ViewerIf<T extends View, C extends ControllerIf> {
 
     @Nullable
     ViewerIf getParentViewer();
+
+    default void onErrorInController(Throwable error){
+        onErrorInObserver(error);
+    }
 }

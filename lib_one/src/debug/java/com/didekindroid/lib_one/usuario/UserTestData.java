@@ -1,5 +1,6 @@
 package com.didekindroid.lib_one.usuario;
 
+import com.didekindroid.lib_one.api.exception.UiException;
 import com.didekinlib.model.comunidad.Comunidad;
 import com.didekinlib.model.comunidad.ComunidadAutonoma;
 import com.didekinlib.model.comunidad.Municipio;
@@ -99,7 +100,7 @@ public final class UserTestData {
                 .blockingGet();
     }
 
-    public static Usuario regGetUserComu(UsuarioComunidad userComuIn)
+    public static Usuario regGetUserComu(UsuarioComunidad userComuIn) throws UiException
     {
         assertTrue(tkEncrypted_direct_symmetricKey_REGEX.isPatternOk(regUserComuWithTkCache(userComuIn)), "authToken not null");
         return usuarioDaoRemote.getUserData().blockingGet();

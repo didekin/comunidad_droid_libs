@@ -19,6 +19,7 @@ import java.util.Set;
 import timber.log.Timber;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+import static com.didekindroid.lib_one.security.AuthTkCacher.AuthTkCacherExceptionMsg.AUTH_HEADER_WRONG;
 import static com.didekindroid.lib_one.util.UiUtil.makeToast;
 import static com.didekinlib.http.usuario.UsuarioExceptionMsg.BAD_REQUEST;
 import static com.didekinlib.http.usuario.UsuarioExceptionMsg.PASSWORD_NOT_SENT;
@@ -51,17 +52,22 @@ public enum UserUiExceptionAction implements UiExceptionActionIf {
                     USER_DATA_NOT_INSERTED,
                     USER_DUPLICATE,
                     USER_NOT_FOUND,
-                    USER_WRONG_INIT),
+                    USER_WRONG_INIT,
+                    USER_DATA_NOT_MODIFIED),
             R.string.user_without_signedUp,
             LoginAc.class),
-    show_login_tokenNull(
+    show_login_unauthorized(
             of(
                     TOKEN_ENCRYP_DECRYP_ERROR,
                     UNAUTHORIZED,
-                    UNAUTHORIZED_TX_TO_USER,
-                    USER_DATA_NOT_MODIFIED),
+                    UNAUTHORIZED_TX_TO_USER),
             R.string.user_with_token_null,
             LoginAc.class),
+    show_login_no_authHeader(
+            of(
+                    AUTH_HEADER_WRONG),
+            show_login_unauthorized.getResourceIdForToast(),
+            show_login_unauthorized.getAcToGo()),
     show_userData_wrongMail(
             of(
                     PASSWORD_NOT_SENT),

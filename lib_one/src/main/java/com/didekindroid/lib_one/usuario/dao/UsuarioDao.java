@@ -1,6 +1,7 @@
 package com.didekindroid.lib_one.usuario.dao;
 
 import com.didekindroid.lib_one.api.HttpInitializerIf;
+import com.didekindroid.lib_one.api.exception.UiException;
 import com.didekindroid.lib_one.security.AuthTkCacherIf;
 import com.didekindroid.lib_one.security.SecInitializerIf;
 import com.didekinlib.http.usuario.UsuarioEndPoints;
@@ -90,7 +91,7 @@ public final class UsuarioDao implements UsuarioEndPoints {
 //                          CONVENIENCE METHODS
 //  =============================================================================
 
-    public Completable deleteUser()
+    public Completable deleteUser() throws UiException
     {
         Timber.d("deleteUser(), Thread: %s", currentThread().getName());
         return deleteUser(tkCacher.doAuthHeaderStr())
@@ -104,7 +105,7 @@ public final class UsuarioDao implements UsuarioEndPoints {
                 .ignoreElement();
     }
 
-    public Single<String> getGcmToken()
+    public Single<String> getGcmToken() throws UiException
     {
         Timber.d("getGcmToken(), Thread: %s", currentThread().getName());
         return getUserData(tkCacher.doAuthHeaderStr())
@@ -112,12 +113,11 @@ public final class UsuarioDao implements UsuarioEndPoints {
                 .doOnError(uiExceptionConsumer);
     }
 //
-    public Single<Usuario> getUserData()
+    public Single<Usuario> getUserData() throws UiException
     {
         Timber.d("getUserData(), Thread: %s", currentThread().getName());
         return getUserData(tkCacher.doAuthHeaderStr())
                 .map(response -> httpInitializer.get().getResponseBody(response))
-                .doOnSuccess(usuario -> tkCacher.updateUserName(usuario.getUserName()))
                 .doOnError(uiExceptionConsumer);
     }
 
@@ -127,11 +127,11 @@ public final class UsuarioDao implements UsuarioEndPoints {
         return login(userName, password, getInstance().getToken())
                 .map(response -> httpInitializer.get().getResponseBody(response))
                 .doOnError(uiExceptionConsumer)
-                .doOnSuccess(newAuthTk -> tkCacher.updateAuthToken(newAuthTk).updateUserName(userName).updateIsGcmTokenSentServer(true))
+                .doOnSuccess(newAuthTk -> tkCacher.updateAuthToken(newAuthTk).updateIsGcmTokenSentServer(true))
                 .ignoreElement();
     }
 
-    public Completable modifyGcmToken(String gcmToken)
+    public Completable modifyGcmToken(String gcmToken) throws UiException
     {
         Timber.d("modifyGcmToken(), Thread: %s", currentThread().getName());
         return modifyGcmToken(tkCacher.doAuthHeaderStr(), gcmToken)
@@ -141,20 +141,15 @@ public final class UsuarioDao implements UsuarioEndPoints {
                 .ignoreElement();
     }
 
-    public Single<Boolean> modifyUserName(Usuario usuario)
+    public Single<Boolean> modifyUserName(Usuario usuario) throws UiException
     {
         Timber.d("modifyUserName(), Thread: %s", currentThread().getName());
         return modifyUser(getDeviceLanguage(), tkCacher.doAuthHeaderStr(), usuario)
                 .map(response -> httpInitializer.get().getResponseBody(response) > 0)
-                .doOnSuccess(isDone -> {
-                    if (isDone) {
-                        tkCacher.updateUserName(null);
-                    }
-                })
                 .doOnError(uiExceptionConsumer);
     }
 
-    public Single<Boolean> modifyUserAlias(Usuario usuario)
+    public Single<Boolean> modifyUserAlias(Usuario usuario) throws UiException
     {
         Timber.d("modifyUseAlias(), Thread: %s", currentThread().getName());
         return modifyUser(getDeviceLanguage(), tkCacher.doAuthHeaderStr(), usuario)
@@ -162,7 +157,7 @@ public final class UsuarioDao implements UsuarioEndPoints {
                 .doOnError(uiExceptionConsumer);
     }
 
-    public Completable passwordChange(String oldPswd, String newPassword)
+    public Completable passwordChange(String oldPswd, String newPassword) throws UiException
     {
         Timber.d("passwordChange(), Thread: %s", currentThread().getName());
         return passwordChange(tkCacher.doAuthHeaderStr(), oldPswd, newPassword)

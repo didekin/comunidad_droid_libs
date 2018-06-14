@@ -1,14 +1,13 @@
 package com.didekindroid.lib_one.usuario.notification;
 
 import com.didekindroid.lib_one.api.Controller;
+import com.didekindroid.lib_one.api.exception.UiException;
 
 import io.reactivex.observers.DisposableCompletableObserver;
 import timber.log.Timber;
 
 import static com.didekindroid.lib_one.usuario.dao.UsuarioDao.usuarioDaoRemote;
 import static com.google.firebase.iid.FirebaseInstanceId.getInstance;
-import static io.reactivex.android.schedulers.AndroidSchedulers.mainThread;
-import static io.reactivex.schedulers.Schedulers.io;
 
 /**
  * User: pedro@didekin
@@ -17,7 +16,7 @@ import static io.reactivex.schedulers.Schedulers.io;
  */
 public class CtrlerNotifyToken extends Controller implements CtrlerNotifyTokenIf {
 
-/* .................................... INSTANCE METHODS .................................*/
+    /* .................................... INSTANCE METHODS .................................*/
 
     /**
      * Synchronous variant for the service InstanceIdService.
@@ -26,11 +25,11 @@ public class CtrlerNotifyToken extends Controller implements CtrlerNotifyTokenIf
      * @param observer is instantiated by the viewer who calls the controller.
      */
     @Override
-    public boolean modifyGcmTokenSync(DisposableCompletableObserver observer)
+    public boolean modifyGcmTokenSync(DisposableCompletableObserver observer) throws UiException
     {
         Timber.d("modifyGcmTokenSync()");
         return getTkCacher().isRegisteredCache()
                 && getSubscriptions().add(usuarioDaoRemote.modifyGcmToken(getInstance().getToken())
-                        .subscribeWith(observer));
+                .subscribeWith(observer));
     }
 }

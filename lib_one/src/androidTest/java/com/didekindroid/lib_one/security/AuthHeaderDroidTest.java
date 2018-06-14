@@ -3,6 +3,7 @@ package com.didekindroid.lib_one.security;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.Base64;
 
+import com.didekindroid.lib_one.api.exception.UiException;
 import com.didekinlib.http.usuario.AuthHeaderIf;
 
 import org.junit.Before;
@@ -29,7 +30,7 @@ public class AuthHeaderDroidTest {
     private AuthHeaderIf header;
 
     @Before
-    public void setUp()
+    public void setUp() throws UiException
     {
         header = new AuthTkCacher.AuthHeaderDroid(userName, appId, tokenInLocal);
     }

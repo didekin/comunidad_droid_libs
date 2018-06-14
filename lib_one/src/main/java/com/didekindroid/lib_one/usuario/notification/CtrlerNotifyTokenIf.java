@@ -2,6 +2,7 @@ package com.didekindroid.lib_one.usuario.notification;
 
 
 import com.didekindroid.lib_one.api.ControllerIf;
+import com.didekindroid.lib_one.api.exception.UiException;
 
 import io.reactivex.observers.DisposableCompletableObserver;
 
@@ -12,5 +13,5 @@ import io.reactivex.observers.DisposableCompletableObserver;
  */
 
 public interface CtrlerNotifyTokenIf extends ControllerIf {
-    boolean modifyGcmTokenSync(DisposableCompletableObserver observer);
+    boolean modifyGcmTokenSync(DisposableCompletableObserver observer) throws UiException;
 }

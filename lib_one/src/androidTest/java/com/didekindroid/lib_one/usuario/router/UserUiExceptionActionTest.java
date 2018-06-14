@@ -16,6 +16,7 @@ import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasFlag;
 import static com.didekindroid.lib_one.RouterInitializer.routerInitializer;
+import static com.didekindroid.lib_one.security.AuthTkCacher.AuthTkCacherExceptionMsg.AUTH_HEADER_WRONG;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.isResourceIdDisplayed;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.isToastInView;
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http_Router;
@@ -26,7 +27,8 @@ import static com.didekindroid.lib_one.usuario.UserTestData.regUserComuWithTkCac
 import static com.didekindroid.lib_one.usuario.UserTestNavigation.loginAcResourceId;
 import static com.didekindroid.lib_one.usuario.UserTestNavigation.userDataAcRsId;
 import static com.didekindroid.lib_one.usuario.router.UserUiExceptionAction.show_login_noUser;
-import static com.didekindroid.lib_one.usuario.router.UserUiExceptionAction.show_login_tokenNull;
+import static com.didekindroid.lib_one.usuario.router.UserUiExceptionAction.show_login_no_authHeader;
+import static com.didekindroid.lib_one.usuario.router.UserUiExceptionAction.show_login_unauthorized;
 import static com.didekindroid.lib_one.usuario.router.UserUiExceptionAction.show_userData_wrongMail;
 import static com.didekinlib.http.usuario.UsuarioExceptionMsg.PASSWORD_NOT_SENT;
 import static com.didekinlib.http.usuario.UsuarioExceptionMsg.TOKEN_ENCRYP_DECRYP_ERROR;
@@ -74,7 +76,14 @@ public class UserUiExceptionActionTest {
     public void test_show_login_tokenNull()
     {
         final UiException ue = new UiException(new ErrorBean(TOKEN_ENCRYP_DECRYP_ERROR));
-        run(ue, show_login_tokenNull, loginAcResourceId);
+        run(ue, show_login_unauthorized, loginAcResourceId);
+    }
+
+    @Test
+    public void test_show_login_unauthorized()
+    {
+        final UiException ue = new UiException(new ErrorBean(AUTH_HEADER_WRONG));
+        run(ue, show_login_no_authHeader, loginAcResourceId);
     }
 
     @Test

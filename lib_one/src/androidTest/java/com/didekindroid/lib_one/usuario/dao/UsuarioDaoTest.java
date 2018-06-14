@@ -63,7 +63,7 @@ public class UsuarioDaoTest {
 //    ========================= INTERFACE TESTS =======================
 
     @Test
-    public void testDeleteUser()
+    public void testDeleteUser() throws UiException
     {
         /*Inserta userComu, comunidad, usuariocomunidad y actuliza tokenCache.*/
         assertThat(regUserComuWithTkCache(comu_real_rodrigo), notNullValue());
@@ -73,7 +73,7 @@ public class UsuarioDaoTest {
     }
 
     @Test
-    public void testGetGcmToken()
+    public void testGetGcmToken() throws UiException
     {
         whatClean = CLEAN_RODRIGO;
 
@@ -82,7 +82,7 @@ public class UsuarioDaoTest {
     }
 
     @Test
-    public void testGetUserData()
+    public void testGetUserData() throws UiException
     {
         whatClean = CLEAN_RODRIGO;
 
@@ -104,7 +104,7 @@ public class UsuarioDaoTest {
     }
 
     @Test
-    public void testLogin_2() throws InterruptedException
+    public void testLogin_2() throws InterruptedException, UiException
     {
         whatClean = CLEAN_RODRIGO;
         Usuario userDb = regGetUserComu(comu_real_rodrigo);
@@ -114,11 +114,10 @@ public class UsuarioDaoTest {
         assertThat(tkEncrypted_direct_symmetricKey_REGEX.isPatternOk(tkCacher.getAuthToken()), is(true));
         assertThat(tkCacher.isRegisteredCache(), is(true));
         assertThat(tkCacher.isGcmTokenSentServer(), is(true));
-        assertThat(tkCacher.getUserName(), is(userDb.getUserName()));
     }
 
     @Test
-    public void testmodifyGcmToken() throws InterruptedException
+    public void testmodifyGcmToken() throws InterruptedException, UiException
     {
         whatClean = CLEAN_RODRIGO;
         Usuario userDb = regGetUserComu(comu_real_rodrigo);
@@ -130,7 +129,7 @@ public class UsuarioDaoTest {
     }
 
     @Test
-    public void testmodifyAlias()
+    public void testmodifyAlias() throws UiException
     {
         whatClean = CLEAN_RODRIGO;
 
@@ -144,7 +143,7 @@ public class UsuarioDaoTest {
     }
 
     @Test
-    public void testmodifyUserName() throws InterruptedException
+    public void testmodifyUserName() throws InterruptedException, UiException
     {
         Usuario usuarioIn = new Usuario.UsuarioBuilder()
                 .copyUsuario(regGetUserComu(comu_real_rodrigo))
@@ -152,14 +151,13 @@ public class UsuarioDaoTest {
                 .build();
 
         usuarioDaoRemote.modifyUserName(usuarioIn).test().await();
-        assertThat(tkCacher.getUserName(), nullValue());
         assertThat(tkCacher.isRegisteredCache(), is(true));
 
         cleanOneUser(USER_DROID.getUserName());
     }
 
     @Test
-    public void testPasswordChange() throws InterruptedException
+    public void testPasswordChange() throws InterruptedException, UiException
     {
         whatClean = CLEAN_RODRIGO;
 

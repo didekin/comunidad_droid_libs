@@ -2,6 +2,7 @@ package com.didekindroid.lib_one.usuario.notification;
 
 import android.support.test.runner.AndroidJUnit4;
 
+import com.didekindroid.lib_one.api.exception.UiException;
 import com.didekindroid.lib_one.security.AuthTkCacherIf;
 import com.didekindroid.lib_one.usuario.notification.InstanceIdService.ServiceDisposableObserver;
 
@@ -54,7 +55,7 @@ public class CtrlerNotifyTokenTest {
     //    ................................. INSTANCE METHODS ...............................
 
     @Test
-    public void test_modifyGcmTokenSync_1()
+    public void test_modifyGcmTokenSync_1() throws UiException
     {
         // Preconditions.
         identityCacher.updateIsGcmTokenSentServer(false);
@@ -65,7 +66,7 @@ public class CtrlerNotifyTokenTest {
     }
 
     @Test
-    public void test_modifyGcmTokenSync_2()
+    public void test_modifyGcmTokenSync_2() throws UiException
     {
         // Preconditions.
         identityCacher.updateIsRegistered(false);

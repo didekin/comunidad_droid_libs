@@ -13,6 +13,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static com.didekindroid.lib_one.security.AuthTkCacher.AuthTkCacherExceptionMsg.AUTH_HEADER_WRONG;
 import static com.didekindroid.lib_one.usuario.UserTestData.USER_PEPE;
 import static com.google.firebase.iid.FirebaseInstanceId.getInstance;
 import static org.hamcrest.CoreMatchers.is;
@@ -124,7 +125,7 @@ public class AuthTkCacherTest {
             tkCacher.doAuthHeader();
             fail();
         } catch (UiException ue) {
-            assertThat(ue.getErrorBean().getMessage(), is(new AuthTkCacher.AuthTkCacherExceptionMsg().getHttpMessage()));
+            assertThat(ue.getErrorBean().getMessage(), is(AUTH_HEADER_WRONG.getHttpMessage()));
         }
     }
 }

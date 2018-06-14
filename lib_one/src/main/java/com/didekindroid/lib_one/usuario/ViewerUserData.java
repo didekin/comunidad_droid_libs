@@ -10,6 +10,7 @@ import android.widget.EditText;
 import com.didekindroid.lib_one.R;
 import com.didekindroid.lib_one.api.AbstractSingleObserver;
 import com.didekindroid.lib_one.api.Viewer;
+import com.didekindroid.lib_one.api.exception.UiException;
 import com.didekindroid.lib_one.usuario.dao.CtrlerUsuario;
 import com.didekindroid.lib_one.usuario.dao.CtrlerUsuarioIf;
 import com.didekinlib.model.usuario.Usuario;
@@ -73,13 +74,17 @@ public final class ViewerUserData extends Viewer<View, CtrlerUsuarioIf> implemen
     {
         Timber.d("doViewInViewer()");
         assertTrue(controller.isRegisteredUser(), user_should_be_registered);
-        controller.getUserData(new AbstractSingleObserver<Usuario>(this) {
-            @Override
-            public void onSuccess(Usuario usuario)
-            {
-                processBackUserDataLoaded(usuario);
-            }
-        });
+        try {
+            controller.getUserData(new AbstractSingleObserver<Usuario>(this) {
+                @Override
+                public void onSuccess(Usuario usuario)
+                {
+                    processBackUserDataLoaded(usuario);
+                }
+            });
+        } catch (UiException e) {
+            onErrorInController(e);
+        }
     }
 
     @Override
@@ -175,29 +180,9 @@ public final class ViewerUserData extends Viewer<View, CtrlerUsuarioIf> implemen
                 makeToast(activity, R.string.no_user_data_to_be_modified);
                 return false;
             case userName:
-                return controller.modifyUserName(
-                        new AbstractSingleObserver<Boolean>(this) {
-                            @Override
-                            public void onSuccess(Boolean isCompleted)
-                            {
-                                Timber.d("onSuccess(), isCompleted == %s", isCompleted.toString());
-                                getContextualRouter().getActionFromContextNm(user_name_just_modified)
-                                        .initActivity(activity, usuario_object.getBundleForKey(newUser.get()));
-                            }
-                        },
-                        newUser.get());
+                return modifyUserName();
             case alias_only:
-                return controller.modifyUserAlias(
-                        new AbstractSingleObserver<Boolean>(this) {
-                            @Override
-                            public void onSuccess(Boolean isCompleted)
-                            {
-                                Timber.d("onSuccess(), isCompleted == %s", isCompleted.toString());
-                                assertTrue(isCompleted, "AbstractSingleObserver.onSuccess() should be TRUE");
-                                getContextualRouter().getActionFromContextNm(user_alias_just_modified).initActivity(activity);
-                            }
-                        },
-                        newUser.get());
+                return modifyAlias();
             default:
                 return false;
         }
@@ -215,6 +200,47 @@ public final class ViewerUserData extends Viewer<View, CtrlerUsuarioIf> implemen
         } else {
             super.onErrorInObserver(error);
         }
+    }
+
+    /* ================================= Helpers ==================================*/
+
+    boolean modifyUserName()
+    {
+        Timber.d("modifyUserName()");
+        try {
+            return controller.modifyUserName(
+                    new AbstractSingleObserver<Boolean>(this) {
+                        @Override
+                        public void onSuccess(Boolean isCompleted)
+                        {
+                            getContextualRouter().getActionFromContextNm(user_name_just_modified)
+                                    .initActivity(activity, usuario_object.getBundleForKey(newUser.get()));
+                        }
+                    },
+                    newUser.get());
+        } catch (UiException e) {
+            onErrorInController(e);
+        }
+        return false;
+    }
+
+    boolean modifyAlias()
+    {
+        Timber.d("modifyAlias()");
+        try {
+            return controller.modifyUserAlias(
+                    new AbstractSingleObserver<Boolean>(this) {
+                        @Override
+                        public void onSuccess(Boolean isCompleted)
+                        {
+                            getContextualRouter().getActionFromContextNm(user_alias_just_modified).initActivity(activity);
+                        }
+                    },
+                    newUser.get());
+        } catch (UiException e) {
+            onErrorInController(e);
+        }
+        return false;
     }
 
     /* ================================= Getters ==================================*/
