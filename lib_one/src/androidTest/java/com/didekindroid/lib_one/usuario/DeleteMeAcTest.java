@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.didekindroid.lib_one.R;
 import com.didekindroid.lib_one.api.ActivityNextMock;
-import com.didekindroid.lib_one.api.exception.UiException;
 import com.didekindroid.lib_one.api.router.ContextualRouterIf;
 import com.didekindroid.lib_one.api.router.RouterActionIf;
 import com.didekindroid.lib_one.api.router.RouterInitializerMock;
@@ -84,7 +83,7 @@ public class DeleteMeAcTest {
     }
 
     @After
-    public void clean() throws UiException
+    public void clean()
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             cleanTasks(activity);
@@ -136,6 +135,8 @@ public class DeleteMeAcTest {
     @Test
     public void testUnregisterUser()
     {
+        mustClean = false;
+
         routerInitializer.set(new RouterInitializerMock() {
             @Override
             public ContextualRouterIf getContextRouter()
@@ -145,10 +146,8 @@ public class DeleteMeAcTest {
         });
 
         onView(withId(R.id.delete_me_ac_unreg_button)).check(matches(isDisplayed())).perform(click());
-        waitAtMost(4, SECONDS).until(() -> activity.controller.isRegisteredUser(), is(false));
+        waitAtMost(6, SECONDS).until(() -> activity.controller.isRegisteredUser(), is(false));
         onView(withId(nextMockAcLayout)).check(matches(isDisplayed()));
         intended(hasFlag(FLAG_ACTIVITY_NEW_TASK | FLAG_ACTIVITY_CLEAR_TASK));
-
-        mustClean = false;
     }
 }
