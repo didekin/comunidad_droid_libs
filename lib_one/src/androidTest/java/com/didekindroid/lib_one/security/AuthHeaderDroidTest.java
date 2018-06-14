@@ -24,7 +24,6 @@ public class AuthHeaderDroidTest {
             ".UB1tHZZq0TYFTZKPVZXY83GRxHz770Aq7BuMCEbNnaSC5cVNOLEOgBQrOQVJmVL-9Ke9KRSwuq7MmVcA2EB_0xRBr_YbzmMWbpUcTQUFtE5OZOFiCsxL5Yn0gA_DDLZboivpoSqndQRP-44mWVkM1A" +
             ".RIvTWRrsyoJ1mpl8vUhQDQ";
 
-    private static final String userName = "pedro@didekin.com";
     private static final String appId = "cVNOLEOgBQrOQVJmVL-9Ke9KRSw..uq:7MmVcA2EB_0xRBr";
 
     private AuthHeaderIf header;
@@ -32,14 +31,13 @@ public class AuthHeaderDroidTest {
     @Before
     public void setUp() throws UiException
     {
-        header = new AuthTkCacher.AuthHeaderDroid(userName, appId, tokenInLocal);
+        header = new AuthTkCacher.AuthHeaderDroid(appId, tokenInLocal);
     }
 
     @Test
     public void test_toString()
     {
         assertThat(header.toString(), allOf(
-                containsString("\"userName\"" + ":" + "\"" + userName + "\""),
                 containsString("\"appID\"" + ":" + "\"" + appId + "\""),
                 containsString("\"token\"" + ":" + "\"" + tokenInLocal + "\""),
                 containsString("{"),
@@ -59,10 +57,6 @@ public class AuthHeaderDroidTest {
     public void test_newAuthHeaderDroid()
     {
         AuthHeaderIf headerPojo = new AuthTkCacher.AuthHeaderDroid(header.getBase64Str());
-        assertThat(headerPojo.getUserName(), allOf(
-                is(header.getUserName()),
-                is(userName)
-        ));
         assertThat(headerPojo.getAppID(), allOf(
                 is(header.getAppID()),
                 is(appId)
