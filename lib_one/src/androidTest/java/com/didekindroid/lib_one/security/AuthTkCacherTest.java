@@ -14,7 +14,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static com.didekindroid.lib_one.security.AuthTkCacher.AuthTkCacherExceptionMsg.AUTH_HEADER_WRONG;
-import static com.didekindroid.lib_one.usuario.UserTestData.USER_PEPE;
 import static com.google.firebase.iid.FirebaseInstanceId.getInstance;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -52,23 +51,13 @@ public class AuthTkCacherTest {
         assertThat(tkCacher.isRegisteredCache(), is(true));
 
         // Inicializamos todos los datos.
-        tkCacher.updateUserName(USER_PEPE.getUserName()).updateAuthToken("pepe_authToken").updateIsGcmTokenSentServer(true);
+        tkCacher.updateAuthToken("pepe_authToken").updateIsGcmTokenSentServer(true);
         // Exec.
         tkCacher.updateIsRegistered(false);
         assertThat(tkCacher.isRegisteredUser(), is(false));
         assertThat(tkCacher.isRegisteredCache(), is(false));
         assertThat(tkCacher.isGcmTokenSentServer(), is(false));
         assertThat(tkCacher.getAuthToken(), nullValue());
-        assertThat(tkCacher.getUserName(), nullValue());
-    }
-
-    @Test
-    public void test_updateUserName()
-    {
-        tkCacher.updateUserName(USER_PEPE.getUserName());
-        assertThat(tkCacher.getUserName(), is(USER_PEPE.getUserName()));
-        assertThat(tkCacher.getUserNameCache(), is(USER_PEPE.getUserName()));
-        assertThat(tkCacher.isRegisteredCache(), is(true));
     }
 
     @Test
@@ -107,11 +96,10 @@ public class AuthTkCacherTest {
     public void test_doAuthHeader_1() throws UiException
     {
         // Inicializamos todos los datos.
-        tkCacher.updateUserName(USER_PEPE.getUserName()).updateAuthToken("pepe_authToken");
+        tkCacher.updateAuthToken("pepe_authToken");
         AuthHeaderIf authHeader = tkCacher.doAuthHeader();
         assertThat(authHeader.getAppID(), is(getInstance().getToken()));
         assertThat(authHeader.getToken(), is(tkCacher.getAuthTokenCache()));
-        assertThat(authHeader.getUserName(), is(tkCacher.getUserNameCache()));
 
         assertThat(tkCacher.doAuthHeaderStr().length() > 0, is(true));
     }
@@ -120,7 +108,7 @@ public class AuthTkCacherTest {
     public void test_doAuthHeader_2()
     {
         // NO inicializamos todos los datos.
-        tkCacher.updateUserName(USER_PEPE.getUserName());
+        tkCacher.updateAuthToken("pepe_authToken");
         try {
             tkCacher.doAuthHeader();
             fail();
