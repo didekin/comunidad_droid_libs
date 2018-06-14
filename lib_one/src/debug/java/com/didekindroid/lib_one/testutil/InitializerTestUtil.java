@@ -68,9 +68,14 @@ public final class InitializerTestUtil {
         });
     }
 
-    public static void initSec_Http(Context context)
+    public static void initSecurity(Context context)
     {
         secInitializer.compareAndSet(null, new SecInitializer(context, bks_pswd, bks_name));
+    }
+
+    public static void initSec_Http(Context context)
+    {
+        initSecurity(context);
         httpInitializer.compareAndSet(
                 null,
                 new HttpInitializer.HttpInitializerBuilder(context)

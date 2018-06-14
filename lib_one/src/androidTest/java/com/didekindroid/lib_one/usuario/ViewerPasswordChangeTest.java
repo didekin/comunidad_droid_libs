@@ -34,7 +34,6 @@ import static com.didekindroid.lib_one.usuario.UserTestNavigation.loginAcResourc
 import static com.didekindroid.lib_one.usuario.UserTestNavigation.pswdChangeAcRsId;
 import static com.didekindroid.lib_one.usuario.UserTestNavigation.userDataAcRsId;
 import static com.didekindroid.lib_one.usuario.UsuarioBundleKey.user_name;
-import static com.didekindroid.lib_one.usuario.ViewerPasswordChange.newViewerPswdChange;
 import static com.didekindroid.lib_one.usuario.testutil.UserEspressoTestUtil.typePswdConfirmPswd;
 import static com.didekindroid.lib_one.usuario.testutil.UserEspressoTestUtil.typePswdWithPswdValidation;
 import static com.didekinlib.http.usuario.UsuarioExceptionMsg.BAD_REQUEST;
@@ -98,14 +97,15 @@ public class ViewerPasswordChangeTest {
     }
 
     @Test
-    public void testNewViewerPswdChange_2()
+    public void testDoViewInViewer()
     {
-        // Preconditions.
-        activity.setIntent(new Intent());
-        assertThat(activity.getIntent().hasExtra(user_name.key), is(false));
-        assertThat(activity.viewer.userName.getAndSet(null), is(usuario.getUserName()));
-        // Run.
-        waitAtMost(6, SECONDS).untilAtomic(newViewerPswdChange(activity).userName, is(usuario.getUserName()));
+        // Esperamos a tener inicializado activity.viewer.userName, y lo ponemos a null.
+        waitAtMost(2, SECONDS).until(() -> activity.viewer.userName.getAndSet(null).equals(usuario.getUserName()));
+        // Exec.
+        activity.viewer.doViewInViewer(null, null);
+        // Check that the field is update correctly.
+        waitAtMost(4, SECONDS).until(() ->
+                activity.viewer.userName.get() != null && activity.viewer.userName.get().equals(usuario.getUserName()));
     }
 
     @Test

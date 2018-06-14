@@ -39,6 +39,7 @@ import static com.didekindroid.lib_one.testutil.EspressoTestUtil.checkUp;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.getActivitesInTaskByStage;
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http;
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http_Router;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSecurity;
 import static com.didekindroid.lib_one.testutil.MockTestConstant.mockAcLayout;
 import static com.didekindroid.lib_one.testutil.MockTestConstant.nextMockAcLayout;
 import static com.didekindroid.lib_one.usuario.router.UserMnAction.confidencialidad_mn;
@@ -77,9 +78,8 @@ public class UserMnActionTest {
     public void setUp()
     {
         activity = activityRule.getActivity();
-        if (secInitializer.get() != null) {
-            secInitializer.get().getTkCacher().updateIsRegistered(false);
-        }
+        initSecurity(activity);
+        secInitializer.get().getTkCacher().updateIsRegistered(false);
     }
 
     // ============================================================
