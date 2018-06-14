@@ -95,7 +95,6 @@ public final class UserTestData {
                 .map(response -> httpInitializer.get().getResponseBody(response))
                 .doOnSuccess(newAuthTk -> secInitializer.get().getTkCacher()
                         .updateAuthToken(newAuthTk)
-                        .updateUserName(userComuWithGcmTk.getUsuario().getUserName())
                         .updateIsGcmTokenSentServer(true))
                 .blockingGet();
     }
