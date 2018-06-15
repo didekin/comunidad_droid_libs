@@ -10,7 +10,6 @@ import android.widget.EditText;
 import com.didekindroid.lib_one.R;
 import com.didekindroid.lib_one.api.AbstractSingleObserver;
 import com.didekindroid.lib_one.api.Viewer;
-import com.didekindroid.lib_one.api.exception.UiException;
 import com.didekindroid.lib_one.usuario.dao.CtrlerUsuario;
 import com.didekindroid.lib_one.usuario.dao.CtrlerUsuarioIf;
 import com.didekinlib.model.usuario.Usuario;
@@ -74,17 +73,13 @@ public final class ViewerUserData extends Viewer<View, CtrlerUsuarioIf> implemen
     {
         Timber.d("doViewInViewer()");
         assertTrue(controller.isRegisteredUser(), user_should_be_registered);
-        try {
-            controller.getUserData(new AbstractSingleObserver<Usuario>(this) {
-                @Override
-                public void onSuccess(Usuario usuario)
-                {
-                    processBackUserDataLoaded(usuario);
-                }
-            });
-        } catch (UiException e) {
-            onErrorInController(e);
-        }
+        controller.getUserData(new AbstractSingleObserver<Usuario>(this) {
+            @Override
+            public void onSuccess(Usuario usuario)
+            {
+                processBackUserDataLoaded(usuario);
+            }
+        });
     }
 
     @Override
@@ -207,40 +202,30 @@ public final class ViewerUserData extends Viewer<View, CtrlerUsuarioIf> implemen
     boolean modifyUserName()
     {
         Timber.d("modifyUserName()");
-        try {
-            return controller.modifyUserName(
-                    new AbstractSingleObserver<Boolean>(this) {
-                        @Override
-                        public void onSuccess(Boolean isCompleted)
-                        {
-                            getContextualRouter().getActionFromContextNm(user_name_just_modified)
-                                    .initActivity(activity, usuario_object.getBundleForKey(newUser.get()));
-                        }
-                    },
-                    newUser.get());
-        } catch (UiException e) {
-            onErrorInController(e);
-        }
-        return false;
+        return controller.modifyUserName(
+                new AbstractSingleObserver<Boolean>(this) {
+                    @Override
+                    public void onSuccess(Boolean isCompleted)
+                    {
+                        getContextualRouter().getActionFromContextNm(user_name_just_modified)
+                                .initActivity(activity, usuario_object.getBundleForKey(newUser.get()));
+                    }
+                },
+                newUser.get());
     }
 
     boolean modifyAlias()
     {
         Timber.d("modifyAlias()");
-        try {
-            return controller.modifyUserAlias(
-                    new AbstractSingleObserver<Boolean>(this) {
-                        @Override
-                        public void onSuccess(Boolean isCompleted)
-                        {
-                            getContextualRouter().getActionFromContextNm(user_alias_just_modified).initActivity(activity);
-                        }
-                    },
-                    newUser.get());
-        } catch (UiException e) {
-            onErrorInController(e);
-        }
-        return false;
+        return controller.modifyUserAlias(
+                new AbstractSingleObserver<Boolean>(this) {
+                    @Override
+                    public void onSuccess(Boolean isCompleted)
+                    {
+                        getContextualRouter().getActionFromContextNm(user_alias_just_modified).initActivity(activity);
+                    }
+                },
+                newUser.get());
     }
 
     /* ================================= Getters ==================================*/

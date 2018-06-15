@@ -1,7 +1,6 @@
 package com.didekindroid.lib_one.usuario.dao;
 
 import com.didekindroid.lib_one.api.HttpInitializerIf;
-import com.didekindroid.lib_one.api.exception.UiException;
 import com.didekindroid.lib_one.security.AuthTkCacherIf;
 import com.didekindroid.lib_one.security.SecInitializerIf;
 import com.didekinlib.http.usuario.UsuarioEndPoints;
@@ -17,6 +16,7 @@ import static com.didekindroid.lib_one.api.exception.UiExceptionIf.uiExceptionCo
 import static com.didekindroid.lib_one.security.SecInitializer.secInitializer;
 import static com.didekindroid.lib_one.util.Device.getDeviceLanguage;
 import static com.google.firebase.iid.FirebaseInstanceId.getInstance;
+import static io.reactivex.Single.just;
 import static java.lang.Thread.currentThread;
 
 
@@ -86,10 +86,11 @@ public final class UsuarioDao implements UsuarioEndPoints {
 //                          CONVENIENCE METHODS
 //  =============================================================================
 
-    public Completable deleteUser() throws UiException
+    public Completable deleteUser()
     {
         Timber.d("deleteUser(), Thread: %s", currentThread().getName());
-        return deleteUser(tkCacher.doAuthHeaderStr())
+        return just(true)
+                .flatMap(booleanIn -> deleteUser(tkCacher.doAuthHeaderStr()))
                 .map(response -> httpInitializer.get().getResponseBody(response))
                 .doOnError(uiExceptionConsumer)
                 .doOnSuccess(isDeleted -> {
@@ -100,18 +101,21 @@ public final class UsuarioDao implements UsuarioEndPoints {
                 .ignoreElement();
     }
 
-    public Single<String> getGcmToken() throws UiException
+    public Single<String> getGcmToken()
     {
         Timber.d("getGcmToken(), Thread: %s", currentThread().getName());
-        return getUserData(tkCacher.doAuthHeaderStr())
+        return just(true)
+                .flatMap(emptyStr -> getUserData(tkCacher.doAuthHeaderStr()))
                 .map(response -> httpInitializer.get().getResponseBody(response).getGcmToken())
                 .doOnError(uiExceptionConsumer);
     }
-//
-    public Single<Usuario> getUserData() throws UiException
+
+    //
+    public Single<Usuario> getUserData()
     {
         Timber.d("getUserData(), Thread: %s", currentThread().getName());
-        return getUserData(tkCacher.doAuthHeaderStr())
+        return just(true)
+                .flatMap(booleanIn -> getUserData(tkCacher.doAuthHeaderStr()))
                 .map(response -> httpInitializer.get().getResponseBody(response))
                 .doOnError(uiExceptionConsumer);
     }
@@ -119,43 +123,48 @@ public final class UsuarioDao implements UsuarioEndPoints {
     public Completable login(String userName, String password)
     {
         Timber.d("login(), Thread: %s", currentThread().getName());
-        return login(userName, password, getInstance().getToken())
+        return just(true)
+                .flatMap(booleanIn -> login(userName, password, getInstance().getToken()))
                 .map(response -> httpInitializer.get().getResponseBody(response))
                 .doOnError(uiExceptionConsumer)
                 .doOnSuccess(newAuthTk -> tkCacher.updateAuthToken(newAuthTk).updateIsGcmTokenSentServer(true))
                 .ignoreElement();
     }
 
-    public Completable modifyGcmToken(String gcmToken) throws UiException
+    public Completable modifyGcmToken(String gcmToken)
     {
         Timber.d("modifyGcmToken(), Thread: %s", currentThread().getName());
-        return modifyGcmToken(tkCacher.doAuthHeaderStr(), gcmToken)
+        return just(gcmToken)
+                .flatMap(gcmTokenIn -> modifyGcmToken(tkCacher.doAuthHeaderStr(), gcmTokenIn))
                 .map(response -> httpInitializer.get().getResponseBody(response))
                 .doOnError(uiExceptionConsumer)
                 .doOnSuccess(newAuthTk -> tkCacher.updateAuthToken(newAuthTk).updateIsGcmTokenSentServer(true))
                 .ignoreElement();
     }
 
-    public Single<Boolean> modifyUserName(Usuario usuario) throws UiException
+    public Single<Boolean> modifyUserName(Usuario usuario)
     {
         Timber.d("modifyUserName(), Thread: %s", currentThread().getName());
-        return modifyUser(getDeviceLanguage(), tkCacher.doAuthHeaderStr(), usuario)
+        return just(usuario)
+                .flatMap(usuarioIn -> modifyUser(getDeviceLanguage(), tkCacher.doAuthHeaderStr(), usuarioIn))
                 .map(response -> httpInitializer.get().getResponseBody(response) > 0)
                 .doOnError(uiExceptionConsumer);
     }
 
-    public Single<Boolean> modifyUserAlias(Usuario usuario) throws UiException
+    public Single<Boolean> modifyUserAlias(Usuario usuario)
     {
         Timber.d("modifyUseAlias(), Thread: %s", currentThread().getName());
-        return modifyUser(getDeviceLanguage(), tkCacher.doAuthHeaderStr(), usuario)
+        return just(usuario)
+                .flatMap(usuarioIn -> modifyUser(getDeviceLanguage(), tkCacher.doAuthHeaderStr(), usuarioIn))
                 .map(response -> httpInitializer.get().getResponseBody(response) > 0)
                 .doOnError(uiExceptionConsumer);
     }
 
-    public Completable passwordChange(String oldPswd, String newPassword) throws UiException
+    public Completable passwordChange(String oldPswd, String newPassword)
     {
         Timber.d("passwordChange(), Thread: %s", currentThread().getName());
-        return passwordChange(tkCacher.doAuthHeaderStr(), oldPswd, newPassword)
+        return just(true)
+                .flatMap(booleanIn -> passwordChange(tkCacher.doAuthHeaderStr(), oldPswd, newPassword))
                 .map(response -> httpInitializer.get().getResponseBody(response))
                 .doOnError(uiExceptionConsumer)
                 .doOnSuccess(tkCacher::updateAuthToken)
@@ -165,7 +174,8 @@ public final class UsuarioDao implements UsuarioEndPoints {
     public Completable passwordSend(String userName)
     {
         Timber.d("passwordSend(), Thread: %s", currentThread().getName());
-        return passwordSend(getDeviceLanguage(), userName)
+        return just(userName)
+                .flatMap(userNameIn -> passwordSend(getDeviceLanguage(), userNameIn))
                 .map(response -> httpInitializer.get().getResponseBody(response))
                 .doOnSuccess(isSent -> tkCacher.updateAuthToken(null))
                 .doOnError(uiExceptionConsumer)

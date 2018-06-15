@@ -3,7 +3,6 @@ package com.didekindroid.lib_one.usuario.dao;
 import android.support.annotation.NonNull;
 
 import com.didekindroid.lib_one.api.Controller;
-import com.didekindroid.lib_one.api.exception.UiException;
 import com.didekinlib.model.usuario.Usuario;
 
 import io.reactivex.observers.DisposableCompletableObserver;
@@ -30,7 +29,7 @@ public class CtrlerUsuario extends Controller implements CtrlerUsuarioIf {
     }
 
     @Override
-    public boolean deleteMe(DisposableCompletableObserver observer) throws UiException
+    public boolean deleteMe(DisposableCompletableObserver observer)
     {
         Timber.d("deleteMe()");
         return getSubscriptions().add(
@@ -42,7 +41,7 @@ public class CtrlerUsuario extends Controller implements CtrlerUsuarioIf {
     }
 
     @Override
-    public boolean getUserData(DisposableSingleObserver<Usuario> observer) throws UiException
+    public boolean getUserData(DisposableSingleObserver<Usuario> observer)
     {
         Timber.d("getUserData()");
         return getSubscriptions().add(
@@ -66,7 +65,7 @@ public class CtrlerUsuario extends Controller implements CtrlerUsuarioIf {
     }
 
     @Override
-    public boolean modifyUserName(DisposableSingleObserver<Boolean> observer, Usuario newUser) throws UiException
+    public boolean modifyUserName(DisposableSingleObserver<Boolean> observer, Usuario newUser)
     {
         Timber.d("modifyUserName()");
         return getSubscriptions().add(
@@ -77,7 +76,7 @@ public class CtrlerUsuario extends Controller implements CtrlerUsuarioIf {
     }
 
     @Override
-    public boolean modifyUserAlias(DisposableSingleObserver<Boolean> observer, Usuario newUser) throws UiException
+    public boolean modifyUserAlias(DisposableSingleObserver<Boolean> observer, Usuario newUser)
     {
         Timber.d("modifyUserName()");
         return getSubscriptions().add(
@@ -89,7 +88,6 @@ public class CtrlerUsuario extends Controller implements CtrlerUsuarioIf {
 
     @Override
     public boolean passwordChange(DisposableCompletableObserver observer, final Usuario oldUser, final Usuario newUser)
-            throws UiException
     {
         Timber.d("passwordChange()");
         return getSubscriptions().add(

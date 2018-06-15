@@ -14,7 +14,6 @@ import com.didekindroid.lib_one.R;
 import com.didekindroid.lib_one.api.AbstractSingleObserver;
 import com.didekindroid.lib_one.api.DrawerDecoratedIf;
 import com.didekindroid.lib_one.api.Viewer;
-import com.didekindroid.lib_one.api.exception.UiException;
 import com.didekindroid.lib_one.usuario.dao.CtrlerUsuario;
 import com.didekinlib.model.usuario.Usuario;
 
@@ -82,17 +81,13 @@ public final class ViewerUserDrawer extends Viewer<DrawerLayout, CtrlerUsuario> 
         if (savedState != null && savedState.containsKey(user_alias.key)) {
             drawerHeaderRot.setText(savedState.getString(user_alias.key));
         } else {
-            try {
-                controller.getUserData(new AbstractSingleObserver<Usuario>(this) {
-                    @Override
-                    public void onSuccess(Usuario usuario)
-                    {
-                        drawerHeaderRot.setText(usuario.getAlias());
-                    }
-                });
-            } catch (UiException e) {
-                onErrorInController(e);
-            }
+            controller.getUserData(new AbstractSingleObserver<Usuario>(this) {
+                @Override
+                public void onSuccess(Usuario usuario)
+                {
+                    drawerHeaderRot.setText(usuario.getAlias());
+                }
+            });
         }
     }
 

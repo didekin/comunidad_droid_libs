@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static android.support.test.InstrumentationRegistry.getTargetContext;
+import static com.didekindroid.lib_one.security.AuthTkCacher.AuthTkCacherExceptionMsg.AUTH_HEADER_WRONG;
 import static com.didekindroid.lib_one.security.SecInitializer.secInitializer;
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http;
 import static com.didekindroid.lib_one.usuario.UserTestData.CleanUserEnum.CLEAN_NOTHING;
@@ -43,7 +44,7 @@ import static org.junit.Assert.assertThat;
 @RunWith(AndroidJUnit4.class)
 public class UsuarioDaoTest {
 
-    private CleanUserEnum whatClean;
+    private CleanUserEnum whatClean = CLEAN_NOTHING;
     private AuthTkCacher tkCacher;
 
     @Before
@@ -51,7 +52,6 @@ public class UsuarioDaoTest {
     {
         initSec_Http(getTargetContext());
         tkCacher = (AuthTkCacher) secInitializer.get().getTkCacher();
-        whatClean = CLEAN_NOTHING;
     }
 
     @After
@@ -63,13 +63,22 @@ public class UsuarioDaoTest {
 //    ========================= INTERFACE TESTS =======================
 
     @Test
-    public void testDeleteUser() throws UiException
+    public void testDeleteUser_1()
     {
         /*Inserta userComu, comunidad, usuariocomunidad y actuliza tokenCache.*/
         assertThat(regUserComuWithTkCache(comu_real_rodrigo), notNullValue());
         // Exec, check.
         usuarioDaoRemote.deleteUser().test();
         assertThat(tkCacher.isRegisteredCache(), is(false));
+    }
+
+    @Test
+    public void testDeleteUser_2()
+    {
+        // No valid authHeader because not registered user.
+        usuarioDaoRemote.deleteUser().test().assertError(
+                uiexception -> UiException.class.cast(uiexception).getErrorHtppMsg().equals(AUTH_HEADER_WRONG.getHttpMessage())
+        );
     }
 
     @Test
@@ -82,7 +91,7 @@ public class UsuarioDaoTest {
     }
 
     @Test
-    public void testGetUserData() throws UiException
+    public void testGetUserData()
     {
         whatClean = CLEAN_RODRIGO;
 

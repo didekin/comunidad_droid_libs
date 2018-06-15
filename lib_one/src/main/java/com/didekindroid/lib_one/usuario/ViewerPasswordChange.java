@@ -77,32 +77,24 @@ public final class ViewerPasswordChange extends Viewer<View, CtrlerUsuario> {
 
         // Check for userName; if there isn't one, retrieve it from DB remote.
         if (userName.get() == null) {
-            try {
-                controller.getUserData(new AbstractSingleObserver<Usuario>(this) {
-                    @Override
-                    public void onSuccess(Usuario usuario)
-                    {
-                        processBackUserDataLoaded(usuario);
-                    }
-                });
-            } catch (UiException e) {
-                onErrorInController(e);
-            }
+            controller.getUserData(new AbstractSingleObserver<Usuario>(this) {
+                @Override
+                public void onSuccess(Usuario usuario)
+                {
+                    processBackUserDataLoaded(usuario);
+                }
+            });
         }
 
         Button modifyButton = view.findViewById(R.id.password_change_ac_button);
         modifyButton.setOnClickListener(
                 v -> {
                     if (checkLoginData()) {
-                        try {
-                            controller.passwordChange(
-                                    new PswdChangeCompletableObserver(),
-                                    oldUserPswd.get(),
-                                    usuarioBean.get().getUsuario()
-                            );
-                        } catch (UiException e) {
-                            onErrorInController(e);
-                        }
+                        controller.passwordChange(
+                                new PswdChangeCompletableObserver(),
+                                oldUserPswd.get(),
+                                usuarioBean.get().getUsuario()
+                        );
                     }
                 }
         );
