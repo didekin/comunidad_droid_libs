@@ -52,6 +52,7 @@ public class UsuarioDaoTest {
     {
         initSec_Http(getTargetContext());
         tkCacher = (AuthTkCacher) secInitializer.get().getTkCacher();
+        tkCacher.updateAuthToken(null); // To be sure.
     }
 
     @After
@@ -75,7 +76,7 @@ public class UsuarioDaoTest {
     @Test
     public void testDeleteUser_2()
     {
-        // No valid authHeader because not registered user.
+        /* No valid authHeader because not registered user.*/
         usuarioDaoRemote.deleteUser().test().assertError(
                 uiexception -> UiException.class.cast(uiexception).getErrorHtppMsg().equals(AUTH_HEADER_WRONG.getHttpMessage())
         );
