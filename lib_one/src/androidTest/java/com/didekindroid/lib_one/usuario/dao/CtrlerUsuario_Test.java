@@ -2,6 +2,8 @@ package com.didekindroid.lib_one.usuario.dao;
 
 import android.support.test.runner.AndroidJUnit4;
 
+import com.didekindroid.lib_one.api.CompletableObserverMock;
+import com.didekindroid.lib_one.api.SingleObserverMock;
 import com.didekindroid.lib_one.usuario.UserTestData.CleanUserEnum;
 import com.didekinlib.model.usuario.Usuario;
 
@@ -9,10 +11,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import io.reactivex.observers.DisposableCompletableObserver;
-import io.reactivex.observers.DisposableSingleObserver;
-import timber.log.Timber;
 
 import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http;
@@ -30,7 +28,6 @@ import static com.didekindroid.lib_one.usuario.UserTestData.user_crodrigo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 
 /**
  * User: pedro@didekin
@@ -66,21 +63,21 @@ public class CtrlerUsuario_Test {
         whatClean = CLEAN_NOTHING;
 
         assertThat(regUserComuWithTkCache(comu_real_rodrigo), notNullValue());
-        execCheckSchedulersTest(ctrler -> ctrler.deleteMe(new TestCompletableObserver()), controller);
+        execCheckSchedulersTest(ctrler -> ctrler.deleteMe(new CompletableObserverMock()), controller);
     }
 
     @Test
     public void testGetUserData() throws Exception
     {
         assertThat(regUserComuWithTkCache(comu_real_rodrigo), notNullValue());
-        execCheckSchedulersTest(ctrler -> ctrler.getUserData(new TestSingleObserver<>()), controller);
+        execCheckSchedulersTest(ctrler -> ctrler.getUserData(new SingleObserverMock<>()), controller);
     }
 
     @Test
     public void testLogin() throws Exception
     {
         assertThat(regUserComuWithTkCache(comu_real_rodrigo), notNullValue());
-        execCheckSchedulersTest(ctrler -> ctrler.login(new TestCompletableObserver(), user_crodrigo), controller);
+        execCheckSchedulersTest(ctrler -> ctrler.login(new CompletableObserverMock(), user_crodrigo), controller);
     }
 
     @Test
@@ -90,7 +87,7 @@ public class CtrlerUsuario_Test {
 
         execCheckSchedulersTest(
                 ctrler -> ctrler.modifyUserName(
-                        new TestSingleObserver<>(),
+                        new SingleObserverMock<>(),
                         new Usuario.UsuarioBuilder()
                                 .copyUsuario(regGetUserComu(comu_real_rodrigo))
                                 .userName(USER_DROID.getUserName())
@@ -104,7 +101,7 @@ public class CtrlerUsuario_Test {
     {
         execCheckSchedulersTest(
                 ctrler -> ctrler.modifyUserAlias(
-                        new TestSingleObserver<>(),
+                        new SingleObserverMock<>(),
                         new Usuario.UsuarioBuilder()
                                 .copyUsuario(regGetUserComu(comu_real_rodrigo))
                                 .alias("new_pepe_alias")
@@ -123,7 +120,7 @@ public class CtrlerUsuario_Test {
 
         execCheckSchedulersTest(
                 ctrler -> ctrler.passwordChange(
-                        new TestCompletableObserver(),
+                        new CompletableObserverMock(),
                         oldUser,
                         new Usuario.UsuarioBuilder()
                                 .copyUsuario(oldUser)
@@ -138,45 +135,8 @@ public class CtrlerUsuario_Test {
         // Precondition.
         execCheckSchedulersTest(
                 ctrler -> ctrler.passwordSend(
-                        new TestCompletableObserver(),
+                        new CompletableObserverMock(),
                         regGetUserComu(comu_real_rodrigo)),
                 controller);
-    }
-
-    //  ============================================================================================
-    //    .................................... HELPERS .................................
-    //  ============================================================================================
-
-    class TestSingleObserver<T> extends DisposableSingleObserver<T> {
-
-        @Override
-        public void onSuccess(T successBack)
-        {
-            assertThat(successBack, notNullValue());
-        }
-
-        @Override
-        public void onError(Throwable e)
-        {
-            dispose();
-            Timber.d("============= %s =============", e.getClass().getName());
-            fail();
-        }
-    }
-
-    class TestCompletableObserver extends DisposableCompletableObserver {
-
-        @Override
-        public void onComplete()
-        {
-        }
-
-        @Override
-        public void onError(Throwable e)
-        {
-            dispose();
-            Timber.d("============= %s =============", e.getClass().getName());
-            fail();
-        }
     }
 }
