@@ -13,6 +13,7 @@ import com.didekindroid.lib_one.api.ActivityNextMock;
 import com.didekindroid.lib_one.api.router.MnRouterIf;
 import com.didekindroid.lib_one.api.router.RouterInitializerMock;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -92,6 +93,11 @@ public class ViewerUserDrawerTest {
         waitAtMost(4, SECONDS).until(() -> viewer.getController().isRegisteredUser());
     }
 
+    @After
+    public void cleanUp(){
+        cleanOptions(CLEAN_RODRIGO);
+    }
+
     //    ==================================  TESTS  ==================================
 
     @Test
@@ -101,8 +107,6 @@ public class ViewerUserDrawerTest {
         assertThat(viewer.getNavView().getId(), is(nav_view_rsId));
         // Check header.
         assertThat(viewer.getDrawerHeaderRot().getId(), is(header_textview_rsId));
-
-        cleanOptions(CLEAN_RODRIGO);
     }
 
     @Test
@@ -122,8 +126,6 @@ public class ViewerUserDrawerTest {
                         withId(header_textview_rsId)
                 )
         ));
-
-        cleanOptions(CLEAN_RODRIGO);
     }
 
     @Test
@@ -145,8 +147,6 @@ public class ViewerUserDrawerTest {
                     return true;
                 }
         );
-
-        cleanOneUser(user_crodrigo.getUserName());
     }
 
     @Test
@@ -155,8 +155,6 @@ public class ViewerUserDrawerTest {
         // Precondition: saveState == null.
         viewer.doViewForRegUser(null);
         waitAtMost(6, SECONDS).until(() -> viewer.getDrawerHeaderRot().getText().equals(user_crodrigo.getAlias()));
-
-        cleanOptions(CLEAN_RODRIGO);
     }
 
     @Test
@@ -167,8 +165,6 @@ public class ViewerUserDrawerTest {
         bundle.putString(user_alias.key, "alias_mock");
         activity.runOnUiThread(() -> viewer.doViewForRegUser(bundle));
         waitAtMost(6, SECONDS).until(() -> viewer.getDrawerHeaderRot().getText().equals("alias_mock"));
-
-        cleanOptions(CLEAN_RODRIGO);
     }
 
     @Test
@@ -182,8 +178,6 @@ public class ViewerUserDrawerTest {
         viewer.saveState(bundleState);
         // Check.
         assertThat(bundleState.getString(user_alias.key), is(user_crodrigo.getAlias()));
-
-        cleanOptions(CLEAN_RODRIGO);
     }
 
     @Test
@@ -194,8 +188,6 @@ public class ViewerUserDrawerTest {
         Bundle bundleState = new Bundle(1);
         viewer.saveState(bundleState);
         assertThat(bundleState.getString(user_alias.key), notNullValue());
-
-        cleanOptions(CLEAN_RODRIGO);
     }
 
     @Test
@@ -204,8 +196,6 @@ public class ViewerUserDrawerTest {
         activity.runOnUiThread(() -> viewer.buildMenu(viewer.getNavView(), true));
         SECONDS.sleep(2);
         checkVisibleMenuItems(true, viewer.getNavView().getMenu());
-
-        cleanOptions(CLEAN_RODRIGO);
     }
 
     @Test
@@ -214,8 +204,6 @@ public class ViewerUserDrawerTest {
         activity.runOnUiThread(() -> viewer.buildMenu(viewer.getNavView(), false));
         SECONDS.sleep(2);
         checkVisibleMenuItems(false, viewer.getNavView().getMenu());
-
-        cleanOptions(CLEAN_RODRIGO);
     }
 
     @Test
@@ -234,8 +222,6 @@ public class ViewerUserDrawerTest {
         SECONDS.sleep(1);
         // Check if drawer is open
         onView(withId(activity.getDrawerDecoratedView().getId())).check(matches(isOpen(LEFT)));
-
-        cleanOptions(CLEAN_RODRIGO);
     }
 
     /**
@@ -269,8 +255,6 @@ public class ViewerUserDrawerTest {
             onView(withId(activity.getDrawerDecoratedView().getId())).check(matches(isClosed(LEFT)));
             return true;
         });
-
-        cleanOptions(CLEAN_RODRIGO);
     }
 
     //    ==================================  Helpers  ==================================
