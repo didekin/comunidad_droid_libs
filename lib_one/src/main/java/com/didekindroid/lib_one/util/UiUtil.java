@@ -232,6 +232,7 @@ public final class UiUtil {
         if (actionBar != null) {
             if (hasParentAc) {
                 actionBar.setDisplayHomeAsUpEnabled(true);
+                actionBar.setHomeActionContentDescription(R.string.navigate_up_txt);
             }
             /*actionBar.setDisplayUseLogoEnabled(true);
             actionBar.setLogo(R.mipmap.ic_launcher);*/

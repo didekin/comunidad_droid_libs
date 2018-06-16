@@ -1,5 +1,7 @@
 package com.didekindroid.lib_one;
 
+import com.didekindroid.lib_one.accesorio.ConfidencialidadAc;
+import com.didekindroid.lib_one.accesorio.ConfidencialidadAcTest;
 import com.didekindroid.lib_one.api.ControllerTest;
 import com.didekindroid.lib_one.api.ObserverSingleListTest;
 import com.didekindroid.lib_one.api.ObserverSingleSelectItemTest;
@@ -39,6 +41,8 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         AppContextTest.class,
+        // accesorio
+        ConfidencialidadAcTest.class,
         // api.router.
         FragmentInitiatorTest.class,
         RouterActionIfTest.class,

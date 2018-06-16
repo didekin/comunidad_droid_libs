@@ -80,10 +80,8 @@ public final class AuthTkCacher implements AuthTkCacherIf {
     {
         Timber.d("updateIsRegistered()");
         SharedPreferences.Editor editor = getSharedPref().edit();
-        synchronized (this) {
-            editor.putBoolean(is_user_registered_key.toString(), isRegisteredUser).apply();
-            isRegisteredCache.set(isRegisteredUser);
-        }
+        editor.putBoolean(is_user_registered_key.toString(), isRegisteredUser).apply();
+        isRegisteredCache.set(isRegisteredUser);
         if (!isRegisteredCache.get()) {
             updateAuthToken(null);
             updateIsGcmTokenSentServer(false);

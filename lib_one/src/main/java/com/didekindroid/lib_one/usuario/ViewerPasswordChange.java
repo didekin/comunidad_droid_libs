@@ -72,8 +72,6 @@ public final class ViewerPasswordChange extends Viewer<View, CtrlerUsuario> {
     public void doViewInViewer(Bundle savedState, Serializable viewBean)
     {
         Timber.d("doViewInViewer()");
-        // Precondition.
-        assertTrue(controller.isRegisteredUser(), user_should_be_registered);
 
         // Check for userName; if there isn't one, retrieve it from DB remote.
         if (userName.get() == null) {
