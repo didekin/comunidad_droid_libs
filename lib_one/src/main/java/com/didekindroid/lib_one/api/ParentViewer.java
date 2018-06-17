@@ -1,7 +1,7 @@
 package com.didekindroid.lib_one.api;
 
+import android.app.Activity;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ public class ParentViewer<T extends View, C extends ControllerIf> extends Viewer
 
     private final Map<Class<? extends ViewerIf>, ViewerIf> childViewers;
 
-    protected ParentViewer(T view, AppCompatActivity activity, ParentViewerIf parentViewer)
+    protected ParentViewer(T view, Activity activity, ParentViewerIf parentViewer)
     {
         super(view, activity, parentViewer);
         childViewers = new HashMap<>(1);
