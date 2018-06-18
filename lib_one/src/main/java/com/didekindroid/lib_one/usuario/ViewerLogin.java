@@ -96,6 +96,13 @@ public final class ViewerLogin extends Viewer<View, CtrlerUsuario> {
                                     {
                                         processLoginBackInView();
                                     }
+
+                                    @Override
+                                    public void onError(Throwable e)
+                                    {
+                                        Timber.d("onError, message: %s", e.getMessage());
+                                        processLoginErrorBackInView(e);
+                                    }
                                 },
                                 usuarioBean.get().getUsuario()
                         );

@@ -69,9 +69,7 @@ public class LoginAcTest {
         @Override
         protected Intent getActivityIntent()
         {
-            Intent intent = new Intent();
-            intent.putExtra(user_name.key, user_crodrigo.getUserName());
-            return intent;
+            return new Intent().putExtra(user_name.key, user_crodrigo.getUserName());
         }
     };
 
