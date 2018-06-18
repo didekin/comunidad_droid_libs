@@ -11,7 +11,7 @@ import java.util.List;
  * Time: 10:12
  */
 
-public interface ViewerListIf<T extends AdapterView, C extends CtrlerListIf, E extends Serializable>
+public interface ViewerListIf<T extends AdapterView, C extends CtrlerListIf>
         extends ViewerIf<T, C> {
-    void onSuccessLoadItemList(List<E> itemsList);
+    void onSuccessLoadItemList(List<? extends Serializable> itemsList);
 }
