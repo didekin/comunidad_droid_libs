@@ -68,8 +68,8 @@ public class ObserverSingleListTest {
 
     // ==================================  HELPERS  =================================
 
-    static class ViewerListTest extends Viewer<AdapterView, ControllerListIf> implements
-            ViewerListIf<AdapterView, ControllerListIf, String> {
+    static class ViewerListTest extends Viewer<AdapterView, CtrlerListIf> implements
+            ViewerListIf<AdapterView, CtrlerListIf, String> {
 
         ViewerListTest(AdapterView view, Activity activity, ViewerIf parentViewer)
         {
