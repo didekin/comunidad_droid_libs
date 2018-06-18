@@ -39,7 +39,7 @@ import static org.junit.Assert.assertThat;
 public class ObserverSingleListTest {
 
     final static AtomicReference<String> flagMethodExec = new AtomicReference<>(BEFORE_METHOD_EXEC);
-    private ObserverSingleList<ViewerListTest, String> observer;
+    private ObserverSingleList<ViewerListTest> observer;
 
     @Before
     public void setUp()
@@ -69,7 +69,7 @@ public class ObserverSingleListTest {
     // ==================================  HELPERS  =================================
 
     static class ViewerListTest extends Viewer<AdapterView, CtrlerListIf> implements
-            ViewerListIf<AdapterView, CtrlerListIf, String> {
+            ViewerListIf<AdapterView, CtrlerListIf> {
 
         ViewerListTest(AdapterView view, Activity activity, ViewerIf parentViewer)
         {
