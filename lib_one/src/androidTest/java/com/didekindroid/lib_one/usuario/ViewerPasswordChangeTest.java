@@ -19,6 +19,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -39,7 +40,6 @@ import static com.didekindroid.lib_one.usuario.testutil.UserEspressoTestUtil.typ
 import static com.didekinlib.http.usuario.UsuarioExceptionMsg.BAD_REQUEST;
 import static com.didekinlib.http.usuario.UsuarioExceptionMsg.PASSWORD_NOT_SENT;
 import static com.didekinlib.http.usuario.UsuarioExceptionMsg.USER_NOT_FOUND;
-import static io.reactivex.Completable.complete;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.waitAtMost;
 import static org.hamcrest.CoreMatchers.instanceOf;
@@ -191,8 +191,8 @@ public class ViewerPasswordChangeTest {
     @Test
     public void test_PswdSendSingleObserver_Succcess()
     {
-        activity.runOnUiThread(() -> complete().subscribeWith(activity.viewer.new PswdSendCompletableObserver()));
-        waitAtMost(2, SECONDS).until(isToastInView(R.string.password_new_in_login, activity));
-        waitAtMost(2, SECONDS).until(isResourceIdDisplayed(loginAcResourceId));
+        onView(withId(R.id.password_send_ac_button)).perform(click());
+        waitAtMost(6, SECONDS).until(isToastInView(R.string.password_new_in_login, activity));
+        waitAtMost(6, SECONDS).until(isResourceIdDisplayed(loginAcResourceId));
     }
 }
