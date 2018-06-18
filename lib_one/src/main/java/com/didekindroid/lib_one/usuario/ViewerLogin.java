@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.didekindroid.lib_one.R;
+import com.didekindroid.lib_one.api.AbsCompletableObserver;
 import com.didekindroid.lib_one.api.Viewer;
 import com.didekindroid.lib_one.api.ViewerIf;
 import com.didekindroid.lib_one.api.router.RouterInitializerIf;
@@ -22,7 +23,6 @@ import java.io.Serializable;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
-import io.reactivex.observers.DisposableCompletableObserver;
 import timber.log.Timber;
 
 import static com.didekindroid.lib_one.usuario.UsuarioBundleKey.login_counter_atomic_int;
@@ -90,17 +90,11 @@ public final class ViewerLogin extends Viewer<View, CtrlerUsuario> {
                     Timber.d("onClick()");
                     if (checkLoginData()) {
                         controller.login(
-                                new DisposableCompletableObserver() {
+                                new AbsCompletableObserver(this) {
                                     @Override
                                     public void onComplete()
                                     {
                                         processLoginBackInView();
-                                    }
-
-                                    @Override
-                                    public void onError(Throwable e)
-                                    {
-                                        processLoginErrorBackInView(e);
                                     }
                                 },
                                 usuarioBean.get().getUsuario()
@@ -199,18 +193,11 @@ public final class ViewerLogin extends Viewer<View, CtrlerUsuario> {
             makeToast(activity, R.string.username_wrong_in_login);
             return;
         }
-        controller.passwordSend(new DisposableCompletableObserver() {
+        controller.passwordSend(new AbsCompletableObserver(this) {
             @Override
             public void onComplete()
             {
                 processBackSendPswdInView();
-            }
-
-            @Override
-            public void onError(Throwable e)
-            {
-                Timber.d("onError, message: %s", e.getMessage());
-                onErrorInObserver(e);
             }
         }, usuario);
     }

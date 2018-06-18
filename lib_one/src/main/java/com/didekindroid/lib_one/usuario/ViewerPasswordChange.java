@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.didekindroid.lib_one.R;
+import com.didekindroid.lib_one.api.AbsCompletableObserver;
 import com.didekindroid.lib_one.api.AbstractSingleObserver;
 import com.didekindroid.lib_one.api.Viewer;
 import com.didekindroid.lib_one.api.exception.UiException;
@@ -16,15 +17,12 @@ import com.didekinlib.model.usuario.Usuario;
 import java.io.Serializable;
 import java.util.concurrent.atomic.AtomicReference;
 
-import io.reactivex.observers.DisposableCompletableObserver;
 import timber.log.Timber;
 
 import static com.didekindroid.lib_one.usuario.UsuarioBundleKey.user_name;
 import static com.didekindroid.lib_one.usuario.router.UserContextName.pswd_just_modified;
 import static com.didekindroid.lib_one.usuario.router.UserContextName.pswd_just_sent_to_user;
-import static com.didekindroid.lib_one.util.CommonAssertionMsg.user_should_be_registered;
 import static com.didekindroid.lib_one.util.ConnectionUtils.isInternetConnected;
-import static com.didekindroid.lib_one.util.UiUtil.assertTrue;
 import static com.didekindroid.lib_one.util.UiUtil.getErrorMsgBuilder;
 import static com.didekindroid.lib_one.util.UiUtil.getUiExceptionFromThrowable;
 import static com.didekindroid.lib_one.util.UiUtil.makeToast;
@@ -89,7 +87,15 @@ public final class ViewerPasswordChange extends Viewer<View, CtrlerUsuario> {
                 v -> {
                     if (checkLoginData()) {
                         controller.passwordChange(
-                                new PswdChangeCompletableObserver(),
+                                new AbsCompletableObserver(this) {
+                                    @Override
+                                    public void onComplete()
+                                    {
+                                        Timber.d("onComplete(), Thread: %s", Thread.currentThread().getName());
+                                        makeToast(activity, R.string.password_remote_change);
+                                        getContextualRouter().getActionFromContextNm(pswd_just_modified).initActivity(activity);
+                                    }
+                                },
                                 oldUserPswd.get(),
                                 usuarioBean.get().getUsuario()
                         );
@@ -100,7 +106,15 @@ public final class ViewerPasswordChange extends Viewer<View, CtrlerUsuario> {
         Button sendPswdButton = view.findViewById(R.id.password_send_ac_button);
         sendPswdButton.setOnClickListener(
                 v -> controller.passwordSend(
-                        new PswdSendCompletableObserver(),
+                        new AbsCompletableObserver(this) {
+                            @Override
+                            public void onComplete()
+                            {
+                                Timber.d("onComplete()");
+                                makeToast(activity, R.string.password_new_in_login);
+                                getContextualRouter().getActionFromContextNm(pswd_just_sent_to_user).initActivity(activity);
+                            }
+                        },
                         new Usuario.UsuarioBuilder().userName(userName.get()).build())
         );
     }
@@ -162,42 +176,5 @@ public final class ViewerPasswordChange extends Viewer<View, CtrlerUsuario> {
                 ((EditText) view.findViewById(R.id.reg_usuario_password_confirm_ediT)).getText().toString(),
                 ((EditText) view.findViewById(R.id.password_validation_ediT)).getText().toString()
         };
-    }
-
-    // ...................... SUBSCRIBERS .........................
-
-    public class PswdChangeCompletableObserver extends DisposableCompletableObserver {
-        @Override
-        public void onComplete()
-        {
-            Timber.d("onComplete(), Thread: %s", Thread.currentThread().getName());
-            makeToast(activity, R.string.password_remote_change);
-            getContextualRouter().getActionFromContextNm(pswd_just_modified).initActivity(activity);
-        }
-
-        @Override
-        public void onError(Throwable e)
-        {
-            Timber.d("onErrorObserver, Thread: %s", Thread.currentThread().getName());
-            onErrorInObserver(e);
-        }
-    }
-
-    class PswdSendCompletableObserver extends DisposableCompletableObserver {
-
-        @Override
-        public void onComplete()
-        {
-            Timber.d("onComplete()");
-            makeToast(activity, R.string.password_new_in_login);
-            getContextualRouter().getActionFromContextNm(pswd_just_sent_to_user).initActivity(activity);
-        }
-
-        @Override
-        public void onError(@NonNull Throwable e)
-        {
-            Timber.d("onError");
-            onErrorInObserver(e);
-        }
     }
 }
