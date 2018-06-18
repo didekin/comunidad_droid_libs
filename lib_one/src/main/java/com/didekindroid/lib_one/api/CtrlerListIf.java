@@ -1,6 +1,7 @@
 package com.didekindroid.lib_one.api;
 
-import android.os.Bundle;
+import java.io.Serializable;
+import java.util.List;
 
 import io.reactivex.observers.DisposableSingleObserver;
 
@@ -10,10 +11,6 @@ import io.reactivex.observers.DisposableSingleObserver;
  * Time: 10:39
  */
 
-public interface CtrlerListIf<E> extends CtrlerSelectListIf {
-    
-    default boolean selectItem(DisposableSingleObserver<Bundle> observer, E item)
-    {
-        throw new UnsupportedOperationException();
-    }
+public interface CtrlerListIf {
+    boolean loadItemsByEntitiyId(DisposableSingleObserver<List<? extends Serializable>> observer, long entityId);
 }
