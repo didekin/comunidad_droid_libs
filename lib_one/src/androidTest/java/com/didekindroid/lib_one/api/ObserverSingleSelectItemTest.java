@@ -1,10 +1,10 @@
 package com.didekindroid.lib_one.api;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.Spinner;
 
 import com.didekindroid.lib_one.api.exception.UiException;
@@ -46,7 +46,7 @@ public class ObserverSingleSelectItemTest {
     @Before
     public void setUp()
     {
-        final AppCompatActivity activity = activityRule.getActivity();
+        final Activity activity = activityRule.getActivity();
         initRouterAll();
 
         activity.runOnUiThread(() -> observer = new ObserverSingleSelectItem<>(

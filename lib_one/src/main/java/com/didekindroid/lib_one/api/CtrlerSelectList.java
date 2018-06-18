@@ -15,7 +15,6 @@ import timber.log.Timber;
  * Time: 14:57
  */
 
-@SuppressWarnings({"AbstractClassNeverImplemented", "AbstractClassExtendsConcreteClass"})
 public abstract class CtrlerSelectList<E extends Serializable> extends Controller implements CtrlerSelectListIf<E> {
 
     public CtrlerSelectList()
