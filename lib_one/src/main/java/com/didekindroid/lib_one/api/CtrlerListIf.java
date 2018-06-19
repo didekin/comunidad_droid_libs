@@ -11,6 +11,6 @@ import io.reactivex.observers.DisposableSingleObserver;
  * Time: 10:39
  */
 
-public interface CtrlerListIf extends ControllerIf {
-    boolean loadItemsByEntitiyId(DisposableSingleObserver<List<? extends Serializable>> observer, long entityId);
+public interface CtrlerListIf<E extends Serializable> extends ControllerIf {
+    boolean loadItemsByEntitiyId(DisposableSingleObserver<List<E>> observer, long entityId);
 }
