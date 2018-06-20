@@ -15,7 +15,7 @@ import static com.didekindroid.lib_one.HttpInitializer.httpInitializer;
  * Date: 21/11/16
  * Time: 19:15
  */
-public final class UserMockDao implements UserMockEndPoints {
+public class UserMockDao implements UserMockEndPoints {
 
     public static final UserMockDao usuarioMockDao = new UserMockDao(httpInitializer.get().getHttpHandler());
     private final UserMockEndPoints endPoint;

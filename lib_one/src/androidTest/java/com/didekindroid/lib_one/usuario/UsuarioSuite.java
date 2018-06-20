@@ -34,7 +34,7 @@ import org.junit.runners.Suite;
         LoginAcTest.class,
         PasswordChangeTest.class,
         UserDataAcTest.class,
-        UsuarioMockDaoTest.class,
+        UserMockDaoTest.class,
         UsuarioBeanTests.class,
         ViewerLoginTest.class,
         ViewerPasswordChangeTest.class,

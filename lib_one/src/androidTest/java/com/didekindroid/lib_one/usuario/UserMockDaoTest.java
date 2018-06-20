@@ -2,6 +2,8 @@ package com.didekindroid.lib_one.usuario;
 
 import android.support.test.runner.AndroidJUnit4;
 
+import com.didekinlib.model.usuariocomunidad.UsuarioComunidad;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,7 +28,7 @@ import static org.junit.Assert.assertThat;
  * Time: 17:34
  */
 @RunWith(AndroidJUnit4.class)
-public class UsuarioMockDaoTest {
+public class UserMockDaoTest {
 
     @Before
     public void setUp()
