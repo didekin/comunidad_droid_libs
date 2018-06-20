@@ -136,15 +136,17 @@ public class UserDataAcTest {
 
     //    =================================  MENU TESTS ==================================
 
+    @SuppressWarnings("RedundantThrows")
     @Test
-    public void testDeleteMeMn()
+    public void testDeleteMeMn() throws InterruptedException
     {
         DELETE_ME_AC.checkItem(activity);
         checkUp(userDataAcRsId);
     }
 
+    @SuppressWarnings("RedundantThrows")
     @Test
-    public void testPasswordChangeMn()
+    public void testPasswordChangeMn() throws InterruptedException
     {
         waitAtMost(6, SECONDS).untilAtomic(activity.viewer.getOldUser(), notNullValue());
         PASSWORD_CHANGE_AC.checkItem(activity);
