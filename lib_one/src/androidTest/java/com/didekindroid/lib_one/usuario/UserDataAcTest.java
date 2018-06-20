@@ -96,7 +96,15 @@ public class UserDataAcTest {
     public void testModifyUserData() throws InterruptedException
     {
         SECONDS.sleep(2);
-        typeClickWait();
+
+        typeUserNameAliasPswd(USER_DROID.getUserName(), "new_alias", user_crodrigo.getPassword());
+        focusOnView(activity, R.id.user_data_modif_button);
+        onView(withId(R.id.user_data_modif_button)).perform(scrollTo(), click());
+        // Exec.
+        onView(withText(R.string.continuar_button_rot)).inRoot(isDialog()).perform(click());
+        // Check.
+        waitAtMost(4, SECONDS).until(isResourceIdDisplayed(loginAcResourceId));
+        intended(hasExtra(user_name.key, USER_DROID.getUserName()));
 
         cleanOneUser(USER_DROID.getUserName());
         skipClean = true;
@@ -128,35 +136,19 @@ public class UserDataAcTest {
 
     //    =================================  MENU TESTS ==================================
 
-    @SuppressWarnings("RedundantThrows")
     @Test
-    public void testDeleteMeMn() throws InterruptedException
+    public void testDeleteMeMn()
     {
         DELETE_ME_AC.checkItem(activity);
         checkUp(userDataAcRsId);
     }
 
-    @SuppressWarnings("RedundantThrows")
     @Test
-    public void testPasswordChangeMn() throws InterruptedException
+    public void testPasswordChangeMn()
     {
         waitAtMost(6, SECONDS).untilAtomic(activity.viewer.getOldUser(), notNullValue());
         PASSWORD_CHANGE_AC.checkItem(activity);
         intended(hasExtra(user_name.key, user_crodrigo.getUserName()));
         checkUp(userDataAcRsId);
-    }
-
-    /*    =================================  HELPERS ==================================*/
-
-    private void typeClickWait()
-    {
-        typeUserNameAliasPswd(USER_DROID.getUserName(), "new_alias", user_crodrigo.getPassword());
-        focusOnView(activity, R.id.user_data_modif_button);
-        onView(withId(R.id.user_data_modif_button)).perform(scrollTo(), click());
-        // Exec.
-        onView(withText(R.string.continuar_button_rot)).inRoot(isDialog()).perform(click());
-        // Check.
-        waitAtMost(4, SECONDS).until(isResourceIdDisplayed(loginAcResourceId));
-        intended(hasExtra(user_name.key, USER_DROID.getUserName()));
     }
 }
