@@ -13,6 +13,7 @@ import android.view.View;
 import com.didekindroid.lib_one.api.ControllerIf;
 import com.didekindroid.lib_one.api.CtrlerSelectListIf;
 import com.didekindroid.lib_one.api.InjectorOfParentViewerIf;
+import com.didekindroid.lib_one.api.SingleObserverMock;
 import com.didekindroid.lib_one.api.ViewerMock;
 import com.didekindroid.lib_one.api.ViewerSelectListIf;
 import com.didekindroid.lib_one.util.BundleKey;
@@ -23,12 +24,9 @@ import java.util.Objects;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.observers.DisposableSingleObserver;
 
 import static android.content.Context.ACTIVITY_SERVICE;
-import static com.didekindroid.lib_one.testutil.RxSchedulersUtils.resetAllSchedulers;
-import static com.didekindroid.lib_one.testutil.RxSchedulersUtils.trampolineReplaceAndroidMain;
-import static com.didekindroid.lib_one.testutil.RxSchedulersUtils.trampolineReplaceIoScheduler;
+import static com.didekindroid.lib_one.testutil.RxSchedulersUtils.execCheckSchedulersTest;
 import static com.didekindroid.lib_one.util.UiUtil.assertTrue;
 
 /**
@@ -82,27 +80,9 @@ public class UiTestUtil {
         return controller.getSubscriptions();
     }
 
-    public static <E extends Serializable> void checkSpinnerCtrlerLoadItems(CtrlerSelectListIf<E> controller, Long... entityId)
+    public static <E extends Serializable> void checkSpinnerCtrlerLoadItems(CtrlerSelectListIf<E> controller, Long... entityId) throws Exception
     {
-        try {
-            trampolineReplaceIoScheduler();
-            trampolineReplaceAndroidMain();
-            assertTrue(controller.loadItemsByEntitiyId(new DisposableSingleObserver<List<E>>() {
-                @Override
-                public void onSuccess(List<E> es)
-                {
-                }
-
-                @Override
-                public void onError(Throwable e)
-                {
-                    throw new AssertionError();
-                }
-            }, entityId), "LoadedItems");
-        } finally {
-            resetAllSchedulers();
-        }
-        assertTrue(controller.getSubscriptions().size() == 1, "subscriptions size OK");
+        execCheckSchedulersTest(ctrler -> ctrler.loadItemsByEntitiyId(new SingleObserverMock<>(), entityId), controller);
     }
 
     //    ============================ MENU ============================

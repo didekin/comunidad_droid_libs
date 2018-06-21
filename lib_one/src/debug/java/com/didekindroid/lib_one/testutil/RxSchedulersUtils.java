@@ -1,6 +1,7 @@
 package com.didekindroid.lib_one.testutil;
 
 import com.didekindroid.lib_one.api.Controller;
+import com.didekindroid.lib_one.api.ControllerIf;
 
 import io.reactivex.android.plugins.RxAndroidPlugins;
 import io.reactivex.functions.Predicate;
@@ -51,7 +52,7 @@ public class RxSchedulersUtils {
         RxAndroidPlugins.reset();
     }
 
-    public static <T extends Controller> void execCheckSchedulersTest(Predicate<T> predicate, T controller) throws Exception
+    public static <T extends ControllerIf> void execCheckSchedulersTest(Predicate<T> predicate, T controller) throws Exception
     {
         try {
             trampolineReplaceIoScheduler();

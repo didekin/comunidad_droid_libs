@@ -54,7 +54,8 @@ public class CtrlerProvinciaSpinner extends CtrlerSelectList<Provincia> {
     {
         Timber.d("loadItemsByEntitiyId()");
         assertTrue(entityId.length > 0, "length should be greater than zero");
-        return getSubscriptions().add(provinciasByComAutonoma(entityId[0].shortValue())
+        return getSubscriptions().add(
+                provinciasByComAutonoma(entityId[0].shortValue())
                 .subscribeOn(io())
                 .observeOn(mainThread())
                 .subscribeWith(observer)

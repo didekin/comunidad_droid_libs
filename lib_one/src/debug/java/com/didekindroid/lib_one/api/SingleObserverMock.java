@@ -24,5 +24,6 @@ public class SingleObserverMock<T> extends DisposableSingleObserver<T> {
     {
         dispose();
         Timber.d("============= %s =============", e.getClass().getName());
+        throw new AssertionError();
     }
 }

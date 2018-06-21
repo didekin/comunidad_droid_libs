@@ -18,8 +18,6 @@ import static io.reactivex.schedulers.Schedulers.io;
  * Date: 03/05/17
  * Time: 10:08
  */
-
-@SuppressWarnings("WeakerAccess")
 public class CtrlerTipoViaSpinner extends CtrlerSelectList<TipoViaValueObj> {
 
     public CtrlerTipoViaSpinner()
