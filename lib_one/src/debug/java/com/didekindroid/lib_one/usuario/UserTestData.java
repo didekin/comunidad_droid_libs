@@ -1,6 +1,5 @@
 package com.didekindroid.lib_one.usuario;
 
-import com.didekindroid.lib_one.api.exception.UiException;
 import com.didekinlib.model.comunidad.Comunidad;
 import com.didekinlib.model.comunidad.ComunidadAutonoma;
 import com.didekinlib.model.comunidad.Municipio;
@@ -15,7 +14,6 @@ import static com.didekindroid.lib_one.usuario.dao.UsuarioDao.usuarioDaoRemote;
 import static com.didekindroid.lib_one.util.UiUtil.assertTrue;
 import static com.didekinlib.http.usuario.TkValidaPatterns.tkEncrypted_direct_symmetricKey_REGEX;
 import static com.didekinlib.model.usuariocomunidad.Rol.PROPIETARIO;
-import static com.google.firebase.iid.FirebaseInstanceId.getInstance;
 
 /**
  * User: pedro@didekin
@@ -80,12 +78,17 @@ public final class UserTestData {
 
     public static String regUserComuWithTkCache(UsuarioComunidad userComuIn)
     {
+        return regUserComuWithGcmTk(userComuIn, "mock_token_for_test");
+    }
+
+    public static String regUserComuWithGcmTk(UsuarioComunidad userComuIn, String gcmToken)
+    {
         UsuarioComunidad userComuWithGcmTk = new UsuarioComunidad.UserComuBuilder
                 (
                         userComuIn.getComunidad(),
                         new Usuario.UsuarioBuilder()
                                 .copyUsuario(userComuIn.getUsuario())
-                                .gcmToken(getInstance().getToken())  // We need this token in the server.
+                                .gcmToken(gcmToken)  // We need this token in the server.
                                 .build()
                 )
                 .userComuRest(userComuIn)
@@ -99,7 +102,7 @@ public final class UserTestData {
                 .blockingGet();
     }
 
-    public static Usuario regGetUserComu(UsuarioComunidad userComuIn) throws UiException
+    public static Usuario regGetUserComu(UsuarioComunidad userComuIn)
     {
         assertTrue(tkEncrypted_direct_symmetricKey_REGEX.isPatternOk(regUserComuWithTkCache(userComuIn)), "authToken not null");
         return usuarioDaoRemote.getUserData().blockingGet();
