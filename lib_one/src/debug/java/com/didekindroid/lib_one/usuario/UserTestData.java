@@ -14,6 +14,7 @@ import static com.didekindroid.lib_one.usuario.dao.UsuarioDao.usuarioDaoRemote;
 import static com.didekindroid.lib_one.util.UiUtil.assertTrue;
 import static com.didekinlib.http.usuario.TkValidaPatterns.tkEncrypted_direct_symmetricKey_REGEX;
 import static com.didekinlib.model.usuariocomunidad.Rol.PROPIETARIO;
+import static com.google.firebase.iid.FirebaseInstanceId.getInstance;
 
 /**
  * User: pedro@didekin
@@ -78,7 +79,7 @@ public final class UserTestData {
 
     public static String regUserComuWithTkCache(UsuarioComunidad userComuIn)
     {
-        return regUserComuWithGcmTk(userComuIn, "mock_token_for_test");
+        return regUserComuWithGcmTk(userComuIn, getInstance().getToken());
     }
 
     public static String regUserComuWithGcmTk(UsuarioComunidad userComuIn, String gcmToken)

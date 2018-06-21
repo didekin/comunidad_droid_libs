@@ -57,6 +57,8 @@ public class ConfidencialidadAcTest {
         @Override
         protected void beforeActivityLaunched()
         {
+            initSec_Http_Router(getTargetContext());
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 stackBuilder = create(getTargetContext()).addParentStack(ConfidencialidadAc.class);
                 stackBuilder.startActivities();
@@ -68,7 +70,6 @@ public class ConfidencialidadAcTest {
     public void setUp()
     {
         activity = activityRule.getActivity();
-        initSec_Http_Router(activity);
     }
 
     @After
