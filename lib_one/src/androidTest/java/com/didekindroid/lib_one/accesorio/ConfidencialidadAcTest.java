@@ -1,5 +1,6 @@
 package com.didekindroid.lib_one.accesorio;
 
+import android.app.Activity;
 import android.app.TaskStackBuilder;
 import android.content.Intent;
 import android.os.Build;
@@ -10,6 +11,7 @@ import com.didekindroid.lib_one.R;
 import com.didekindroid.lib_one.api.ActivityMock;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,7 +31,7 @@ import static com.didekindroid.lib_one.RouterInitializer.routerInitializer;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.checkUp;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.isResourceIdDisplayed;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.isViewDisplayed;
-import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initRouterAll;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http_Router;
 import static com.didekindroid.lib_one.testutil.MockTestConstant.mockAcLayout;
 import static com.didekindroid.lib_one.testutil.UiTestUtil.cleanTasks;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -47,6 +49,7 @@ import static org.junit.Assert.assertThat;
 public class ConfidencialidadAcTest {
 
     private TaskStackBuilder stackBuilder;
+    private Activity activity;
 
     @Rule
     public ActivityTestRule<ConfidencialidadAc> activityRule = new ActivityTestRule<ConfidencialidadAc>(ConfidencialidadAc.class) {
@@ -54,7 +57,6 @@ public class ConfidencialidadAcTest {
         @Override
         protected void beforeActivityLaunched()
         {
-            initRouterAll();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 stackBuilder = create(getTargetContext()).addParentStack(ConfidencialidadAc.class);
                 stackBuilder.startActivities();
@@ -62,11 +64,18 @@ public class ConfidencialidadAcTest {
         }
     };
 
+    @Before
+    public void setUp()
+    {
+        activity = activityRule.getActivity();
+        initSec_Http_Router(activity);
+    }
+
     @After
     public void tearDown()
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            cleanTasks(activityRule.getActivity());
+            cleanTasks(activity);
         }
     }
 

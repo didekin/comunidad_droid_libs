@@ -25,7 +25,7 @@ public class CtrlerNotifyToken extends Controller implements CtrlerNotifyTokenIf
      * @param observer is instantiated by the viewer who calls the controller.
      */
     @Override
-    public boolean modifyGcmTokenSync(DisposableCompletableObserver observer) throws UiException
+    public boolean modifyGcmTokenSync(DisposableCompletableObserver observer)
     {
         Timber.d("modifyGcmTokenSync()");
         return getTkCacher().isRegisteredCache()
