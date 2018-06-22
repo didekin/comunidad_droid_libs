@@ -115,4 +115,12 @@ public class AuthTkCacherTest {
             assertThat(ue.getErrorBean().getMessage(), is(AUTH_HEADER_WRONG.getHttpMessage()));
         }
     }
+
+    @Test
+    public void test_doAuthHeaderMock_1() throws UiException
+    {
+        // Inicializamos todos los datos.
+        tkCacher.updateAuthToken("pepe_authToken");
+        assertThat(tkCacher.doAuthHeaderStrMock("mock_gcm").length() > 0, is(true));
+    }
 }

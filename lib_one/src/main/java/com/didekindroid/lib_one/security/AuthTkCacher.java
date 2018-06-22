@@ -139,6 +139,11 @@ public final class AuthTkCacher implements AuthTkCacherIf {
         return doAuthHeader().getBase64Str();
     }
 
+    public String doAuthHeaderStrMock(String mockGcmTk) throws UiException
+    {
+        return new AuthHeaderDroid(mockGcmTk, authTokenCache.get()).getBase64Str();
+    }
+
     //    ............................ Helpers .................................
 
     AuthHeaderIf doAuthHeader() throws UiException

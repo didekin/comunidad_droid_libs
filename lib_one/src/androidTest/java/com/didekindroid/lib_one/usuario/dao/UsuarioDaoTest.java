@@ -83,7 +83,7 @@ public class UsuarioDaoTest {
     }
 
     @Test
-    public void testGetGcmToken() throws UiException
+    public void testGetGcmToken()
     {
         whatClean = CLEAN_RODRIGO;
 
@@ -114,7 +114,7 @@ public class UsuarioDaoTest {
     }
 
     @Test
-    public void testLogin_2() throws InterruptedException, UiException
+    public void testLogin_2() throws InterruptedException
     {
         whatClean = CLEAN_RODRIGO;
         Usuario userDb = regGetUserComu(comu_real_rodrigo);
@@ -127,7 +127,7 @@ public class UsuarioDaoTest {
     }
 
     @Test
-    public void testmodifyGcmToken() throws InterruptedException, UiException
+    public void testmodifyGcmToken() throws InterruptedException
     {
         whatClean = CLEAN_RODRIGO;
         Usuario userDb = regGetUserComu(comu_real_rodrigo);
@@ -139,7 +139,7 @@ public class UsuarioDaoTest {
     }
 
     @Test
-    public void testmodifyAlias() throws UiException
+    public void testmodifyAlias()
     {
         whatClean = CLEAN_RODRIGO;
 
@@ -153,7 +153,7 @@ public class UsuarioDaoTest {
     }
 
     @Test
-    public void testmodifyUserName() throws InterruptedException, UiException
+    public void testmodifyUserName() throws InterruptedException
     {
         Usuario usuarioIn = new Usuario.UsuarioBuilder()
                 .copyUsuario(regGetUserComu(comu_real_rodrigo))
@@ -167,7 +167,7 @@ public class UsuarioDaoTest {
     }
 
     @Test
-    public void testPasswordChange() throws InterruptedException, UiException
+    public void testPasswordChange() throws InterruptedException
     {
         whatClean = CLEAN_RODRIGO;
 
