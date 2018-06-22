@@ -23,7 +23,7 @@ import static com.didekindroid.lib_one.usuario.UserTestData.USER_DROID;
 import static com.didekindroid.lib_one.usuario.UserTestData.cleanOptions;
 import static com.didekindroid.lib_one.usuario.UserTestData.comu_real_rodrigo;
 import static com.didekindroid.lib_one.usuario.UserTestData.regGetUserComu;
-import static com.didekindroid.lib_one.usuario.UserTestData.regUserComuWithTkCache;
+import static com.didekindroid.lib_one.usuario.UserTestData.regUserComuGetAuthTk;
 import static com.didekindroid.lib_one.usuario.UserTestData.user_crodrigo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -62,21 +62,21 @@ public class CtrlerUsuario_Test {
     {
         whatClean = CLEAN_NOTHING;
 
-        assertThat(regUserComuWithTkCache(comu_real_rodrigo), notNullValue());
+        assertThat(regUserComuGetAuthTk(comu_real_rodrigo), notNullValue());
         execCheckSchedulersTest(ctrler -> ctrler.deleteMe(new CompletableObserverMock()), controller);
     }
 
     @Test
     public void testGetUserData() throws Exception
     {
-        assertThat(regUserComuWithTkCache(comu_real_rodrigo), notNullValue());
+        assertThat(regUserComuGetAuthTk(comu_real_rodrigo), notNullValue());
         execCheckSchedulersTest(ctrler -> ctrler.getUserData(new SingleObserverMock<>()), controller);
     }
 
     @Test
     public void testLogin() throws Exception
     {
-        assertThat(regUserComuWithTkCache(comu_real_rodrigo), notNullValue());
+        assertThat(regUserComuGetAuthTk(comu_real_rodrigo), notNullValue());
         execCheckSchedulersTest(ctrler -> ctrler.login(new CompletableObserverMock(), user_crodrigo), controller);
     }
 

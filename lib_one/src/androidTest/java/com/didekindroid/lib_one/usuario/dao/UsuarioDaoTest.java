@@ -23,7 +23,7 @@ import static com.didekindroid.lib_one.usuario.UserTestData.cleanOneUser;
 import static com.didekindroid.lib_one.usuario.UserTestData.cleanOptions;
 import static com.didekindroid.lib_one.usuario.UserTestData.comu_real_rodrigo;
 import static com.didekindroid.lib_one.usuario.UserTestData.regGetUserComu;
-import static com.didekindroid.lib_one.usuario.UserTestData.regUserComuWithTkCache;
+import static com.didekindroid.lib_one.usuario.UserTestData.regUserComuGetAuthTk;
 import static com.didekindroid.lib_one.usuario.UserTestData.user_crodrigo;
 import static com.didekindroid.lib_one.usuario.dao.UsuarioDao.usuarioDaoRemote;
 import static com.didekinlib.http.usuario.TkValidaPatterns.tkEncrypted_direct_symmetricKey_REGEX;
@@ -67,7 +67,7 @@ public class UsuarioDaoTest {
     public void testDeleteUser_1()
     {
         /*Inserta userComu, comunidad, usuariocomunidad y actuliza tokenCache.*/
-        assertThat(regUserComuWithTkCache(comu_real_rodrigo), notNullValue());
+        assertThat(regUserComuGetAuthTk(comu_real_rodrigo), notNullValue());
         // Exec, check.
         usuarioDaoRemote.deleteUser().test();
         assertThat(tkCacher.isRegisteredCache(), is(false));
@@ -97,7 +97,7 @@ public class UsuarioDaoTest {
         whatClean = CLEAN_RODRIGO;
 
         //Inserta userComu, comunidad, usuariocomunidad y actuliza tokenCache.
-        assertThat(regUserComuWithTkCache(comu_real_rodrigo), notNullValue());
+        assertThat(regUserComuGetAuthTk(comu_real_rodrigo), notNullValue());
         usuarioDaoRemote.getUserData().test()
                 .assertOf(tester -> assertThat(tester.values().get(0).getUserName(), is(user_crodrigo.getUserName())));
     }
@@ -183,7 +183,7 @@ public class UsuarioDaoTest {
     public void test_PasswordSend()
     {
         whatClean = CLEAN_RODRIGO;
-        regUserComuWithTkCache(comu_real_rodrigo);
+        regUserComuGetAuthTk(comu_real_rodrigo);
         usuarioDaoRemote.passwordSend(user_crodrigo.getUserName()).test().assertComplete();
         assertThat(tkCacher.getAuthToken(), nullValue());
     }

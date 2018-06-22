@@ -29,7 +29,7 @@ import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http
 import static com.didekindroid.lib_one.usuario.UserTestData.CleanUserEnum.CLEAN_RODRIGO;
 import static com.didekindroid.lib_one.usuario.UserTestData.cleanOptions;
 import static com.didekindroid.lib_one.usuario.UserTestData.comu_real_rodrigo;
-import static com.didekindroid.lib_one.usuario.UserTestData.regUserComuWithTkCache;
+import static com.didekindroid.lib_one.usuario.UserTestData.regUserComuGetAuthTk;
 import static com.didekindroid.lib_one.usuario.UserTestData.user_crodrigo;
 import static com.didekindroid.lib_one.usuario.UserTestNavigation.loginAcResourceId;
 import static com.didekindroid.lib_one.usuario.UsuarioBundleKey.user_name;
@@ -60,7 +60,7 @@ public class LoginAcTest {
         {
             initSec_Http_Router(getTargetContext());
             try {
-                regUserComuWithTkCache(comu_real_rodrigo);
+                regUserComuGetAuthTk(comu_real_rodrigo);
             } catch (Exception e) {
                 fail();
             }

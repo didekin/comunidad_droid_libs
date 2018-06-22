@@ -77,12 +77,12 @@ public final class UserTestData {
 
     // =========================  Register methods =========================
 
-    public static String regUserComuWithTkCache(UsuarioComunidad userComuIn)
+    public static String regUserComuGetAuthTk(UsuarioComunidad userComuIn)
     {
-        return regUserComuWithGcmTk(userComuIn, getInstance().getToken());
+        return regUserComuWithMockGcm(userComuIn, getInstance().getToken());
     }
 
-    public static String regUserComuWithGcmTk(UsuarioComunidad userComuIn, String gcmToken)
+    public static String regUserComuWithMockGcm(UsuarioComunidad userComuIn, String gcmToken)
     {
         UsuarioComunidad userComuWithGcmTk = new UsuarioComunidad.UserComuBuilder
                 (
@@ -105,7 +105,7 @@ public final class UserTestData {
 
     public static Usuario regGetUserComu(UsuarioComunidad userComuIn)
     {
-        assertTrue(tkEncrypted_direct_symmetricKey_REGEX.isPatternOk(regUserComuWithTkCache(userComuIn)), "authToken not null");
+        assertTrue(tkEncrypted_direct_symmetricKey_REGEX.isPatternOk(regUserComuGetAuthTk(userComuIn)), "authToken not null");
         return usuarioDaoRemote.getUserData().blockingGet();
 
     }
