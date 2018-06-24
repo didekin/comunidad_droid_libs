@@ -171,6 +171,12 @@ public final class UiUtil {
         return timeCalendar;
     }
 
+    public static long getTimeMillisFromCalendarAdd(int calendarField, int unitsToAdd){
+        Calendar nowCalendar = Calendar.getInstance();
+        nowCalendar.add(calendarField, unitsToAdd);
+        return nowCalendar.getTimeInMillis();
+    }
+
     //    ================================== EXCEPTIONS ===================================
 
     public static StringBuilder getErrorMsgBuilder(Context context)

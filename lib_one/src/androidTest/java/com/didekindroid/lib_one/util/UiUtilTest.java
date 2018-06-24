@@ -25,6 +25,7 @@ import static com.didekindroid.lib_one.util.UiUtil.formatDoubleZeroDecimal;
 import static com.didekindroid.lib_one.util.UiUtil.formatTimeStampToString;
 import static com.didekindroid.lib_one.util.UiUtil.formatTimeToString;
 import static com.didekindroid.lib_one.util.UiUtil.getIntFromStringDecimal;
+import static com.didekindroid.lib_one.util.UiUtil.getTimeMillisFromCalendarAdd;
 import static java.text.DateFormat.LONG;
 import static java.text.DateFormat.MEDIUM;
 import static java.text.DateFormat.getDateInstance;
@@ -48,6 +49,20 @@ public class UiUtilTest {
     public void setUp()
     {
         context = getContext();
+    }
+
+    //    ================================ DATA FORMATS ==========================================
+
+    @SuppressWarnings("deprecation")
+    private Locale getLocale()
+    {
+        Locale locale;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            locale = context.getResources().getConfiguration().getLocales().get(0);
+        } else {
+            locale = context.getResources().getConfiguration().locale;
+        }
+        return locale;
     }
 
     @Test
@@ -154,6 +169,8 @@ public class UiUtilTest {
         }
     }
 
+    //    ================================ DATES ==========================================
+
     @TargetApi(Build.VERSION_CODES.KITKAT)
     @Test
     public void testCalendarTime()
@@ -164,15 +181,12 @@ public class UiUtilTest {
         assertThat(Long.compare(date1.getTime(), calendar1.getTimeInMillis()) < 0, is(true));
     }
 
-    @SuppressWarnings("deprecation")
-    private Locale getLocale()
+    @Test
+    public void test_GetTimeMillisFromCalendarAdd()
     {
-        Locale locale;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            locale = context.getResources().getConfiguration().getLocales().get(0);
-        } else {
-            locale = context.getResources().getConfiguration().locale;
-        }
-        return locale;
+        long time1 = getTimeMillisFromCalendarAdd(Calendar.SECOND, 10);
+        long time2 = getTimeMillisFromCalendarAdd(Calendar.SECOND, 5);
+        long timeDiff = (time1 - time2)/1000; // seconds.
+        assertThat(timeDiff > 0 && timeDiff <= 5, is(true));
     }
 }
