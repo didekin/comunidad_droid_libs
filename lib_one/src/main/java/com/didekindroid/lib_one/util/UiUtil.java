@@ -171,7 +171,7 @@ public final class UiUtil {
         return timeCalendar;
     }
 
-    public static long getTimeMillisFromCalendarAdd(int calendarField, int unitsToAdd){
+    public static long getMilliSecondsFromCalendarAdd(int calendarField, int unitsToAdd){
         Calendar nowCalendar = Calendar.getInstance();
         nowCalendar.add(calendarField, unitsToAdd);
         return nowCalendar.getTimeInMillis();

@@ -25,7 +25,7 @@ import static com.didekindroid.lib_one.util.UiUtil.formatDoubleZeroDecimal;
 import static com.didekindroid.lib_one.util.UiUtil.formatTimeStampToString;
 import static com.didekindroid.lib_one.util.UiUtil.formatTimeToString;
 import static com.didekindroid.lib_one.util.UiUtil.getIntFromStringDecimal;
-import static com.didekindroid.lib_one.util.UiUtil.getTimeMillisFromCalendarAdd;
+import static com.didekindroid.lib_one.util.UiUtil.getMilliSecondsFromCalendarAdd;
 import static java.text.DateFormat.LONG;
 import static java.text.DateFormat.MEDIUM;
 import static java.text.DateFormat.getDateInstance;
@@ -182,10 +182,10 @@ public class UiUtilTest {
     }
 
     @Test
-    public void test_GetTimeMillisFromCalendarAdd()
+    public void test_GetMilliSecondsFromCalendarAdd()
     {
-        long time1 = getTimeMillisFromCalendarAdd(Calendar.SECOND, 10);
-        long time2 = getTimeMillisFromCalendarAdd(Calendar.SECOND, 5);
+        long time1 = getMilliSecondsFromCalendarAdd(Calendar.SECOND, 10);
+        long time2 = getMilliSecondsFromCalendarAdd(Calendar.SECOND, 5);
         long timeDiff = (time1 - time2)/1000; // seconds.
         assertThat(timeDiff > 0 && timeDiff <= 5, is(true));
     }
