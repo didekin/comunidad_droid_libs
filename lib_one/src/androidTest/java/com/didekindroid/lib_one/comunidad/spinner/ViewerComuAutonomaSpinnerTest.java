@@ -44,6 +44,7 @@ import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.AFTER_
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.BEFORE_METHOD_EXEC;
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initRouterAll;
 import static com.didekindroid.lib_one.testutil.UiTestUtil.checkSavedStateWithItemSelected;
+import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.waitAtMost;
 import static org.hamcrest.CoreMatchers.allOf;
@@ -150,6 +151,23 @@ public class ViewerComuAutonomaSpinnerTest {
     }
 
     @Test
+    public void test_getSelectedPositionFromItemId()
+    {
+        final List<ComunidadAutonoma> autonomas = asList(
+                new ComunidadAutonoma((short) 22, "comuAut22"),
+                new ComunidadAutonoma((short) 33, "comuAut33"),
+                new ComunidadAutonoma((short) 11, "comuAut11")
+        );
+
+        viewer.setSelectedItemId(33);
+        activity.runOnUiThread(() -> {
+            viewer.onSuccessLoadItemList(autonomas);
+            // Exec and check.
+            assertThat(viewer.getSelectedPositionFromItemId(viewer.getBeanIdFunction()), is(1));   // id 33
+        });
+    }
+
+    @Test
     public void testComuAutonomaSelectedListener()
     {
         // Initial state.
@@ -164,7 +182,7 @@ public class ViewerComuAutonomaSpinnerTest {
         assertThat(viewer.getViewInViewer().getCount(), is(NUMBER_RECORDS));
         // Initialize itemId.
         assertThat(viewer.getSelectedItemId(), is(9L));
-        assertThat(viewer.getSelectedPositionFromItemId(viewer.getSelectedItemId()), is(9));
+        assertThat(viewer.getSelectedPositionFromItemId(viewer.getBeanIdFunction()), is(9));
         // Call to SpinnerEventListener.doOnClickItemId()
         waitAtMost(4, SECONDS).untilAtomic(flagLocalExec, is(AFTER_METHOD_EXEC_B));
         flagLocalExec.compareAndSet(AFTER_METHOD_EXEC_B, BEFORE_METHOD_EXEC);

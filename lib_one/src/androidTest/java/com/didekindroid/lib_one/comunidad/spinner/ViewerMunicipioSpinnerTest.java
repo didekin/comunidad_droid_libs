@@ -74,7 +74,7 @@ public class ViewerMunicipioSpinnerTest {
             spinner = activity.findViewById(R.id.municipio_spinner);
             viewer = newViewerMunicipioSpinner(spinner, activity, null);
         });
-        waitAtMost(2, SECONDS).until(() -> viewer != null);
+        waitAtMost(4, SECONDS).until(() -> viewer != null);
     }
 
     @Test
@@ -99,9 +99,8 @@ public class ViewerMunicipioSpinnerTest {
         viewer.spinnerEvent = new MunicipioSpinnerEventItemSelect(new Municipio((short) 33, new Provincia((short) 2)));
         viewer.initSelectedItemId(bundle);
         assertThat(viewer.getSelectedItemId(), is(22L));
-        // Case 3: initialization in municipioIn
-        bundle = null;
-        viewer.initSelectedItemId(bundle);
+        // Case 3: initialization only in municipioIn
+        viewer.initSelectedItemId(null);
         assertThat(viewer.getSelectedItemId(), is(33L));
     }
 
@@ -113,12 +112,11 @@ public class ViewerMunicipioSpinnerTest {
                 new Municipio((short) 33, new Provincia((short) 1)),
                 new Municipio((short) 22, new Provincia((short) 2)));
 
+        viewer.setSelectedItemId(33);
+
         activity.runOnUiThread(() -> {
             viewer.onSuccessLoadItemList(municipios);
-            assertThat(viewer.getSelectedPositionFromItemId(11L), is(0));
-            assertThat(viewer.getSelectedPositionFromItemId(33L), is(1));
-            assertThat(viewer.getSelectedPositionFromItemId(22L), is(2));
-            assertThat(viewer.getSelectedPositionFromItemId(122L), is(0));
+            assertThat(viewer.getSelectedPositionFromItemId(viewer.getBeanIdFunction()), is(1));   // id 33
         });
     }
 

@@ -15,6 +15,7 @@ import com.didekinlib.model.comunidad.Provincia;
 
 import java.io.Serializable;
 
+import io.reactivex.functions.Function;
 import timber.log.Timber;
 
 import static com.didekindroid.lib_one.comunidad.spinner.ComunidadSpinnerKey.PROVINCIA_ID;
@@ -62,23 +63,9 @@ public final class ViewerProvinciaSpinner extends
     }
 
     @Override
-    public int getSelectedPositionFromItemId(long itemId)
+    public Function<Provincia, Long> getBeanIdFunction()
     {
-        Timber.d("getSelectedPositionFromItemId()");
-        int position = 0;
-        boolean isFound = false;
-        if (itemId > 0L) {
-            short provinciaInId;
-            do {
-                provinciaInId = ((Provincia) view.getItemAtPosition(position)).getProvinciaId();
-                if (provinciaInId == (short) itemId) {
-                    isFound = true;
-                    break;
-                }
-            } while (++position < view.getCount());
-        }
-        // Si no encontramos la comuidad, index = 0.
-        return isFound ? position : 0;
+        return provincia -> (long) provincia.getProvinciaId();
     }
 
     // ==================================== ViewerIf ====================================

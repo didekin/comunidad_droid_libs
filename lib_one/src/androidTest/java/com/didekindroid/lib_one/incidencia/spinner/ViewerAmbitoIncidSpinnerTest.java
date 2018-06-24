@@ -10,8 +10,8 @@ import com.didekindroid.lib_one.api.ActivityMock;
 import com.didekindroid.lib_one.api.SpinnerTextMockFr;
 import com.didekindroid.lib_one.api.ViewerMock;
 import com.didekindroid.lib_one.incidencia.IncidenciaBean;
-import com.didekindroid.lib_one.security.MySecInitializerMock;
 import com.didekindroid.lib_one.security.AuthTkCacher;
+import com.didekindroid.lib_one.security.MySecInitializerMock;
 
 import org.hamcrest.CoreMatchers;
 import org.junit.Before;
@@ -21,7 +21,6 @@ import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 import io.reactivex.observers.DisposableSingleObserver;
@@ -84,23 +83,19 @@ public class ViewerAmbitoIncidSpinnerTest {
     }
 
     @Test
-    public void testOnSuccessLoadItems()
+    public void test_getSelectedPositionFromItemId()
     {
         final List<AmbitoIncidValueObj> ambitos = new ArrayList<>(3);
-        ambitos.add(new AmbitoIncidValueObj((short) 0, "ambito0"));
-        ambitos.add(new AmbitoIncidValueObj((short) 1, "ambito1"));
-        ambitos.add(new AmbitoIncidValueObj((short) 2, "ambito2"));
-        viewer.setSelectedItemId(1);
+        ambitos.add(new AmbitoIncidValueObj((short) 33, "ambito0"));
+        ambitos.add(new AmbitoIncidValueObj((short) 22, "ambito1"));
+        ambitos.add(new AmbitoIncidValueObj((short) 11, "ambito2"));
 
-        final AtomicBoolean isExec = new AtomicBoolean(false);
+        viewer.setSelectedItemId(33L);
         activity.runOnUiThread(() -> {
             viewer.onSuccessLoadItemList(ambitos);
-            isExec.compareAndSet(false, true);
+            // Exec and check.
+            assertThat(viewer.getSelectedPositionFromItemId(viewer.getBeanIdFunction()), is(0));   // id 333
         });
-        waitAtMost(2, SECONDS).untilTrue(isExec);
-        assertThat(viewer.getViewInViewer().getAdapter().getCount(), is(ambitos.size()));
-        assertThat(ViewerAmbitoIncidSpinner.class.cast(viewer).getViewInViewer().getSelectedItemId(), is(1L));
-        assertThat(ViewerAmbitoIncidSpinner.class.cast(viewer).getViewInViewer().getSelectedItemPosition(), is(1));
     }
 
     @Test

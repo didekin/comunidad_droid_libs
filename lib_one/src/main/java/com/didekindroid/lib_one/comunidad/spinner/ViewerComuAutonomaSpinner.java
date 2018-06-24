@@ -15,6 +15,7 @@ import com.didekinlib.model.comunidad.ComunidadAutonoma;
 
 import java.io.Serializable;
 
+import io.reactivex.functions.Function;
 import timber.log.Timber;
 
 import static com.didekindroid.lib_one.comunidad.spinner.ComunidadSpinnerKey.COMUNIDAD_AUTONOMA_ID;
@@ -61,6 +62,12 @@ public final class ViewerComuAutonomaSpinner extends
         } else {
             itemSelectedId = spinnerEvent.getSpinnerItemIdSelect();
         }
+    }
+
+    @Override
+    public Function<ComunidadAutonoma, Long> getBeanIdFunction()
+    {
+        return comunidadAutonoma -> (long) comunidadAutonoma.getCuId();
     }
 
     // ==================================== ViewerIf ====================================

@@ -15,6 +15,7 @@ import com.didekindroid.lib_one.api.ViewerSelectList;
 import java.io.Serializable;
 import java.util.List;
 
+import io.reactivex.functions.Function;
 import timber.log.Timber;
 
 import static com.didekindroid.lib_one.comunidad.spinner.ComunidadSpinnerKey.TIPO_VIA_ID;
@@ -53,6 +54,12 @@ public final class ViewerTipoViaSpinner extends
         } else {
             itemSelectedId = 0;
         }
+    }
+
+    @Override
+    public Function<TipoViaValueObj, Long> getBeanIdFunction()
+    {
+        return tipoViaValueObj1 -> (long) tipoViaValueObj1.getPk();
     }
 
     @Override

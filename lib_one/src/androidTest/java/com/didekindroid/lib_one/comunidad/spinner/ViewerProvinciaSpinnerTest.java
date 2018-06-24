@@ -113,8 +113,7 @@ public class ViewerProvinciaSpinnerTest {
         viewer.initSelectedItemId(bundle);
         assertThat(viewer.getSelectedItemId(), is(23L));
         // Case 3: initialization in comunidadBean
-        bundle = null;
-        viewer.initSelectedItemId(bundle);
+        viewer.initSelectedItemId(null);
         assertThat(viewer.getSelectedItemId(), is(57L));
     }
 
@@ -124,13 +123,12 @@ public class ViewerProvinciaSpinnerTest {
         final List<Provincia> provincias =
                 asList(new Provincia((short) 22, "provincia_0"),
                         new Provincia((short) 11, "provincia_1"),
-                        new Provincia((short) 33, "provincia_2"));
+                        new Provincia((short) 57, "provincia_2"));
+
+        viewer.setSelectedItemId(57);
         activity.runOnUiThread(() -> {
             viewer.onSuccessLoadItemList(provincias);
-            assertThat(viewer.getSelectedPositionFromItemId(11L), is(1));
-            assertThat(viewer.getSelectedPositionFromItemId(22L), is(0));
-            assertThat(viewer.getSelectedPositionFromItemId(33L), is(2));
-            assertThat(viewer.getSelectedPositionFromItemId(122L), is(0));
+            assertThat(viewer.getSelectedPositionFromItemId(viewer.getBeanIdFunction()), is(2));   // id 57
         });
     }
 

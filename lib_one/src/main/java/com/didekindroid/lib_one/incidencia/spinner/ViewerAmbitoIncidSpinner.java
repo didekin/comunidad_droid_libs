@@ -14,6 +14,7 @@ import com.didekindroid.lib_one.incidencia.IncidenciaBean;
 
 import java.io.Serializable;
 
+import io.reactivex.functions.Function;
 import timber.log.Timber;
 
 import static com.didekindroid.lib_one.incidencia.spinner.IncidenciaSpinnerKey.AMBITO_INCIDENCIA_POSITION;
@@ -56,6 +57,12 @@ public final class ViewerAmbitoIncidSpinner extends
         }
     }
 
+    @Override
+    public Function<AmbitoIncidValueObj, Long> getBeanIdFunction()
+    {
+        return ambitoIncidValueObj -> (long) ambitoIncidValueObj.id;
+    }
+
     // ==================================== ViewerIf ====================================
 
     @SuppressWarnings("ConstantConditions")
@@ -84,6 +91,7 @@ public final class ViewerAmbitoIncidSpinner extends
             savedState.putLong(AMBITO_INCIDENCIA_POSITION.key, itemSelectedId);
         }
     }
+
 
     //  ===================================== HELPERS ============================================
 

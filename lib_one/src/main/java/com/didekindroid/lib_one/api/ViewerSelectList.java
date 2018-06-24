@@ -11,6 +11,7 @@ import com.didekindroid.lib_one.R;
 import java.io.Serializable;
 import java.util.List;
 
+import io.reactivex.functions.Function;
 import timber.log.Timber;
 
 /**
@@ -65,10 +66,28 @@ public abstract class ViewerSelectList<T extends AdapterView<? super ArrayAdapte
     }
 
     @Override
-    public int getSelectedPositionFromItemId(long itemId)
+    public int getSelectedPositionFromItemId(Function<E, Long> beanIdFunc)
     {
         Timber.d("getSelectedPositionFromItemId()");
-        return (int) itemId;
+        int position = 0;
+        boolean isFound = false;
+        if (itemSelectedId > 0L) {
+            long beanId;
+            do {
+                try {
+                    //noinspection unchecked
+                    beanId = beanIdFunc.apply((E) view.getItemAtPosition(position));
+                    if (beanId == itemSelectedId) {
+                        isFound = true;
+                        break;
+                    }
+                } catch (Exception e) {
+                    Timber.e(e);
+                }
+            } while (++position < view.getCount());
+        }
+        // Si no encontramos la comuidad, index = 0.
+        return isFound ? position : 0;
     }
 
     @Override
@@ -78,7 +97,7 @@ public abstract class ViewerSelectList<T extends AdapterView<? super ArrayAdapte
         ArrayAdapter<E> adapter = getArrayAdapterForSpinner(activity);
         adapter.addAll(itemsList);
         view.setAdapter(adapter);
-        view.setSelection(getSelectedPositionFromItemId(itemSelectedId));
+        view.setSelection(getSelectedPositionFromItemId(getBeanIdFunction()));
     }
 
     @Override

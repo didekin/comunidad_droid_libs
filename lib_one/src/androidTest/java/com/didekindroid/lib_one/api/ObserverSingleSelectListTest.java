@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 import io.reactivex.Single;
+import io.reactivex.functions.Function;
 
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.AFTER_METHOD_EXEC_A;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.AFTER_METHOD_WITH_EXCEPTION_EXEC;
@@ -56,6 +57,12 @@ public class ObserverSingleSelectListTest {
                             @Override
                             public void initSelectedItemId(Bundle savedState)
                             {
+                            }
+
+                            @Override
+                            public Function<String, Long> getBeanIdFunction()
+                            {
+                                throw new UnsupportedOperationException();
                             }
 
                             @Override

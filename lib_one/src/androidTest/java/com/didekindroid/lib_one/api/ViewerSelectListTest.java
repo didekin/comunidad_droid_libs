@@ -14,13 +14,17 @@ import org.junit.Test;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initRouterAll;
+import io.reactivex.functions.Function;
+
+import static android.support.test.InstrumentationRegistry.getTargetContext;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http_Router;
 import static com.didekindroid.lib_one.usuario.UserTestData.USER_DROID;
 import static com.didekindroid.lib_one.usuario.UserTestData.USER_JUAN;
 import static com.didekindroid.lib_one.usuario.UserTestData.user_crodrigo;
 import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.waitAtMost;
+import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
@@ -36,28 +40,34 @@ public class ViewerSelectListTest {
     public IntentsTestRule<ActivityMock> activityRule = new IntentsTestRule<>(ActivityMock.class, true, true);
 
     private ActivityMock activity;
-    private ViewerSelectList<Spinner, CtrlerSelectList<String>, String> viewer;
-    private ViewerSelectList<Spinner, CtrlerSelectList<Usuario>, Usuario> viewerUser;
+    private ViewerSelectList<Spinner, CtrlerSelectList<Usuario>, Usuario> viewer;
 
     @Before
     public void setUp()
     {
         activity = activityRule.getActivity();
-        initRouterAll();
+        initSec_Http_Router(getTargetContext());
 
-        activity.runOnUiThread(() -> viewer = new ViewerSelectList<Spinner, CtrlerSelectList<String>, String>(new Spinner(activity), activity, null) {
-            @Override
-            public void initSelectedItemId(Bundle savedState)
-            {
-            }
-        });
+        activity.runOnUiThread(() ->
+                viewer = new ViewerSelectList<Spinner, CtrlerSelectList<Usuario>, Usuario>(new Spinner(activity), activity, null) {
+                    @Override
+                    public void initSelectedItemId(Bundle savedState)
+                    {
+                    }
+
+                    @Override
+                    public Function<Usuario, Long> getBeanIdFunction()
+                    {
+                        return Usuario::getuId;
+                    }
+                });
         waitAtMost(2, SECONDS).until(() -> viewer != null);
     }
 
     @Test
     public void testGetArrayAdapterForSpinner()
     {
-        ArrayAdapter<String> adapter = viewer.getArrayAdapterForSpinner(activity);
+        ArrayAdapter<Usuario> adapter = viewer.getArrayAdapterForSpinner(activity);
         assertThat(adapter, notNullValue());
         assertThat(adapter.getCount(), is(0));
     }
@@ -70,64 +80,49 @@ public class ViewerSelectListTest {
     }
 
     @Test
-    public void testGetSelectedViewFromItemId()
+    public void test_getSelectedPositionFromItemId()
     {
-        viewer.setSelectedItemId(111L);
-        assertThat(viewer.getSelectedPositionFromItemId(111L), is(111));
-    }
-
-    @Test
-    public void test_OnSuccessLoadItemList_1()
-    {
-        final List<String> stringList = asList("string22", "string11", "string44", "string33");
-        long itemSelected = 1;
-        viewer.setSelectedItemId(itemSelected);
-
-        final AtomicBoolean isExec = new AtomicBoolean(false);
-        activity.runOnUiThread(() -> {
-            viewer.onSuccessLoadItemList(stringList);
-            isExec.compareAndSet(false, true);
-        });
-        waitAtMost(4, SECONDS).untilTrue(isExec);
-        assertThat(viewer.getViewInViewer().getAdapter().getCount(), is(stringList.size()));
-        assertThat(viewer.getViewInViewer().getSelectedItemId(), is(itemSelected));
-        assertThat(viewer.getViewInViewer().getSelectedItemPosition(), is((int) itemSelected));
-    }
-
-    @Test
-    public void test_OnSuccessLoadItemList_2()
-    {
-        activity.runOnUiThread(() ->
-                viewerUser = new ViewerSelectList<Spinner, CtrlerSelectList<Usuario>, Usuario>(new Spinner(activity), activity, null) {
-                    @Override
-                    public void initSelectedItemId(Bundle savedState)
-                    {
-                    }
-                });
-        waitAtMost(2, SECONDS).until(() -> viewerUser != null);
-
-
         final List<Usuario> usuarios = asList(
                 new Usuario.UsuarioBuilder().copyUsuario(user_crodrigo).uId(111L).build(),
                 new Usuario.UsuarioBuilder().copyUsuario(USER_DROID).uId(222L).build(),
                 new Usuario.UsuarioBuilder().copyUsuario(USER_JUAN).uId(333L).build());
 
-        long itemSelected = 2;
-        viewerUser.setSelectedItemId(itemSelected);
+        viewer.setSelectedItemId(333L);
+        activity.runOnUiThread(() -> {
+            viewer.onSuccessLoadItemList(usuarios);
+            // Exec and check.
+            assertThat(viewer.getSelectedPositionFromItemId(viewer.getBeanIdFunction()), is(2));   // id 333
+        });
+    }
 
+    @Test
+    public void test_OnSuccessLoadItemList() throws Exception
+    {
+        final List<Usuario> usuarios = asList(
+                new Usuario.UsuarioBuilder().copyUsuario(user_crodrigo).uId(111L).build(),
+                new Usuario.UsuarioBuilder().copyUsuario(USER_DROID).uId(222L).build(),
+                new Usuario.UsuarioBuilder().copyUsuario(USER_JUAN).uId(333L).build());
+
+        viewer.setSelectedItemId(222L);
+        int itemIdPosition = 1;
+
+        // Exec and check.
         final AtomicBoolean isExec = new AtomicBoolean(false);
         activity.runOnUiThread(() -> {
-            viewerUser.onSuccessLoadItemList(usuarios);
+            viewer.onSuccessLoadItemList(usuarios);
             isExec.compareAndSet(false, true);
         });
         waitAtMost(4, SECONDS).untilTrue(isExec);
+        assertThat(viewer.getViewInViewer().getAdapter().getCount(), is(usuarios.size()));
 
-        assertThat(viewerUser.getViewInViewer().getAdapter().getCount(), is(usuarios.size()));
-        // ListView.getSelectedItemId() returns the same as ListView.getSelectedItemPosition(), not the pk if such a field exists in the object.
-        assertThat(viewerUser.getViewInViewer().getSelectedItemId(), is(itemSelected));
-        assertThat(viewerUser.getViewInViewer().getSelectedItemPosition(), is((int) itemSelected));
-        // To get the itemId:
-        assertThat(Usuario.class.cast(viewerUser.getViewInViewer().getItemAtPosition((int) itemSelected)).getuId(),
-                is(333L));
+        // ListView.getSelectedItemId() and ListView.getSelectedItemPosition() return position.
+        assertThat(viewer.getSelectedPositionFromItemId(viewer.getBeanIdFunction()), allOf(
+                is((int) viewer.getViewInViewer().getSelectedItemId()),
+                is(viewer.getViewInViewer().getSelectedItemPosition())
+        ));
+        // To get the id of the object in a certain position:
+        assertThat(viewer.getBeanIdFunction()
+                        .apply((Usuario) viewer.getViewInViewer().getItemAtPosition(itemIdPosition)),
+                is(222L));
     }
 }

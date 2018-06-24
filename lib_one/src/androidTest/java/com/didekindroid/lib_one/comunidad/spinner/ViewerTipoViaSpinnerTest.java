@@ -85,9 +85,12 @@ public class ViewerTipoViaSpinnerTest {
     @Test
     public void test_GetSelectedPositionFromDesc()
     {
-        final List<TipoViaValueObj> tiposVia = Arrays.asList(new TipoViaValueObj("tipo_4"), new TipoViaValueObj("tipo_1"), new TipoViaValueObj("tipo_99"));
+        final List<TipoViaValueObj> tiposVia = Arrays.asList(
+                new TipoViaValueObj("tipo_4"),
+                new TipoViaValueObj("tipo_1"),
+                new TipoViaValueObj("tipo_99"));
         activity.runOnUiThread(() -> {
-            // Necesito valor inicial para evitar NullPointer en onSuccessLoadItemList(tiposVia).
+            // Fijo valor inicial para no mostrar posición 0 por defecto.
             viewer.tipoViaValueObj = new TipoViaValueObj("initialDesc");
             viewer.onSuccessLoadItemList(tiposVia);
             assertThat(viewer.getSelectedPositionFromDesc("tipo_99"), is(2));
@@ -102,7 +105,6 @@ public class ViewerTipoViaSpinnerTest {
         final List<TipoViaValueObj> tiposVia = new ArrayList<>(3);
         tiposVia.add(new TipoViaValueObj(11, "tipo_11"));
         tiposVia.add(new TipoViaValueObj(22, "tipo_22"));
-        tiposVia.add(new TipoViaValueObj(33, "tipo_33"));
 
         viewer.tipoViaValueObj = new TipoViaValueObj("tipo_22");
 
@@ -113,8 +115,7 @@ public class ViewerTipoViaSpinnerTest {
         });
         waitAtMost(4, SECONDS).untilTrue(isExec);
         assertThat(viewer.getViewInViewer().getAdapter().getCount(), is(tiposVia.size()));
-        assertThat(viewer.getViewInViewer().getSelectedItemId(), is(1L));
-        assertThat(viewer.getViewInViewer().getSelectedItemPosition(), is(1));
+        assertThat(viewer.getViewInViewer().getSelectedItemId(), is(1L)); // position of the initialization tipoViaValueObj.
     }
 
     @Test

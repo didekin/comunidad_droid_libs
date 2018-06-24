@@ -7,6 +7,8 @@ import android.widget.AdapterView;
 import java.io.Serializable;
 import java.util.List;
 
+import io.reactivex.functions.Function;
+
 /**
  * User: pedro@didekin
  * Date: 20/02/17
@@ -20,11 +22,13 @@ public interface ViewerSelectListIf<T extends AdapterView, C extends CtrlerSelec
 
     void initSelectedItemId(Bundle savedState);
 
+    Function<E, Long> getBeanIdFunction();
+
     long getSelectedItemId();
 
     void setSelectedItemId(long itemSelectedId);
 
-    int getSelectedPositionFromItemId(long itemId);
+    int getSelectedPositionFromItemId(Function<E, Long> beanIdFunc) throws Exception;
 
     void onSuccessLoadSelectedItem(@NonNull Bundle bundle);
 }
