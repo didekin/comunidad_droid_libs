@@ -93,28 +93,28 @@ public class ComunidadDbHelper extends SQLiteOpenHelper {
         try {
             loadTipoVia();
         } catch (IOException e) {
-            Timber.e(e.getMessage());
+            Timber.e(e);
             throw new RuntimeException(e);
         }
 
         try {
             loadComunidadesAutonomas();
         } catch (IOException e) {
-            Timber.e(e.getMessage());
+            Timber.e(e);
             throw new RuntimeException(e);
         }
 
         try {
             loadProvincias();
         } catch (IOException e) {
-            Timber.e(e.getMessage());
+            Timber.e(e);
             throw new RuntimeException(e);
         }
 
         try {
             loadMunicipios();
         } catch (IOException e) {
-            Timber.e(e.getMessage());
+            Timber.e(e);
             throw new RuntimeException(e);
         }
     }

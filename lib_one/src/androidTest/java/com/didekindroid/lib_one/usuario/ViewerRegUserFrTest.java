@@ -41,12 +41,11 @@ public class ViewerRegUserFrTest {
         }
     };
     private RegUserFr fragment;
-    private ActivityMock activity;
 
     @Before
     public void setUp()
     {
-        activity = activityRule.getActivity();
+        ActivityMock activity = activityRule.getActivity();
         fragment = new RegUserFr();
         new FragmentInitiator<RegUserFr>(activity, R.id.mock_ac_layout).initFragmentTx(fragment);
         waitAtMost(4, SECONDS).until(() -> activity.getSupportFragmentManager().findFragmentByTag(fragment.getClass().getName()) != null);
