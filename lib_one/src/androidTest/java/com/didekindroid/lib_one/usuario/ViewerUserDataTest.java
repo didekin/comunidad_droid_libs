@@ -204,7 +204,7 @@ public class ViewerUserDataTest {
     }
 
     @Test
-    public void testModifyUserData_3()
+    public void testModifyUserData_2()
     {
         // Datos de entrada userName != oldUser.userName.
         waitAtMost(6, SECONDS).untilAtomic(activity.viewer.getOldUser(), is(usuario));
