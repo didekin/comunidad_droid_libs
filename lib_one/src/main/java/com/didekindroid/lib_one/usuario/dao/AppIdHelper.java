@@ -27,11 +27,13 @@ public class AppIdHelper {
                     Timber.d("============== TaskToken is cancelled");
                     return;
                 }
-                MILLISECONDS.sleep(100);
+                MILLISECONDS.sleep(50);
             }
-            emitter.onSuccess(taskToken.getResult().getToken());
-            if (taskToken.getException() != null)
+            if (taskToken.getException() != null) {
                 emitter.onError(taskToken.getException());
+            } else {
+                emitter.onSuccess(taskToken.getResult().getToken());
+            }
         });
     }
 }
