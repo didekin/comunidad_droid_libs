@@ -92,4 +92,5 @@ dependencies {
     androidTestUtil rootProject.testOrchestrator
     androidTestImplementation rootProject.junit
 }
+
 apply plugin: 'com.google.gms.google-services'
