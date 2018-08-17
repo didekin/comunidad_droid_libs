@@ -10,11 +10,11 @@ import com.didekinlib.model.usuariocomunidad.UsuarioComunidad;
 import static com.didekindroid.lib_one.HttpInitializer.httpInitializer;
 import static com.didekindroid.lib_one.security.SecInitializer.secInitializer;
 import static com.didekindroid.lib_one.usuario.UserMockDao.usuarioMockDao;
+import static com.didekindroid.lib_one.usuario.dao.AppIdHelper.appIdSingle;
 import static com.didekindroid.lib_one.usuario.dao.UsuarioDao.usuarioDaoRemote;
 import static com.didekindroid.lib_one.util.UiUtil.assertTrue;
 import static com.didekinlib.http.usuario.TkValidaPatterns.tkEncrypted_direct_symmetricKey_REGEX;
 import static com.didekinlib.model.usuariocomunidad.Rol.PROPIETARIO;
-import static com.google.firebase.iid.FirebaseInstanceId.getInstance;
 
 /**
  * User: pedro@didekin
@@ -79,7 +79,7 @@ public final class UserTestData {
 
     public static String regUserComuGetAuthTk(UsuarioComunidad userComuIn)
     {
-        return regUserComuWithMockGcm(userComuIn, getInstance().getToken());
+        return regUserComuWithMockGcm(userComuIn, appIdSingle.getTokenSingle().blockingGet());
     }
 
     public static String regUserComuWithMockGcm(UsuarioComunidad userComuIn, String gcmToken)

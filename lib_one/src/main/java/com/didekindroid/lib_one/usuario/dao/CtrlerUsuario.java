@@ -9,6 +9,7 @@ import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.observers.DisposableSingleObserver;
 import timber.log.Timber;
 
+import static com.didekindroid.lib_one.usuario.dao.AppIdHelper.appIdSingle;
 import static com.didekindroid.lib_one.usuario.dao.UsuarioDao.usuarioDaoRemote;
 import static io.reactivex.android.schedulers.AndroidSchedulers.mainThread;
 import static io.reactivex.schedulers.Schedulers.io;
@@ -34,6 +35,17 @@ public class CtrlerUsuario extends Controller implements CtrlerUsuarioIf {
         Timber.d("deleteMe()");
         return getSubscriptions().add(
                 usuarioDao.deleteUser()
+                        .subscribeOn(io())
+                        .observeOn(mainThread())
+                        .subscribeWith(observer)
+        );
+    }
+
+    public boolean getAppIdToken(DisposableSingleObserver<String> observer)
+    {
+        Timber.d("getAppIdToken()");
+        return getSubscriptions().add(
+                appIdSingle.getTokenSingle()
                         .subscribeOn(io())
                         .observeOn(mainThread())
                         .subscribeWith(observer)

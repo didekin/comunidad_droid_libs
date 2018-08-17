@@ -67,6 +67,13 @@ public class CtrlerUsuario_Test {
     }
 
     @Test
+    public void test_GetAppIdToken() throws Exception
+    {
+        whatClean = CLEAN_NOTHING;
+        execCheckSchedulersTest(ctrler -> ctrler.getAppIdToken(new SingleObserverMock<>()), controller);
+    }
+
+    @Test
     public void testGetUserData() throws Exception
     {
         assertThat(regUserComuGetAuthTk(comu_real_rodrigo), notNullValue());
