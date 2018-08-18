@@ -57,6 +57,7 @@ import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
 
 /**
@@ -74,7 +75,11 @@ public class ViewerUserDrawerTest {
         protected Intent getActivityIntent()
         {
             initSec_Http_Router(getTargetContext());
-            regComuUserUserComuGetAuthTk(comu_real_rodrigo);
+            try {
+                regComuUserUserComuGetAuthTk(comu_real_rodrigo);
+            } catch (Exception e) {
+                fail();
+            }
             return new Intent();
         }
     };

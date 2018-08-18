@@ -87,7 +87,7 @@ public class UserUiExceptionActionTest {
     }
 
     @Test
-    public void test_show_userData_wrongMail()
+    public void test_show_userData_wrongMail() throws Exception
     {
         // Preconditions.
         regComuUserUserComuGetAuthTk(comu_real_rodrigo);

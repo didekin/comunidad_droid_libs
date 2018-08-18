@@ -35,7 +35,7 @@ public class UserMockDaoTest {
     }
 
     @Test
-    public void test_DeleteUser()
+    public void test_DeleteUser() throws Exception
     {
         assertThat(regComuUserUserComuGetAuthTk(comu_real_rodrigo), notNullValue());
         // Exec, check.
