@@ -22,8 +22,8 @@ import static com.didekindroid.lib_one.usuario.UserTestData.CleanUserEnum.CLEAN_
 import static com.didekindroid.lib_one.usuario.UserTestData.USER_DROID;
 import static com.didekindroid.lib_one.usuario.UserTestData.cleanOptions;
 import static com.didekindroid.lib_one.usuario.UserTestData.comu_real_rodrigo;
-import static com.didekindroid.lib_one.usuario.UserTestData.regGetUserComu;
-import static com.didekindroid.lib_one.usuario.UserTestData.regUserComuGetAuthTk;
+import static com.didekindroid.lib_one.usuario.UserTestData.regComuUserUserComuGetUser;
+import static com.didekindroid.lib_one.usuario.UserTestData.regComuUserUserComuGetAuthTk;
 import static com.didekindroid.lib_one.usuario.UserTestData.user_crodrigo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -62,7 +62,7 @@ public class CtrlerUsuario_Test {
     {
         whatClean = CLEAN_NOTHING;
 
-        assertThat(regUserComuGetAuthTk(comu_real_rodrigo), notNullValue());
+        assertThat(regComuUserUserComuGetAuthTk(comu_real_rodrigo), notNullValue());
         execCheckSchedulersTest(ctrler -> ctrler.deleteMe(new CompletableObserverMock()), controller);
     }
 
@@ -76,14 +76,14 @@ public class CtrlerUsuario_Test {
     @Test
     public void testGetUserData() throws Exception
     {
-        assertThat(regUserComuGetAuthTk(comu_real_rodrigo), notNullValue());
+        assertThat(regComuUserUserComuGetAuthTk(comu_real_rodrigo), notNullValue());
         execCheckSchedulersTest(ctrler -> ctrler.getUserData(new SingleObserverMock<>()), controller);
     }
 
     @Test
     public void testLogin() throws Exception
     {
-        assertThat(regUserComuGetAuthTk(comu_real_rodrigo), notNullValue());
+        assertThat(regComuUserUserComuGetAuthTk(comu_real_rodrigo), notNullValue());
         execCheckSchedulersTest(ctrler -> ctrler.login(new CompletableObserverMock(), user_crodrigo), controller);
     }
 
@@ -96,7 +96,7 @@ public class CtrlerUsuario_Test {
                 ctrler -> ctrler.modifyUserName(
                         new SingleObserverMock<>(),
                         new Usuario.UsuarioBuilder()
-                                .copyUsuario(regGetUserComu(comu_real_rodrigo))
+                                .copyUsuario(regComuUserUserComuGetUser(comu_real_rodrigo))
                                 .userName(USER_DROID.getUserName())
                                 .build()),
                 controller
@@ -110,7 +110,7 @@ public class CtrlerUsuario_Test {
                 ctrler -> ctrler.modifyUserAlias(
                         new SingleObserverMock<>(),
                         new Usuario.UsuarioBuilder()
-                                .copyUsuario(regGetUserComu(comu_real_rodrigo))
+                                .copyUsuario(regComuUserUserComuGetUser(comu_real_rodrigo))
                                 .alias("new_pepe_alias")
                                 .build()),
                 controller);
@@ -121,7 +121,7 @@ public class CtrlerUsuario_Test {
     {
         // Precondition.
         Usuario oldUser = new Usuario.UsuarioBuilder()
-                .copyUsuario(regGetUserComu(comu_real_rodrigo))
+                .copyUsuario(regComuUserUserComuGetUser(comu_real_rodrigo))
                 .password(user_crodrigo.getPassword())
                 .build();
 
@@ -143,7 +143,7 @@ public class CtrlerUsuario_Test {
         execCheckSchedulersTest(
                 ctrler -> ctrler.passwordSend(
                         new CompletableObserverMock(),
-                        regGetUserComu(comu_real_rodrigo)),
+                        regComuUserUserComuGetUser(comu_real_rodrigo)),
                 controller);
     }
 }

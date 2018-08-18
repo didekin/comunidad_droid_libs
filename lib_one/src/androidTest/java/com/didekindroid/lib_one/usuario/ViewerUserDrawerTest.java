@@ -44,7 +44,7 @@ import static com.didekindroid.lib_one.usuario.UserTestData.CleanUserEnum.CLEAN_
 import static com.didekindroid.lib_one.usuario.UserTestData.cleanOptions;
 import static com.didekindroid.lib_one.usuario.UserTestData.cleanWithTkhandler;
 import static com.didekindroid.lib_one.usuario.UserTestData.comu_real_rodrigo;
-import static com.didekindroid.lib_one.usuario.UserTestData.regUserComuGetAuthTk;
+import static com.didekindroid.lib_one.usuario.UserTestData.regComuUserUserComuGetAuthTk;
 import static com.didekindroid.lib_one.usuario.UserTestData.user_crodrigo;
 import static com.didekindroid.lib_one.usuario.UsuarioBundleKey.user_alias;
 import static com.didekindroid.lib_one.usuario.ViewerUserDrawer.newViewerDrawerMain;
@@ -74,7 +74,7 @@ public class ViewerUserDrawerTest {
         protected Intent getActivityIntent()
         {
             initSec_Http_Router(getTargetContext());
-            regUserComuGetAuthTk(comu_real_rodrigo);
+            regComuUserUserComuGetAuthTk(comu_real_rodrigo);
             return new Intent();
         }
     };

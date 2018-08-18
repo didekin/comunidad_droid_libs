@@ -13,7 +13,7 @@ import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http
 import static com.didekindroid.lib_one.usuario.UserMockDao.usuarioMockDao;
 import static com.didekindroid.lib_one.usuario.UserTestData.cleanOneUser;
 import static com.didekindroid.lib_one.usuario.UserTestData.comu_real_rodrigo;
-import static com.didekindroid.lib_one.usuario.UserTestData.regUserComuGetAuthTk;
+import static com.didekindroid.lib_one.usuario.UserTestData.regComuUserUserComuGetAuthTk;
 import static com.didekindroid.lib_one.usuario.UserTestData.user_crodrigo;
 import static com.didekinlib.http.usuario.TkValidaPatterns.tkEncrypted_direct_symmetricKey_REGEX;
 import static org.hamcrest.CoreMatchers.is;
@@ -37,7 +37,7 @@ public class UserMockDaoTest {
     @Test
     public void test_DeleteUser()
     {
-        assertThat(regUserComuGetAuthTk(comu_real_rodrigo), notNullValue());
+        assertThat(regComuUserUserComuGetAuthTk(comu_real_rodrigo), notNullValue());
         // Exec, check.
         usuarioMockDao.deleteUser(user_crodrigo.getUserName()).map(Response::body).test().assertResult(true);
     }

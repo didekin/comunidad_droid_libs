@@ -18,7 +18,7 @@ import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.BEFORE
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http;
 import static com.didekindroid.lib_one.usuario.UserTestData.cleanOneUser;
 import static com.didekindroid.lib_one.usuario.UserTestData.comu_real_rodrigo;
-import static com.didekindroid.lib_one.usuario.UserTestData.regUserComuGetAuthTk;
+import static com.didekindroid.lib_one.usuario.UserTestData.regComuUserUserComuGetAuthTk;
 import static com.didekindroid.lib_one.usuario.UserTestData.user_crodrigo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -41,7 +41,7 @@ public class CtrlerNotifyTokenTest {
     public void setUp()
     {
         initSec_Http(getTargetContext());
-        assertThat(regUserComuGetAuthTk(comu_real_rodrigo), notNullValue());
+        assertThat(regComuUserUserComuGetAuthTk(comu_real_rodrigo), notNullValue());
         controller = new CtrlerNotifyToken();
         identityCacher = controller.getTkCacher();
     }

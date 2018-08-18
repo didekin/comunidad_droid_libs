@@ -20,7 +20,7 @@ import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http
 import static com.didekindroid.lib_one.usuario.UserTestData.CleanUserEnum.CLEAN_RODRIGO;
 import static com.didekindroid.lib_one.usuario.UserTestData.cleanOptions;
 import static com.didekindroid.lib_one.usuario.UserTestData.comu_real_rodrigo;
-import static com.didekindroid.lib_one.usuario.UserTestData.regGetUserComu;
+import static com.didekindroid.lib_one.usuario.UserTestData.regComuUserUserComuGetUser;
 import static com.didekindroid.lib_one.usuario.UserTestNavigation.loginAcResourceId;
 import static com.didekindroid.lib_one.usuario.UsuarioBundleKey.usuario_object;
 import static com.didekindroid.lib_one.usuario.router.UserContextAction.login_from_default;
@@ -60,7 +60,7 @@ public class UserContextActionTest {
     {
         // Preconditions.
         Bundle bundle = new Bundle(1);
-        bundle.putSerializable(usuario_object.key, regGetUserComu(comu_real_rodrigo));
+        bundle.putSerializable(usuario_object.key, regComuUserUserComuGetUser(comu_real_rodrigo));
 
         assertThat(router.getActionFromContextNm(user_name_just_modified), is(showPswdSentMessage));
         activity.runOnUiThread(() -> showPswdSentMessage.initActivity(activity, bundle, 0));

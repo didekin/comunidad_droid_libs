@@ -32,7 +32,7 @@ import static com.didekindroid.lib_one.usuario.UserTestData.USER_DROID;
 import static com.didekindroid.lib_one.usuario.UserTestData.cleanOneUser;
 import static com.didekindroid.lib_one.usuario.UserTestData.cleanOptions;
 import static com.didekindroid.lib_one.usuario.UserTestData.comu_real_rodrigo;
-import static com.didekindroid.lib_one.usuario.UserTestData.regGetUserComu;
+import static com.didekindroid.lib_one.usuario.UserTestData.regComuUserUserComuGetUser;
 import static com.didekindroid.lib_one.usuario.UserTestData.user_crodrigo;
 import static com.didekindroid.lib_one.usuario.UserTestNavigation.loginAcResourceId;
 import static com.didekindroid.lib_one.usuario.UserTestNavigation.userDataAcRsId;
@@ -66,7 +66,7 @@ public class UserDataAcTest {
         {
             initSec_Http_Router(getTargetContext());
             try {
-                regGetUserComu(comu_real_rodrigo);
+                regComuUserUserComuGetUser(comu_real_rodrigo);
             } catch (Exception e) {
                 fail();
             }

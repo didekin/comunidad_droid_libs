@@ -7,6 +7,7 @@ import com.didekinlib.model.comunidad.Provincia;
 import com.didekinlib.model.usuario.Usuario;
 import com.didekinlib.model.usuariocomunidad.UsuarioComunidad;
 
+import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 
 import static com.didekindroid.lib_one.HttpInitializer.httpInitializer;
@@ -77,40 +78,40 @@ public final class UserTestData {
     {
     }
 
-    static final Consumer<String> updateAuthCacheNewUser = newAuthTk -> secInitializer.get().getTkCacher()
+    public static final Consumer<String> updateAuthCacheNewUser = newAuthTk -> secInitializer.get().getTkCacher()
             .updateAuthToken(newAuthTk)
             .updateIsGcmTokenSentServer(true);
 
+    public static final BiFunction<UsuarioComunidad, String, UsuarioComunidad> getUserComuWithTk =
+            (userComuIn, gcmToken) -> new UsuarioComunidad.UserComuBuilder
+                    (
+                            userComuIn.getComunidad(),
+                            new Usuario.UsuarioBuilder()
+                                    .copyUsuario(userComuIn.getUsuario())
+                                    .gcmToken(gcmToken)  // We need this token in the server.
+                                    .build()
+                    )
+                    .userComuRest(userComuIn)
+                    .build();
+
     // =========================  Register methods =========================
 
-    public static String regUserComuGetAuthTk(UsuarioComunidad userComuIn)
+    public static String regComuUserUserComuGetAuthTk(UsuarioComunidad userComuIn) throws Exception
     {
-        return regUserComuWithMockGcm(userComuIn, appIdSingle.getTokenSingle().blockingGet());
+        return regComuUserUserComuMock(userComuIn, appIdSingle.getTokenSingle().blockingGet());
     }
 
-    public static String regUserComuWithMockGcm(UsuarioComunidad userComuIn, String gcmToken)
+    public static String regComuUserUserComuMock(UsuarioComunidad userComuIn, String gcmToken) throws Exception
     {
-        UsuarioComunidad userComuWithGcmTk = new UsuarioComunidad.UserComuBuilder
-                (
-                        userComuIn.getComunidad(),
-                        new Usuario.UsuarioBuilder()
-                                .copyUsuario(userComuIn.getUsuario())
-                                .gcmToken(gcmToken)  // We need this token in the server.
-                                .build()
-                )
-                .userComuRest(userComuIn)
-                .build();
-
-
-        return usuarioMockDao.regComuAndUserAndUserComu(userComuWithGcmTk)
+        return usuarioMockDao.regComuAndUserAndUserComu(getUserComuWithTk.apply(userComuIn, gcmToken))
                 .map(response -> httpInitializer.get().getResponseBody(response))
                 .doOnSuccess(updateAuthCacheNewUser)
                 .blockingGet();
     }
 
-    public static Usuario regGetUserComu(UsuarioComunidad userComuIn)
+    public static Usuario regComuUserUserComuGetUser(UsuarioComunidad userComuIn) throws Exception
     {
-        assertTrue(tkEncrypted_direct_symmetricKey_REGEX.isPatternOk(regUserComuGetAuthTk(userComuIn)), "authToken not null");
+        assertTrue(tkEncrypted_direct_symmetricKey_REGEX.isPatternOk(regComuUserUserComuGetAuthTk(userComuIn)), "authToken not null");
         return usuarioDaoRemote.getUserData().blockingGet();
 
     }

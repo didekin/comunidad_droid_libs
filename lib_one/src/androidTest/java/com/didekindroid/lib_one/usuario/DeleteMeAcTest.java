@@ -38,7 +38,7 @@ import static com.didekindroid.lib_one.testutil.UiTestUtil.cleanTasks;
 import static com.didekindroid.lib_one.usuario.UserTestData.CleanUserEnum.CLEAN_RODRIGO;
 import static com.didekindroid.lib_one.usuario.UserTestData.cleanOptions;
 import static com.didekindroid.lib_one.usuario.UserTestData.comu_real_rodrigo;
-import static com.didekindroid.lib_one.usuario.UserTestData.regGetUserComu;
+import static com.didekindroid.lib_one.usuario.UserTestData.regComuUserUserComuGetUser;
 import static com.didekindroid.lib_one.usuario.UserTestNavigation.userDataAcRsId;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.waitAtMost;
@@ -64,7 +64,7 @@ public class DeleteMeAcTest {
         {
             try {
                 initSec_Http_Router(getTargetContext());
-                regGetUserComu(comu_real_rodrigo);
+                regComuUserUserComuGetUser(comu_real_rodrigo);
             } catch (Exception e) {
                 fail();
             }

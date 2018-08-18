@@ -28,7 +28,7 @@ import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http
 import static com.didekindroid.lib_one.testutil.UiTestUtil.cleanTasks;
 import static com.didekindroid.lib_one.usuario.UserTestData.cleanOneUser;
 import static com.didekindroid.lib_one.usuario.UserTestData.comu_real_rodrigo;
-import static com.didekindroid.lib_one.usuario.UserTestData.regUserComuGetAuthTk;
+import static com.didekindroid.lib_one.usuario.UserTestData.regComuUserUserComuGetAuthTk;
 import static com.didekindroid.lib_one.usuario.UserTestData.user_crodrigo;
 import static com.didekindroid.lib_one.usuario.UserTestNavigation.pswdChangeAcRsId;
 import static com.didekindroid.lib_one.usuario.UserTestNavigation.userDataAcRsId;
@@ -55,7 +55,7 @@ public class PasswordChangeTest {
         {
             initSec_Http_Router(getTargetContext());
             try {
-                regUserComuGetAuthTk(comu_real_rodrigo);
+                regComuUserUserComuGetAuthTk(comu_real_rodrigo);
             } catch (Exception e) {
                 fail();
             }

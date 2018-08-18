@@ -23,7 +23,7 @@ import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http
 import static com.didekindroid.lib_one.usuario.UserTestData.CleanUserEnum.CLEAN_RODRIGO;
 import static com.didekindroid.lib_one.usuario.UserTestData.cleanOptions;
 import static com.didekindroid.lib_one.usuario.UserTestData.comu_real_rodrigo;
-import static com.didekindroid.lib_one.usuario.UserTestData.regUserComuGetAuthTk;
+import static com.didekindroid.lib_one.usuario.UserTestData.regComuUserUserComuGetAuthTk;
 import static com.didekindroid.lib_one.usuario.UserTestNavigation.loginAcResourceId;
 import static com.didekindroid.lib_one.usuario.UserTestNavigation.userDataAcRsId;
 import static com.didekindroid.lib_one.usuario.router.UserUiExceptionAction.show_login_noUser;
@@ -90,7 +90,7 @@ public class UserUiExceptionActionTest {
     public void test_show_userData_wrongMail()
     {
         // Preconditions.
-        regUserComuGetAuthTk(comu_real_rodrigo);
+        regComuUserUserComuGetAuthTk(comu_real_rodrigo);
         final UiException ue = new UiException(new ErrorBean(PASSWORD_NOT_SENT));
         run(ue, show_userData_wrongMail, userDataAcRsId);
 

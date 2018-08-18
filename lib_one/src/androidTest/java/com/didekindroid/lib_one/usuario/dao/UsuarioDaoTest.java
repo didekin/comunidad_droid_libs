@@ -22,8 +22,8 @@ import static com.didekindroid.lib_one.usuario.UserTestData.USER_DROID;
 import static com.didekindroid.lib_one.usuario.UserTestData.cleanOneUser;
 import static com.didekindroid.lib_one.usuario.UserTestData.cleanOptions;
 import static com.didekindroid.lib_one.usuario.UserTestData.comu_real_rodrigo;
-import static com.didekindroid.lib_one.usuario.UserTestData.regGetUserComu;
-import static com.didekindroid.lib_one.usuario.UserTestData.regUserComuGetAuthTk;
+import static com.didekindroid.lib_one.usuario.UserTestData.regComuUserUserComuGetUser;
+import static com.didekindroid.lib_one.usuario.UserTestData.regComuUserUserComuGetAuthTk;
 import static com.didekindroid.lib_one.usuario.UserTestData.user_crodrigo;
 import static com.didekindroid.lib_one.usuario.dao.UsuarioDao.usuarioDaoRemote;
 import static com.didekinlib.http.usuario.TkValidaPatterns.tkEncrypted_direct_symmetricKey_REGEX;
@@ -67,7 +67,7 @@ public class UsuarioDaoTest {
     public void testDeleteUser_1()
     {
         /*Inserta userComu, comunidad, usuariocomunidad y actuliza tokenCache.*/
-        assertThat(regUserComuGetAuthTk(comu_real_rodrigo), notNullValue());
+        assertThat(regComuUserUserComuGetAuthTk(comu_real_rodrigo), notNullValue());
         // Exec, check.
         usuarioDaoRemote.deleteUser().test();
         assertThat(tkCacher.isRegisteredCache(), is(false));
@@ -87,7 +87,7 @@ public class UsuarioDaoTest {
     {
         whatClean = CLEAN_RODRIGO;
 
-        Usuario userDb = regGetUserComu(comu_real_rodrigo);
+        Usuario userDb = regComuUserUserComuGetUser(comu_real_rodrigo);
         usuarioDaoRemote.getGcmToken().test().assertResult(userDb.getGcmToken());
     }
 
@@ -97,7 +97,7 @@ public class UsuarioDaoTest {
         whatClean = CLEAN_RODRIGO;
 
         //Inserta userComu, comunidad, usuariocomunidad y actuliza tokenCache.
-        assertThat(regUserComuGetAuthTk(comu_real_rodrigo), notNullValue());
+        assertThat(regComuUserUserComuGetAuthTk(comu_real_rodrigo), notNullValue());
         usuarioDaoRemote.getUserData().test()
                 .assertOf(tester -> assertThat(tester.values().get(0).getUserName(), is(user_crodrigo.getUserName())));
     }
@@ -117,7 +117,7 @@ public class UsuarioDaoTest {
     public void testLogin_2() throws InterruptedException
     {
         whatClean = CLEAN_RODRIGO;
-        Usuario userDb = regGetUserComu(comu_real_rodrigo);
+        Usuario userDb = regComuUserUserComuGetUser(comu_real_rodrigo);
         // Pongo a null el authToken para ver el cambio:
         tkCacher.updateAuthToken(null);
         usuarioDaoRemote.login(user_crodrigo.getUserName(), user_crodrigo.getPassword()).test().await();
@@ -130,7 +130,7 @@ public class UsuarioDaoTest {
     public void testmodifyGcmToken() throws InterruptedException
     {
         whatClean = CLEAN_RODRIGO;
-        Usuario userDb = regGetUserComu(comu_real_rodrigo);
+        Usuario userDb = regComuUserUserComuGetUser(comu_real_rodrigo);
 
         usuarioDaoRemote.modifyGcmToken("new_crodrigo_gcmtoken").test().await();
         assertThat(tkEncrypted_direct_symmetricKey_REGEX.isPatternOk(tkCacher.getAuthToken()),
@@ -145,7 +145,7 @@ public class UsuarioDaoTest {
 
         // Changed alias; not userName.
         Usuario usuarioIn = new Usuario.UsuarioBuilder()
-                .copyUsuario(regGetUserComu(comu_real_rodrigo))
+                .copyUsuario(regComuUserUserComuGetUser(comu_real_rodrigo))
                 .alias("new_alias")
                 .build();
 
@@ -156,7 +156,7 @@ public class UsuarioDaoTest {
     public void testmodifyUserName() throws InterruptedException
     {
         Usuario usuarioIn = new Usuario.UsuarioBuilder()
-                .copyUsuario(regGetUserComu(comu_real_rodrigo))
+                .copyUsuario(regComuUserUserComuGetUser(comu_real_rodrigo))
                 .userName(USER_DROID.getUserName())
                 .build();
 
@@ -171,7 +171,7 @@ public class UsuarioDaoTest {
     {
         whatClean = CLEAN_RODRIGO;
 
-        Usuario usuarioIn = regGetUserComu(comu_real_rodrigo);
+        Usuario usuarioIn = regComuUserUserComuGetUser(comu_real_rodrigo);
         usuarioDaoRemote.passwordChange(user_crodrigo.getPassword(), "new_password").test().await();
         assertThat(tkCacher.getAuthToken(), allOf(
                 not(is(usuarioIn.getTokenAuth())),
@@ -183,7 +183,7 @@ public class UsuarioDaoTest {
     public void test_PasswordSend()
     {
         whatClean = CLEAN_RODRIGO;
-        regUserComuGetAuthTk(comu_real_rodrigo);
+        regComuUserUserComuGetAuthTk(comu_real_rodrigo);
         usuarioDaoRemote.passwordSend(user_crodrigo.getUserName()).test().assertComplete();
         assertThat(tkCacher.getAuthToken(), nullValue());
     }

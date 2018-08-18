@@ -54,7 +54,7 @@ public class IncidenciaDataDbHelper extends SQLiteOpenHelper {
         try {
             loadAmbitoIncidencia();
         } catch (Exception e) {
-            Timber.e(e.getMessage());
+            Timber.e(e);
             throw new RuntimeException(e);
         }
 
