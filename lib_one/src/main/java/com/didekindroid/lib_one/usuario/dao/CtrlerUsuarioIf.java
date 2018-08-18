@@ -20,6 +20,8 @@ public interface CtrlerUsuarioIf extends ControllerIf {
 
     boolean deleteMe(DisposableCompletableObserver observer);
 
+    boolean getAppIdToken(DisposableSingleObserver<String> observer);
+
     boolean getUserData(DisposableSingleObserver<Usuario> observer);
 
     boolean modifyUserName(DisposableSingleObserver<Boolean> observer, Usuario newUser);

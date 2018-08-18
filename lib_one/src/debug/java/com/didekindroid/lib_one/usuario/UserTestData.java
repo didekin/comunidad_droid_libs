@@ -7,6 +7,8 @@ import com.didekinlib.model.comunidad.Provincia;
 import com.didekinlib.model.usuario.Usuario;
 import com.didekinlib.model.usuariocomunidad.UsuarioComunidad;
 
+import io.reactivex.functions.Consumer;
+
 import static com.didekindroid.lib_one.HttpInitializer.httpInitializer;
 import static com.didekindroid.lib_one.security.SecInitializer.secInitializer;
 import static com.didekindroid.lib_one.usuario.UserMockDao.usuarioMockDao;
@@ -75,6 +77,10 @@ public final class UserTestData {
     {
     }
 
+    static final Consumer<String> updateAuthCacheNewUser = newAuthTk -> secInitializer.get().getTkCacher()
+            .updateAuthToken(newAuthTk)
+            .updateIsGcmTokenSentServer(true);
+
     // =========================  Register methods =========================
 
     public static String regUserComuGetAuthTk(UsuarioComunidad userComuIn)
@@ -95,11 +101,10 @@ public final class UserTestData {
                 .userComuRest(userComuIn)
                 .build();
 
+
         return usuarioMockDao.regComuAndUserAndUserComu(userComuWithGcmTk)
                 .map(response -> httpInitializer.get().getResponseBody(response))
-                .doOnSuccess(newAuthTk -> secInitializer.get().getTkCacher()
-                        .updateAuthToken(newAuthTk)
-                        .updateIsGcmTokenSentServer(true))
+                .doOnSuccess(updateAuthCacheNewUser)
                 .blockingGet();
     }
 

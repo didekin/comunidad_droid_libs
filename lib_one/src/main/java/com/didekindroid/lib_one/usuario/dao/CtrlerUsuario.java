@@ -41,6 +41,7 @@ public class CtrlerUsuario extends Controller implements CtrlerUsuarioIf {
         );
     }
 
+    @Override
     public boolean getAppIdToken(DisposableSingleObserver<String> observer)
     {
         Timber.d("getAppIdToken()");
