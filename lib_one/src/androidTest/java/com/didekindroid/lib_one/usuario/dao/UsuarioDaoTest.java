@@ -64,7 +64,7 @@ public class UsuarioDaoTest {
 //    ========================= INTERFACE TESTS =======================
 
     @Test
-    public void testDeleteUser_1()
+    public void testDeleteUser_1() throws Exception
     {
         /*Inserta userComu, comunidad, usuariocomunidad y actuliza tokenCache.*/
         assertThat(regComuUserUserComuGetAuthTk(comu_real_rodrigo), notNullValue());
@@ -83,7 +83,7 @@ public class UsuarioDaoTest {
     }
 
     @Test
-    public void testGetGcmToken()
+    public void testGetGcmToken() throws Exception
     {
         whatClean = CLEAN_RODRIGO;
 
@@ -92,7 +92,7 @@ public class UsuarioDaoTest {
     }
 
     @Test
-    public void testGetUserData()
+    public void testGetUserData() throws Exception
     {
         whatClean = CLEAN_RODRIGO;
 
@@ -114,7 +114,7 @@ public class UsuarioDaoTest {
     }
 
     @Test
-    public void testLogin_2() throws InterruptedException
+    public void testLogin_2() throws Exception
     {
         whatClean = CLEAN_RODRIGO;
         Usuario userDb = regComuUserUserComuGetUser(comu_real_rodrigo);
@@ -127,7 +127,7 @@ public class UsuarioDaoTest {
     }
 
     @Test
-    public void testmodifyGcmToken() throws InterruptedException
+    public void testmodifyGcmToken() throws Exception
     {
         whatClean = CLEAN_RODRIGO;
         Usuario userDb = regComuUserUserComuGetUser(comu_real_rodrigo);
@@ -139,7 +139,7 @@ public class UsuarioDaoTest {
     }
 
     @Test
-    public void testmodifyAlias()
+    public void testmodifyAlias() throws Exception
     {
         whatClean = CLEAN_RODRIGO;
 
@@ -153,7 +153,7 @@ public class UsuarioDaoTest {
     }
 
     @Test
-    public void testmodifyUserName() throws InterruptedException
+    public void testmodifyUserName() throws Exception
     {
         Usuario usuarioIn = new Usuario.UsuarioBuilder()
                 .copyUsuario(regComuUserUserComuGetUser(comu_real_rodrigo))
@@ -167,7 +167,7 @@ public class UsuarioDaoTest {
     }
 
     @Test
-    public void testPasswordChange() throws InterruptedException
+    public void testPasswordChange() throws Exception
     {
         whatClean = CLEAN_RODRIGO;
 
@@ -180,7 +180,7 @@ public class UsuarioDaoTest {
     }
 
     @Test
-    public void test_PasswordSend()
+    public void test_PasswordSend() throws Exception
     {
         whatClean = CLEAN_RODRIGO;
         regComuUserUserComuGetAuthTk(comu_real_rodrigo);
