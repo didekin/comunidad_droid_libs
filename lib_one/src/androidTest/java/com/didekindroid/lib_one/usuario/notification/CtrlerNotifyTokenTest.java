@@ -2,7 +2,6 @@ package com.didekindroid.lib_one.usuario.notification;
 
 import android.support.test.runner.AndroidJUnit4;
 
-import com.didekindroid.lib_one.api.exception.UiException;
 import com.didekindroid.lib_one.security.AuthTkCacherIf;
 import com.didekindroid.lib_one.usuario.notification.InstanceIdService.ServiceDisposableObserver;
 
@@ -23,6 +22,7 @@ import static com.didekindroid.lib_one.usuario.UserTestData.user_crodrigo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
 /**
  * User: pedro@didekin
@@ -41,9 +41,13 @@ public class CtrlerNotifyTokenTest {
     public void setUp()
     {
         initSec_Http(getTargetContext());
-        assertThat(regComuUserUserComuGetAuthTk(comu_real_rodrigo), notNullValue());
-        controller = new CtrlerNotifyToken();
-        identityCacher = controller.getTkCacher();
+        try {
+            assertThat(regComuUserUserComuGetAuthTk(comu_real_rodrigo), notNullValue());
+            controller = new CtrlerNotifyToken();
+            identityCacher = controller.getTkCacher();
+        } catch (Exception e) {
+            fail();
+        }
     }
 
     @After
@@ -55,7 +59,7 @@ public class CtrlerNotifyTokenTest {
     //    ................................. INSTANCE METHODS ...............................
 
     @Test
-    public void test_modifyGcmTokenSync_1() throws UiException
+    public void test_modifyGcmTokenSync_1()
     {
         // Preconditions.
         identityCacher.updateIsGcmTokenSentServer(false);
@@ -66,7 +70,7 @@ public class CtrlerNotifyTokenTest {
     }
 
     @Test
-    public void test_modifyGcmTokenSync_2() throws UiException
+    public void test_modifyGcmTokenSync_2()
     {
         // Preconditions.
         identityCacher.updateIsRegistered(false);
