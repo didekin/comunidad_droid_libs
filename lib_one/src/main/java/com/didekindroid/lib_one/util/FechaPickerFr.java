@@ -21,6 +21,7 @@ import static android.support.v4.content.ContextCompat.getColor;
 public class FechaPickerFr extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
     FechaPickerUserIf fechaPickerUser;
+    public static final String fecha_picker_fr_tag = "fechaPicker";
 
     public static FechaPickerFr newInstance(FechaPickerUserIf fechaPickerUserIn)
     {
