@@ -9,9 +9,11 @@ import com.didekinlib.http.JksInClient;
 import com.didekinlib.model.common.dominio.BeanBuilder;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
 import retrofit2.Response;
+import timber.log.Timber;
 
 import static com.didekindroid.lib_one.util.CommonAssertionMsg.httpInitializer_wrong_build_data;
 import static com.didekindroid.lib_one.util.UiUtil.assertTrue;
@@ -52,9 +54,12 @@ public final class HttpInitializer implements HttpInitializerIf {
     @Override
     public <T> T getResponseBody(Response<T> response) throws UiException, IOException
     {
+        Timber.d("getResponseBody()");
         if (response.isSuccessful()) {
+            Timber.d("getResponseBody(): successful");
             return response.body();
         } else {
+            Timber.d("getResponseBody(), error %s", httpHandler.getErrorBean(response).getMessage());
             throw new UiException(httpHandler.getErrorBean(response));
         }
     }
