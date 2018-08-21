@@ -21,7 +21,7 @@ public class RxJavaUtil {
     }
 
     @NonNull
-    public static <T extends Serializable> Function<Response<T>, MaybeSource<T>> getResponseMaybeSourceFunction()
+    public static <T extends Serializable> Function<Response<T>, MaybeSource<T>> getResponseMaybeFunction()
     {
         return response -> {
             if (response.body() == null) {
