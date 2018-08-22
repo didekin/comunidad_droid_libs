@@ -106,8 +106,9 @@ public class ViewerUserDataTest {
     // ============================================================
 
     @Test
-    public void test_NewViewerUserData()
+    public void testDoViewInViewer_1()
     {
+        // test_NewViewerUserData.
         assertThat(activity.viewer.getEmailView(), notNullValue());
         assertThat(activity.viewer.getAliasView(), notNullValue());
         assertThat(activity.viewer.getPasswordView(), notNullValue());
@@ -115,11 +116,7 @@ public class ViewerUserDataTest {
         assertThat(activity.viewer.getUsuarioBean(), notNullValue());
         assertThat(activity.viewer.getOldUser(), notNullValue());
         assertThat(activity.viewer.getNewUser(), notNullValue());
-    }
 
-    @Test
-    public void testDoViewInViewer_1()
-    {
         waitAtMost(4, SECONDS).untilAtomic(activity.viewer.getOldUser(), is(usuario));
         checkUserDataLoaded();
     }
