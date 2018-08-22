@@ -18,9 +18,4 @@ public interface UiExceptionIf {
 
     String getErrorHtppMsg();
 
-    Consumer<Throwable> uiExceptionConsumer = exception -> {
-        if (!(exception instanceof UiException)) {
-            throw new UiException(new ErrorBean(GENERIC_INTERNAL_ERROR));
-        }
-    };
 }

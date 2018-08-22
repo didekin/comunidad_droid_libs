@@ -47,7 +47,7 @@ android {
             debuggable true
             versionNameSuffix ''
             // Variables for android_studio default run-debug configuration.
-            if ("$System.env.TEST_HOST" == "null" || "$System.env.TEST_PORT" == "null"){
+            if ("$System.env.TEST_HOST" == "null" || "$System.env.TEST_PORT" == "null") {
                 // LOCAL url's
                 resValue "string", "didekin_web_host", '"https://didekinspring.pagekite.me"'
                 resValue "string", "didekin_web_port", '""'

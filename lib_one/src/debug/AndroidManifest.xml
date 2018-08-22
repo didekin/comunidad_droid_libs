@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.didekindroid.lib_one"
-          xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.didekindroid.lib_one">
 
     <application tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <!-- Activity for UIException tests. -->
         <activity
             android:name=".api.ActivityMock"
             android:label="@string/mockActivity_label"
-            android:launchMode="singleTask">
-        </activity>
+            android:launchMode="singleTask"></activity>
         <activity
             android:name=".api.InjectorParentViewerAc"
             android:label="@string/injectorParentViewerAc_label"
-            android:launchMode="singleTask">
-        </activity>
+            android:launchMode="singleTask"></activity>
         <activity
             android:name=".api.ActivityNextMock"
             android:label="@string/mock_next_DefaultActivity_label"
@@ -22,7 +20,7 @@
             android:parentActivityName=".api.ActivityMock">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".api.ActivityMock"/>
+                android:value=".api.ActivityMock" />
         </activity>
         <activity
             android:name=".api.ActivityDrawerMock"
@@ -31,7 +29,7 @@
             android:parentActivityName=".api.ActivityMock">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".api.ActivityMock"/>
+                android:value=".api.ActivityMock" />
         </activity>
         <!-- **************************************************************** -->
         <!-- ACCESORIO -->
@@ -41,7 +39,7 @@
             android:parentActivityName=".api.ActivityMock">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".api.ActivityMock"/>
+                android:value=".api.ActivityMock" />
         </activity>
     </application>
 </manifest>

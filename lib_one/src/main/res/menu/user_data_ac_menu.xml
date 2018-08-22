@@ -1,16 +1,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto"
-      xmlns:tools="http://schemas.android.com/tools"
-      tools:context="com.didekindroid.com.didekindroid.lib_one.usuario.UserDataAc">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.didekindroid.com.didekindroid.lib_one.usuario.UserDataAc">
 
     <item
         android:id="@+id/password_change_ac_mn"
         android:orderInCategory="100"
         android:title="@string/password_change_ac_mn"
-        app:showAsAction="never|withText"/>
+        app:showAsAction="never|withText" />
     <item
         android:id="@+id/delete_me_ac_mn"
         android:orderInCategory="100"
         android:title="@string/delete_me_ac_mn"
-        app:showAsAction="never|withText"/>
+        app:showAsAction="never|withText" />
 </menu>

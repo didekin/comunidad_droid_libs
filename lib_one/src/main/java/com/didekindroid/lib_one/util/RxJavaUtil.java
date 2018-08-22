@@ -25,9 +25,9 @@ public class RxJavaUtil {
     {
         return response -> {
             if (response.body() == null) {
-                if (response.errorBody() == null){
+                if (response.errorBody() == null) {
                     return empty();
-                }else {
+                } else {
                     return Maybe.error(new UiException(httpInitializer.get().getHttpHandler().getErrorBean(response)));
                 }
 
@@ -35,3 +35,4 @@ public class RxJavaUtil {
         };
     }
 }
+

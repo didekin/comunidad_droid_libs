@@ -5,6 +5,5 @@
         android:checkable="true"
         android:enabled="true"
         android:title="@string/confidencialidad_mn"
-        android:visible="true"
-        />
+        android:visible="true" />
 </menu>

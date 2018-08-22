@@ -12,7 +12,7 @@ import retrofit2.Response;
 import timber.log.Timber;
 
 import static com.didekindroid.lib_one.HttpInitializer.httpInitializer;
-import static com.didekindroid.lib_one.api.exception.UiExceptionIf.uiExceptionConsumer;
+import static com.didekindroid.lib_one.api.exception.UiException.uiExceptionConsumer;
 import static com.didekindroid.lib_one.security.SecInitializer.secInitializer;
 import static com.didekindroid.lib_one.util.Device.getDeviceLanguage;
 import static com.google.firebase.iid.FirebaseInstanceId.getInstance;

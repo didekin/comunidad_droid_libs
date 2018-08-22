@@ -6,7 +6,6 @@
         android:visible="false">
         <item
             android:id="@+id/user_data_ac_mn"
-            android:title="@string/user_data_ac_mn"
-            />
+            android:title="@string/user_data_ac_mn" />
     </group>
 </menu>

@@ -9,15 +9,13 @@
         <item name="android:textSize">@dimen/text_decription_widget</item>
     </style>
 
-    <style name="optionMenuTextLarge"
-           parent="TextAppearance.AppCompat.Light.Widget.PopupMenu.Large">
+    <style name="optionMenuTextLarge" parent="TextAppearance.AppCompat.Light.Widget.PopupMenu.Large">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">?attr/colorPrimaryDark</item>
         <item name="android:textStyle">normal</item>
     </style>
 
-    <style name="optionMenuTextSmall"
-           parent="TextAppearance.AppCompat.Light.Widget.PopupMenu.Small">
+    <style name="optionMenuTextSmall" parent="TextAppearance.AppCompat.Light.Widget.PopupMenu.Small">
         <item name="android:textSize">@dimen/text_hint_size</item>
         <item name="android:textColor">?attr/colorPrimaryDark</item>
     </style>

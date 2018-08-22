@@ -1,12 +1,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto"
-      xmlns:tools="http://schemas.android.com/tools"
-      tools:context="com.didekindroid.com.didekinaar.comunidad.ComuSearchAc">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.didekindroid.com.didekinaar.comunidad.ComuSearchAc">
     <item
         android:id="@+id/login_ac_mn"
         android:enabled="false"
         android:orderInCategory="100"
         android:title="@string/login_ac_mn"
         android:visible="false"
-        app:showAsAction="never|withText"/>
+        app:showAsAction="never|withText" />
 </menu>

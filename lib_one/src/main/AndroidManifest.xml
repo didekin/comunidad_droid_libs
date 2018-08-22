@@ -1,31 +1,30 @@
-<manifest package="com.didekindroid.lib_one"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.didekindroid.lib_one">
 
     <!-- All of the permissions are non-dangerous permission. No check online. -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <!-- Permissions for GCM services -->
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <!-- .......... -->
     <supports-screens
         android:largeScreens="true"
         android:normalScreens="true"
         android:smallScreens="true"
-        android:xlargeScreens="true"/>
+        android:xlargeScreens="true" />
 
-    <application
-        android:theme="@style/themeOne">
+    <application android:theme="@style/themeOne">
         <!-- **************************************************************** -->
         <!-- ACCESORIO -->
         <!-- **************************************************************** -->
         <!-- Do nothing activity for non-null initialization in routers, mainly.-->
-        <activity android:name="com.didekindroid.lib_one.util.MuteActivity"/>
+        <activity android:name="com.didekindroid.lib_one.util.MuteActivity" />
         <!-- **************************************************************** -->
         <!-- ACCESORIO -->
         <!-- **************************************************************** -->
         <activity
             android:name=".accesorio.ConfidencialidadAc"
-            android:label="@string/confidencialidad_ac_label"/>
+            android:label="@string/confidencialidad_ac_label" />
         <!-- **************************************************************** -->
         <!-- USUARIO -->
         <!-- **************************************************************** -->
@@ -35,29 +34,29 @@
             android:parentActivityName="com.didekindroid.lib_one.usuario.UserDataAc">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.didekindroid.lib_one.usuario.UserDataAc"/>
+                android:value="com.didekindroid.lib_one.usuario.UserDataAc" />
         </activity>
         <activity
             android:name=".usuario.LoginAc"
             android:label="@string/login_label"
-            android:launchMode="singleTop"/>
+            android:launchMode="singleTop" />
         <activity
             android:name="com.didekindroid.lib_one.usuario.PasswordChangeAc"
             android:label="@string/password_ac_label"
             android:parentActivityName="com.didekindroid.lib_one.usuario.UserDataAc">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.didekindroid.lib_one.usuario.UserDataAc"/>
+                android:value="com.didekindroid.lib_one.usuario.UserDataAc" />
         </activity>
         <activity
             android:name=".usuario.UserDataAc"
-            android:label="@string/user_data_ac_mn"/>
+            android:label="@string/user_data_ac_mn" />
         <!-- .......... GCM services ......... -->
         <service
             android:name="com.didekindroid.lib_one.usuario.notification.InstanceIdService"
             android:exported="false">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
     </application>

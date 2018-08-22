@@ -1,6 +1,5 @@
 <!--Quitar este layout: en la librería.-->
-<android.support.design.widget.AppBarLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -20,5 +19,5 @@
         app:layout_scrollFlags="scroll|snap"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
         app:titleTextAppearance="@style/appBarTitle"
-        tools:ignore="UnusedAttribute"/>
+        tools:ignore="UnusedAttribute" />
 </android.support.design.widget.AppBarLayout>

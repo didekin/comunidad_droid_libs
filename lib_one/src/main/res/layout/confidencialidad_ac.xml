@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    android:id="@+id/confidencialidad_ac_layout"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/confidencialidad_ac_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:fitsSystemWindows="true"
     tools:context="com.didekindroid.lib_one.accesorio.ConfidencialidadAc">
 
-    <include layout="@layout/appbar_include_design"/>
+    <include layout="@layout/appbar_include_design" />
 
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/confidencialidad_scroll_view"
@@ -24,7 +23,7 @@
             android:layout_margin="@dimen/text_margin"
             android:gravity="start"
             android:text="@string/proteccion_datos_txt"
-            android:textAlignment="gravity"/>
+            android:textAlignment="gravity" />
     </android.support.v4.widget.NestedScrollView>
 
     <android.support.design.widget.FloatingActionButton
@@ -32,6 +31,6 @@
         style="@style/floatingButton"
         app:fabSize="mini"
         app:rippleColor="@color/deep_orange_200"
-        app:srcCompat="@drawable/ic_keyboard_return_black_24dp"/>
+        app:srcCompat="@drawable/ic_keyboard_return_black_24dp" />
 
 </android.support.design.widget.CoordinatorLayout>
