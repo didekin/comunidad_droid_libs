@@ -87,9 +87,7 @@ public class ViewerUserDataTest {
     {
         isClean = false;
         activity = activityRule.getActivity();
-        AtomicReference<ViewerUserData> atomicViewer = new AtomicReference<>(null);
-        atomicViewer.compareAndSet(null, activity.viewer);
-        waitAtMost(4, SECONDS).untilAtomic(atomicViewer, notNullValue());
+        waitAtMost(4, SECONDS).until(() -> activity.viewer != null);
     }
 
     @After
@@ -106,9 +104,11 @@ public class ViewerUserDataTest {
     // ============================================================
 
     @Test
-    public void testDoViewInViewer_1()
+    public void testDoViewInViewer()
     {
         // test_NewViewerUserData.
+        waitAtMost(4, SECONDS).untilAtomic(activity.viewer.getOldUser(), is(usuario));
+
         assertThat(activity.viewer.getEmailView(), notNullValue());
         assertThat(activity.viewer.getAliasView(), notNullValue());
         assertThat(activity.viewer.getPasswordView(), notNullValue());
@@ -117,14 +117,8 @@ public class ViewerUserDataTest {
         assertThat(activity.viewer.getOldUser(), notNullValue());
         assertThat(activity.viewer.getNewUser(), notNullValue());
 
-        waitAtMost(4, SECONDS).untilAtomic(activity.viewer.getOldUser(), is(usuario));
         checkUserDataLoaded();
-    }
 
-    @Test
-    public void testDoViewInViewer_2()
-    {
-        waitAtMost(4, SECONDS).untilAtomic(activity.viewer.getOldUser(), is(usuario));
         waitAtMost(4, SECONDS).until(isResourceIdDisplayed(userDataAcRsId));
         waitAtMost(4, SECONDS).until(isViewDisplayed(allOf(withId(R.id.reg_usuario_email_editT), withText(containsString(usuario.getUserName())))));
         waitAtMost(4, SECONDS).until(isViewDisplayed(allOf(withId(R.id.reg_usuario_alias_ediT), withText(containsString(usuario.getAlias())))));

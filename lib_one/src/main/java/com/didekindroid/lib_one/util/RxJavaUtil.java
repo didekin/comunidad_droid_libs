@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.didekindroid.lib_one.api.exception.UiException;
 
 import java.io.Serializable;
+import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.CompletableSource;
@@ -57,6 +58,19 @@ public class RxJavaUtil {
 
     @NonNull
     public static <T extends Serializable> Function<Response<T>, SingleSource<T>> getResponseSingleFunction()
+    {
+        Timber.d("getResponseSingleFunction()");
+        return response -> {
+            if (response.errorBody() != null) {
+                return Single.error(new UiException(httpInitializer.get().getHttpHandler().getErrorBean(response)));
+            } else {
+                return Single.just(httpInitializer.get().getResponseBody(response));
+            }
+        };
+    }
+
+    @NonNull
+    static <T extends List<E>, E extends Serializable> Function<Response<T>, SingleSource<T>> getResponseSingleListFunction()
     {
         Timber.d("getResponseSingleFunction()");
         return response -> {
