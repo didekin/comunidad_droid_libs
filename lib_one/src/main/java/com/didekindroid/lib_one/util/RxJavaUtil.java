@@ -70,7 +70,7 @@ public class RxJavaUtil {
     }
 
     @NonNull
-    static <T extends List<E>, E extends Serializable> Function<Response<T>, SingleSource<T>> getResponseSingleListFunction()
+    public static <T extends List<E>, E extends Serializable> Function<Response<T>, SingleSource<T>> getRespSingleListFunction()
     {
         Timber.d("getResponseSingleFunction()");
         return response -> {
