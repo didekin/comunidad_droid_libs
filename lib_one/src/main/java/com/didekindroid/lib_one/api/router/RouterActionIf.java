@@ -30,6 +30,12 @@ public interface RouterActionIf {
         initActivity(activity, bundle, 0);
     }
 
+    default void initActivity(@NonNull Activity activity, int flags)
+    {
+        Timber.d("initActivity(), default two parameters");
+        initActivity(activity, null, flags);
+    }
+
     default void initActivity(@NonNull Activity activity, @Nullable Bundle bundle, int flags)
     {
         Timber.d("initActivity(), default three parameters");

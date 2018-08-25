@@ -1,7 +1,9 @@
 package com.didekindroid.lib_one.api.router;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import timber.log.Timber;
 
@@ -17,7 +19,12 @@ public interface UiExceptionActionIf extends RouterActionIf {
 
     int getResourceIdForToast();
 
-    void handleExceptionInUi(@NonNull Activity activity);
+    default void handleExceptionInUi(@NonNull Activity activity, @Nullable Bundle bundle, int flags)
+    {
+        Timber.d("handleExceptionInUi()");
+        showToast(activity);
+        initActivity(activity, bundle, flags);
+    }
 
     default void showToast(@NonNull Activity activity)
     {
