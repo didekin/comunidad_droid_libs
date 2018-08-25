@@ -54,6 +54,7 @@ public class CtrlerNotifyTokenTest {
     public void cleanUp()
     {
         cleanOneUser(user_crodrigo.getUserName());
+        assertThat(controller.clearSubscriptions(), is(0));
     }
 
     //    ................................. INSTANCE METHODS ...............................
@@ -61,11 +62,7 @@ public class CtrlerNotifyTokenTest {
     @Test
     public void test_modifyGcmTokenSync_1()
     {
-        // Preconditions.
-        identityCacher.updateIsGcmTokenSentServer(false);
-        /* Execute.*/
-        controller.modifyGcmTokenSync(new ServiceDisposableObserver(controller));
-        assertThat(identityCacher.isGcmTokenSentServer(), is(true));
+        assertThat(controller.modifyGcmTokenSync(new ServiceDisposableObserver(controller)), is(true));
         assertThat(controller.getSubscriptions().size(), is(1));
     }
 
@@ -73,11 +70,9 @@ public class CtrlerNotifyTokenTest {
     public void test_modifyGcmTokenSync_2()
     {
         // Preconditions.
-        identityCacher.updateIsRegistered(false);
-        identityCacher.updateIsGcmTokenSentServer(false);
+        identityCacher.updateAuthToken(null);
         /* Execute.*/
         assertThat(controller.modifyGcmTokenSync(new ServiceDisposableObserver(controller)), is(false));
         assertThat(controller.getSubscriptions().size(), is(0));
-        assertThat(identityCacher.isGcmTokenSentServer(), is(false));
     }
 }

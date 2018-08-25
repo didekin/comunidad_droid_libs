@@ -68,20 +68,6 @@ public class ControllerTest {
     }
 
     @Test
-    public void testIsRegisteredUser()
-    {
-        controller.updateIsRegistered(true);
-        assertThat(controller.isRegisteredUser(), is(true));
-    }
-
-    @Test
-    public void testUpdateIsRegistered()
-    {
-        controller.updateIsRegistered(false);
-        assertThat(controller.isRegisteredUser(), is(false));
-    }
-
-    @Test
     public void testGetIdentityCacher()
     {
         assertThat(controller.getTkCacher(), notNullValue());

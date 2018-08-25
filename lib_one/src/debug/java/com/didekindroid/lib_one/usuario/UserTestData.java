@@ -78,9 +78,7 @@ public final class UserTestData {
     {
     }
 
-    public static final Consumer<String> updateAuthCacheNewUser = newAuthTk -> secInitializer.get().getTkCacher()
-            .updateAuthToken(newAuthTk)
-            .updateIsGcmTokenSentServer(true);
+    public static final Consumer<String> updateAuthCacheNewUser = newAuthTk -> secInitializer.get().getTkCacher().updateAuthToken(newAuthTk);
 
     public static final BiFunction<UsuarioComunidad, String, UsuarioComunidad> getUserComuWithTk =
             (userComuIn, gcmToken) -> new UsuarioComunidad.UserComuBuilder
@@ -136,7 +134,7 @@ public final class UserTestData {
 
     public static void cleanWithTkhandler()
     {
-        secInitializer.get().getTkCacher().updateIsRegistered(false);
+        secInitializer.get().getTkCacher().updateAuthToken(null);
     }
 
     public static void cleanOptions(CleanUserEnum whatClean)

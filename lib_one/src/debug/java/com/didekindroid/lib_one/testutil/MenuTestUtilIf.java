@@ -9,5 +9,5 @@ import android.app.Activity;
  */
 @FunctionalInterface
 public interface MenuTestUtilIf {
-    void checkItem(Activity activity) throws InterruptedException;
+    void checkItem(Activity activity);
 }

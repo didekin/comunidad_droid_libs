@@ -161,7 +161,6 @@ public class ViewerLoginTest {
     {
         activity.viewerLogin = new ViewerLogin(
                 activity,
-                null,
                 new RouterInitializerMock() {
                     @Override
                     public ContextualRouterIf getContextRouter()

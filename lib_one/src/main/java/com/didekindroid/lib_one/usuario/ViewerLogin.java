@@ -14,7 +14,6 @@ import android.widget.EditText;
 import com.didekindroid.lib_one.R;
 import com.didekindroid.lib_one.api.AbsCompletableObserver;
 import com.didekindroid.lib_one.api.Viewer;
-import com.didekindroid.lib_one.api.ViewerIf;
 import com.didekindroid.lib_one.api.router.RouterInitializerIf;
 import com.didekindroid.lib_one.usuario.dao.CtrlerUsuario;
 import com.didekinlib.model.usuario.Usuario;
@@ -30,8 +29,8 @@ import static com.didekindroid.lib_one.usuario.UsuarioBundleKey.usuario_object;
 import static com.didekindroid.lib_one.usuario.ViewerLogin.PasswordMailDialog.newInstance;
 import static com.didekindroid.lib_one.usuario.router.UserContextName.login_just_done;
 import static com.didekindroid.lib_one.util.CommonAssertionMsg.bean_fromView_should_be_initialized;
+import static com.didekindroid.lib_one.util.ConnectionUtils.checkInternetConnected;
 import static com.didekindroid.lib_one.util.UiUtil.assertTrue;
-import static com.didekindroid.lib_one.util.UiUtil.checkInternet;
 import static com.didekindroid.lib_one.util.UiUtil.getContetViewInAc;
 import static com.didekindroid.lib_one.util.UiUtil.getErrorMsgBuilder;
 import static com.didekindroid.lib_one.util.UiUtil.getUiExceptionFromThrowable;
@@ -59,7 +58,7 @@ public final class ViewerLogin extends Viewer<View, CtrlerUsuario> {
         usuarioBean = new AtomicReference<>(null);
     }
 
-    protected ViewerLogin(Activity activity, ViewerIf parentViewer, RouterInitializerIf routerInitializer)
+    protected ViewerLogin(Activity activity, RouterInitializerIf routerInitializer)
     {
         super(getContetViewInAc(activity), activity, null, routerInitializer);
         usuarioBean = new AtomicReference<>(null);
@@ -132,7 +131,7 @@ public final class ViewerLogin extends Viewer<View, CtrlerUsuario> {
             makeToast(activity, errorBuilder.toString());
             return false;
         }
-        return checkInternet(activity);
+        return checkInternetConnected(activity);
     }
 
     public boolean checkLoginData()
@@ -145,7 +144,7 @@ public final class ViewerLogin extends Viewer<View, CtrlerUsuario> {
             makeToast(activity, errorBuilder.toString());
             return false;
         }
-        return checkInternet(activity);
+        return checkInternetConnected(activity);
     }
 
     public String[] getLoginDataFromView()

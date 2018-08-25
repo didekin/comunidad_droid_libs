@@ -1,6 +1,5 @@
 package com.didekindroid.lib_one.testutil;
 
-import com.didekindroid.lib_one.api.Controller;
 import com.didekindroid.lib_one.api.ControllerIf;
 
 import io.reactivex.android.plugins.RxAndroidPlugins;

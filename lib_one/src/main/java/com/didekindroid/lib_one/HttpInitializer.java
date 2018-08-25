@@ -9,7 +9,6 @@ import com.didekinlib.http.JksInClient;
 import com.didekinlib.model.common.dominio.BeanBuilder;
 
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
 import retrofit2.Response;
@@ -68,7 +67,7 @@ public final class HttpInitializer implements HttpInitializerIf {
 
     public static class HttpInitializerBuilder implements BeanBuilder<HttpInitializer> {
 
-        private Context context;
+        private final Context context;
         private String webHostPortStr;
         private int timeOut;
         private JksInClient jksInClient;

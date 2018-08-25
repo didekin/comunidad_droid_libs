@@ -13,5 +13,5 @@ import io.reactivex.observers.DisposableCompletableObserver;
  */
 
 public interface CtrlerNotifyTokenIf extends ControllerIf {
-    boolean modifyGcmTokenSync(DisposableCompletableObserver observer) throws UiException;
+    boolean modifyGcmTokenSync(DisposableCompletableObserver observer);
 }

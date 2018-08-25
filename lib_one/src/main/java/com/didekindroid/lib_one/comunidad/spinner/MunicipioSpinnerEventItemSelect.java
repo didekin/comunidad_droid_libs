@@ -13,7 +13,7 @@ import timber.log.Timber;
 
 public class MunicipioSpinnerEventItemSelect implements SpinnerEventItemSelectIf {
 
-    private Municipio municipio;
+    final private Municipio municipio;
 
     public MunicipioSpinnerEventItemSelect(Municipio municipio)
     {

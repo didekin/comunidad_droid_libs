@@ -52,7 +52,6 @@ public class UsuarioDaoTest {
     {
         initSec_Http(getTargetContext());
         tkCacher = (AuthTkCacher) secInitializer.get().getTkCacher();
-        tkCacher.updateIsRegistered(false); // To be sure.
     }
 
     @After
@@ -70,7 +69,7 @@ public class UsuarioDaoTest {
         assertThat(regComuUserUserComuGetAuthTk(comu_real_rodrigo), notNullValue());
         // Exec, check.
         usuarioDaoRemote.deleteUser().test();
-        assertThat(tkCacher.isRegisteredCache(), is(false));
+        assertThat(tkCacher.isUserRegistered(), is(false));
     }
 
     @Test
@@ -110,7 +109,7 @@ public class UsuarioDaoTest {
                 .assertError(
                         exception -> UiException.class.cast(exception).getErrorBean().getMessage().equals(USER_NOT_FOUND.getHttpMessage())
                 );
-        assertThat(tkCacher.isRegisteredCache(), is(false));
+        assertThat(tkCacher.isUserRegistered(), is(false));
     }
 
     @Test
@@ -121,21 +120,22 @@ public class UsuarioDaoTest {
         // Pongo a null el authToken para ver el cambio:
         tkCacher.updateAuthToken(null);
         usuarioDaoRemote.login(user_crodrigo.getUserName(), user_crodrigo.getPassword()).test().await();
-        assertThat(tkEncrypted_direct_symmetricKey_REGEX.isPatternOk(tkCacher.getAuthToken()), is(true));
-        assertThat(tkCacher.isRegisteredCache(), is(true));
-        assertThat(tkCacher.isGcmTokenSentServer(), is(true));
+        assertThat(tkEncrypted_direct_symmetricKey_REGEX.isPatternOk(tkCacher.getAuthTokenCache()), is(true));
+        assertThat(tkCacher.isUserRegistered(), is(true));
     }
 
     @Test
-    public void testmodifyGcmToken() throws Exception
+    public void testmodifyGcmToken() throws Exception     // TODO: seguir aquí.
     {
         whatClean = CLEAN_RODRIGO;
         Usuario userDb = regComuUserUserComuGetUser(comu_real_rodrigo);
-
-        usuarioDaoRemote.modifyGcmToken("new_crodrigo_gcmtoken").test().await();
-        assertThat(tkEncrypted_direct_symmetricKey_REGEX.isPatternOk(tkCacher.getAuthToken()),
+        String oldGcmTk = tkCacher.getAuthTokenCache();
+        /* Exec */
+        usuarioDaoRemote.modifyGcmToken().test().await();
+        assertThat(tkEncrypted_direct_symmetricKey_REGEX.isPatternOk(tkCacher.getAuthTokenCache()),
                 is(true));
-        assertThat(tkCacher.isGcmTokenSentServer(), is(true));
+        // The authToken in cache has changed.
+        assertThat(tkCacher.getAuthTokenCache().equals(oldGcmTk), is(false));
     }
 
     @Test
@@ -161,7 +161,7 @@ public class UsuarioDaoTest {
                 .build();
 
         usuarioDaoRemote.modifyUserName(usuarioIn).test().await();
-        assertThat(tkCacher.isRegisteredCache(), is(true));
+        assertThat(tkCacher.isUserRegistered(), is(true));
 
         cleanOneUser(USER_DROID.getUserName());
     }
@@ -173,7 +173,7 @@ public class UsuarioDaoTest {
 
         Usuario usuarioIn = regComuUserUserComuGetUser(comu_real_rodrigo);
         usuarioDaoRemote.passwordChange(user_crodrigo.getPassword(), "new_password").test().await();
-        assertThat(tkCacher.getAuthToken(), allOf(
+        assertThat(tkCacher.getAuthTokenCache(), allOf(
                 not(is(usuarioIn.getTokenAuth())),
                 notNullValue()
         ));
@@ -185,6 +185,6 @@ public class UsuarioDaoTest {
         whatClean = CLEAN_RODRIGO;
         regComuUserUserComuGetAuthTk(comu_real_rodrigo);
         usuarioDaoRemote.passwordSend(user_crodrigo.getUserName()).test().assertComplete();
-        assertThat(tkCacher.getAuthToken(), nullValue());
+        assertThat(tkCacher.getAuthTokenCache(), nullValue());
     }
 }

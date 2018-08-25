@@ -39,7 +39,7 @@ public class SecInitializerTest {
     @After
     public void cleanUp()
     {
-        tkCacher.updateIsRegistered(false);
+        tkCacher.updateAuthToken(null);
     }
 
     @Test
@@ -51,6 +51,6 @@ public class SecInitializerTest {
         assertThat(secInitializer.getJksInClient(), notNullValue());
         assertThat(secInitializer.getAppResources(), notNullValue());
         tkCacher = (AuthTkCacher) secInitializer.getTkCacher();
-        assertThat(tkCacher.isRegisteredCache(), allOf(notNullValue(), is(false)));
+        assertThat(tkCacher.isUserRegistered(), allOf(notNullValue(), is(false)));
     }
 }

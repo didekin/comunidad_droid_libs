@@ -26,8 +26,8 @@ import static com.didekindroid.lib_one.usuario.ViewerUserDataIf.UserChangeToMake
 import static com.didekindroid.lib_one.usuario.router.UserContextName.user_alias_just_modified;
 import static com.didekindroid.lib_one.usuario.router.UserContextName.user_name_just_modified;
 import static com.didekindroid.lib_one.util.CommonAssertionMsg.user_should_be_registered;
+import static com.didekindroid.lib_one.util.ConnectionUtils.checkInternetConnected;
 import static com.didekindroid.lib_one.util.UiUtil.assertTrue;
-import static com.didekindroid.lib_one.util.UiUtil.checkInternet;
 import static com.didekindroid.lib_one.util.UiUtil.getContetViewInAc;
 import static com.didekindroid.lib_one.util.UiUtil.getErrorMsgBuilder;
 import static com.didekindroid.lib_one.util.UiUtil.getUiExceptionFromThrowable;
@@ -125,7 +125,7 @@ public final class ViewerUserData extends Viewer<View, CtrlerUsuarioIf> implemen
             makeToast(activity, errorBuilder.toString());
             return false;
         }
-        return checkInternet(activity);
+        return checkInternetConnected(activity);
     }
 
     /**

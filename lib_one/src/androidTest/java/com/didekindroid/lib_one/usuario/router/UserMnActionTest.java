@@ -79,7 +79,7 @@ public class UserMnActionTest {
     {
         activity = activityRule.getActivity();
         initSecurity(activity);
-        secInitializer.get().getTkCacher().updateIsRegistered(false);
+        secInitializer.get().getTkCacher().updateAuthToken(null);
     }
 
     // ============================================================
@@ -128,8 +128,8 @@ public class UserMnActionTest {
     public void test_delete_me_mn()
     {
         initSec_Http(activity);
-        secInitializer.get().getTkCacher().updateIsRegistered(true);
-        waitAtMost(4, SECONDS).until(secInitializer.get().getTkCacher()::isRegisteredCache);
+        secInitializer.get().getTkCacher().updateAuthToken("mock_gcmToken");
+        waitAtMost(4, SECONDS).until(secInitializer.get().getTkCacher()::isUserRegistered);
 
         delete_me_mn.initActivity(activity);
         intended(hasComponent(DeleteMeAc.class.getName()));
@@ -147,7 +147,7 @@ public class UserMnActionTest {
     public void test_password_change_mn()
     {
         initSec_Http_Router(activity);
-        secInitializer.get().getTkCacher().updateIsRegistered(true);
+        secInitializer.get().getTkCacher().updateAuthToken("mock_gcmToken");
 
         password_change_mn.initActivity(activity);
         intended(hasComponent(PasswordChangeAc.class.getName()));
@@ -157,7 +157,7 @@ public class UserMnActionTest {
     public void test_user_data_mn()
     {
         initSec_Http_Router(activity);
-        secInitializer.get().getTkCacher().updateIsRegistered(true);
+        secInitializer.get().getTkCacher().updateAuthToken("mock_gcmToken");
 
         user_data_mn.initActivity(activity);
         intended(hasComponent(UserDataAc.class.getName()));

@@ -39,8 +39,8 @@ import static com.didekindroid.lib_one.util.DrawerConstant.nav_view_rsId;
 public final class ViewerUserDrawer extends Viewer<DrawerLayout, CtrlerUsuario> {
 
 
-    private TextView drawerHeaderRot;
-    private NavigationView navView;
+    private final TextView drawerHeaderRot;
+    private final NavigationView navView;
 
     private ViewerUserDrawer(DrawerDecoratedIf drawerDecorated)
     {

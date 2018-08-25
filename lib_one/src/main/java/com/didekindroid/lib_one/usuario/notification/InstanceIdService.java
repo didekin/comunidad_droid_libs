@@ -1,6 +1,5 @@
 package com.didekindroid.lib_one.usuario.notification;
 
-import com.didekindroid.lib_one.api.exception.UiException;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
 import io.reactivex.observers.DisposableCompletableObserver;
@@ -21,17 +20,10 @@ public class InstanceIdService extends FirebaseInstanceIdService {
     {
         Timber.d("onTokenRefresh()");
         final CtrlerNotifyTokenIf controller = new CtrlerNotifyToken();
-        try {
-            controller.modifyGcmTokenSync(new ServiceDisposableObserver(controller));
-        } catch (UiException e) {
-            Timber.e("======= onTokenRefresh(); exception: %s%n ============", e.getErrorHtppMsg());
-        }
+        controller.modifyGcmTokenSync(new ServiceDisposableObserver(controller));
         controller.clearSubscriptions();
     }
 
-    /**
-     * Inner class to make easier to test the service's method in the controller.
-     */
     @SuppressWarnings("WeakerAccess")
     public static class ServiceDisposableObserver extends DisposableCompletableObserver {
 
@@ -45,14 +37,14 @@ public class InstanceIdService extends FirebaseInstanceIdService {
         @Override
         public void onComplete()
         {
-            Timber.d("onComplete()");
-            controller.getTkCacher().updateIsGcmTokenSentServer(true);
+            Timber.d("============= onComplete() ===============");
         }
 
         @Override
         public void onError(Throwable error)
         {
-            Timber.d("onError()");
+            Timber.d("============ onError() ============");
+            Timber.d(error);
         }
     }
 }

@@ -28,7 +28,7 @@ public interface ViewerSelectListIf<T extends AdapterView, C extends CtrlerSelec
 
     void setSelectedItemId(long itemSelectedId);
 
-    int getSelectedPositionFromItemId(Function<E, Long> beanIdFunc) throws Exception;
+    int getSelectedPositionFromItemId(Function<E, Long> beanIdFunc);
 
     void onSuccessLoadSelectedItem(@NonNull Bundle bundle);
 }

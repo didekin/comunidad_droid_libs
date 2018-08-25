@@ -8,6 +8,8 @@ import com.didekindroid.lib_one.R;
 
 import timber.log.Timber;
 
+import static com.didekindroid.lib_one.util.UiUtil.makeToast;
+
 /**
  * User: pedro
  * Date: 17/02/15

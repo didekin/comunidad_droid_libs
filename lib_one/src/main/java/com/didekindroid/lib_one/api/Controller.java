@@ -49,16 +49,9 @@ public class Controller implements ControllerIf {
     @Override
     public boolean isRegisteredUser()
     {
-        boolean isRegistered = tkCacher.isRegisteredCache();
+        boolean isRegistered = tkCacher.isUserRegistered();
         Timber.d("isRegisteredUser() = %b", isRegistered);
         return isRegistered;
-    }
-
-    @Override
-    public void updateIsRegistered(boolean isRegisteredUser)
-    {
-        Timber.d("updateIsRegistered()");
-        tkCacher.updateIsRegistered(isRegisteredUser);
     }
 
     @Override

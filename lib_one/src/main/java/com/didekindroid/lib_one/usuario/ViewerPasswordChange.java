@@ -22,7 +22,7 @@ import timber.log.Timber;
 import static com.didekindroid.lib_one.usuario.UsuarioBundleKey.user_name;
 import static com.didekindroid.lib_one.usuario.router.UserContextName.pswd_just_modified;
 import static com.didekindroid.lib_one.usuario.router.UserContextName.pswd_just_sent_to_user;
-import static com.didekindroid.lib_one.util.ConnectionUtils.isInternetConnected;
+import static com.didekindroid.lib_one.util.ConnectionUtils.checkInternetConnected;
 import static com.didekindroid.lib_one.util.UiUtil.getErrorMsgBuilder;
 import static com.didekindroid.lib_one.util.UiUtil.getUiExceptionFromThrowable;
 import static com.didekindroid.lib_one.util.UiUtil.makeToast;
@@ -160,11 +160,7 @@ public final class ViewerPasswordChange extends Viewer<View, CtrlerUsuario> {
             makeToast(activity, R.string.password_wrong);
             return false;
         }
-        if (!isInternetConnected(activity)) {
-            makeToast(activity, R.string.no_internet_conn_toast);
-            return false;
-        }
-        return true;
+        return checkInternetConnected(activity);
     }
 
     @NonNull

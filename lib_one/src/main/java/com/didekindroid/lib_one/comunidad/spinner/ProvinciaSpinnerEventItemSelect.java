@@ -13,7 +13,7 @@ import timber.log.Timber;
 
 public class ProvinciaSpinnerEventItemSelect implements SpinnerEventItemSelectIf {
 
-    private Provincia provincia;
+    final private Provincia provincia;
 
     public ProvinciaSpinnerEventItemSelect(Provincia provincia)
     {

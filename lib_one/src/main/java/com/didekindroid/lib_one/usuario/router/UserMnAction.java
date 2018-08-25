@@ -57,7 +57,7 @@ public enum UserMnAction implements MnRouterActionIf {
                 Intent intent =
                         new Intent(
                                 activity,
-                                secInitializer.get().getTkCacher().isRegisteredCache() ? login_from_default.getAcToGo() : routerInitializer.get().getDefaultAc()
+                                secInitializer.get().getTkCacher().isUserRegistered() ? login_from_default.getAcToGo() : routerInitializer.get().getDefaultAc()
                         );
                 intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
                 activity.startActivity(intent);
@@ -76,7 +76,7 @@ public enum UserMnAction implements MnRouterActionIf {
         @Override
         public void initActivity(@NonNull Activity activity)
         {
-            assertTrue(!secInitializer.get().getTkCacher().isRegisteredCache(), user_should_not_be_registered);
+            assertTrue(!secInitializer.get().getTkCacher().isUserRegistered(), user_should_not_be_registered);
             super.initActivity(activity);
         }
     },

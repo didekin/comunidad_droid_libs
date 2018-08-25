@@ -9,6 +9,7 @@ import com.didekindroid.lib_one.R;
 import com.didekindroid.lib_one.api.router.UiExceptionActionIf;
 import com.didekindroid.lib_one.usuario.LoginAc;
 import com.didekindroid.lib_one.usuario.UserDataAc;
+import com.didekindroid.lib_one.util.MuteActivity;
 import com.didekinlib.http.exception.ExceptionMsgIf;
 
 import java.util.EnumSet;
@@ -21,6 +22,7 @@ import timber.log.Timber;
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 import static com.didekindroid.lib_one.security.AuthTkCacher.AuthTkCacherExceptionMsg.AUTH_HEADER_WRONG;
 import static com.didekindroid.lib_one.util.UiUtil.makeToast;
+import static com.didekinlib.http.exception.GenericExceptionMsg.FIREBASE_SERVICE_NOT_AVAILABLE;
 import static com.didekinlib.http.usuario.UsuarioExceptionMsg.BAD_REQUEST;
 import static com.didekinlib.http.usuario.UsuarioExceptionMsg.PASSWORD_NOT_SENT;
 import static com.didekinlib.http.usuario.UsuarioExceptionMsg.TOKEN_ENCRYP_DECRYP_ERROR;
@@ -44,6 +46,9 @@ import static java.util.EnumSet.of;
 
 public enum UserUiExceptionAction implements UiExceptionActionIf {
 
+    firebase_service_unavailable(of(FIREBASE_SERVICE_NOT_AVAILABLE),
+            R.string.no_internet_conn_toast,
+            MuteActivity.class),
     show_login_noUser(
             of(
                     BAD_REQUEST,
@@ -64,13 +69,11 @@ public enum UserUiExceptionAction implements UiExceptionActionIf {
             R.string.user_with_token_null,
             LoginAc.class),
     show_login_no_authHeader(
-            of(
-                    AUTH_HEADER_WRONG),
+            of(AUTH_HEADER_WRONG),
             show_login_unauthorized.getResourceIdForToast(),
             show_login_unauthorized.getAcToGo()),
     show_userData_wrongMail(
-            of(
-                    PASSWORD_NOT_SENT),
+            of(PASSWORD_NOT_SENT),
             R.string.user_email_wrong,
             UserDataAc.class),;
 

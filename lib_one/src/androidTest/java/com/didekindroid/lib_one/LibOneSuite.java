@@ -1,6 +1,5 @@
 package com.didekindroid.lib_one;
 
-import com.didekindroid.lib_one.accesorio.ConfidencialidadAc;
 import com.didekindroid.lib_one.accesorio.ConfidencialidadAcTest;
 import com.didekindroid.lib_one.api.ControllerTest;
 import com.didekindroid.lib_one.api.ObserverSingleListTest;

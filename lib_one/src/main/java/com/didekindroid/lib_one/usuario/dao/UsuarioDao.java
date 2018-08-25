@@ -92,13 +92,13 @@ public final class UsuarioDao implements UsuarioEndPoints {
     public Completable deleteUser()
     {
         Timber.d("deleteUser(), Thread: %s", currentThread().getName());
-        return just(true)
-                .flatMap(booleanIn -> deleteUser(tkCacher.doAuthHeaderStr()))
+        return idHelper.getTokenSingle()
+                .flatMap(gcmToken -> deleteUser(tkCacher.doAuthHeaderStr(gcmToken)))
                 .flatMap(getResponseSingleFunction())
                 .doOnError(uiExceptionConsumer)
                 .doOnSuccess(isDeleted -> {
                     if (isDeleted) {
-                        tkCacher.updateIsRegistered(false);
+                        tkCacher.updateAuthToken(null);
                     }
                 })
                 .ignoreElement();
@@ -107,8 +107,8 @@ public final class UsuarioDao implements UsuarioEndPoints {
     public Single<String> getGcmToken()
     {
         Timber.d("getGcmToken(), Thread: %s", currentThread().getName());
-        return just(true)
-                .flatMap(emptyStr -> getUserData(tkCacher.doAuthHeaderStr()))
+        return idHelper.getTokenSingle()
+                .flatMap(gcmToken -> getUserData(tkCacher.doAuthHeaderStr(gcmToken)))
                 .flatMap(getResponseSingleFunction())
                 .map(Usuario::getGcmToken)
                 .doOnError(uiExceptionConsumer);
@@ -118,14 +118,14 @@ public final class UsuarioDao implements UsuarioEndPoints {
     public Single<Usuario> getUserData()
     {
         Timber.d("getUserData(), Thread: %s", currentThread().getName());
-        return just(true)
-                .flatMap(booleanIn -> getUserData(tkCacher.doAuthHeaderStr()))
+        return idHelper.getTokenSingle()
+                .flatMap(gcmToken -> getUserData(tkCacher.doAuthHeaderStr(gcmToken)))
                 .flatMap(getResponseSingleFunction())
                 .doOnError(uiExceptionConsumer);
     }
 
     /**
-     *  This method should be called asynchronously.
+     * This method should be called asynchronously.
      */
     public Completable login(String userName, String password)
     {
@@ -134,26 +134,32 @@ public final class UsuarioDao implements UsuarioEndPoints {
                 .flatMap(booleanIn -> login(userName, password, idHelper.getTokenSingle().blockingGet()))
                 .flatMap(getResponseSingleFunction())
                 .doOnError(uiExceptionConsumer)
-                .doOnSuccess(newAuthTk -> tkCacher.updateAuthToken(newAuthTk).updateIsGcmTokenSentServer(true))
+                .doOnSuccess(tkCacher::updateAuthToken)
                 .ignoreElement();
     }
 
-    public Completable modifyGcmToken(String gcmToken)
+    /**
+     *  Use case: Firebase communicates that a new FirebaseInstanceId has been created.
+     *  This methods updates in Didekin DB the new token.
+     *  Since in DB there exists still the token in the local cache, we build the authHeader with its value and we communicate
+     *  the new token supplie by idHelper.
+     */
+    public Completable modifyGcmToken()
     {
         Timber.d("modifyGcmToken(), Thread: %s", currentThread().getName());
-        return just(gcmToken)
-                .flatMap(gcmTokenIn -> modifyGcmToken(tkCacher.doAuthHeaderStr(), gcmTokenIn))
+        return idHelper.getTokenSingle()
+                .flatMap(gcmTokenIn -> modifyGcmToken(tkCacher.doAuthHeaderStr(tkCacher.getAuthTokenCache()), gcmTokenIn))
                 .flatMap(getResponseSingleFunction())
                 .doOnError(uiExceptionConsumer)
-                .doOnSuccess(newAuthTk -> tkCacher.updateAuthToken(newAuthTk).updateIsGcmTokenSentServer(true))
+                .doOnSuccess(tkCacher::updateAuthToken)
                 .ignoreElement();
     }
 
     public Single<Boolean> modifyUserName(Usuario usuario)
     {
         Timber.d("modifyUserName(), Thread: %s", currentThread().getName());
-        return just(usuario)
-                .flatMap(usuarioIn -> modifyUser(getDeviceLanguage(), tkCacher.doAuthHeaderStr(), usuarioIn))
+        return idHelper.getTokenSingle()
+                .flatMap(gcmToken -> modifyUser(getDeviceLanguage(), tkCacher.doAuthHeaderStr(gcmToken), usuario))
                 .flatMap(getResponseSingleFunction())
                 .map(response -> response > 0)
                 .doOnError(uiExceptionConsumer);
@@ -162,8 +168,8 @@ public final class UsuarioDao implements UsuarioEndPoints {
     public Single<Boolean> modifyUserAlias(Usuario usuario)
     {
         Timber.d("modifyUseAlias(), Thread: %s", currentThread().getName());
-        return just(usuario)
-                .flatMap(usuarioIn -> modifyUser(getDeviceLanguage(), tkCacher.doAuthHeaderStr(), usuarioIn))
+        return idHelper.getTokenSingle()
+                .flatMap(gcmToken -> modifyUser(getDeviceLanguage(), tkCacher.doAuthHeaderStr(gcmToken), usuario))
                 .flatMap(getResponseSingleFunction())
                 .map(response -> response > 0)
                 .doOnError(uiExceptionConsumer);
@@ -172,8 +178,8 @@ public final class UsuarioDao implements UsuarioEndPoints {
     public Completable passwordChange(String oldPswd, String newPassword)
     {
         Timber.d("passwordChange(), Thread: %s", currentThread().getName());
-        return just(true)
-                .flatMap(booleanIn -> passwordChange(tkCacher.doAuthHeaderStr(), oldPswd, newPassword))
+        return idHelper.getTokenSingle()
+                .flatMap(gcmToken -> passwordChange(tkCacher.doAuthHeaderStr(gcmToken), oldPswd, newPassword))
                 .flatMap(getResponseSingleFunction())
                 .doOnError(uiExceptionConsumer)
                 .doOnSuccess(tkCacher::updateAuthToken)

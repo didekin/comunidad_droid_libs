@@ -36,7 +36,7 @@ import static com.didekindroid.lib_one.util.UiUtil.assertTrue;
  */
 public class UiTestUtil {
 
-    public static int focusOnView(Activity activity, int viewRsId)
+    public static void focusOnView(Activity activity, int viewRsId)
     {
         final View view = activity.findViewById(viewRsId);
 
@@ -45,7 +45,6 @@ public class UiTestUtil {
             view.setFocusableInTouchMode(true);
             view.requestFocus();
         });
-        return viewRsId;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

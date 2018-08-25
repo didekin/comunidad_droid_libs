@@ -12,17 +12,13 @@ import com.didekindroid.lib_one.api.exception.UiException;
  */
 public interface AuthTkCacherIf {
 
+    String getAuthTokenCache();
+
     Context getContext();
 
-    boolean isRegisteredCache();
-
-    boolean isGcmTokenSentServer();
-
-    AuthTkCacher updateIsRegistered(boolean isRegisteredUser);
-
-    AuthTkCacher updateIsGcmTokenSentServer(boolean isSentToServer);
+    boolean isUserRegistered();
 
     AuthTkCacher updateAuthToken(String authTokenIn);
 
-    String doAuthHeaderStr() throws UiException;
+    String doAuthHeaderStr(String gcmToken) throws UiException;
 }

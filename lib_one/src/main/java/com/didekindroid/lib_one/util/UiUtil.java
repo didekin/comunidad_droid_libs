@@ -56,24 +56,13 @@ public final class UiUtil {
 
 //    ========================== ACTIVITIES ======================================
 
-    public static boolean checkInternet(Activity activity)
-    {
-        if (!ConnectionUtils.isInternetConnected(activity)) {
-            makeToast(activity, R.string.no_internet_conn_toast);
-            return false;
-        }
-        return true;
-    }
-
-    public static boolean checkPostExecute(Activity activity)
-    {
-        if (activity == null || activity.isDestroyed() || activity.isChangingConfigurations()) {
-            Timber.i("onPostExcecute(): activity is already destroyed");
-            return true;
-        }
-        return false;
-    }
-
+    /**
+     * Note: If you need root view of your activity (so you can add your contents there) use
+     * - findViewById(android.R.id.content).
+     * If you need to get view that you added to your activity using setContentView() method then you can use
+     * - final ViewGroup viewGroup = (ViewGroup) ((ViewGroup) this.findViewById(android.R.id.content)).getChildAt(0);
+     * But better just set id to this view in your xml layout and use this id instead.
+     */
     public static View getContetViewInAc(Activity activity)
     {
         return ((ViewGroup) activity.findViewById(android.R.id.content)).getChildAt(0);
@@ -171,7 +160,8 @@ public final class UiUtil {
         return timeCalendar;
     }
 
-    public static long getMilliSecondsFromCalendarAdd(int calendarField, int unitsToAdd){
+    public static long getMilliSecondsFromCalendarAdd(int calendarField, int unitsToAdd)
+    {
         Calendar nowCalendar = Calendar.getInstance();
         nowCalendar.add(calendarField, unitsToAdd);
         return nowCalendar.getTimeInMillis();
