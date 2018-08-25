@@ -61,12 +61,6 @@ public final class UsuarioDao implements UsuarioEndPoints {
     }
 
     @Override
-    public Single<Response<String>> modifyGcmToken(String authHeader, String gcmToken)
-    {
-        return endPoint.modifyGcmToken(authHeader, gcmToken);
-    }
-
-    @Override
     public Single<Response<Integer>> modifyUser(String deviceLanguage, String authHeader, Usuario usuario)
     {
         return endPoint.modifyUser(deviceLanguage, authHeader, usuario);
@@ -130,25 +124,8 @@ public final class UsuarioDao implements UsuarioEndPoints {
     public Completable login(String userName, String password)
     {
         Timber.d("login(), Thread: %s", currentThread().getName());
-        return just(true)
-                .flatMap(booleanIn -> login(userName, password, idHelper.getTokenSingle().blockingGet()))
-                .flatMap(getResponseSingleFunction())
-                .doOnError(uiExceptionConsumer)
-                .doOnSuccess(tkCacher::updateAuthToken)
-                .ignoreElement();
-    }
-
-    /**
-     *  Use case: Firebase communicates that a new FirebaseInstanceId has been created.
-     *  This methods updates in Didekin DB the new token.
-     *  Since in DB there exists still the token in the local cache, we build the authHeader with its value and we communicate
-     *  the new token supplie by idHelper.
-     */
-    public Completable modifyGcmToken()
-    {
-        Timber.d("modifyGcmToken(), Thread: %s", currentThread().getName());
         return idHelper.getTokenSingle()
-                .flatMap(gcmTokenIn -> modifyGcmToken(tkCacher.doAuthHeaderStr(tkCacher.getAuthTokenCache()), gcmTokenIn))
+                .flatMap(gcmToken -> login(userName, password, gcmToken))
                 .flatMap(getResponseSingleFunction())
                 .doOnError(uiExceptionConsumer)
                 .doOnSuccess(tkCacher::updateAuthToken)

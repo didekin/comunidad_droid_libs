@@ -22,8 +22,8 @@ import static com.didekindroid.lib_one.usuario.UserTestData.USER_DROID;
 import static com.didekindroid.lib_one.usuario.UserTestData.cleanOneUser;
 import static com.didekindroid.lib_one.usuario.UserTestData.cleanOptions;
 import static com.didekindroid.lib_one.usuario.UserTestData.comu_real_rodrigo;
-import static com.didekindroid.lib_one.usuario.UserTestData.regComuUserUserComuGetUser;
 import static com.didekindroid.lib_one.usuario.UserTestData.regComuUserUserComuGetAuthTk;
+import static com.didekindroid.lib_one.usuario.UserTestData.regComuUserUserComuGetUser;
 import static com.didekindroid.lib_one.usuario.UserTestData.user_crodrigo;
 import static com.didekindroid.lib_one.usuario.dao.UsuarioDao.usuarioDaoRemote;
 import static com.didekinlib.http.usuario.TkValidaPatterns.tkEncrypted_direct_symmetricKey_REGEX;
@@ -122,20 +122,6 @@ public class UsuarioDaoTest {
         usuarioDaoRemote.login(user_crodrigo.getUserName(), user_crodrigo.getPassword()).test().await();
         assertThat(tkEncrypted_direct_symmetricKey_REGEX.isPatternOk(tkCacher.getAuthTokenCache()), is(true));
         assertThat(tkCacher.isUserRegistered(), is(true));
-    }
-
-    @Test
-    public void testmodifyGcmToken() throws Exception     // TODO: seguir aquí.
-    {
-        whatClean = CLEAN_RODRIGO;
-        Usuario userDb = regComuUserUserComuGetUser(comu_real_rodrigo);
-        String oldGcmTk = tkCacher.getAuthTokenCache();
-        /* Exec */
-        usuarioDaoRemote.modifyGcmToken().test().await();
-        assertThat(tkEncrypted_direct_symmetricKey_REGEX.isPatternOk(tkCacher.getAuthTokenCache()),
-                is(true));
-        // The authToken in cache has changed.
-        assertThat(tkCacher.getAuthTokenCache().equals(oldGcmTk), is(false));
     }
 
     @Test

@@ -67,6 +67,7 @@ import org.junit.runners.Suite;
         // incidencia.spinner.
         CtrlerAmbitoIncidSpinnerTest.class,
         ViewerAmbitoIncidSpinnerTest.class,
+        // incidencia.
         IncidenciaBeanTest.class,
         IncidenciaDataDbHelperTest.class,
         // security.

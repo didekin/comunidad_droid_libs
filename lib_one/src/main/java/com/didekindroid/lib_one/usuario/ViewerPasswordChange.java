@@ -128,12 +128,11 @@ public final class ViewerPasswordChange extends Viewer<View, CtrlerUsuario> {
 
         if (errorMsg.equals(USER_NOT_FOUND.getHttpMessage())
                 || errorMsg.equals(PASSWORD_NOT_SENT.getHttpMessage())) {
-            getExceptionRouter().getActionFromMsg(PASSWORD_NOT_SENT.getHttpMessage()).initActivity(activity);
+            getExceptionRouter().getActionFromMsg(PASSWORD_NOT_SENT.getHttpMessage()).handleExceptionInUi(activity);
         } else if (errorMsg.equals(BAD_REQUEST.getHttpMessage())) {
             makeToast(activity, R.string.password_wrong);
         } else {
-            getExceptionRouter().getActionFromMsg(uiException.getErrorHtppMsg())
-                    .initActivity(activity);
+            getExceptionRouter().getActionFromMsg(uiException.getErrorHtppMsg()).handleExceptionInUi(activity);
         }
     }
 

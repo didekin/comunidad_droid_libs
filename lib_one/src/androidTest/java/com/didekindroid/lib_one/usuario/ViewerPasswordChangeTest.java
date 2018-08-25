@@ -171,7 +171,7 @@ public class ViewerPasswordChangeTest {
     }
 
     @Test
-    public void testOnErrorInObserver_2()
+    public void testOnErrorInObserver_2() 
     {
         activity.runOnUiThread(() -> activity.viewer.onErrorInObserver(new UiException(new ErrorBean(PASSWORD_NOT_SENT))));
         waitAtMost(3, SECONDS).until(isToastInView(R.string.user_email_wrong, activity));

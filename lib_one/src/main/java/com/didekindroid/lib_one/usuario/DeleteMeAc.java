@@ -105,7 +105,7 @@ public class DeleteMeAc extends AppCompatActivity {
         {
             Timber.d("onErrorObserver, Thread: %s", Thread.currentThread().getName());
             routerInitializer.get().getExceptionRouter().getActionFromMsg(getUiExceptionFromThrowable(e).getErrorHtppMsg())
-                    .initActivity(DeleteMeAc.this);
+                    .handleExceptionInUi(DeleteMeAc.this);
         }
     }
 }

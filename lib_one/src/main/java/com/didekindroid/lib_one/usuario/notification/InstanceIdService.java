@@ -1,8 +1,8 @@
 package com.didekindroid.lib_one.usuario.notification;
 
+import com.didekindroid.lib_one.api.Controller;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
-import io.reactivex.observers.DisposableCompletableObserver;
 import timber.log.Timber;
 
 /**
@@ -14,37 +14,13 @@ public class InstanceIdService extends FirebaseInstanceIdService {
     /**
      * Called if InstanceID token is created or updated. This may occur if the security of
      * the previous token had been compromised.
+     * It simply erase the authToken in local, which contains the old version of the appId or gcmToken. This forces
+     * to do login in the next user transaction with the server.
      */
     @Override
     public void onTokenRefresh()
     {
         Timber.d("onTokenRefresh()");
-        final CtrlerNotifyTokenIf controller = new CtrlerNotifyToken();
-        controller.modifyGcmTokenSync(new ServiceDisposableObserver(controller));
-        controller.clearSubscriptions();
-    }
-
-    @SuppressWarnings("WeakerAccess")
-    public static class ServiceDisposableObserver extends DisposableCompletableObserver {
-
-        private final CtrlerNotifyTokenIf controller;
-
-        ServiceDisposableObserver(CtrlerNotifyTokenIf controller)
-        {
-            this.controller = controller;
-        }
-
-        @Override
-        public void onComplete()
-        {
-            Timber.d("============= onComplete() ===============");
-        }
-
-        @Override
-        public void onError(Throwable error)
-        {
-            Timber.d("============ onError() ============");
-            Timber.d(error);
-        }
+        new Controller().getTkCacher().updateAuthToken(null);
     }
 }

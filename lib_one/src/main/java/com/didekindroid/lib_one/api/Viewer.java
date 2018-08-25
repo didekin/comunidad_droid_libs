@@ -69,7 +69,7 @@ public class Viewer<T extends View, C extends ControllerIf> implements ViewerIf<
     public void onErrorInObserver(Throwable error)
     {
         Timber.d("onErrorInObserver()");
-        exceptionRouter.getActionFromMsg(getUiExceptionFromThrowable(error).getErrorHtppMsg()).initActivity(activity);
+        exceptionRouter.getActionFromMsg(getUiExceptionFromThrowable(error).getErrorHtppMsg()).handleExceptionInUi(activity);
     }
 
     @Override
