@@ -19,6 +19,20 @@ public interface UiExceptionActionIf extends RouterActionIf {
 
     int getResourceIdForToast();
 
+    default void handleExceptionInUi(@NonNull Activity activity)
+    {
+        Timber.d("handleExceptionInUi()");
+        showToast(activity);
+        initActivity(activity);
+    }
+
+    default void handleExceptionInUi(@NonNull Activity activity, @Nullable Bundle bundle)
+    {
+        Timber.d("handleExceptionInUi()");
+        showToast(activity);
+        initActivity(activity, bundle);
+    }
+
     default void handleExceptionInUi(@NonNull Activity activity, @Nullable Bundle bundle, int flags)
     {
         Timber.d("handleExceptionInUi()");

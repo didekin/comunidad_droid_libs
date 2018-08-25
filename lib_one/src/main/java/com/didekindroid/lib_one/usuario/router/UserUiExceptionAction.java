@@ -1,9 +1,7 @@
 package com.didekindroid.lib_one.usuario.router;
 
 import android.app.Activity;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.didekindroid.lib_one.R;
 import com.didekindroid.lib_one.api.router.UiExceptionActionIf;
@@ -49,7 +47,7 @@ public enum UserUiExceptionAction implements UiExceptionActionIf {
             R.string.no_internet_conn_toast,
             null) {
         @Override
-        public void handleExceptionInUi(@NonNull Activity activity, @Nullable Bundle bundle, int flags)
+        public void handleExceptionInUi(@NonNull Activity activity)
         {
             Timber.d("handleExceptionInUi()");
             showToast(activity);
@@ -114,7 +112,7 @@ public enum UserUiExceptionAction implements UiExceptionActionIf {
     }
 
     @Override
-    public void handleExceptionInUi(@NonNull Activity activity, @Nullable Bundle bundle, int flags)
+    public void handleExceptionInUi(@NonNull Activity activity)
     {
         Timber.d("handleExceptionInUi()");
         showToast(activity);
