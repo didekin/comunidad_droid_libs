@@ -105,7 +105,7 @@ public class UserUiExceptionActionTest {
     }
 
     @Test
-    public void test_firebase_not_available()
+    public void test_FIREBASE_SERVICE_NOT_AVAILABLE()
     {
        final UiException ue = new UiException(new ErrorBean(FIREBASE_SERVICE_NOT_AVAILABLE));
        run(ue, firebase_service_unavailable, mockAcLayout);

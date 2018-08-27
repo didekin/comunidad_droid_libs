@@ -114,9 +114,7 @@ public enum UserUiExceptionAction implements UiExceptionActionIf {
     @Override
     public void handleExceptionInUi(@NonNull Activity activity)
     {
-        Timber.d("handleExceptionInUi()");
-        showToast(activity);
-        initActivity(activity, null, FLAG_ACTIVITY_NEW_TASK);
+        handleExceptionInUi(activity, null, FLAG_ACTIVITY_NEW_TASK);
     }
 
     public Class<? extends Activity> getAcToGo()
