@@ -52,6 +52,7 @@ public class UsuarioDaoTest {
     {
         initSec_Http(getTargetContext());
         tkCacher = (AuthTkCacher) secInitializer.get().getTkCacher();
+        tkCacher.updateAuthToken(null);
     }
 
     @After

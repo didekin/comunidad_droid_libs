@@ -49,8 +49,10 @@ public class RxJavaUtil {
         Timber.d("getResponseCompletableFunction()");
         return response -> {
             if (response.errorBody() == null) {
+                Timber.d("getResponseCompletableFunction(): response.errorBody() == null");
                 return complete();
             } else {
+                Timber.d("getResponseCompletableFunction(): response.errorBody() != null");
                 return Completable.error(new UiException(httpInitializer.get().getHttpHandler().getErrorBean(response)));
             }
         };
@@ -62,8 +64,10 @@ public class RxJavaUtil {
         Timber.d("getResponseSingleFunction()");
         return response -> {
             if (response.errorBody() != null) {
+                Timber.d("getResponseSingleFunction(): response.errorBody() != null");
                 return Single.error(new UiException(httpInitializer.get().getHttpHandler().getErrorBean(response)));
             } else {
+                Timber.d("getResponseSingleFunction(): response.errorBody() == null");
                 return Single.just(httpInitializer.get().getResponseBody(response));
             }
         };
@@ -75,8 +79,10 @@ public class RxJavaUtil {
         Timber.d("getResponseSingleFunction()");
         return response -> {
             if (response.errorBody() != null) {
+                Timber.d("getResponseSingleFunction(): response.errorBody() != null");
                 return Single.error(new UiException(httpInitializer.get().getHttpHandler().getErrorBean(response)));
             } else {
+                Timber.d("getResponseSingleFunction(): response.errorBody() == null");
                 return Single.just(httpInitializer.get().getResponseBody(response));
             }
         };
