@@ -25,7 +25,7 @@ import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.AFTER_
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.AFTER_METHOD_WITH_EXCEPTION_EXEC;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.BEFORE_METHOD_EXEC;
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initRouterAll;
-import static com.didekinlib.http.usuario.UsuarioExceptionMsg.BAD_REQUEST;
+import static com.didekinlib.model.usuario.http.UsuarioExceptionMsg.BAD_REQUEST;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.waitAtMost;
 import static org.hamcrest.CoreMatchers.is;
@@ -36,6 +36,7 @@ import static org.junit.Assert.assertThat;
  * Date: 11/05/17
  * Time: 12:39
  */
+@SuppressWarnings("ResultOfMethodCallIgnored")
 @RunWith(AndroidJUnit4.class)
 public class ObserverSingleSelectListTest {
 

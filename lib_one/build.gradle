@@ -36,7 +36,7 @@ android {
             initWith debug
             // Variables for android_studio default run-debug configuration.
             if ("$System.env.TEST_HOST" == "null" || "$System.env.TEST_PORT" == "null") {
-                resValue "string", "didekin_web_host", '"https://didekin-web-pre.eu-central-1.elasticbeanstalk.com"'
+                resValue "string", "didekin_web_host", '"https://didekin-web-pre.eu-west-1.elasticbeanstalk.com"'
                 resValue "string", "didekin_web_port", '":443"'
             } else {
                 resValue "string", "didekin_web_host", "$System.env.TEST_HOST"
@@ -79,16 +79,16 @@ android {
 dependencies {
     implementation rootProject.firebase_msg
     implementation rootProject.didekinlib_model
-    implementation rootProject.didekinlib_http
+    implementation rootProject.didekinlib_utilities
     implementation rootProject.timber
     implementation rootProject.retrofit2
     implementation rootProject.rxjava
     implementation rootProject.android_support
-    androidTestImplementation rootProject.didekinlib_gcm
+    debugImplementation rootProject.awaitility
     androidTestImplementation rootProject.testRuler
     androidTestImplementation rootProject.testRunner
     androidTestImplementation rootProject.espresso
-    androidTestImplementation rootProject.awaitility
+//    androidTestImplementation rootProject.awaitility
     androidTestUtil rootProject.testOrchestrator
     androidTestImplementation rootProject.junit
 }

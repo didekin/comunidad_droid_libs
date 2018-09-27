@@ -8,11 +8,13 @@ import com.didekindroid.lib_one.usuario.UserTestData.CleanUserEnum;
 import com.didekinlib.model.usuario.Usuario;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static android.support.test.InstrumentationRegistry.getTargetContext;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.cleanInitialSec;
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http;
 import static com.didekindroid.lib_one.testutil.RxSchedulersUtils.execCheckSchedulersTest;
 import static com.didekindroid.lib_one.testutil.RxSchedulersUtils.resetAllSchedulers;
@@ -22,8 +24,8 @@ import static com.didekindroid.lib_one.usuario.UserTestData.CleanUserEnum.CLEAN_
 import static com.didekindroid.lib_one.usuario.UserTestData.USER_DROID;
 import static com.didekindroid.lib_one.usuario.UserTestData.cleanOptions;
 import static com.didekindroid.lib_one.usuario.UserTestData.comu_real_rodrigo;
-import static com.didekindroid.lib_one.usuario.UserTestData.regComuUserUserComuGetUser;
 import static com.didekindroid.lib_one.usuario.UserTestData.regComuUserUserComuGetAuthTk;
+import static com.didekindroid.lib_one.usuario.UserTestData.regComuUserUserComuGetUser;
 import static com.didekindroid.lib_one.usuario.UserTestData.user_crodrigo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -55,6 +57,12 @@ public class CtrlerUsuario_Test {
         cleanOptions(whatClean);
     }
 
+    @AfterClass
+    public static void cleanMore()
+    {
+        cleanInitialSec();
+    }
+
     //    .................................... INSTANCE METHODS .................................
 
     @Test
@@ -76,6 +84,7 @@ public class CtrlerUsuario_Test {
     @Test
     public void testGetUserData() throws Exception
     {
+        whatClean = CLEAN_RODRIGO;
         assertThat(regComuUserUserComuGetAuthTk(comu_real_rodrigo), notNullValue());
         execCheckSchedulersTest(ctrler -> ctrler.getUserData(new SingleObserverMock<>()), controller);
     }
@@ -83,6 +92,7 @@ public class CtrlerUsuario_Test {
     @Test
     public void testLogin() throws Exception
     {
+        whatClean = CLEAN_RODRIGO;
         assertThat(regComuUserUserComuGetAuthTk(comu_real_rodrigo), notNullValue());
         execCheckSchedulersTest(ctrler -> ctrler.login(new CompletableObserverMock(), user_crodrigo), controller);
     }
@@ -106,6 +116,7 @@ public class CtrlerUsuario_Test {
     @Test
     public void testModifyUserAlias() throws Exception
     {
+        whatClean = CLEAN_RODRIGO;
         execCheckSchedulersTest(
                 ctrler -> ctrler.modifyUserAlias(
                         new SingleObserverMock<>(),
@@ -119,6 +130,8 @@ public class CtrlerUsuario_Test {
     @Test
     public void testPasswordChange() throws Exception
     {
+        whatClean = CLEAN_RODRIGO;
+
         // Precondition.
         Usuario oldUser = new Usuario.UsuarioBuilder()
                 .copyUsuario(regComuUserUserComuGetUser(comu_real_rodrigo))
@@ -139,6 +152,7 @@ public class CtrlerUsuario_Test {
     @Test
     public void testPasswordSend() throws Exception
     {
+        whatClean = CLEAN_RODRIGO;
         // Precondition.
         execCheckSchedulersTest(
                 ctrler -> ctrler.passwordSend(

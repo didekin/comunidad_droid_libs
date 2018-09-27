@@ -8,7 +8,7 @@ import android.util.Base64;
 
 import com.didekindroid.lib_one.api.ActivityMock;
 import com.didekindroid.lib_one.api.exception.UiException;
-import com.didekinlib.http.usuario.AuthHeaderIf;
+import com.didekinlib.model.usuario.http.AuthHeaderIf;
 
 import org.junit.After;
 import org.junit.Before;
@@ -20,10 +20,11 @@ import static android.content.Context.MODE_PRIVATE;
 import static com.didekindroid.lib_one.security.AuthTkCacher.AuthTkCacherExceptionMsg.AUTH_HEADER_WRONG;
 import static com.didekindroid.lib_one.security.AuthTkCacher.SharedPrefConstant.app_pref_file_name;
 import static com.didekindroid.lib_one.security.AuthTkCacher.SharedPrefConstant.authToken_key;
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.awaitility.Awaitility.waitAtMost;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
@@ -70,7 +71,7 @@ public class AuthTkCacherTest {
     public void test_new()
     {
         tkCacher = new AuthTkCacher(activity);
-        assertThat(tkCacher, notNullValue());
+        waitAtMost(2, SECONDS).until(() -> tkCacher != null);
         assertThat(tkCacher.getAuthTokenCache(), nullValue());
     }
 
@@ -115,7 +116,7 @@ public class AuthTkCacherTest {
     // ============================ AuthHeaderDroid tests ===============================
 
     @Test
-    public void test_newAuthHeaderDroid_1()
+    public void test_newAuRthHeaderDroid_1()
     {
         // NO inicializamos todos los datos.
         try {

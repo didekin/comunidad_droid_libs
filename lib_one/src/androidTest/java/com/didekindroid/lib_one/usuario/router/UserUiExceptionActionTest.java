@@ -7,6 +7,7 @@ import com.didekindroid.lib_one.api.exception.UiException;
 import com.didekindroid.lib_one.api.router.UiExceptionRouterIf;
 import com.didekinlib.http.exception.ErrorBean;
 
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -19,6 +20,7 @@ import static com.didekindroid.lib_one.RouterInitializer.routerInitializer;
 import static com.didekindroid.lib_one.security.AuthTkCacher.AuthTkCacherExceptionMsg.AUTH_HEADER_WRONG;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.isResourceIdDisplayed;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.isToastInView;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.cleanInitialSec;
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http_Router;
 import static com.didekindroid.lib_one.testutil.MockTestConstant.mockAcLayout;
 import static com.didekindroid.lib_one.usuario.UserTestData.CleanUserEnum.CLEAN_RODRIGO;
@@ -32,10 +34,10 @@ import static com.didekindroid.lib_one.usuario.router.UserUiExceptionAction.show
 import static com.didekindroid.lib_one.usuario.router.UserUiExceptionAction.show_login_no_authHeader;
 import static com.didekindroid.lib_one.usuario.router.UserUiExceptionAction.show_login_unauthorized;
 import static com.didekindroid.lib_one.usuario.router.UserUiExceptionAction.show_userData_wrongMail;
-import static com.didekinlib.http.usuario.UsuarioExceptionMsg.FIREBASE_SERVICE_NOT_AVAILABLE;
-import static com.didekinlib.http.usuario.UsuarioExceptionMsg.PASSWORD_NOT_SENT;
-import static com.didekinlib.http.usuario.UsuarioExceptionMsg.TOKEN_ENCRYP_DECRYP_ERROR;
-import static com.didekinlib.http.usuario.UsuarioExceptionMsg.USERCOMU_WRONG_INIT;
+import static com.didekinlib.model.usuario.http.UsuarioExceptionMsg.FIREBASE_SERVICE_NOT_AVAILABLE;
+import static com.didekinlib.model.usuario.http.UsuarioExceptionMsg.PASSWORD_NOT_SENT;
+import static com.didekinlib.model.usuario.http.UsuarioExceptionMsg.TOKEN_ENCRYP_DECRYP_ERROR;
+import static com.didekinlib.model.usuario.http.UsuarioExceptionMsg.USERCOMU_WRONG_INIT;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.waitAtMost;
 
@@ -62,6 +64,12 @@ public class UserUiExceptionActionTest {
     {
         activity = intentRule.getActivity();
         router = routerInitializer.get().getExceptionRouter();
+    }
+
+    @AfterClass
+    public static void cleanMore()
+    {
+        cleanInitialSec();
     }
 
     // ============================================================

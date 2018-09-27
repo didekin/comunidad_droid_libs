@@ -25,7 +25,7 @@ import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.AFTER_
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.AFTER_METHOD_WITH_EXCEPTION_EXEC;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.BEFORE_METHOD_EXEC;
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initRouterAll;
-import static com.didekinlib.http.usuario.UsuarioExceptionMsg.BAD_REQUEST;
+import static com.didekinlib.model.usuario.http.UsuarioExceptionMsg.BAD_REQUEST;
 import static io.reactivex.Single.just;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -35,6 +35,7 @@ import static org.junit.Assert.assertThat;
  * Date: 24/10/2017
  * Time: 13:21
  */
+@SuppressWarnings("ResultOfMethodCallIgnored")
 @RunWith(AndroidJUnit4.class)
 public class ObserverSingleListTest {
 

@@ -6,6 +6,7 @@ import android.support.test.espresso.intent.rule.IntentsTestRule;
 import com.didekindroid.lib_one.R;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -25,6 +26,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.checkBack;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.checkUp;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.isResourceIdDisplayed;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.cleanInitialSec;
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http_Router;
 import static com.didekindroid.lib_one.testutil.UiTestUtil.focusOnView;
 import static com.didekindroid.lib_one.usuario.UserTestData.CleanUserEnum.CLEAN_RODRIGO;
@@ -86,6 +88,12 @@ public class UserDataAcTest {
         if (!skipClean) {
             cleanOptions(CLEAN_RODRIGO);
         }
+    }
+
+    @AfterClass
+    public static void cleanMore()
+    {
+        cleanInitialSec();
     }
 
     // ============================================================

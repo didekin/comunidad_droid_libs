@@ -12,6 +12,7 @@ import com.didekinlib.http.exception.ErrorBean;
 import com.didekinlib.model.usuario.Usuario;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -31,6 +32,7 @@ import static com.didekindroid.lib_one.testutil.EspressoTestUtil.checkTextsInDia
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.isResourceIdDisplayed;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.isToastInView;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.isViewDisplayed;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.cleanInitialSec;
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http_Router;
 import static com.didekindroid.lib_one.usuario.UserTestData.USER_DROID;
 import static com.didekindroid.lib_one.usuario.UserTestData.cleanOneUser;
@@ -43,7 +45,7 @@ import static com.didekindroid.lib_one.usuario.ViewerUserDataIf.UserChangeToMake
 import static com.didekindroid.lib_one.usuario.ViewerUserDataIf.UserChangeToMake.nothing;
 import static com.didekindroid.lib_one.usuario.ViewerUserDataIf.UserChangeToMake.userName;
 import static com.didekindroid.lib_one.usuario.testutil.UserEspressoTestUtil.typeUserNameAliasPswd;
-import static com.didekinlib.http.usuario.UsuarioExceptionMsg.BAD_REQUEST;
+import static com.didekinlib.model.usuario.http.UsuarioExceptionMsg.BAD_REQUEST;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.waitAtMost;
 import static org.hamcrest.CoreMatchers.allOf;
@@ -97,6 +99,12 @@ public class ViewerUserDataTest {
             return;
         }
         cleanOneUser(user_crodrigo.getUserName());
+    }
+
+    @AfterClass
+    public static void cleanMore()
+    {
+        cleanInitialSec();
     }
 
     // ============================================================

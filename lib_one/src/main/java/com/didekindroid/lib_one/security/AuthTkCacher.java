@@ -6,7 +6,7 @@ import android.support.annotation.WorkerThread;
 import com.didekindroid.lib_one.api.exception.UiException;
 import com.didekinlib.http.exception.ErrorBean;
 import com.didekinlib.http.exception.ExceptionMsgIf;
-import com.didekinlib.http.usuario.AuthHeaderIf;
+import com.didekinlib.model.usuario.http.AuthHeaderIf;
 import com.google.gson.Gson;
 
 import java.util.concurrent.atomic.AtomicReference;

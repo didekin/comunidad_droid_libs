@@ -36,6 +36,8 @@ public class ControllerTest {
         controller = new Controller(new AuthTkCacher(activityRule.getActivity()));
     }
 
+    // ---------------------------------------------------------------------------------------------------
+
     @Test
     public void testGetSubscriptions()
     {

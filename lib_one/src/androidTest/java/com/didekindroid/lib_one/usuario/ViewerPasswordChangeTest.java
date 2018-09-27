@@ -11,6 +11,7 @@ import com.didekinlib.http.exception.ErrorBean;
 import com.didekinlib.model.usuario.Usuario;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -25,6 +26,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.isResourceIdDisplayed;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.isToastInView;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.cleanInitialSec;
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http_Router;
 import static com.didekindroid.lib_one.usuario.UserTestData.USER_DROID;
 import static com.didekindroid.lib_one.usuario.UserTestData.cleanOneUser;
@@ -37,9 +39,9 @@ import static com.didekindroid.lib_one.usuario.UserTestNavigation.userDataAcRsId
 import static com.didekindroid.lib_one.usuario.UsuarioBundleKey.user_name;
 import static com.didekindroid.lib_one.usuario.testutil.UserEspressoTestUtil.typePswdConfirmPswd;
 import static com.didekindroid.lib_one.usuario.testutil.UserEspressoTestUtil.typePswdWithPswdValidation;
-import static com.didekinlib.http.usuario.UsuarioExceptionMsg.BAD_REQUEST;
-import static com.didekinlib.http.usuario.UsuarioExceptionMsg.PASSWORD_NOT_SENT;
-import static com.didekinlib.http.usuario.UsuarioExceptionMsg.USER_NOT_FOUND;
+import static com.didekinlib.model.usuario.http.UsuarioExceptionMsg.BAD_REQUEST;
+import static com.didekinlib.model.usuario.http.UsuarioExceptionMsg.PASSWORD_NOT_SENT;
+import static com.didekinlib.model.usuario.http.UsuarioExceptionMsg.USER_NOT_FOUND;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.waitAtMost;
 import static org.hamcrest.CoreMatchers.instanceOf;
@@ -85,6 +87,14 @@ public class ViewerPasswordChangeTest {
     {
         cleanOneUser(user_crodrigo.getUserName());
     }
+
+    @AfterClass
+    public static void cleanMore()
+    {
+        cleanInitialSec();
+    }
+
+    // ---------------------------------------------------------------------------------------------------
 
     //    ============================  TESTS  ===================================
 

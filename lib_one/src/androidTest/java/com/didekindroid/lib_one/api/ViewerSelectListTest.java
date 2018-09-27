@@ -7,6 +7,7 @@ import android.widget.Spinner;
 
 import com.didekinlib.model.usuario.Usuario;
 
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -17,6 +18,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import io.reactivex.functions.Function;
 
 import static android.support.test.InstrumentationRegistry.getTargetContext;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.cleanInitialSec;
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http_Router;
 import static com.didekindroid.lib_one.usuario.UserTestData.USER_DROID;
 import static com.didekindroid.lib_one.usuario.UserTestData.USER_JUAN;
@@ -63,6 +65,14 @@ public class ViewerSelectListTest {
                 });
         waitAtMost(2, SECONDS).until(() -> viewer != null);
     }
+
+    @AfterClass
+    public static void cleanUp()
+    {
+        cleanInitialSec();
+    }
+
+    // ---------------------------------------------------------------------------------------------------
 
     @Test
     public void testGetArrayAdapterForSpinner()

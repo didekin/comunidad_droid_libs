@@ -8,6 +8,7 @@ import com.didekindroid.lib_one.R;
 import com.didekindroid.lib_one.api.ActivityMock;
 import com.didekindroid.lib_one.api.router.ContextualRouterIf;
 
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -16,6 +17,7 @@ import org.junit.runner.RunWith;
 import static com.didekindroid.lib_one.RouterInitializer.routerInitializer;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.checkTextsInDialog;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.isResourceIdDisplayed;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.cleanInitialSec;
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http_Router;
 import static com.didekindroid.lib_one.usuario.UserTestData.CleanUserEnum.CLEAN_RODRIGO;
 import static com.didekindroid.lib_one.usuario.UserTestData.cleanOptions;
@@ -54,6 +56,14 @@ public class UserContextActionTest {
         initSec_Http_Router(activity);
         router = routerInitializer.get().getContextRouter();
     }
+
+    @AfterClass
+    public static void cleanUp()
+    {
+        cleanInitialSec();
+    }
+
+    // ---------------------------------------------------------------------------------------------------
 
     @Test
     public void testShowPswdSentMessage() throws Exception

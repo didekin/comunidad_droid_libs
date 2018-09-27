@@ -6,7 +6,7 @@ import com.didekindroid.lib_one.api.router.ContextualRouterIf;
 import com.didekindroid.lib_one.api.router.MnRouterIf;
 import com.didekindroid.lib_one.api.router.RouterInitializerIf;
 import com.didekindroid.lib_one.api.router.UiExceptionRouterIf;
-import com.didekinlib.model.common.dominio.BeanBuilder;
+import com.didekinlib.BeanBuilder;
 
 import java.util.concurrent.atomic.AtomicReference;
 

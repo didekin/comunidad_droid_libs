@@ -2,14 +2,19 @@ package com.didekindroid.lib_one.usuario.dao;
 
 import com.didekindroid.lib_one.api.exception.UiException;
 
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 
 import static android.support.test.InstrumentationRegistry.getTargetContext;
+import static com.didekindroid.lib_one.security.SecInitializer.secInitializer;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.cleanInitialSec;
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSecurity;
 import static com.didekindroid.lib_one.usuario.dao.AppIdHelper.appIdSingle;
 import static com.didekindroid.lib_one.util.ConnectionUtils.isInternetConnected;
-import static com.didekinlib.http.usuario.UsuarioExceptionMsg.FIREBASE_SERVICE_NOT_AVAILABLE;
+import static com.didekinlib.model.usuario.http.UsuarioExceptionMsg.FIREBASE_SERVICE_NOT_AVAILABLE;
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.awaitility.Awaitility.waitAtMost;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -19,6 +24,13 @@ public class AppIdHelperTest {
     public void setUp()
     {
         initSecurity(getTargetContext());
+        waitAtMost(4, SECONDS).until(() -> secInitializer.get().getJksInClient() != null);
+    }
+
+    @AfterClass
+    public static void cleanUp()
+    {
+        cleanInitialSec();
     }
 
     @Test

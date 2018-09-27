@@ -8,6 +8,7 @@ import android.support.test.runner.AndroidJUnit4;
 import com.didekindroid.lib_one.R;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -25,6 +26,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.checkTextsInDialog;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.isToastInView;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.cleanInitialSec;
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http_Router;
 import static com.didekindroid.lib_one.usuario.UserTestData.CleanUserEnum.CLEAN_RODRIGO;
 import static com.didekindroid.lib_one.usuario.UserTestData.cleanOptions;
@@ -84,6 +86,12 @@ public class LoginAcTest {
     public void cleanUp()
     {
         cleanOptions(CLEAN_RODRIGO);
+    }
+
+    @AfterClass
+    public static void cleanMore()
+    {
+        cleanInitialSec();
     }
 
     //    ==================================  TESTS INTEGRATIOIN  ==================================

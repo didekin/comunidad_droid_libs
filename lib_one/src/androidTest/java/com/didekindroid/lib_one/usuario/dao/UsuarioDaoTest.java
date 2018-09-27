@@ -8,6 +8,7 @@ import com.didekindroid.lib_one.usuario.UserTestData.CleanUserEnum;
 import com.didekinlib.model.usuario.Usuario;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +16,7 @@ import org.junit.runner.RunWith;
 import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static com.didekindroid.lib_one.security.AuthTkCacher.AuthTkCacherExceptionMsg.AUTH_HEADER_WRONG;
 import static com.didekindroid.lib_one.security.SecInitializer.secInitializer;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.cleanInitialSec;
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http;
 import static com.didekindroid.lib_one.usuario.UserTestData.CleanUserEnum.CLEAN_NOTHING;
 import static com.didekindroid.lib_one.usuario.UserTestData.CleanUserEnum.CLEAN_RODRIGO;
@@ -26,8 +28,8 @@ import static com.didekindroid.lib_one.usuario.UserTestData.regComuUserUserComuG
 import static com.didekindroid.lib_one.usuario.UserTestData.regComuUserUserComuGetUser;
 import static com.didekindroid.lib_one.usuario.UserTestData.user_crodrigo;
 import static com.didekindroid.lib_one.usuario.dao.UsuarioDao.usuarioDaoRemote;
-import static com.didekinlib.http.usuario.TkValidaPatterns.tkEncrypted_direct_symmetricKey_REGEX;
-import static com.didekinlib.http.usuario.UsuarioExceptionMsg.USER_NOT_FOUND;
+import static com.didekinlib.model.usuario.http.TkValidaPatterns.tkEncrypted_direct_symmetricKey_REGEX;
+import static com.didekinlib.model.usuario.http.UsuarioExceptionMsg.USER_NOT_FOUND;
 import static java.lang.Boolean.TRUE;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -41,6 +43,7 @@ import static org.junit.Assert.assertThat;
  * Date: 07/09/15
  * Time: 11:08
  */
+@SuppressWarnings("ResultOfMethodCallIgnored")
 @RunWith(AndroidJUnit4.class)
 public class UsuarioDaoTest {
 
@@ -59,6 +62,12 @@ public class UsuarioDaoTest {
     public void cleaningUp()
     {
         cleanOptions(whatClean);
+    }
+
+    @AfterClass
+    public static void cleanUp()
+    {
+        cleanInitialSec();
     }
 
 //    ========================= INTERFACE TESTS =======================

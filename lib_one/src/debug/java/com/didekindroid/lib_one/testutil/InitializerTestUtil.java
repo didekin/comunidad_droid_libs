@@ -73,6 +73,10 @@ public final class InitializerTestUtil {
         secInitializer.compareAndSet(null, new SecInitializer(context, bks_pswd, bks_name));
     }
 
+    public static void cleanInitialSec(){
+        secInitializer.set(null);
+    }
+
     public static void initSec_Http(Context context)
     {
         initSecurity(context);

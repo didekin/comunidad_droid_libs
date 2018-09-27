@@ -11,6 +11,7 @@ import com.didekindroid.lib_one.R;
 import com.didekindroid.lib_one.api.ActivityMock;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -31,6 +32,7 @@ import static com.didekindroid.lib_one.RouterInitializer.routerInitializer;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.checkUp;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.isResourceIdDisplayed;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.isViewDisplayed;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.cleanInitialSec;
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http_Router;
 import static com.didekindroid.lib_one.testutil.MockTestConstant.mockAcLayout;
 import static com.didekindroid.lib_one.testutil.UiTestUtil.cleanTasks;
@@ -79,6 +81,14 @@ public class ConfidencialidadAcTest {
             cleanTasks(activity);
         }
     }
+
+    @AfterClass
+    public static void cleanUp()
+    {
+        cleanInitialSec();
+    }
+
+    // ---------------------------------------------------------------------------------------------------
 
     @Test
     public void testBackStack()

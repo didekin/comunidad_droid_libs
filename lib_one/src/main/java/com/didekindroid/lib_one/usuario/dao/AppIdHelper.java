@@ -8,7 +8,7 @@ import com.google.firebase.iid.InstanceIdResult;
 import io.reactivex.Single;
 import timber.log.Timber;
 
-import static com.didekinlib.http.usuario.UsuarioExceptionMsg.FIREBASE_SERVICE_NOT_AVAILABLE;
+import static com.didekinlib.model.usuario.http.UsuarioExceptionMsg.FIREBASE_SERVICE_NOT_AVAILABLE;
 import static com.google.firebase.iid.FirebaseInstanceId.getInstance;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 

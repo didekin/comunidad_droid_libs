@@ -17,6 +17,7 @@ import com.didekindroid.lib_one.usuario.dao.CtrlerUsuario;
 import com.didekinlib.http.exception.ErrorBean;
 import com.didekinlib.model.usuario.Usuario;
 
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -37,6 +38,7 @@ import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.BEFORE
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.checkTextsInDialog;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.isToastInView;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.isViewDisplayedAndPerform;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.cleanInitialSec;
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http_Router;
 import static com.didekindroid.lib_one.testutil.MockTestConstant.nextMockAcLayout;
 import static com.didekindroid.lib_one.usuario.UserTestData.USER_DROID;
@@ -46,8 +48,8 @@ import static com.didekindroid.lib_one.usuario.UsuarioBundleKey.usuario_object;
 import static com.didekindroid.lib_one.usuario.ViewerLogin.PasswordMailDialog.newInstance;
 import static com.didekindroid.lib_one.usuario.router.UserContextName.login_just_done;
 import static com.didekindroid.lib_one.usuario.testutil.UserEspressoTestUtil.typeLoginData;
-import static com.didekinlib.http.usuario.UsuarioExceptionMsg.PASSWORD_WRONG;
-import static com.didekinlib.http.usuario.UsuarioExceptionMsg.USER_NOT_FOUND;
+import static com.didekinlib.model.usuario.http.UsuarioExceptionMsg.PASSWORD_WRONG;
+import static com.didekinlib.model.usuario.http.UsuarioExceptionMsg.USER_NOT_FOUND;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.waitAtMost;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -82,6 +84,14 @@ public class ViewerLoginTest {
     {
         activity = (LoginAc) activityRule.getActivity();
     }
+
+    @AfterClass
+    public static void cleanMore()
+    {
+        cleanInitialSec();
+    }
+
+    // ---------------------------------------------------------------------------------------------------
 
     @Test
     public void testNewViewerLogin()

@@ -16,6 +16,7 @@ import com.didekindroid.lib_one.usuario.LoginAc;
 import com.didekindroid.lib_one.usuario.PasswordChangeAc;
 import com.didekindroid.lib_one.usuario.UserDataAc;
 
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -37,6 +38,7 @@ import static android.support.test.runner.lifecycle.Stage.RESUMED;
 import static com.didekindroid.lib_one.security.SecInitializer.secInitializer;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.checkUp;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.getActivitesInTaskByStage;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.cleanInitialSec;
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http;
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http_Router;
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSecurity;
@@ -80,6 +82,12 @@ public class UserMnActionTest {
         activity = activityRule.getActivity();
         initSecurity(activity);
         secInitializer.get().getTkCacher().updateAuthToken(null);
+    }
+
+    @AfterClass
+    public static void cleanUp()
+    {
+        cleanInitialSec();
     }
 
     // ============================================================

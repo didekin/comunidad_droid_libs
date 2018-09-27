@@ -47,6 +47,8 @@ public class FragmentInitiatorTest {
         isRun = new AtomicBoolean(false);
     }
 
+    // ---------------------------------------------------------------------------------------------------
+
     @Test
     public void test_InitReplaceFragment()
     {

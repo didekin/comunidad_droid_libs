@@ -3,7 +3,7 @@ package com.didekindroid.lib_one.api;
 import android.content.Context;
 
 import com.didekindroid.lib_one.api.exception.UiException;
-import com.didekinlib.http.HttpHandler;
+import com.didekinlib.http.retrofit.HttpHandler;
 
 import java.io.IOException;
 

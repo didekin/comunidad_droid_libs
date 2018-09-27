@@ -16,6 +16,7 @@ import com.didekindroid.lib_one.security.MySecInitializerMock;
 import com.didekinlib.model.comunidad.Municipio;
 import com.didekinlib.model.comunidad.Provincia;
 
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -33,6 +34,7 @@ import static com.didekindroid.lib_one.comunidad.spinner.ViewerMunicipioSpinner.
 import static com.didekindroid.lib_one.security.SecInitializer.secInitializer;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.AFTER_METHOD_EXEC_A;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.BEFORE_METHOD_EXEC;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.cleanInitialSec;
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initRouterAll;
 import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -76,6 +78,14 @@ public class ViewerMunicipioSpinnerTest {
         });
         waitAtMost(4, SECONDS).until(() -> viewer != null);
     }
+
+    @AfterClass
+    public static void cleanUp()
+    {
+        cleanInitialSec();
+    }
+
+    // ---------------------------------------------------------------------------------------------------
 
     @Test
     public void test_NewViewerMunicipioSpinner()

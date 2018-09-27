@@ -4,9 +4,9 @@ import android.content.Context;
 
 import com.didekindroid.lib_one.api.HttpInitializerIf;
 import com.didekindroid.lib_one.api.exception.UiException;
-import com.didekinlib.http.HttpHandler;
+import com.didekinlib.BeanBuilder;
 import com.didekinlib.http.JksInClient;
-import com.didekinlib.model.common.dominio.BeanBuilder;
+import com.didekinlib.http.retrofit.HttpHandler;
 
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicReference;

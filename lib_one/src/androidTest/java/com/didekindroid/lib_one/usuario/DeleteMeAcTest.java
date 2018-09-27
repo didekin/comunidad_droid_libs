@@ -12,6 +12,7 @@ import com.didekindroid.lib_one.api.router.RouterInitializerMock;
 
 import org.hamcrest.CoreMatchers;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -32,6 +33,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withContentDesc
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.didekindroid.lib_one.RouterInitializer.routerInitializer;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.checkUp;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.cleanInitialSec;
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http_Router;
 import static com.didekindroid.lib_one.testutil.MockTestConstant.nextMockAcLayout;
 import static com.didekindroid.lib_one.testutil.UiTestUtil.cleanTasks;
@@ -92,6 +94,12 @@ public class DeleteMeAcTest {
         if (mustClean) {
             cleanOptions(CLEAN_RODRIGO);
         }
+    }
+
+    @AfterClass
+    public static void cleanUp()
+    {
+        cleanInitialSec();
     }
 
     //    =====================================  TESTS  ==========================================

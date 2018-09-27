@@ -3,8 +3,8 @@ package com.didekindroid.lib_one.usuario.dao;
 import com.didekindroid.lib_one.api.HttpInitializerIf;
 import com.didekindroid.lib_one.security.AuthTkCacherIf;
 import com.didekindroid.lib_one.security.SecInitializerIf;
-import com.didekinlib.http.usuario.UsuarioEndPoints;
 import com.didekinlib.model.usuario.Usuario;
+import com.didekinlib.model.usuario.http.UsuarioEndPoints;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;

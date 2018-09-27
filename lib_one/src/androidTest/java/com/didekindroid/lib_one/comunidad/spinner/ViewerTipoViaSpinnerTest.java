@@ -11,6 +11,7 @@ import com.didekindroid.lib_one.api.SpinnerTextMockFr;
 import com.didekindroid.lib_one.security.AuthTkCacher;
 import com.didekindroid.lib_one.security.MySecInitializerMock;
 
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -29,6 +30,7 @@ import static com.didekindroid.lib_one.comunidad.spinner.ViewerTipoViaSpinner.ne
 import static com.didekindroid.lib_one.security.SecInitializer.secInitializer;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.AFTER_METHOD_EXEC_A;
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.BEFORE_METHOD_EXEC;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.cleanInitialSec;
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initRouterAll;
 import static com.didekindroid.lib_one.testutil.UiTestUtil.checkSavedStateWithItemSelected;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -72,6 +74,12 @@ public class ViewerTipoViaSpinnerTest {
             viewer = newViewerTipoViaSpinner(spinner, activity, null);
         });
         waitAtMost(2, SECONDS).until(() -> viewer != null);
+    }
+
+    @AfterClass
+    public static void cleanUp()
+    {
+        cleanInitialSec();
     }
 
     // ==================================== TESTS ====================================

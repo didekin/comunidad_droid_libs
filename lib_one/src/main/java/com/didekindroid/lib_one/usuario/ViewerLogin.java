@@ -35,9 +35,9 @@ import static com.didekindroid.lib_one.util.UiUtil.getContetViewInAc;
 import static com.didekindroid.lib_one.util.UiUtil.getErrorMsgBuilder;
 import static com.didekindroid.lib_one.util.UiUtil.getUiExceptionFromThrowable;
 import static com.didekindroid.lib_one.util.UiUtil.makeToast;
-import static com.didekinlib.http.usuario.UsuarioExceptionMsg.PASSWORD_WRONG;
-import static com.didekinlib.http.usuario.UsuarioExceptionMsg.USER_NOT_FOUND;
-import static com.didekinlib.http.usuario.UsuarioExceptionMsg.USER_WRONG_INIT;
+import static com.didekinlib.model.usuario.http.UsuarioExceptionMsg.PASSWORD_WRONG;
+import static com.didekinlib.model.usuario.http.UsuarioExceptionMsg.USER_NOT_FOUND;
+import static com.didekinlib.model.usuario.http.UsuarioExceptionMsg.USER_WRONG_INIT;
 
 /**
  * User: pedro@didekin
