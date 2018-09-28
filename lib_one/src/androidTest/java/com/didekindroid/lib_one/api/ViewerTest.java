@@ -10,11 +10,13 @@ import com.didekinlib.http.exception.ErrorBean;
 
 import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 
 import java.util.concurrent.atomic.AtomicReference;
 
+import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -23,6 +25,7 @@ import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.AFTER_
 import static com.didekindroid.lib_one.testutil.ConstantForMethodCtrlExec.BEFORE_METHOD_EXEC;
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.cleanInitialSec;
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http_Router;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSecurity;
 import static com.didekindroid.lib_one.usuario.UserTestNavigation.loginAcResourceId;
 import static com.didekinlib.model.usuario.http.UsuarioExceptionMsg.BAD_REQUEST;
 import static org.hamcrest.CoreMatchers.is;
@@ -45,12 +48,15 @@ public class ViewerTest {
     private ViewerMock<View, ControllerIf> parentViewer;
     private View viewInViewer;
 
+    @BeforeClass
+    public static void setMore(){
+        initSec_Http_Router(getTargetContext());
+    }
+
     @Before
     public void setUp()
     {
         activity = activityRule.getActivity();
-        initSec_Http_Router(activity);
-
         parentViewer = new ViewerMock<>(new View(activity), activity);
         viewInViewer = new View(activity);
         viewer = new Viewer<>(viewInViewer, activity, parentViewer);

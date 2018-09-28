@@ -18,25 +18,25 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         // usuario.dao.
-//        AppIdHelperTest.class,
+        AppIdHelperTest.class,
         CtrlerUsuario_Test.class,
         UsuarioDaoTest.class,
         // usuario.router
-//        UserContextActionTest.class,
-//        UserMnActionTest.class,
-//        UserUiExceptionActionTest.class,
-//        // usuario.
-//        DeleteMeAcTest.class,
-//        LoginAcTest.class,
-//        PasswordChangeTest.class,
-//        UserDataAcTest.class,
-//        UserMockDaoTest.class,
-//        UsuarioBeanTests.class,
-//        ViewerLoginTest.class,
-//        ViewerPasswordChangeTest.class,
-//        ViewerRegUserFrTest.class,
-//        ViewerUserDataTest.class,
-//        ViewerUserDrawerTest.class,
+        UserContextActionTest.class,
+        UserMnActionTest.class,
+        UserUiExceptionActionTest.class,
+        // usuario.
+        DeleteMeAcTest.class,
+        LoginAcTest.class,
+        PasswordChangeTest.class,
+        UserDataAcTest.class,
+        UserMockDaoTest.class,
+        UsuarioBeanTests.class,
+        ViewerLoginTest.class,
+        ViewerPasswordChangeTest.class,
+        ViewerRegUserFrTest.class,
+        ViewerUserDataTest.class,
+        ViewerUserDrawerTest.class,
 })
 public class UsuarioSuite {
 }

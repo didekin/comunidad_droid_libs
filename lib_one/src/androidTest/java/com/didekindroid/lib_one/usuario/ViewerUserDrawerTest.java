@@ -16,6 +16,7 @@ import com.didekindroid.lib_one.api.router.RouterInitializerMock;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -76,7 +77,6 @@ public class ViewerUserDrawerTest {
         @Override
         protected Intent getActivityIntent()
         {
-            initSec_Http_Router(getTargetContext());
             try {
                 regComuUserUserComuGetAuthTk(comu_real_rodrigo);
             } catch (Exception e) {
@@ -89,6 +89,12 @@ public class ViewerUserDrawerTest {
     private ActivityDrawerMock activity;
     private ViewerUserDrawer viewer;
 
+    @BeforeClass
+    public static void setMore()
+    {
+        initSec_Http_Router(getTargetContext());
+    }
+
     @Before
     public void setUp()
     {
@@ -100,7 +106,8 @@ public class ViewerUserDrawerTest {
     }
 
     @After
-    public void cleanUp(){
+    public void cleanUp()
+    {
         cleanOptions(CLEAN_RODRIGO);
     }
 

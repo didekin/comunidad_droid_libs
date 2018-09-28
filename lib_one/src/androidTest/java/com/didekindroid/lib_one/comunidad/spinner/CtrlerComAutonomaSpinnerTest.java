@@ -7,12 +7,17 @@ import com.didekindroid.lib_one.api.ActivityMock;
 import com.didekindroid.lib_one.security.AuthTkCacher;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static com.didekindroid.lib_one.comunidad.repository.ComunidadDataDb.ComunidadAutonoma.NUMBER_RECORDS;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.cleanInitialSec;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSecurity;
 import static com.didekindroid.lib_one.testutil.RxSchedulersUtils.resetAllSchedulers;
 import static com.didekindroid.lib_one.testutil.UiTestUtil.checkSpinnerCtrlerLoadItems;
 import static org.hamcrest.CoreMatchers.is;
@@ -31,6 +36,11 @@ public class CtrlerComAutonomaSpinnerTest {
 
     private CtrlerComAutonomaSpinner controller;
 
+    @BeforeClass
+    public static void setMore(){
+        initSecurity(getTargetContext());
+    }
+
     @Before
     public void setUp()
     {
@@ -42,6 +52,12 @@ public class CtrlerComAutonomaSpinnerTest {
     {
         controller.clearSubscriptions();
         resetAllSchedulers();
+    }
+
+    @AfterClass
+    public static void clearMore()
+    {
+        cleanInitialSec();
     }
 
     @Test

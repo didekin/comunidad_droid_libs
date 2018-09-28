@@ -10,6 +10,7 @@ import com.didekindroid.lib_one.R;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -60,7 +61,6 @@ public class LoginAcTest {
         @Override
         protected void beforeActivityLaunched()
         {
-            initSec_Http_Router(getTargetContext());
             try {
                 regComuUserUserComuGetAuthTk(comu_real_rodrigo);
             } catch (Exception e) {
@@ -74,6 +74,12 @@ public class LoginAcTest {
             return new Intent().putExtra(user_name.key, user_crodrigo.getUserName());
         }
     };
+
+    @BeforeClass
+    public static void setMore()
+    {
+        initSec_Http_Router(getTargetContext());
+    }
 
     @Before
     public void setUp()

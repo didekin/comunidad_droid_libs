@@ -18,6 +18,7 @@ import com.didekindroid.lib_one.usuario.UserDataAc;
 
 import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -76,11 +77,15 @@ public class UserMnActionTest {
 
     private ActivityMock activity;
 
+    @BeforeClass
+    public static void setMore(){
+        initSecurity(getTargetContext());
+    }
+
     @Before
     public void setUp()
     {
         activity = activityRule.getActivity();
-        initSecurity(activity);
         secInitializer.get().getTkCacher().updateAuthToken(null);
     }
 
@@ -155,6 +160,7 @@ public class UserMnActionTest {
     public void test_password_change_mn()
     {
         initSec_Http_Router(activity);
+        waitAtMost(4, SECONDS).until(() -> secInitializer.get() != null);
         secInitializer.get().getTkCacher().updateAuthToken("mock_gcmToken");
 
         password_change_mn.initActivity(activity);

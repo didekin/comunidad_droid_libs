@@ -10,6 +10,7 @@ import com.didekinlib.model.usuario.Usuario;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -42,17 +43,21 @@ public class CtrlerUsuario_Test {
     private CtrlerUsuario controller;
     private CleanUserEnum whatClean = CLEAN_RODRIGO;
 
+    @BeforeClass
+    public static void setMore()
+    {
+        initSec_Http(getTargetContext());
+    }
+
     @Before
     public void setUp()
     {
-        initSec_Http(getTargetContext());
         controller = new CtrlerUsuario();
     }
 
     @After
     public void cleanUp()
     {
-        resetAllSchedulers();
         assertThat(controller.clearSubscriptions(), is(0));
         cleanOptions(whatClean);
     }
@@ -61,6 +66,7 @@ public class CtrlerUsuario_Test {
     public static void cleanMore()
     {
         cleanInitialSec();
+        resetAllSchedulers();
     }
 
     //    .................................... INSTANCE METHODS .................................

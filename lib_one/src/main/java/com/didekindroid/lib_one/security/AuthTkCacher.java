@@ -64,7 +64,7 @@ public final class AuthTkCacher implements AuthTkCacherIf {
     //  ======================================================================================
 
     @Override
-    public AuthTkCacher updateAuthToken(String authTokenIn)
+    public synchronized AuthTkCacher updateAuthToken(String authTokenIn)
     {
         Timber.d("updateAuthToken()");
         authTokenCache.set(authTokenIn);

@@ -6,11 +6,14 @@ import android.support.test.espresso.intent.rule.IntentsTestRule;
 import com.didekindroid.lib_one.api.ActivityMock;
 import com.didekindroid.lib_one.api.ActivityNextMock;
 
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 
 import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
+import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.intent.Intents.intended;
@@ -19,6 +22,8 @@ import static android.support.test.espresso.intent.matcher.IntentMatchers.hasExt
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasFlag;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.cleanInitialSec;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSecurity;
 import static com.didekindroid.lib_one.testutil.MockTestConstant.nextMockAcLayout;
 
 /**
@@ -33,11 +38,23 @@ public class RouterActionIfTest {
     private ActivityMock activity;
     private RouterActionIf router;
 
+    @BeforeClass
+    public static void setMore()
+    {
+        initSecurity(getTargetContext());
+    }
+
     @Before
     public void setUp()
     {
         activity = activityRule.getActivity();
         router = () -> ActivityNextMock.class;
+    }
+
+    @AfterClass
+    public static void clearMore()
+    {
+        cleanInitialSec();
     }
 
     @Test

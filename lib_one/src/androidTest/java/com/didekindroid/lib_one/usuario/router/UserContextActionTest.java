@@ -10,10 +10,12 @@ import com.didekindroid.lib_one.api.router.ContextualRouterIf;
 
 import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static com.didekindroid.lib_one.RouterInitializer.routerInitializer;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.checkTextsInDialog;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.isResourceIdDisplayed;
@@ -49,11 +51,16 @@ public class UserContextActionTest {
     private ActivityMock activity;
     private ContextualRouterIf router;
 
+    @BeforeClass
+    public static void setMore()
+    {
+        initSec_Http_Router(getTargetContext());
+    }
+
     @Before
     public void setUp()
     {
         activity = intentRule.getActivity();
-        initSec_Http_Router(activity);
         router = routerInitializer.get().getContextRouter();
     }
 

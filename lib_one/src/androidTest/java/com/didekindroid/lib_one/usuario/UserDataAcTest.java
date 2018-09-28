@@ -8,6 +8,7 @@ import com.didekindroid.lib_one.R;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -66,7 +67,6 @@ public class UserDataAcTest {
         @Override
         protected void beforeActivityLaunched()
         {
-            initSec_Http_Router(getTargetContext());
             try {
                 regComuUserUserComuGetUser(comu_real_rodrigo);
             } catch (Exception e) {
@@ -74,6 +74,12 @@ public class UserDataAcTest {
             }
         }
     };
+
+    @BeforeClass
+    public static void setMore()
+    {
+        initSec_Http_Router(getTargetContext());
+    }
 
     @Before
     public void setUp()

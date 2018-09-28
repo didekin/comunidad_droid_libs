@@ -4,6 +4,7 @@ import com.didekindroid.lib_one.api.exception.UiException;
 
 import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static android.support.test.InstrumentationRegistry.getTargetContext;
@@ -20,10 +21,14 @@ import static org.junit.Assert.assertThat;
 
 public class AppIdHelperTest {
 
+    @BeforeClass
+    public static void setMore(){
+        initSecurity(getTargetContext());
+    }
+
     @Before
     public void setUp()
     {
-        initSecurity(getTargetContext());
         waitAtMost(4, SECONDS).until(() -> secInitializer.get().getJksInClient() != null);
     }
 

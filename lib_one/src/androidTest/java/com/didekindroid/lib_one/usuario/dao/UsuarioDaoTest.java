@@ -10,6 +10,7 @@ import com.didekinlib.model.usuario.Usuario;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -50,10 +51,15 @@ public class UsuarioDaoTest {
     private CleanUserEnum whatClean = CLEAN_NOTHING;
     private AuthTkCacher tkCacher;
 
+    @BeforeClass
+    public static void setMore()
+    {
+        initSec_Http(getTargetContext());
+    }
+
     @Before
     public void setUp()
     {
-        initSec_Http(getTargetContext());
         tkCacher = (AuthTkCacher) secInitializer.get().getTkCacher();
         tkCacher.updateAuthToken(null);
     }
@@ -75,7 +81,7 @@ public class UsuarioDaoTest {
     @Test
     public void testDeleteUser_1() throws Exception
     {
-        /*Inserta userComu, comunidad, usuariocomunidad y actuliza tokenCache.*/
+        // Inserta userComu, comunidad, usuariocomunidad y actuliza tokenCache.
         assertThat(regComuUserUserComuGetAuthTk(comu_real_rodrigo), notNullValue());
         // Exec, check.
         usuarioDaoRemote.deleteUser().test();
@@ -85,7 +91,7 @@ public class UsuarioDaoTest {
     @Test
     public void testDeleteUser_2()
     {
-        /* No valid authHeader because not registered user.*/
+        // No valid authHeader because not registered user.
         usuarioDaoRemote.deleteUser().test().assertError(
                 uiexception -> UiException.class.cast(uiexception).getErrorHtppMsg().equals(AUTH_HEADER_WRONG.getHttpMessage())
         );

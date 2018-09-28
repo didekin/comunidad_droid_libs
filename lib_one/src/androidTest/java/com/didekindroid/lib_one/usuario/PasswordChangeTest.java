@@ -11,6 +11,7 @@ import com.didekindroid.lib_one.R;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -55,7 +56,6 @@ public class PasswordChangeTest {
         @Override
         protected Intent getActivityIntent()
         {
-            initSec_Http_Router(getTargetContext());
             try {
                 regComuUserUserComuGetAuthTk(comu_real_rodrigo);
             } catch (Exception e) {
@@ -69,6 +69,12 @@ public class PasswordChangeTest {
     };
 
     private PasswordChangeAc activity;
+
+    @BeforeClass
+    public static void setMore()
+    {
+        initSec_Http_Router(getTargetContext());
+    }
 
     @Before
     public void setUp()

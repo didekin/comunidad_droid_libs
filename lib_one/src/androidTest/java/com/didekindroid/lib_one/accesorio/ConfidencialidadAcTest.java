@@ -13,6 +13,7 @@ import com.didekindroid.lib_one.api.ActivityMock;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -53,14 +54,18 @@ public class ConfidencialidadAcTest {
     private TaskStackBuilder stackBuilder;
     private Activity activity;
 
+    @BeforeClass
+    public static void setMore()
+    {
+        initSec_Http_Router(getTargetContext());
+    }
+
     @Rule
     public ActivityTestRule<ConfidencialidadAc> activityRule = new ActivityTestRule<ConfidencialidadAc>(ConfidencialidadAc.class) {
 
         @Override
         protected void beforeActivityLaunched()
         {
-            initSec_Http_Router(getTargetContext());
-
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 stackBuilder = create(getTargetContext()).addParentStack(ConfidencialidadAc.class);
                 stackBuilder.startActivities();

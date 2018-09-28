@@ -59,12 +59,6 @@ public class ViewerAmbitoIncidSpinnerTest {
     private ActivityMock activity;
     private Spinner spinner;
 
-    @AfterClass
-    public static void cleanUp()
-    {
-        cleanInitialSec();
-    }
-
     @Before
     public void setUp()
     {
@@ -80,6 +74,12 @@ public class ViewerAmbitoIncidSpinnerTest {
             viewer = newViewerAmbitoIncidSpinner(spinner, new ViewerMock(activity));
         });
         waitAtMost(2, SECONDS).until(() -> viewer != null);
+    }
+
+    @AfterClass
+    public static void cleanUp()
+    {
+        cleanInitialSec();
     }
 
     // ==================================== TESTS ====================================

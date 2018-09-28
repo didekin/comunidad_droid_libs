@@ -9,6 +9,7 @@ import com.didekinlib.http.exception.ErrorBean;
 
 import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -49,15 +50,15 @@ import static org.awaitility.Awaitility.waitAtMost;
 public class UserUiExceptionActionTest {
 
     @Rule
-    public IntentsTestRule<ActivityMock> intentRule = new IntentsTestRule<ActivityMock>(ActivityMock.class, true, true) {
-        @Override
-        protected void beforeActivityLaunched()
-        {
-            initSec_Http_Router(getTargetContext());
-        }
-    };
+    public IntentsTestRule<ActivityMock> intentRule = new IntentsTestRule<>(ActivityMock.class, true, true);
     private ActivityMock activity;
     private UiExceptionRouterIf router;
+
+    @BeforeClass
+    public static void setMore()
+    {
+        initSec_Http_Router(getTargetContext());
+    }
 
     @Before
     public void setUp()
@@ -115,8 +116,8 @@ public class UserUiExceptionActionTest {
     @Test
     public void test_FIREBASE_SERVICE_NOT_AVAILABLE()
     {
-       final UiException ue = new UiException(new ErrorBean(FIREBASE_SERVICE_NOT_AVAILABLE));
-       run(ue, firebase_service_unavailable, mockAcLayout);
+        final UiException ue = new UiException(new ErrorBean(FIREBASE_SERVICE_NOT_AVAILABLE));
+        run(ue, firebase_service_unavailable, mockAcLayout);
     }
 
     // ============================  Helpers ==============================

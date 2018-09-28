@@ -13,6 +13,7 @@ import com.didekinlib.model.usuario.Usuario;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -66,7 +67,6 @@ public class ViewerPasswordChangeTest {
         {
             usuario = null;
             try {
-                initSec_Http_Router(getTargetContext());
                 usuario = regComuUserUserComuGetUser(comu_real_rodrigo);
             } catch (Exception e) {
                 fail();
@@ -75,6 +75,12 @@ public class ViewerPasswordChangeTest {
         }
     };
     private PasswordChangeAc activity;
+
+    @BeforeClass
+    public static void setMore()
+    {
+        initSec_Http_Router(getTargetContext());
+    }
 
     @Before
     public void setUp()

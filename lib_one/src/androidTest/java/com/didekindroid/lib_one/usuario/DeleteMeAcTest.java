@@ -14,6 +14,7 @@ import org.hamcrest.CoreMatchers;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -65,7 +66,6 @@ public class DeleteMeAcTest {
         protected void beforeActivityLaunched()
         {
             try {
-                initSec_Http_Router(getTargetContext());
                 regComuUserUserComuGetUser(comu_real_rodrigo);
             } catch (Exception e) {
                 fail();
@@ -76,6 +76,12 @@ public class DeleteMeAcTest {
         }
     };
     private boolean mustClean;
+
+    @BeforeClass
+    public static void setMore()
+    {
+        initSec_Http_Router(getTargetContext());
+    }
 
     @Before
     public void setUp()

@@ -19,6 +19,7 @@ import com.didekinlib.model.usuario.Usuario;
 
 import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -69,15 +70,15 @@ public class ViewerLoginTest {
     private static final AtomicReference<String> flagMethodExec = new AtomicReference<>(BEFORE_METHOD_EXEC);
 
     @Rule
-    public IntentsTestRule<? extends Activity> activityRule = new IntentsTestRule<LoginAc>(LoginAc.class, true, true) {
-        @Override
-        protected void beforeActivityLaunched()
-        {
-            initSec_Http_Router(getTargetContext());
-        }
-    };
+    public IntentsTestRule<? extends Activity> activityRule = new IntentsTestRule<>(LoginAc.class, true, true);
 
     private LoginAc activity;
+
+    @BeforeClass
+    public static void setMore()
+    {
+        initSec_Http_Router(getTargetContext());
+    }
 
     @Before
     public void setUp()

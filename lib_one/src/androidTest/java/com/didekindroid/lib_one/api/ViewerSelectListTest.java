@@ -9,6 +9,7 @@ import com.didekinlib.model.usuario.Usuario;
 
 import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -44,12 +45,16 @@ public class ViewerSelectListTest {
     private ActivityMock activity;
     private ViewerSelectList<Spinner, CtrlerSelectList<Usuario>, Usuario> viewer;
 
+    @BeforeClass
+    public static void setMore()
+    {
+        initSec_Http_Router(getTargetContext());
+    }
+
     @Before
     public void setUp()
     {
         activity = activityRule.getActivity();
-        initSec_Http_Router(getTargetContext());
-
         activity.runOnUiThread(() ->
                 viewer = new ViewerSelectList<Spinner, CtrlerSelectList<Usuario>, Usuario>(new Spinner(activity), activity, null) {
                     @Override

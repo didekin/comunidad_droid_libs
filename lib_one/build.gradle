@@ -8,6 +8,7 @@ android {
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
         testInstrumentationRunner rootProject.testInstrumentationRunner
+        testInstrumentationRunnerArguments clearPackageData: 'true'
         resConfigs "es" /* , "en"  Añadir nuevos idiomas según hagan falta.*/
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
@@ -84,11 +85,10 @@ dependencies {
     implementation rootProject.retrofit2
     implementation rootProject.rxjava
     implementation rootProject.android_support
-    debugImplementation rootProject.awaitility
     androidTestImplementation rootProject.testRuler
     androidTestImplementation rootProject.testRunner
     androidTestImplementation rootProject.espresso
-//    androidTestImplementation rootProject.awaitility
+    androidTestImplementation rootProject.awaitility
     androidTestUtil rootProject.testOrchestrator
     androidTestImplementation rootProject.junit
 }

@@ -30,7 +30,7 @@ public class AppIdHelper {
                     Timber.d("============== TaskToken is cancelled");
                     return;
                 }
-                MILLISECONDS.sleep(50);
+                MILLISECONDS.sleep(10);
             }
             if (taskToken.getException() != null) { // java.io.IOException: SERVICE_NOT_AVAILABLE
                 Timber.e(taskToken.getException());

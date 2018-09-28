@@ -1,15 +1,13 @@
 package com.didekindroid.lib_one.comunidad.spinner;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.widget.Adapter;
-import android.widget.AdapterView;
 import android.widget.Spinner;
 
 import com.didekindroid.lib_one.R;
 import com.didekindroid.lib_one.api.ActivityMock;
-import com.didekindroid.lib_one.api.ObserverSingleSelectList;
 import com.didekindroid.lib_one.api.SpinnerTextMockFr;
 import com.didekindroid.lib_one.security.AuthTkCacher;
 import com.didekindroid.lib_one.security.MySecInitializerMock;
@@ -18,16 +16,17 @@ import com.didekinlib.model.comunidad.Provincia;
 
 import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicReference;
 
 import io.reactivex.observers.DisposableSingleObserver;
 
+import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static com.didekindroid.lib_one.comunidad.spinner.ComunidadSpinnerKey.MUNICIPIO_SPINNER_EVENT;
 import static com.didekindroid.lib_one.comunidad.spinner.ViewerMunicipioSpinner.newViewerMunicipioSpinner;
 import static com.didekindroid.lib_one.comunidad.spinner.ViewerMunicipioSpinner.spinnerEvent_default;
@@ -62,13 +61,17 @@ public class ViewerMunicipioSpinnerTest {
     private ActivityMock activity;
     private Spinner spinner;
 
+    @BeforeClass
+    public static void setMore()
+    {
+        initRouterAll();
+        secInitializer.set(new MySecInitializerMock(getTargetContext(), new AuthTkCacher(getTargetContext())));
+    }
+
     @Before
     public void setUp()
     {
         activity = activityRule.getActivity();
-        initRouterAll();
-        secInitializer.set(new MySecInitializerMock(activity, new AuthTkCacher(activity)));
-
         activity.runOnUiThread(() -> {
             activity.getSupportFragmentManager().beginTransaction()
                     .add(R.id.mock_ac_layout, new SpinnerTextMockFr(), null)
@@ -117,15 +120,9 @@ public class ViewerMunicipioSpinnerTest {
     @Test
     public void test_GetSelectedPositionFromItemId()
     {
-        final List<Municipio> municipios = asList(
-                new Municipio((short) 11, new Provincia((short) 3)),
-                new Municipio((short) 33, new Provincia((short) 1)),
-                new Municipio((short) 22, new Provincia((short) 2)));
-
         viewer.setSelectedItemId(33);
-
         activity.runOnUiThread(() -> {
-            viewer.onSuccessLoadItemList(municipios);
+            viewer.onSuccessLoadItemList(doListMunicipios());
             assertThat(viewer.getSelectedPositionFromItemId(viewer.getBeanIdFunction()), is(1));   // id 33
         });
     }
@@ -157,28 +154,19 @@ public class ViewerMunicipioSpinnerTest {
                 instanceOf(ViewerMunicipioSpinner.MunicipioSelectedListener.class));
     }
 
-    /* Provincia de Las Palmas: pr_id 35, nº de municipios 34. */
     @Test
     public void test_MunicipioSelectedListener()
     {
-        // Initial state.
-        assertThat(viewer.spinnerEvent, is(spinnerEvent_default));
-        assertThat(viewer.getSelectedItemId(), is(0L));
-        // Preconditions
-        final Municipio municipio = new Municipio((short) 11, new Provincia((short) 35));
-        viewer.doViewInViewer(new Bundle(0), new MunicipioSpinnerEventItemSelect(municipio));
-        assertThat(viewer.spinnerEvent.getMunicipio(), is(municipio));
-        // ItemId is initialized.
-        assertThat(viewer.getSelectedItemId(), is(11L));
-        // Check controller.loadItemsByEntitiyId() --> onSuccessLoadItemList() --> view.setSelection() ... {--> MunicipioSelectedListener.onItemSelected() }
-        // We initialize to 0 the itemSelectedId to checkMenu the call to MunicipioSelectedListener.onItemSelected().
-        viewer.setSelectedItemId(2L);
-        viewer.getController().loadItemsByEntitiyId(new ObserverSingleSelectList<>(viewer), 35L);
-        waitAtMost(3, SECONDS).until((Callable<Adapter>) ((AdapterView<? extends Adapter>) viewer.getViewInViewer())::getAdapter, notNullValue());
-        assertThat(viewer.getViewInViewer().getCount(), is(34));
-        // MunicipioSelectedListener.onItemSelected() modify municipioIn.
-        assertThat(viewer.spinnerEvent.getMunicipio().getProvincia().getProvinciaId(), is((short) 35));
-        assertThat(viewer.spinnerEvent.getMunicipio().getCodInProvincia(), is((short) 2));
+        viewer.setSelectedItemId(0);
+        activity.runOnUiThread(() -> {
+            viewer.onSuccessLoadItemList(doListMunicipios());
+            assertThat(viewer.getViewInViewer().getAdapter().getCount(), is(3));
+        });
+        // Exec.
+        ViewerMunicipioSpinner.MunicipioSelectedListener listener = viewer.new MunicipioSelectedListener();
+        activity.runOnUiThread(() -> listener.onItemSelected(viewer.getViewInViewer(), null, 1, 33));
+        // Check
+        waitAtMost(4, SECONDS).until(() -> viewer.spinnerEvent.getMunicipio().equals(new Municipio((short) 33, new Provincia((short) 1))));
     }
 
     @Test
@@ -191,5 +179,16 @@ public class ViewerMunicipioSpinnerTest {
         viewer.spinnerEvent = new MunicipioSpinnerEventItemSelect(new Municipio((short) 11, new Provincia((short) 1)));
         viewer.saveState(bundle);
         assertThat(MunicipioSpinnerEventItemSelect.class.cast(bundle.getSerializable(MUNICIPIO_SPINNER_EVENT.key)), is(viewer.spinnerEvent));
+    }
+
+    // ======================================= HELPERS ===============================================
+
+    @NonNull
+    private List<Municipio> doListMunicipios()
+    {
+        return asList(
+                new Municipio((short) 11, new Provincia((short) 3)),
+                new Municipio((short) 33, new Provincia((short) 1)),
+                new Municipio((short) 22, new Provincia((short) 2)));
     }
 }
