@@ -32,6 +32,8 @@ import static com.didekindroid.lib_one.usuario.dao.UsuarioDao.usuarioDaoRemote;
 import static com.didekinlib.model.usuario.http.TkValidaPatterns.tkEncrypted_direct_symmetricKey_REGEX;
 import static com.didekinlib.model.usuario.http.UsuarioExceptionMsg.USER_NOT_FOUND;
 import static java.lang.Boolean.TRUE;
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.awaitility.Awaitility.waitAtMost;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.Matchers.allOf;
@@ -55,6 +57,7 @@ public class UsuarioDaoTest {
     public static void setMore()
     {
         initSec_Http(getTargetContext());
+        waitAtMost(4, SECONDS).until(() -> secInitializer.get() != null && secInitializer.get().getJksInClient() != null);
     }
 
     @Before

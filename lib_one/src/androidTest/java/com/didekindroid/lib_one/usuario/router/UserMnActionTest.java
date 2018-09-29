@@ -171,6 +171,7 @@ public class UserMnActionTest {
     public void test_user_data_mn()
     {
         initSec_Http_Router(activity);
+        waitAtMost(4, SECONDS).until(() -> secInitializer.get() != null && secInitializer.get().getTkCacher() != null);
         secInitializer.get().getTkCacher().updateAuthToken("mock_gcmToken");
 
         user_data_mn.initActivity(activity);

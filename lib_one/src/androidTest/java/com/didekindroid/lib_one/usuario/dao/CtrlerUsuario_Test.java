@@ -15,6 +15,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static android.support.test.InstrumentationRegistry.getTargetContext;
+import static com.didekindroid.lib_one.security.SecInitializer.secInitializer;
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.cleanInitialSec;
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http;
 import static com.didekindroid.lib_one.testutil.RxSchedulersUtils.execCheckSchedulersTest;
@@ -28,6 +29,8 @@ import static com.didekindroid.lib_one.usuario.UserTestData.comu_real_rodrigo;
 import static com.didekindroid.lib_one.usuario.UserTestData.regComuUserUserComuGetAuthTk;
 import static com.didekindroid.lib_one.usuario.UserTestData.regComuUserUserComuGetUser;
 import static com.didekindroid.lib_one.usuario.UserTestData.user_crodrigo;
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.awaitility.Awaitility.waitAtMost;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
@@ -47,7 +50,7 @@ public class CtrlerUsuario_Test {
     public static void setMore()
     {
         initSec_Http(getTargetContext());
-
+        waitAtMost(4, SECONDS).until(() -> secInitializer.get() != null && secInitializer.get().getJksInClient() != null);
     }
 
     @Before
