@@ -27,13 +27,13 @@ android {
         }
     }
 
-    /*sourceSets {
+    sourceSets {
         debugPre {
             manifest.srcFile 'src/debug/AndroidManifest.xml'
             java.srcDirs = ['src/debug/java']
             res.srcDirs = ['src/debug/res']
         }
-    }*/
+    }
 
 //    Activar antes de pasar a PRE.
     testBuildType "debugPre"
