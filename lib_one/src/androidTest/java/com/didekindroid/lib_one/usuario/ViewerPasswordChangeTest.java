@@ -25,6 +25,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static com.didekindroid.lib_one.security.SecInitializer.secInitializer;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.isResourceIdDisplayed;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.isToastInView;
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.cleanInitialSec;
@@ -80,6 +81,7 @@ public class ViewerPasswordChangeTest {
     public static void setMore()
     {
         initSec_Http_Router(getTargetContext());
+        waitAtMost(4, SECONDS).until(() -> secInitializer.get() != null && secInitializer.get().getJksInClient() != null);
     }
 
     @Before
@@ -116,11 +118,11 @@ public class ViewerPasswordChangeTest {
     public void testDoViewInViewer()
     {
         // Esperamos a tener inicializado activity.viewer.userName, y lo ponemos a null.
-        waitAtMost(2, SECONDS).until(() -> activity.viewer.userName.getAndSet(null).equals(usuario.getUserName()));
+        waitAtMost(4, SECONDS).until(() -> activity.viewer.userName.getAndSet(null).equals(usuario.getUserName()));
         // Exec.
         activity.viewer.doViewInViewer(null, null);
         // Check that the field is update correctly.
-        waitAtMost(4, SECONDS).until(() ->
+        waitAtMost(6, SECONDS).until(() ->
                 activity.viewer.userName.get() != null && activity.viewer.userName.get().equals(usuario.getUserName()));
     }
 
