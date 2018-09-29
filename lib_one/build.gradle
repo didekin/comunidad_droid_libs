@@ -28,7 +28,7 @@ android {
     }
 
 //    Activar antes de pasar a PRE.
-    testBuildType "debugPre"
+//    testBuildType "debugPre"
 
     buildTypes {
         release {
