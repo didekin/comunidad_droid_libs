@@ -47,6 +47,7 @@ public class CtrlerUsuario_Test {
     public static void setMore()
     {
         initSec_Http(getTargetContext());
+        
     }
 
     @Before
