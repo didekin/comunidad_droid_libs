@@ -44,27 +44,16 @@ android {
         }
         debugPre {
             initWith debug
-            // Variables for android_studio default run-debug configuration.
-            if ("$System.env.TEST_HOST" == "null" || "$System.env.TEST_PORT" == "null") {
-                resValue "string", "didekin_web_host", '"https://didekin-web-pre.eu-west-1.elasticbeanstalk.com"'
-                resValue "string", "didekin_web_port", '":443"'
-            } else {
-                resValue "string", "didekin_web_host", "$System.env.TEST_HOST"
-                resValue "string", "didekin_web_port", "$System.env.TEST_PORT"
-            }
+            // To be used in InitializerTestUtil.
+            buildConfigField "String", "didekin_web_host", '"https://didekin-web-pre.eu-west-1.elasticbeanstalk.com"'
+            buildConfigField "String", "didekin_web_port", '":443"'
         }
         debug {
             debuggable true
             versionNameSuffix ''
-            // Variables for android_studio default run-debug configuration.
-            if ("$System.env.TEST_HOST" == "null" || "$System.env.TEST_PORT" == "null") {
-                // LOCAL url's
-                resValue "string", "didekin_web_host", '"https://didekinspring.pagekite.me"'
-                resValue "string", "didekin_web_port", '""'
-            } else {
-                resValue "string", "didekin_web_host", "$System.env.TEST_HOST"
-                resValue "string", "didekin_web_port", "$System.env.TEST_PORT"
-            }
+            // To be used in InitializerTestUtil.
+            buildConfigField "String", "didekin_web_host", '"https://didekinspring.pagekite.me"'
+            buildConfigField "String", "didekin_web_port", '""'
         }
     }
 

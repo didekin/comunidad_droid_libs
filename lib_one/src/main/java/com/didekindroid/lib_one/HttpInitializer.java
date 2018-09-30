@@ -77,9 +77,9 @@ public final class HttpInitializer implements HttpInitializerIf {
             this.context = context;
         }
 
-        public HttpInitializerBuilder webHostAndPort(int webHostIn, int webPortIn)
+        public HttpInitializerBuilder webHostAndPort(String webHostIn, String webPortIn)
         {
-            webHostPortStr = context.getString(webHostIn) + context.getString(webPortIn);
+            webHostPortStr = webHostIn + webPortIn;
             return this;
         }
 

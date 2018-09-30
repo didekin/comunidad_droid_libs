@@ -3,6 +3,7 @@ package com.didekindroid.lib_one.testutil;
 import android.app.Activity;
 import android.content.Context;
 
+import com.didekindroid.lib_one.BuildConfig;
 import com.didekindroid.lib_one.HttpInitializer;
 import com.didekindroid.lib_one.R;
 import com.didekindroid.lib_one.api.ActivityMock;
@@ -15,6 +16,8 @@ import com.didekindroid.lib_one.api.router.UiExceptionRouter;
 import com.didekindroid.lib_one.api.router.UiExceptionRouterIf;
 import com.didekindroid.lib_one.security.SecInitializer;
 
+import static com.didekindroid.lib_one.BuildConfig.didekin_web_host;
+import static com.didekindroid.lib_one.BuildConfig.didekin_web_port;
 import static com.didekindroid.lib_one.HttpInitializer.httpInitializer;
 import static com.didekindroid.lib_one.RouterInitializer.routerInitializer;
 import static com.didekindroid.lib_one.security.SecInitializer.secInitializer;
@@ -29,8 +32,10 @@ import static com.didekindroid.lib_one.usuario.router.UserUiExceptionAction.user
  */
 public final class InitializerTestUtil {
 
-    private static final int webHost = R.string.didekin_web_host;
-    private static final int webHostPort = R.string.didekin_web_port;
+    // Passed from buil.gradle (lib_one)
+    private static final String webHost = didekin_web_host;
+    // Passed from buil.gradle (lib_one)
+    private static final String webHostPort = didekin_web_port;
     private static final int timeOut = R.string.timeOut;
     public static final int bks_pswd = R.string.didekindroid_bks_pswd;
     public static final int bks_name = R.string.didekindroid_bks_name;
