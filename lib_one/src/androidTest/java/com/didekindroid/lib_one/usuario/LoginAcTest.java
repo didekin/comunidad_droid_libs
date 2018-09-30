@@ -144,7 +144,7 @@ public class LoginAcTest {
         typeLoginData(user_crodrigo.getUserName(), "password_wrong");
         onView(withId(R.id.login_ac_button)).check(matches(isDisplayed())).perform(click(), closeSoftKeyboard());
 
+        waitAtMost(4, SECONDS).until(isToastInView(R.string.password_wrong, activity));
         onView(withId(loginAcResourceId)).check(matches(isDisplayed()));
-        waitAtMost(3, SECONDS).until(isToastInView(R.string.password_wrong, activity));
     }
 }

@@ -11,7 +11,6 @@ android {
         testInstrumentationRunnerArguments clearPackageData: 'true'
         resConfigs "es" /* , "en"  Añadir nuevos idiomas según hagan falta.*/
         vectorDrawables.useSupportLibrary = true
-        multiDexEnabled true
 
         versionCode 1
         versionName "1.0"

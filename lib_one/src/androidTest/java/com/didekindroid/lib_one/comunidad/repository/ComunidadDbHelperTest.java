@@ -18,7 +18,7 @@ import org.junit.runner.RunWith;
 
 import java.util.List;
 
-import static android.support.test.InstrumentationRegistry.getContext;
+import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static com.didekindroid.lib_one.comunidad.repository.ComunidadDataDb.ComunidadAutonoma.NUMBER_RECORDS;
 import static com.didekindroid.lib_one.comunidad.repository.ComunidadDataDb.TipoVia;
 import static com.didekindroid.lib_one.comunidad.repository.ComunidadDbHelper.DB_NAME;
@@ -43,7 +43,7 @@ public class ComunidadDbHelperTest {
     @Before
     public void getFixture()
     {
-        context = getContext();
+        context = getTargetContext();
         context.deleteDatabase(DB_NAME);
         dbHelper = new ComunidadDbHelper(context);
     }
