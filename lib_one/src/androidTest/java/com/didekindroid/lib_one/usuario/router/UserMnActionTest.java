@@ -11,6 +11,7 @@ import com.didekindroid.lib_one.R;
 import com.didekindroid.lib_one.accesorio.ConfidencialidadAc;
 import com.didekindroid.lib_one.api.ActivityMock;
 import com.didekindroid.lib_one.api.ActivityNextMock;
+import com.didekindroid.lib_one.api.router.MnRouterActionIf;
 import com.didekindroid.lib_one.usuario.DeleteMeAc;
 import com.didekindroid.lib_one.usuario.LoginAc;
 import com.didekindroid.lib_one.usuario.PasswordChangeAc;
@@ -50,7 +51,6 @@ import static com.didekindroid.lib_one.usuario.router.UserMnAction.delete_me_mn;
 import static com.didekindroid.lib_one.usuario.router.UserMnAction.login_mn;
 import static com.didekindroid.lib_one.usuario.router.UserMnAction.navigateUp;
 import static com.didekindroid.lib_one.usuario.router.UserMnAction.password_change_mn;
-import static com.didekindroid.lib_one.usuario.router.UserMnAction.user_data_mn;
 import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.waitAtMost;
@@ -78,7 +78,8 @@ public class UserMnActionTest {
     private ActivityMock activity;
 
     @BeforeClass
-    public static void setMore(){
+    public static void setMore()
+    {
         initSecurity(getTargetContext());
     }
 
@@ -174,7 +175,20 @@ public class UserMnActionTest {
         waitAtMost(4, SECONDS).until(() -> secInitializer.get() != null && secInitializer.get().getTkCacher() != null);
         secInitializer.get().getTkCacher().updateAuthToken("mock_gcmToken");
 
-        user_data_mn.initActivity(activity);
+        MnRouterActionIf userMenuData = new MnRouterActionIf() {
+            @Override
+            public int getMnItemRsId()
+            {
+                return R.id.user_data_ac_mn;
+            }
+
+            @Override
+            public Class<? extends Activity> getAcToGo()
+            {
+                return UserDataAc.class;
+            }
+        };
+        userMenuData.initActivity(activity);
         intended(hasComponent(UserDataAc.class.getName()));
     }
 }

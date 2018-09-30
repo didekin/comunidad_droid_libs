@@ -11,7 +11,6 @@ import com.didekindroid.lib_one.api.router.MnRouterActionIf;
 import com.didekindroid.lib_one.usuario.DeleteMeAc;
 import com.didekindroid.lib_one.usuario.LoginAc;
 import com.didekindroid.lib_one.usuario.PasswordChangeAc;
-import com.didekindroid.lib_one.usuario.UserDataAc;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -80,8 +79,7 @@ public enum UserMnAction implements MnRouterActionIf {
             super.initActivity(activity);
         }
     },
-    password_change_mn(R.id.password_change_ac_mn, PasswordChangeAc.class),
-    user_data_mn(R.id.user_data_ac_mn, UserDataAc.class),;
+    password_change_mn(R.id.password_change_ac_mn, PasswordChangeAc.class),;
 
     // ==========================  Static members ============================
 
