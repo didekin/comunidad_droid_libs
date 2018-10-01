@@ -56,6 +56,8 @@ public class AuthTkCacherTest {
     public void getFixture()
     {
         activity = activityRule.getActivity();
+        tkCacher = new AuthTkCacher(activity);
+        waitAtMost(2, SECONDS).until(() -> tkCacher != null);
     }
 
     @After
@@ -70,8 +72,6 @@ public class AuthTkCacherTest {
     @Test
     public void test_new()
     {
-        tkCacher = new AuthTkCacher(activity);
-        waitAtMost(2, SECONDS).until(() -> tkCacher != null);
         assertThat(tkCacher.getAuthTokenCache(), nullValue());
     }
 
@@ -79,7 +79,6 @@ public class AuthTkCacherTest {
     public void test_updateAuthToken()
     {
         // Exec.
-        tkCacher = new AuthTkCacher(activity);
         tkCacher.updateAuthToken("updated_authToken");
         /* Check.*/
         assertThat(tkCacher.getAuthTokenCache(), is("updated_authToken"));
@@ -99,7 +98,6 @@ public class AuthTkCacherTest {
     public void test_doAuthHeaderStr() throws UiException
     {
         // Inicializamos todos los datos.
-        tkCacher = new AuthTkCacher(activity);
         tkCacher.updateAuthToken("pepe_authToken");
         assertThat(tkCacher.doAuthHeaderStr("pepe_gcmToken").length() > 0, is(true));
     }
@@ -108,7 +106,6 @@ public class AuthTkCacherTest {
     public void test_doAuthHeaderMock_1() throws UiException
     {
         // Inicializamos todos los datos.
-        tkCacher = new AuthTkCacher(activity);
         tkCacher.updateAuthToken("pepe_authToken");
         assertThat(tkCacher.doAuthHeaderStrMock("mock_gcm").length() > 0, is(true));
     }

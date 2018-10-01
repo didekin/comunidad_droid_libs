@@ -81,7 +81,8 @@ public class ViewerPasswordChangeTest {
     public static void setMore()
     {
         initSec_Http_Router(getTargetContext());
-        waitAtMost(4, SECONDS).until(() -> secInitializer.get() != null && secInitializer.get().getJksInClient() != null);
+        waitAtMost(4, SECONDS).until(() ->
+                secInitializer.get() != null && secInitializer.get().getJksInClient() != null && secInitializer.get().getTkCacher() != null);
     }
 
     @Before

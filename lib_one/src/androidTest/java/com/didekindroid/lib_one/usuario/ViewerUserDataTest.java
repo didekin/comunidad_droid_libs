@@ -29,6 +29,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withHint;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.didekindroid.lib_one.security.SecInitializer.secInitializer;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.checkTextsInDialog;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.isResourceIdDisplayed;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.isToastInView;
@@ -88,6 +89,8 @@ public class ViewerUserDataTest {
     public static void setMore()
     {
         initSec_Http_Router(getTargetContext());
+        waitAtMost(4, SECONDS).until(() ->
+                secInitializer.get() != null && secInitializer.get().getJksInClient() != null && secInitializer.get().getTkCacher() != null);
     }
 
     @Before
