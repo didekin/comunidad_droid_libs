@@ -35,7 +35,7 @@ android {
     }
 
 //    Activar antes de pasar a PRE.
-    testBuildType "debugPre"
+//    testBuildType "debugPre"
 
     buildTypes {
         release {
@@ -62,7 +62,6 @@ android {
         quiet true
         ignoreWarnings false
         htmlReport true
-//        disable  "InvalidPackage"
     }
 
     productFlavors {

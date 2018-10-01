@@ -3,7 +3,6 @@ package com.didekindroid.lib_one.testutil;
 import android.app.Activity;
 import android.content.Context;
 
-import com.didekindroid.lib_one.BuildConfig;
 import com.didekindroid.lib_one.HttpInitializer;
 import com.didekindroid.lib_one.R;
 import com.didekindroid.lib_one.api.ActivityMock;
@@ -78,7 +77,8 @@ public final class InitializerTestUtil {
         secInitializer.compareAndSet(null, new SecInitializer(context, bks_pswd, bks_name));
     }
 
-    public static void cleanInitialSec(){
+    public static void cleanInitialSec()
+    {
         secInitializer.set(null);
     }
 
