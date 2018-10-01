@@ -4,17 +4,22 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.didekindroid.lib_one.api.ActivityMock;
-import com.didekindroid.lib_one.security.AuthTkCacher;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static com.didekindroid.lib_one.incidencia.IncidenciaDataDb.AmbitoIncidencia.AMBITO_INCID_COUNT;
+import static com.didekindroid.lib_one.security.SecInitializer.secInitializer;
+import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSecurity;
 import static com.didekindroid.lib_one.testutil.RxSchedulersUtils.resetAllSchedulers;
 import static com.didekindroid.lib_one.testutil.UiTestUtil.checkSpinnerCtrlerLoadItems;
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.awaitility.Awaitility.waitAtMost;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -31,10 +36,19 @@ public class CtrlerAmbitoIncidSpinnerTest {
 
     private CtrlerAmbitoIncidSpinner controller;
 
+    @BeforeClass
+    public static void setMore()
+    {
+        initSecurity(getTargetContext());
+        waitAtMost(4, SECONDS).until(
+                () -> secInitializer.get() != null
+                        && secInitializer.get().getTkCacher() != null);
+    }
+
     @Before
     public void setUp()
     {
-        controller = new CtrlerAmbitoIncidSpinner(new AuthTkCacher(activityRule.getActivity()));
+        controller = new CtrlerAmbitoIncidSpinner(secInitializer.get().getTkCacher());
     }
 
     @After
