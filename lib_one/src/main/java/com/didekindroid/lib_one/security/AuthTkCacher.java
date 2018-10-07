@@ -1,6 +1,7 @@
 package com.didekindroid.lib_one.security;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.annotation.WorkerThread;
 
 import com.didekindroid.lib_one.api.exception.UiException;
@@ -162,6 +163,7 @@ public final class AuthTkCacher implements AuthTkCacherIf {
             token = header.getToken();
         }
 
+        @NonNull
         @Override
         public String toString()
         {

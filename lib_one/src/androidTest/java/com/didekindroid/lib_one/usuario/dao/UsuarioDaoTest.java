@@ -46,7 +46,7 @@ import static org.junit.Assert.assertThat;
  * Date: 07/09/15
  * Time: 11:08
  */
-@SuppressWarnings("ResultOfMethodCallIgnored")
+@SuppressWarnings({"ResultOfMethodCallIgnored", "ConstantConditions"})
 @RunWith(AndroidJUnit4.class)
 public class UsuarioDaoTest {
 
@@ -138,7 +138,7 @@ public class UsuarioDaoTest {
     public void testLogin_2() throws Exception
     {
         whatClean = CLEAN_RODRIGO;
-        Usuario userDb = regComuUserUserComuGetUser(comu_real_rodrigo);
+        regComuUserUserComuGetUser(comu_real_rodrigo);
         // Pongo a null el authToken para ver el cambio:
         tkCacher.updateAuthToken(null);
         usuarioDaoRemote.login(user_crodrigo.getUserName(), user_crodrigo.getPassword()).test().await();

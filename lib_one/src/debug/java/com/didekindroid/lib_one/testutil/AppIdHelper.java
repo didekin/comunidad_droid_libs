@@ -1,4 +1,4 @@
-package com.didekindroid.lib_one.usuario.dao;
+package com.didekindroid.lib_one.testutil;
 
 import com.didekindroid.lib_one.api.exception.UiException;
 import com.didekinlib.http.exception.ErrorBean;

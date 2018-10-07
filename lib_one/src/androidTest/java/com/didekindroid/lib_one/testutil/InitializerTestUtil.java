@@ -3,6 +3,7 @@ package com.didekindroid.lib_one.testutil;
 import android.app.Activity;
 import android.content.Context;
 
+import com.didekindroid.lib_one.FirebaseInitializer;
 import com.didekindroid.lib_one.HttpInitializer;
 import com.didekindroid.lib_one.R;
 import com.didekindroid.lib_one.api.ActivityMock;
@@ -17,6 +18,7 @@ import com.didekindroid.lib_one.security.SecInitializer;
 
 import static com.didekindroid.lib_one.BuildConfig.didekin_web_host;
 import static com.didekindroid.lib_one.BuildConfig.didekin_web_port;
+import static com.didekindroid.lib_one.FirebaseInitializer.firebaseInitializer;
 import static com.didekindroid.lib_one.HttpInitializer.httpInitializer;
 import static com.didekindroid.lib_one.RouterInitializer.routerInitializer;
 import static com.didekindroid.lib_one.security.SecInitializer.secInitializer;
@@ -38,6 +40,9 @@ public final class InitializerTestUtil {
     private static final int timeOut = R.string.timeOut;
     public static final int bks_pswd = R.string.didekindroid_bks_pswd;
     public static final int bks_name = R.string.didekindroid_bks_name;
+
+    private static final String project_id = "61369502868";
+    private static final String scope_token = "FCM";
 
     private InitializerTestUtil()
     {
@@ -93,6 +98,8 @@ public final class InitializerTestUtil {
                         .jksInClient(secInitializer.get().getJksInClient())
                         .build()
         );
+        firebaseInitializer.compareAndSet(null,
+                new FirebaseInitializer.FirebaseInitializerBuilder(project_id, scope_token).build());
     }
 
     public static void initSec_Http_Router(Context context)

@@ -1,6 +1,5 @@
 package com.didekindroid.lib_one.usuario;
 
-import com.didekindroid.lib_one.usuario.dao.AppIdHelperTest;
 import com.didekindroid.lib_one.usuario.dao.CtrlerUsuario_Test;
 import com.didekindroid.lib_one.usuario.dao.UsuarioDaoTest;
 import com.didekindroid.lib_one.usuario.router.UserContextActionTest;
@@ -18,7 +17,6 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         // usuario.dao.
-        AppIdHelperTest.class,
         CtrlerUsuario_Test.class,
         UsuarioDaoTest.class,
         // usuario.router

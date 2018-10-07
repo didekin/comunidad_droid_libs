@@ -11,6 +11,7 @@ public final class CommonAssertionMsg {
     public static final String bean_fromView_should_be_initialized = "Bean with view data should be initialized";
     public static final String cursor_should_be_in_first_position = "Database cursor should be in the first position";
     public static final String fragment_should_be_initialized = "Fragment should be initialized";
+    public static final String firebaseInitializer_wrong_build_data = "Data for firebaseInitializer incomplete";
     public static final String httpInitializer_wrong_build_data = "data for httpInitializer incomplete";
     public static final String item_selected_in_list_should_not_be_zero = "iteme selected in list should not be zero";
     public static final String intent_extra_should_be_initialized = "Intent extra should be initialized";

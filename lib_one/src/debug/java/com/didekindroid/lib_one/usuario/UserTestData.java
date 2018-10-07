@@ -13,7 +13,7 @@ import io.reactivex.functions.Consumer;
 import static com.didekindroid.lib_one.HttpInitializer.httpInitializer;
 import static com.didekindroid.lib_one.security.SecInitializer.secInitializer;
 import static com.didekindroid.lib_one.usuario.UserMockDao.usuarioMockDao;
-import static com.didekindroid.lib_one.usuario.dao.AppIdHelper.appIdSingle;
+import static com.didekindroid.lib_one.testutil.AppIdHelper.appIdSingle;
 import static com.didekindroid.lib_one.usuario.dao.UsuarioDao.usuarioDaoRemote;
 import static com.didekindroid.lib_one.util.UiUtil.assertTrue;
 import static com.didekinlib.model.usuario.http.TkValidaPatterns.tkEncrypted_direct_symmetricKey_REGEX;
