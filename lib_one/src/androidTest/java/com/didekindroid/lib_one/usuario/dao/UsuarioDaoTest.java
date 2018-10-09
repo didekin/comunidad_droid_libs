@@ -15,6 +15,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static android.support.test.InstrumentationRegistry.getTargetContext;
+import static com.didekindroid.lib_one.FirebaseInitializer.firebaseInitializer;
 import static com.didekindroid.lib_one.security.AuthTkCacher.AuthTkCacherExceptionMsg.AUTH_HEADER_WRONG;
 import static com.didekindroid.lib_one.security.SecInitializer.secInitializer;
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.cleanInitialSec;
@@ -60,7 +61,8 @@ public class UsuarioDaoTest {
         waitAtMost(4, SECONDS).until(
                 () -> secInitializer.get() != null
                         && secInitializer.get().getJksInClient() != null
-                        && secInitializer.get().getTkCacher() != null);
+                        && secInitializer.get().getTkCacher() != null
+                        && firebaseInitializer.get() != null);
     }
 
     @Before

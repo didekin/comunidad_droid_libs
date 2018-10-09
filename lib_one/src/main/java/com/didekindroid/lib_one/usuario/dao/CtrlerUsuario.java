@@ -9,7 +9,7 @@ import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.observers.DisposableSingleObserver;
 import timber.log.Timber;
 
-import static com.didekindroid.lib_one.testutil.AppIdHelper.appIdSingle;
+import static com.didekindroid.lib_one.FirebaseInitializer.firebaseInitializer;
 import static com.didekindroid.lib_one.usuario.dao.UsuarioDao.usuarioDaoRemote;
 import static io.reactivex.android.schedulers.AndroidSchedulers.mainThread;
 import static io.reactivex.schedulers.Schedulers.io;
@@ -46,7 +46,7 @@ public class CtrlerUsuario extends Controller implements CtrlerUsuarioIf {
     {
         Timber.d("getAppIdToken()");
         return getSubscriptions().add(
-                appIdSingle.getTokenSingle()
+                firebaseInitializer.get().getSingleToken()
                         .subscribeOn(io())
                         .observeOn(mainThread())
                         .subscribeWith(observer)

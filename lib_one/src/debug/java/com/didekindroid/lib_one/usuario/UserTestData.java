@@ -10,10 +10,10 @@ import com.didekinlib.model.usuariocomunidad.UsuarioComunidad;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 
+import static com.didekindroid.lib_one.FirebaseInitializer.firebaseInitializer;
 import static com.didekindroid.lib_one.HttpInitializer.httpInitializer;
 import static com.didekindroid.lib_one.security.SecInitializer.secInitializer;
 import static com.didekindroid.lib_one.usuario.UserMockDao.usuarioMockDao;
-import static com.didekindroid.lib_one.testutil.AppIdHelper.appIdSingle;
 import static com.didekindroid.lib_one.usuario.dao.UsuarioDao.usuarioDaoRemote;
 import static com.didekindroid.lib_one.util.UiUtil.assertTrue;
 import static com.didekinlib.model.usuario.http.TkValidaPatterns.tkEncrypted_direct_symmetricKey_REGEX;
@@ -96,7 +96,7 @@ public final class UserTestData {
 
     public static String regComuUserUserComuGetAuthTk(UsuarioComunidad userComuIn) throws Exception
     {
-        String appIdToken = appIdSingle.getTokenSingle().blockingGet();
+        String appIdToken = firebaseInitializer.get().getSingleToken().blockingGet();
         return regComuUserUserComuMock(userComuIn, appIdToken);
     }
 
