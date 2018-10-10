@@ -85,7 +85,7 @@ public final class UsuarioDao implements UsuarioEndPoints {
     {
         Timber.d("deleteUser(), Thread: %s", currentThread().getName());
         return firebaseInitializer.get().getSingleToken()
-                .flatMap(gcmToken -> deleteUser(tkCacher.doAuthHeaderStr(gcmToken)))
+                .flatMap(gcmToken -> deleteUser(tkCacher.getAuthTokenCache()))
                 .flatMap(getResponseSingleFunction())
                 .doOnError(uiExceptionConsumer)
                 .doOnSuccess(isDeleted -> {
@@ -100,7 +100,7 @@ public final class UsuarioDao implements UsuarioEndPoints {
     {
         Timber.d("getGcmToken(), Thread: %s", currentThread().getName());
         return firebaseInitializer.get().getSingleToken()
-                .flatMap(gcmToken -> getUserData(tkCacher.doAuthHeaderStr(gcmToken)))
+                .flatMap(gcmToken -> getUserData(tkCacher.getAuthTokenCache()))
                 .flatMap(getResponseSingleFunction())
                 .map(Usuario::getGcmToken)
                 .doOnError(uiExceptionConsumer);
@@ -111,14 +111,11 @@ public final class UsuarioDao implements UsuarioEndPoints {
     {
         Timber.d("getUserData(), Thread: %s", currentThread().getName());
         return firebaseInitializer.get().getSingleToken()
-                .flatMap(gcmToken -> getUserData(tkCacher.doAuthHeaderStr(gcmToken)))
+                .flatMap(gcmToken -> getUserData(tkCacher.getAuthTokenCache()))
                 .flatMap(getResponseSingleFunction())
                 .doOnError(uiExceptionConsumer);
     }
 
-    /**
-     * This method should be called asynchronously.
-     */
     public Completable login(String userName, String password)
     {
         Timber.d("login(), Thread: %s", currentThread().getName());
@@ -134,7 +131,7 @@ public final class UsuarioDao implements UsuarioEndPoints {
     {
         Timber.d("modifyUserName(), Thread: %s", currentThread().getName());
         return firebaseInitializer.get().getSingleToken()
-                .flatMap(gcmToken -> modifyUser(getDeviceLanguage(), tkCacher.doAuthHeaderStr(gcmToken), usuario))
+                .flatMap(gcmToken -> modifyUser(getDeviceLanguage(), tkCacher.getAuthTokenCache(), usuario))
                 .flatMap(getResponseSingleFunction())
                 .map(response -> response > 0)
                 .doOnError(uiExceptionConsumer);
@@ -144,7 +141,7 @@ public final class UsuarioDao implements UsuarioEndPoints {
     {
         Timber.d("modifyUseAlias(), Thread: %s", currentThread().getName());
         return firebaseInitializer.get().getSingleToken()
-                .flatMap(gcmToken -> modifyUser(getDeviceLanguage(), tkCacher.doAuthHeaderStr(gcmToken), usuario))
+                .flatMap(gcmToken -> modifyUser(getDeviceLanguage(), tkCacher.getAuthTokenCache(), usuario))
                 .flatMap(getResponseSingleFunction())
                 .map(response -> response > 0)
                 .doOnError(uiExceptionConsumer);
@@ -154,7 +151,7 @@ public final class UsuarioDao implements UsuarioEndPoints {
     {
         Timber.d("passwordChange(), Thread: %s", currentThread().getName());
         return firebaseInitializer.get().getSingleToken()
-                .flatMap(gcmToken -> passwordChange(tkCacher.doAuthHeaderStr(gcmToken), oldPswd, newPassword))
+                .flatMap(gcmToken -> passwordChange(tkCacher.getAuthTokenCache(), oldPswd, newPassword))
                 .flatMap(getResponseSingleFunction())
                 .doOnError(uiExceptionConsumer)
                 .doOnSuccess(tkCacher::updateAuthToken)
