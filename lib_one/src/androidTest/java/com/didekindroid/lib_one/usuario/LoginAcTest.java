@@ -6,7 +6,6 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.didekindroid.lib_one.R;
-import com.didekindroid.lib_one.api.exception.UiException;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -26,8 +25,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.didekindroid.lib_one.FirebaseInitializer.firebaseInitializer;
-import static com.didekindroid.lib_one.security.SecInitializer.secInitializer;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.checkTextsInDialog;
 import static com.didekindroid.lib_one.testutil.EspressoTestUtil.isToastInView;
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.cleanInitialSec;
@@ -45,7 +42,6 @@ import static org.awaitility.Awaitility.waitAtMost;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
@@ -80,12 +76,9 @@ public class LoginAcTest {
     };
 
     @BeforeClass
-    public static void setMore() throws UiException
+    public static void setMore()
     {
         initSec_Http_Router(getTargetContext());
-        waitAtMost(6, SECONDS).until(() -> firebaseInitializer.get().getSingleAppIdTokenForTest().blockingGet() != null);
-        String appIdToken =  firebaseInitializer.get().getSingleAppIdToken().blockingGet();
-        assertThat(appIdToken, notNullValue());
     }
 
     @Before
