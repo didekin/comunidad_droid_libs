@@ -201,8 +201,8 @@ public final class ViewerUserData extends Viewer<View, CtrlerUsuarioIf> implemen
 
     boolean modifyUserName()
     {
-        Timber.d("modifyUserName()");
-        return controller.modifyUserName(
+        Timber.d("modifyUser()");
+        return controller.modifyUser(
                 new AbstractSingleObserver<Boolean>(this) {
                     @Override
                     public void onSuccess(Boolean isCompleted)
@@ -217,7 +217,7 @@ public final class ViewerUserData extends Viewer<View, CtrlerUsuarioIf> implemen
     boolean modifyAlias()
     {
         Timber.d("modifyAlias()");
-        return controller.modifyUserAlias(
+        return controller.modifyUser(
                 new AbstractSingleObserver<Boolean>(this) {
                     @Override
                     public void onSuccess(Boolean isCompleted)

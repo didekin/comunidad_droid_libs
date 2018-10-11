@@ -2,15 +2,22 @@ package com.didekindroid.lib_one.security;
 
 import android.content.Context;
 
+import com.didekindroid.lib_one.api.exception.UiException;
+import com.didekinlib.http.exception.ErrorBean;
 import com.didekinlib.http.exception.ExceptionMsgIf;
 
 import java.util.concurrent.atomic.AtomicReference;
 
+import io.reactivex.Single;
 import timber.log.Timber;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.didekindroid.lib_one.security.AuthTkCacher.AuthTkCacherExceptionMsg.AUTH_HEADER_WRONG;
 import static com.didekindroid.lib_one.security.AuthTkCacher.SharedPrefConstant.app_pref_file_name;
 import static com.didekindroid.lib_one.security.AuthTkCacher.SharedPrefConstant.authToken_key;
+import static com.didekinlib.model.usuario.http.TkValidaPatterns.tkEncrypted_direct_symmetricKey_REGEX;
+import static io.reactivex.Single.error;
+import static io.reactivex.Single.just;
 
 /**
  * User: pedro@didekin
@@ -39,9 +46,12 @@ public final class AuthTkCacher implements AuthTkCacherIf {
     //  ======================================================================================
 
     @Override
-    public synchronized AuthTkCacher updateAuthToken(String authTokenIn)
+    public synchronized AuthTkCacher updateAuthToken(String authTokenIn) throws UiException
     {
         Timber.d("updateAuthToken()");
+        if (authTokenIn != null && !tkEncrypted_direct_symmetricKey_REGEX.isPatternOk(authTokenIn)) {
+            throw new UiException(new ErrorBean(AUTH_HEADER_WRONG));
+        }
         authTokenCache.set(authTokenIn);
         context.getSharedPreferences(app_pref_file_name.toString(), MODE_PRIVATE)
                 .edit()
@@ -65,6 +75,15 @@ public final class AuthTkCacher implements AuthTkCacherIf {
     public String getAuthTokenCache()
     {
         return authTokenCache.get();
+    }
+
+    @Override
+    public Single<String> getSingleAuthToken()
+    {
+        if (getAuthTokenCache() == null) {
+            return error(new UiException(new ErrorBean(AUTH_HEADER_WRONG)));
+        }
+        return just(getAuthTokenCache());
     }
 
     @Override

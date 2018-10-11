@@ -3,6 +3,7 @@ package com.didekindroid.lib_one.api.exception;
 import com.didekinlib.http.exception.ErrorBean;
 
 import io.reactivex.functions.Consumer;
+import timber.log.Timber;
 
 import static com.didekinlib.http.exception.GenericExceptionMsg.GENERIC_INTERNAL_ERROR;
 

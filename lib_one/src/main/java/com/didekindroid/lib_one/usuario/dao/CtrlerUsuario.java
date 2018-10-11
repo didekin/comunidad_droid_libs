@@ -46,7 +46,7 @@ public class CtrlerUsuario extends Controller implements CtrlerUsuarioIf {
     {
         Timber.d("getAppIdToken()");
         return getSubscriptions().add(
-                firebaseInitializer.get().getSingleToken()
+                firebaseInitializer.get().getSingleAppIdToken()
                         .subscribeOn(io())
                         .observeOn(mainThread())
                         .subscribeWith(observer)
@@ -78,22 +78,11 @@ public class CtrlerUsuario extends Controller implements CtrlerUsuarioIf {
     }
 
     @Override
-    public boolean modifyUserName(DisposableSingleObserver<Boolean> observer, Usuario newUser)
+    public boolean modifyUser(DisposableSingleObserver<Boolean> observer, Usuario newUser)
     {
-        Timber.d("modifyUserName()");
+        Timber.d("modifyUser()");
         return getSubscriptions().add(
-                usuarioDao.modifyUserName(newUser)
-                        .subscribeOn(io())
-                        .observeOn(mainThread())
-                        .subscribeWith(observer));
-    }
-
-    @Override
-    public boolean modifyUserAlias(DisposableSingleObserver<Boolean> observer, Usuario newUser)
-    {
-        Timber.d("modifyUserName()");
-        return getSubscriptions().add(
-                usuarioDao.modifyUserAlias(newUser)
+                usuarioDao.modifyUser(newUser)
                         .subscribeOn(io())
                         .observeOn(mainThread())
                         .subscribeWith(observer));

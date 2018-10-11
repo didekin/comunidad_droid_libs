@@ -1,6 +1,7 @@
 package com.didekindroid.lib_one.usuario.notification;
 
 import com.didekindroid.lib_one.api.Controller;
+import com.didekindroid.lib_one.api.exception.UiException;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
 import timber.log.Timber;
@@ -21,6 +22,10 @@ public class InstanceIdService extends FirebaseInstanceIdService {
     public void onTokenRefresh()
     {
         Timber.d("onTokenRefresh()");
-        new Controller().getTkCacher().updateAuthToken(null);
+        try {
+            new Controller().getTkCacher().updateAuthToken(null);
+        } catch (UiException e) {
+            Timber.e(e);
+        }
     }
 }

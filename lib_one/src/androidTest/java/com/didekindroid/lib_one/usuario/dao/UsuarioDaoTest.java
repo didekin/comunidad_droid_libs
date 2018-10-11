@@ -66,7 +66,7 @@ public class UsuarioDaoTest {
     }
 
     @Before
-    public void setUp()
+    public void setUp() throws UiException
     {
         tkCacher = (AuthTkCacher) secInitializer.get().getTkCacher();
         tkCacher.updateAuthToken(null);
@@ -159,7 +159,7 @@ public class UsuarioDaoTest {
                 .alias("new_alias")
                 .build();
 
-        usuarioDaoRemote.modifyUserAlias(usuarioIn).test().assertResult(TRUE);
+        usuarioDaoRemote.modifyUser(usuarioIn).test().assertResult(TRUE);
     }
 
     @Test
@@ -170,7 +170,7 @@ public class UsuarioDaoTest {
                 .userName(USER_DROID.getUserName())
                 .build();
 
-        usuarioDaoRemote.modifyUserName(usuarioIn).test().await();
+        usuarioDaoRemote.modifyUser(usuarioIn).test().await();
         assertThat(tkCacher.isUserRegistered(), is(true));
 
         cleanOneUser(USER_DROID.getUserName());

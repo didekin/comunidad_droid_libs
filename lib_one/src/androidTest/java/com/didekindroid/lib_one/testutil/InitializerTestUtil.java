@@ -98,8 +98,7 @@ public final class InitializerTestUtil {
                         .jksInClient(secInitializer.get().getJksInClient())
                         .build()
         );
-        firebaseInitializer.compareAndSet(null,
-                new FirebaseInitializer.FirebaseInitializerBuilder(project_id, scope_token).build());
+        firebaseInitializer.compareAndSet(null, new FirebaseInitializer(project_id, scope_token));
     }
 
     public static void initSec_Http_Router(Context context)

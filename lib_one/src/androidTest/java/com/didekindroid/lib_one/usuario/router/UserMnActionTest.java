@@ -11,6 +11,7 @@ import com.didekindroid.lib_one.R;
 import com.didekindroid.lib_one.accesorio.ConfidencialidadAc;
 import com.didekindroid.lib_one.api.ActivityMock;
 import com.didekindroid.lib_one.api.ActivityNextMock;
+import com.didekindroid.lib_one.api.exception.UiException;
 import com.didekindroid.lib_one.api.router.MnRouterActionIf;
 import com.didekindroid.lib_one.usuario.DeleteMeAc;
 import com.didekindroid.lib_one.usuario.LoginAc;
@@ -46,6 +47,7 @@ import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSec_Http
 import static com.didekindroid.lib_one.testutil.InitializerTestUtil.initSecurity;
 import static com.didekindroid.lib_one.testutil.MockTestConstant.mockAcLayout;
 import static com.didekindroid.lib_one.testutil.MockTestConstant.nextMockAcLayout;
+import static com.didekindroid.lib_one.usuario.UserTestData.authTokenExample;
 import static com.didekindroid.lib_one.usuario.router.UserMnAction.confidencialidad_mn;
 import static com.didekindroid.lib_one.usuario.router.UserMnAction.delete_me_mn;
 import static com.didekindroid.lib_one.usuario.router.UserMnAction.login_mn;
@@ -84,7 +86,7 @@ public class UserMnActionTest {
     }
 
     @Before
-    public void setUp()
+    public void setUp() throws UiException
     {
         activity = activityRule.getActivity();
         secInitializer.get().getTkCacher().updateAuthToken(null);
@@ -139,10 +141,10 @@ public class UserMnActionTest {
     }
 
     @Test
-    public void test_delete_me_mn()
+    public void test_delete_me_mn() throws UiException
     {
         initSec_Http(activity);
-        secInitializer.get().getTkCacher().updateAuthToken("mock_gcmToken");
+        secInitializer.get().getTkCacher().updateAuthToken(authTokenExample);
         waitAtMost(4, SECONDS).until(secInitializer.get().getTkCacher()::isUserRegistered);
 
         delete_me_mn.initActivity(activity);
@@ -158,22 +160,22 @@ public class UserMnActionTest {
     }
 
     @Test
-    public void test_password_change_mn()
+    public void test_password_change_mn() throws UiException
     {
         initSec_Http_Router(activity);
         waitAtMost(4, SECONDS).until(() -> secInitializer.get() != null);
-        secInitializer.get().getTkCacher().updateAuthToken("mock_gcmToken");
+        secInitializer.get().getTkCacher().updateAuthToken(authTokenExample);
 
         password_change_mn.initActivity(activity);
         intended(hasComponent(PasswordChangeAc.class.getName()));
     }
 
     @Test
-    public void test_user_data_mn()
+    public void test_user_data_mn() throws UiException
     {
         initSec_Http_Router(activity);
         waitAtMost(4, SECONDS).until(() -> secInitializer.get() != null && secInitializer.get().getTkCacher() != null);
-        secInitializer.get().getTkCacher().updateAuthToken("mock_gcmToken");
+        secInitializer.get().getTkCacher().updateAuthToken(authTokenExample);
 
         MnRouterActionIf userMenuData = new MnRouterActionIf() {
             @Override

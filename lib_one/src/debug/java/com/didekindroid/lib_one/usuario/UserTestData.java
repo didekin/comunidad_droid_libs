@@ -1,5 +1,6 @@
 package com.didekindroid.lib_one.usuario;
 
+import com.didekindroid.lib_one.api.exception.UiException;
 import com.didekinlib.model.comunidad.Comunidad;
 import com.didekinlib.model.comunidad.ComunidadAutonoma;
 import com.didekinlib.model.comunidad.Municipio;
@@ -9,6 +10,7 @@ import com.didekinlib.model.usuariocomunidad.UsuarioComunidad;
 
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
+import timber.log.Timber;
 
 import static com.didekindroid.lib_one.FirebaseInitializer.firebaseInitializer;
 import static com.didekindroid.lib_one.HttpInitializer.httpInitializer;
@@ -74,6 +76,13 @@ public final class UserTestData {
             .puerta("door12")
             .roles(PROPIETARIO.function).build();
 
+    public static final String authTokenExample =
+                    "eyJhbGciOiJkaXIiLCJlbmMiOiJBMTI4Q0JDLUhTMjU2In0" +
+                            "." +
+                            "._L86WbOFHY-3g0E2EXejJg" +
+                            ".UB1tHZZq0TYFTZKPVZXY83GRxHz770Aq7BuMCEbNnaSC5cVNOLEOgBQrOQVJmVL-9Ke9KRSwuq7MmVcA2EB_0xRBr_YbzmMWbpUcTQUFtE5OZOFiCsxL5Yn0gA_DDLZboivpoSqndQRP-44mWVkM1A" +
+                            ".RIvTWRrsyoJ1mpl8vUhQDQ";
+
     private UserTestData()
     {
     }
@@ -96,7 +105,7 @@ public final class UserTestData {
 
     public static String regComuUserUserComuGetAuthTk(UsuarioComunidad userComuIn) throws Exception
     {
-        String appIdToken = firebaseInitializer.get().getSingleToken().blockingGet();
+        String appIdToken = firebaseInitializer.get().getSingleAppIdTokenForTest().blockingGet();
         return regComuUserUserComuMock(userComuIn, appIdToken);
     }
 
@@ -135,7 +144,11 @@ public final class UserTestData {
 
     public static void cleanWithTkhandler()
     {
-        secInitializer.get().getTkCacher().updateAuthToken(null);
+        try {
+            secInitializer.get().getTkCacher().updateAuthToken(null);
+        } catch (UiException e) {
+            Timber.e(" =========== ERROR: %s", e.getErrorHtppMsg());
+        }
     }
 
     public static void cleanOptions(CleanUserEnum whatClean)

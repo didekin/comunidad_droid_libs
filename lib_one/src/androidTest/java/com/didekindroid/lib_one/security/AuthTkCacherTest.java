@@ -6,6 +6,8 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.didekindroid.lib_one.api.ActivityMock;
+import com.didekindroid.lib_one.api.exception.UiException;
+import com.didekindroid.lib_one.usuario.UserTestData;
 
 import org.junit.After;
 import org.junit.Before;
@@ -16,6 +18,7 @@ import org.junit.runner.RunWith;
 import static android.content.Context.MODE_PRIVATE;
 import static com.didekindroid.lib_one.security.AuthTkCacher.SharedPrefConstant.app_pref_file_name;
 import static com.didekindroid.lib_one.security.AuthTkCacher.SharedPrefConstant.authToken_key;
+import static com.didekindroid.lib_one.usuario.UserTestData.authTokenExample;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.waitAtMost;
 import static org.hamcrest.CoreMatchers.is;
@@ -29,12 +32,6 @@ import static org.junit.Assert.assertThat;
  */
 @RunWith(AndroidJUnit4.class)
 public class AuthTkCacherTest {
-
-    private static final String authTokenInLocal = "eyJhbGciOiJkaXIiLCJlbmMiOiJBMTI4Q0JDLUhTMjU2In0" +
-            "." +
-            "._L86WbOFHY-3g0E2EXejJg" +
-            ".UB1tHZZq0TYFTZKPVZXY83GRxHz770Aq7BuMCEbNnaSC5cVNOLEOgBQrOQVJmVL-9Ke9KRSwuq7MmVcA2EB_0xRBr_YbzmMWbpUcTQUFtE5OZOFiCsxL5Yn0gA_DDLZboivpoSqndQRP-44mWVkM1A" +
-            ".RIvTWRrsyoJ1mpl8vUhQDQ";
 
     @Rule
     public ActivityTestRule<? extends Activity> activityRule = new ActivityTestRule<>(ActivityMock.class, true, true);
@@ -51,7 +48,7 @@ public class AuthTkCacherTest {
     }
 
     @After
-    public void cleanUp()
+    public void cleanUp() throws UiException
     {
         if (tkCacher != null) {
             tkCacher.updateAuthToken(null);
@@ -67,12 +64,12 @@ public class AuthTkCacherTest {
     }
 
     @Test
-    public void test_updateAuthToken()
+    public void test_updateAuthToken() throws UiException
     {
         // Exec.
-        tkCacher.updateAuthToken(authTokenInLocal);
+        tkCacher.updateAuthToken(authTokenExample);
         /* Check.*/
-        assertThat(tkCacher.getAuthTokenCache(), is(authTokenInLocal));
+        assertThat(tkCacher.getAuthTokenCache(), is(authTokenExample));
         assertThat(tkCacher.isUserRegistered(), is(true));
         assertThat(tkCacher.getAuthTokenCache().equals(
                 activity.getSharedPreferences(

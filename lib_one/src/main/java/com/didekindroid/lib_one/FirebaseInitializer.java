@@ -1,16 +1,20 @@
 package com.didekindroid.lib_one;
 
-import com.didekinlib.BeanBuilder;
-import com.google.firebase.iid.FirebaseInstanceId;
+import com.didekindroid.lib_one.api.exception.UiException;
+import com.didekinlib.http.exception.ErrorBean;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.InstanceIdResult;
 
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicReference;
 
 import io.reactivex.Single;
+import timber.log.Timber;
 
-import static com.didekindroid.lib_one.util.CommonAssertionMsg.firebaseInitializer_wrong_build_data;
-import static io.reactivex.Single.error;
-import static io.reactivex.Single.just;
+import static com.didekinlib.model.usuario.http.UsuarioExceptionMsg.FIREBASE_SERVICE_NOT_AVAILABLE;
+import static com.google.firebase.iid.FirebaseInstanceId.getInstance;
+import static io.reactivex.Single.create;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 public final class FirebaseInitializer {
 
@@ -18,44 +22,44 @@ public final class FirebaseInitializer {
     private final String firebaseProjectId;
     private final String scopeAppIdToken;
 
-    private FirebaseInitializer(FirebaseInitializerBuilder firebaseInitializerBuilder)
+    public FirebaseInitializer(String projectId, String scopeToken)
     {
-        firebaseProjectId = firebaseInitializerBuilder.projectId;
-        scopeAppIdToken = firebaseInitializerBuilder.scopeToken;
+        Timber.d(" ==== FirebaseInitializer(); firebaseProjectId: " + projectId + " scopeAppIdToken: " + scopeToken);
+        firebaseProjectId = projectId;
+        scopeAppIdToken = scopeToken;
     }
 
-    public Single<String> getSingleToken()
+    public Single<String> getSingleAppIdToken()
     {
-        try {
-            return just(FirebaseInstanceId.getInstance().getToken(firebaseProjectId, scopeAppIdToken));
-        } catch (IOException e) {
-            return error(e);
-        }
+        Timber.d("getSingleAppIdToken()");
+        return create(
+                emitter -> {
+                    try {
+                        emitter.onSuccess(getInstance().getToken(firebaseProjectId, scopeAppIdToken));
+                    } catch (IOException ie) {
+                        emitter.onError(new UiException(new ErrorBean(FIREBASE_SERVICE_NOT_AVAILABLE)));
+                    }
+                });
     }
 
-    //    ==================== BUILDER ====================
-
-    public static class FirebaseInitializerBuilder implements BeanBuilder<FirebaseInitializer> {
-
-        private final String projectId;
-        private final String scopeToken;
-
-        public FirebaseInitializerBuilder(String projectId, String scopeToken)
-        {
-            this.projectId = projectId;
-            this.scopeToken = scopeToken;
-        }
-
-        @Override
-        public FirebaseInitializer build()
-        {
-            FirebaseInitializer initializer = new FirebaseInitializer(this);
-            if (initializer.firebaseProjectId == null || initializer.scopeAppIdToken == null) {
-                throw new IllegalStateException(firebaseInitializer_wrong_build_data + " firebaseProjectId: "
-                        + initializer.firebaseProjectId + " scopeAppIdToken: " + initializer.scopeAppIdToken
-                );
+    public Single<String> getSingleAppIdTokenForTest()
+    {
+        Timber.d("getSingleAppIdTokenForTest()");
+        return create(emitter -> {
+            Task<InstanceIdResult> taskToken = getInstance().getInstanceId();
+            while (!taskToken.isComplete()) {
+                if (taskToken.isCanceled()) {
+                    Timber.d(" ==== TaskToken is cancelled");
+                    return;
+                }
+                MILLISECONDS.sleep(10);
             }
-            return initializer;
-        }
+            if (taskToken.getException() != null) { // java.io.IOException: SERVICE_NOT_AVAILABLE
+                Timber.e(taskToken.getException());
+                emitter.onError(new UiException(new ErrorBean(FIREBASE_SERVICE_NOT_AVAILABLE)));
+            } else {
+                emitter.onSuccess(taskToken.getResult().getToken());
+            }
+        });
     }
 }

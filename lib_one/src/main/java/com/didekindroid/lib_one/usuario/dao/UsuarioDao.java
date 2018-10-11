@@ -84,8 +84,8 @@ public final class UsuarioDao implements UsuarioEndPoints {
     public Completable deleteUser()
     {
         Timber.d("deleteUser(), Thread: %s", currentThread().getName());
-        return firebaseInitializer.get().getSingleToken()
-                .flatMap(gcmToken -> deleteUser(tkCacher.getAuthTokenCache()))
+        return tkCacher.getSingleAuthToken()
+                .flatMap(this::deleteUser)
                 .flatMap(getResponseSingleFunction())
                 .doOnError(uiExceptionConsumer)
                 .doOnSuccess(isDeleted -> {
@@ -99,8 +99,8 @@ public final class UsuarioDao implements UsuarioEndPoints {
     public Single<String> getGcmToken()
     {
         Timber.d("getGcmToken(), Thread: %s", currentThread().getName());
-        return firebaseInitializer.get().getSingleToken()
-                .flatMap(gcmToken -> getUserData(tkCacher.getAuthTokenCache()))
+        return tkCacher.getSingleAuthToken()
+                .flatMap(this::getUserData)
                 .flatMap(getResponseSingleFunction())
                 .map(Usuario::getGcmToken)
                 .doOnError(uiExceptionConsumer);
@@ -110,8 +110,8 @@ public final class UsuarioDao implements UsuarioEndPoints {
     public Single<Usuario> getUserData()
     {
         Timber.d("getUserData(), Thread: %s", currentThread().getName());
-        return firebaseInitializer.get().getSingleToken()
-                .flatMap(gcmToken -> getUserData(tkCacher.getAuthTokenCache()))
+        return tkCacher.getSingleAuthToken()
+                .flatMap(this::getUserData)
                 .flatMap(getResponseSingleFunction())
                 .doOnError(uiExceptionConsumer);
     }
@@ -119,7 +119,7 @@ public final class UsuarioDao implements UsuarioEndPoints {
     public Completable login(String userName, String password)
     {
         Timber.d("login(), Thread: %s", currentThread().getName());
-        return firebaseInitializer.get().getSingleToken()
+        return firebaseInitializer.get().getSingleAppIdToken()
                 .flatMap(gcmToken -> login(userName, password, gcmToken))
                 .flatMap(getResponseSingleFunction())
                 .doOnError(uiExceptionConsumer)
@@ -127,21 +127,11 @@ public final class UsuarioDao implements UsuarioEndPoints {
                 .ignoreElement();
     }
 
-    public Single<Boolean> modifyUserName(Usuario usuario)
+    public Single<Boolean> modifyUser(Usuario usuario)
     {
-        Timber.d("modifyUserName(), Thread: %s", currentThread().getName());
-        return firebaseInitializer.get().getSingleToken()
-                .flatMap(gcmToken -> modifyUser(getDeviceLanguage(), tkCacher.getAuthTokenCache(), usuario))
-                .flatMap(getResponseSingleFunction())
-                .map(response -> response > 0)
-                .doOnError(uiExceptionConsumer);
-    }
-
-    public Single<Boolean> modifyUserAlias(Usuario usuario)
-    {
-        Timber.d("modifyUseAlias(), Thread: %s", currentThread().getName());
-        return firebaseInitializer.get().getSingleToken()
-                .flatMap(gcmToken -> modifyUser(getDeviceLanguage(), tkCacher.getAuthTokenCache(), usuario))
+        Timber.d("modifyUser(), Thread: %s", currentThread().getName());
+        return   tkCacher.getSingleAuthToken()
+                .flatMap(authToken -> modifyUser(getDeviceLanguage(), authToken, usuario))
                 .flatMap(getResponseSingleFunction())
                 .map(response -> response > 0)
                 .doOnError(uiExceptionConsumer);
@@ -150,8 +140,8 @@ public final class UsuarioDao implements UsuarioEndPoints {
     public Completable passwordChange(String oldPswd, String newPassword)
     {
         Timber.d("passwordChange(), Thread: %s", currentThread().getName());
-        return firebaseInitializer.get().getSingleToken()
-                .flatMap(gcmToken -> passwordChange(tkCacher.getAuthTokenCache(), oldPswd, newPassword))
+        return  tkCacher.getSingleAuthToken()
+                .flatMap(authToken -> passwordChange(authToken, oldPswd, newPassword))
                 .flatMap(getResponseSingleFunction())
                 .doOnError(uiExceptionConsumer)
                 .doOnSuccess(tkCacher::updateAuthToken)

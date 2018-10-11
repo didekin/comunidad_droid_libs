@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.support.test.rule.ActivityTestRule;
 
 import com.didekindroid.lib_one.api.ActivityMock;
+import com.didekindroid.lib_one.api.exception.UiException;
 
 import org.junit.After;
 import org.junit.Before;
@@ -37,7 +38,7 @@ public class SecInitializerTest {
     }
 
     @After
-    public void cleanUp()
+    public void cleanUp() throws UiException
     {
         tkCacher.updateAuthToken(null);
     }

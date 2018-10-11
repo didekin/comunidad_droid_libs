@@ -24,9 +24,7 @@ public interface CtrlerUsuarioIf extends ControllerIf {
 
     boolean getUserData(DisposableSingleObserver<Usuario> observer);
 
-    boolean modifyUserName(DisposableSingleObserver<Boolean> observer, Usuario newUser);
-
-    boolean modifyUserAlias(DisposableSingleObserver<Boolean> observer, Usuario newUser);
+    boolean modifyUser(DisposableSingleObserver<Boolean> observer, Usuario newUser);
 
     boolean passwordSend(@NonNull DisposableCompletableObserver observer, @NonNull Usuario usuario);
 

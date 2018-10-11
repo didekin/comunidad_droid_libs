@@ -116,7 +116,7 @@ public class CtrlerUsuario_Test {
         whatClean = CLEAN_DROID;
 
         execCheckSchedulersTest(
-                ctrler -> ctrler.modifyUserName(
+                ctrler -> ctrler.modifyUser(
                         new SingleObserverMock<>(),
                         new Usuario.UsuarioBuilder()
                                 .copyUsuario(regComuUserUserComuGetUser(comu_real_rodrigo))
@@ -131,7 +131,7 @@ public class CtrlerUsuario_Test {
     {
         whatClean = CLEAN_RODRIGO;
         execCheckSchedulersTest(
-                ctrler -> ctrler.modifyUserAlias(
+                ctrler -> ctrler.modifyUser(
                         new SingleObserverMock<>(),
                         new Usuario.UsuarioBuilder()
                                 .copyUsuario(regComuUserUserComuGetUser(comu_real_rodrigo))
