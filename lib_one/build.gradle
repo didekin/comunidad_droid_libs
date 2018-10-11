@@ -44,7 +44,7 @@ android {
         debugPre {
             initWith debug
             // To be used in InitializerTestUtil.
-            buildConfigField "String", "didekin_web_host", '"https://didekin-web-pre.eu-west-1.elasticbeanstalk.com"'
+            buildConfigField "String", "didekin_web_host", '"https://didekin-web-pre.eu-central-1.elasticbeanstalk.com"'
             buildConfigField "String", "didekin_web_port", '":443"'
         }
         debug {
