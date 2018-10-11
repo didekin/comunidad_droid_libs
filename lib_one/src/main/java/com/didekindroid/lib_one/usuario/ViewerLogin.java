@@ -19,6 +19,8 @@ import com.didekindroid.lib_one.usuario.dao.CtrlerUsuario;
 import com.didekinlib.model.usuario.Usuario;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -50,6 +52,14 @@ public final class ViewerLogin extends Viewer<View, CtrlerUsuario> {
 
     public final AtomicReference<UsuarioBean> usuarioBean;
     private AtomicInteger counterWrong;
+    private static final Map<String, Integer> loginErrorMsgMap;
+
+    static {
+        loginErrorMsgMap = new HashMap<>(3);
+        loginErrorMsgMap.put(PASSWORD_WRONG.getHttpMessage(), R.string.password_wrong);
+        loginErrorMsgMap.put(USER_WRONG_INIT.getHttpMessage(), R.string.password_wrong);
+        loginErrorMsgMap.put(USER_NOT_FOUND.getHttpMessage(), R.string.username_wrong_in_login);
+    }
 
     protected ViewerLogin(Activity activity)
     {
@@ -177,7 +187,8 @@ public final class ViewerLogin extends Viewer<View, CtrlerUsuario> {
             if (counter > 3) {
                 showDialogAfterErrors();
             } else {
-                makeToast(activity, R.string.password_wrong);
+                //noinspection ConstantConditions
+                makeToast(activity, loginErrorMsgMap.get(messageErr));
             }
         } else {
             super.onErrorInObserver(error);

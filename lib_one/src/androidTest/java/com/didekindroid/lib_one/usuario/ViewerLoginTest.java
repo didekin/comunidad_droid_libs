@@ -219,6 +219,19 @@ public class ViewerLoginTest {
         onView(withId(loginAcResourceId)).check(matches(isDisplayed()));
     }
 
+    @Test   // Login NO ok, counterWrong <= 3.
+    public void test_processLoginErrorBackInView_3()
+    {
+        // Precondition.
+        activity.viewerLogin.getCounterWrong().set(2);
+        // Exec.
+        activity.runOnUiThread(() -> activity.viewerLogin.processLoginErrorBackInView(new UiException(new ErrorBean(USER_NOT_FOUND))));
+        // Check.
+        waitAtMost(5, SECONDS).untilAtomic(activity.viewerLogin.getCounterWrong(), equalTo(3));
+        waitAtMost(5, SECONDS).until(isToastInView(R.string.username_wrong_in_login, activity));
+        onView(withId(loginAcResourceId)).check(matches(isDisplayed()));
+    }
+
     @Test
     public void testDoDialogPositiveClick_1()
     {
