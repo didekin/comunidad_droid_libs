@@ -141,7 +141,7 @@ public class UserMnActionTest {
     }
 
     @Test
-    public void test_delete_me_mn() throws UiException
+    public void test_delete_me_mn() throws UiException   // TODO: fail.
     {
         initSec_Http(activity);
         secInitializer.get().getTkCacher().updateAuthToken(authTokenExample);
