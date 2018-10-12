@@ -136,7 +136,7 @@ public class LoginAcTest {
     }
 
     @Test   // Login NOT OK, counterWrong <= 3.
-    public void testValidateLoginRemote_2() throws InterruptedException    // TODO: fail
+    public void testValidateLoginRemote_2() throws InterruptedException
     {
         SECONDS.sleep(2);
 

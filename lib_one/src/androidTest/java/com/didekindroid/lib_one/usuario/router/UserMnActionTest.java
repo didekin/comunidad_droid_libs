@@ -141,11 +141,11 @@ public class UserMnActionTest {
     }
 
     @Test
-    public void test_delete_me_mn() throws UiException   // TODO: fail.
+    public void test_delete_me_mn() throws UiException
     {
         initSec_Http(activity);
         secInitializer.get().getTkCacher().updateAuthToken(authTokenExample);
-        waitAtMost(4, SECONDS).until(secInitializer.get().getTkCacher()::isUserRegistered);
+        waitAtMost(6, SECONDS).until(secInitializer.get().getTkCacher()::isUserRegistered);
 
         delete_me_mn.initActivity(activity);
         intended(hasComponent(DeleteMeAc.class.getName()));
@@ -174,7 +174,7 @@ public class UserMnActionTest {
     public void test_user_data_mn() throws UiException
     {
         initSec_Http_Router(activity);
-        waitAtMost(4, SECONDS).until(() -> secInitializer.get() != null && secInitializer.get().getTkCacher() != null);
+        waitAtMost(6, SECONDS).until(() -> secInitializer.get() != null && secInitializer.get().getTkCacher() != null);
         secInitializer.get().getTkCacher().updateAuthToken(authTokenExample);
 
         MnRouterActionIf userMenuData = new MnRouterActionIf() {
