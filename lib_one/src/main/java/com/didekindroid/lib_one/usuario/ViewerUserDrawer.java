@@ -34,8 +34,6 @@ import static com.didekindroid.lib_one.util.DrawerConstant.nav_view_rsId;
  * Date: 15/09/17
  * Time: 18:58
  */
-
-@SuppressWarnings({"WeakerAccess", "unused"})
 public final class ViewerUserDrawer extends Viewer<DrawerLayout, CtrlerUsuario> {
 
 
