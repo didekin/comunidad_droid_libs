@@ -13,7 +13,7 @@ android {
         vectorDrawables.useSupportLibrary = true
 
         versionCode 1
-        versionName "1.0"
+        versionName "b.1"
     }
 
     compileOptions {
