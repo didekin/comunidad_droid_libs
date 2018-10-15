@@ -136,15 +136,26 @@ public class UsuarioDaoTest {
         assertThat(tkCacher.isUserRegistered(), is(false));
     }
 
+    @SuppressWarnings("ThrowableNotThrown")
     @Test
     public void testLogin_2() throws Exception
     {
         whatClean = CLEAN_RODRIGO;
-        regComuUserUserComuGetUser(comu_real_rodrigo);
-        // Pongo a null el authToken para ver el cambio:
+
+        String tokenAuth_1 = regComuUserUserComuGetAuthTk(comu_real_rodrigo);
+        assertThat(tkEncrypted_direct_symmetricKey_REGEX.isPatternOk(tokenAuth_1), is(true));
+        String gcmToken_1 = usuarioDaoRemote.getGcmToken().blockingGet();
+        // Simulo una nueva instalación de app.
         tkCacher.updateAuthToken(null);
-        usuarioDaoRemote.login(user_crodrigo.getUserName(), user_crodrigo.getPassword()).test().await();
-        assertThat(tkEncrypted_direct_symmetricKey_REGEX.isPatternOk(tkCacher.getAuthTokenCache()), is(true));
+        firebaseInitializer.get().deleteFirebaseInstance().blockingGet();
+        assertThat(tkCacher.isUserRegistered(), is(false));
+        // Exec.
+        usuarioDaoRemote.login(user_crodrigo.getUserName(), user_crodrigo.getPassword()).blockingAwait();
+        String tokenAuth_2 = tkCacher.getAuthTokenCache();
+        String gcmToken_2 = usuarioDaoRemote.getGcmToken().blockingGet();
+        assertThat(tokenAuth_2.equals(tokenAuth_1), is(false));
+        assertThat(gcmToken_2.equals(gcmToken_1), is(false));
+        assertThat(firebaseInitializer.get().getSingleAppIdToken().blockingGet(), is(gcmToken_2));
         assertThat(tkCacher.isUserRegistered(), is(true));
     }
 

@@ -57,7 +57,8 @@ public final class AuthTkCacher implements AuthTkCacherIf {
                 .edit()
                 .putString(authToken_key.toString(), authTokenCache.get())
                 .apply();
-        return this;
+        return this;         // TODO: testar que este método actualiza a null, una llamada a cualquier servicio pide login.
+        // TODO: testar que login actualiza gcm_token en DB. Encadenarlo con un tx que conlleve una notificación y verificar que se recibe. Hacerlo todo con daos.
     }
 
     //  ======================================================================================

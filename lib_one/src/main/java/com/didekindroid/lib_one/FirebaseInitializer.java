@@ -8,6 +8,7 @@ import com.google.firebase.iid.InstanceIdResult;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicReference;
 
+import io.reactivex.Completable;
 import io.reactivex.Single;
 import timber.log.Timber;
 
@@ -59,6 +60,19 @@ public final class FirebaseInitializer {
                 emitter.onError(new UiException(new ErrorBean(FIREBASE_SERVICE_NOT_AVAILABLE)));
             } else {
                 emitter.onSuccess(taskToken.getResult().getToken());
+            }
+        });
+    }
+
+    public Completable deleteFirebaseInstance()
+    {
+        Timber.d("deleteFirebaseInstance()");
+        return Completable.create(emitter -> {
+            try {
+                getInstance().deleteInstanceId();
+                emitter.onComplete();
+            } catch (IOException ie) {
+                emitter.onError(new UiException(new ErrorBean(FIREBASE_SERVICE_NOT_AVAILABLE)));
             }
         });
     }
