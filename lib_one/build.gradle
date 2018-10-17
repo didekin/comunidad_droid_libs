@@ -13,7 +13,7 @@ android {
         vectorDrawables.useSupportLibrary = true
 
         versionCode 1
-        versionName "b.1"
+        versionName "b.1.5"
     }
 
     compileOptions {
@@ -35,11 +35,13 @@ android {
     }
 
 //    Activar antes de pasar a PRE.
-    testBuildType "debugPre"
+//    testBuildType "debugPre"
 
     buildTypes {
         release {
             minifyEnabled false
+            buildConfigField "String", "didekin_web_host", '""'
+            buildConfigField "String", "didekin_web_port", '""'
         }
         debugPre {
             initWith debug

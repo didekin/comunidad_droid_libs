@@ -8,11 +8,11 @@
         <activity
             android:name=".api.ActivityMock"
             android:label="@string/mockActivity_label"
-            android:launchMode="singleTask"></activity>
+            android:launchMode="singleTask" />
         <activity
             android:name=".api.InjectorParentViewerAc"
             android:label="@string/injectorParentViewerAc_label"
-            android:launchMode="singleTask"></activity>
+            android:launchMode="singleTask" />
         <activity
             android:name=".api.ActivityNextMock"
             android:label="@string/mock_next_DefaultActivity_label"
