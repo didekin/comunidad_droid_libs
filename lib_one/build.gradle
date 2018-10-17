@@ -1,5 +1,9 @@
 apply plugin: 'com.android.library'
 
+afterEvaluate {
+    generateReleaseBuildConfig.enabled = false
+}
+
 android {
     compileSdkVersion rootProject.compileSdkVersion
     buildToolsVersion rootProject.buildToolsVersion
