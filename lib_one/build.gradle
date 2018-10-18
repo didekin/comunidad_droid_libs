@@ -1,9 +1,5 @@
 apply plugin: 'com.android.library'
 
-afterEvaluate {
-    generateReleaseBuildConfig.enabled = false
-}
-
 android {
     compileSdkVersion rootProject.compileSdkVersion
     buildToolsVersion rootProject.buildToolsVersion
@@ -39,13 +35,14 @@ android {
     }
 
 //    Activar antes de pasar a PRE.
-    testBuildType "debugPre"
+//    testBuildType "debugPre"
 
     buildTypes {
         release {
             minifyEnabled false
-            buildConfigField "String", "didekin_web_host", '""'
-            buildConfigField "String", "didekin_web_port", '""'
+            afterEvaluate {
+                generateReleaseBuildConfig.enabled = false
+            }
         }
         debugPre {
             initWith debug
