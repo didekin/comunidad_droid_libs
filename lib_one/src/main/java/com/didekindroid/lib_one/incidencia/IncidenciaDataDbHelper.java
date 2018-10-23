@@ -21,6 +21,7 @@ import java.util.List;
 import timber.log.Timber;
 
 import static android.provider.BaseColumns._ID;
+import static com.didekindroid.lib_one.incidencia.IncidenciaDataDb.AmbitoIncidencia.TB_AMBITO_INCIDENCIA;
 import static com.didekindroid.lib_one.util.CommonAssertionMsg.cursor_should_be_in_first_position;
 import static com.didekindroid.lib_one.util.UiUtil.assertTrue;
 
@@ -128,7 +129,7 @@ public class IncidenciaDataDbHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(_ID, pk);
         values.put(IncidenciaDataDb.AmbitoIncidencia.ambito, nombre);
-        return mDataBase.insert(IncidenciaDataDb.AmbitoIncidencia.TB_AMBITO_INCIDENCIA, null, values);
+        return mDataBase.insert(TB_AMBITO_INCIDENCIA, null, values);
     }
 
     Cursor doAmbitoIncidenciaCursor()
@@ -140,7 +141,7 @@ public class IncidenciaDataDbHelper extends SQLiteOpenHelper {
         }
 
         String[] tableColumns = new String[]{_ID, IncidenciaDataDb.AmbitoIncidencia.ambito};
-        Cursor cursor = mDataBase.query(IncidenciaDataDb.AmbitoIncidencia.TB_AMBITO_INCIDENCIA, tableColumns, null, null, null, null, null);
+        Cursor cursor = mDataBase.query(TB_AMBITO_INCIDENCIA, tableColumns, null, null, null, null, null);
 
         if (cursor == null) {
             return null;
@@ -186,7 +187,7 @@ public class IncidenciaDataDbHelper extends SQLiteOpenHelper {
         String[] tableColumns = new String[]{IncidenciaDataDb.AmbitoIncidencia.ambito};
         String whereClause = _ID + " = ?";
         String[] whereClauseArgs = new String[]{String.valueOf(pkAmbito)};
-        Cursor cursor = mDataBase.query(IncidenciaDataDb.AmbitoIncidencia.TB_AMBITO_INCIDENCIA, tableColumns, whereClause, whereClauseArgs, null, null, null);
+        Cursor cursor = mDataBase.query(TB_AMBITO_INCIDENCIA, tableColumns, whereClause, whereClauseArgs, null, null, null);
 
         if (cursor == null) {
             return null;
